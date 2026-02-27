@@ -1,0 +1,131 @@
+name: Build sphinx docs from matrix
+
+on:
+  workflow_dispatch:
+    inputs:
+      matrix:
+        description: 'JSON-encoded matrix of repos'
+        required: true
+        type: string
+
+jobs:
+  sync-and-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    strategy:
+      matrix: ${{ fromJson(inputs.matrix) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH for ${{ matrix.repo.name }}
+        env:
+          REPO_NAME: ${{ matrix.repo.name }}
+          REPO_URL: ${{ matrix.repo.url }}
+          ALL_SECRETS_JSON: ${{ toJSON(secrets) }}
+        run: |
+          UPPER_NAME=$(echo "$REPO_NAME" | tr '[:lower:]' '[:upper:]')
+          SECRET_KEY="SYNC_SPHINX_$UPPER_NAME"
+
+          PRIVATE_KEY=$(echo "$ALL_SECRETS_JSON" | jq -r ".[\"$SECRET_KEY\"]")
+          mkdir -p "$HOME/.ssh"
+          echo "$PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
+          chmod 600 "$HOME/.ssh/id_ed25519"
+          ssh-keyscan github.com >> "$HOME/.ssh/known_hosts"
+
+      - name: Setup Sphinx ${{ matrix.repo.name }}
+        run: |
+          sudo apt install -y doxygen graphviz
+          pip install numpy sphinx sphinx-intl sphinx-rtd-theme
+
+      - name: Clone and sync ${{ matrix.repo.name }}
+        run: |
+          git clone --depth=1 "${{ matrix.repo.url }}" cache-tmp
+          mkdir -p documents/${{ matrix.repo.name }}/docs
+          mkdir -p documents/${{ matrix.repo.name }}/docs/doxygen/images
+          rsync -av --delete cache-tmp/docs/sphinx/ documents/${{ matrix.repo.name }}/docs/sphinx
+          rsync -av --delete cache-tmp/docs/images/ documents/${{ matrix.repo.name }}/docs/images
+          mv cache-tmp/metadata.json documents/${{ matrix.repo.name }}/metadata.json
+          mv cache-tmp/docs/build.py documents/${{ matrix.repo.name }}/docs/build.py
+          mv cache-tmp/Doxyfile documents/${{ matrix.repo.name }}/Doxyfile
+          rm -rf cache-tmp || true
+          
+          python documents/${{ matrix.repo.name }}/docs/build.py  # let doxygen export empty
+
+      - name: Upload built docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.repo.name }}
+          path: documents/${{ matrix.repo.name }}/docs/sphinx/build/html/
+
+
+  build-all:
+    needs: sync-and-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all built docs artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: documents
+          merge-multiple: false
+
+      - name: Create final docs directory
+        run: |
+          rm -rf docs
+          mkdir -p docs
+          for repo_html_dir in documents/*/; do
+            if [ ! -d "$repo_html_dir" ]; then continue; fi
+            repo_name=$(basename "$repo_html_dir")
+            echo "Copying $repo_name documentation..."
+            cp -r "$repo_html_dir" "docs/$repo_name"
+          done
+
+      - name: Prevent Jekyll processing
+        run: |
+          touch docs/.nojekyll
+
+      - name: Generate main index.html
+        run: |
+          cat > docs/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Documentation Hub</title>
+          </head>
+          <body>
+            <h1>AI Application Gallery</h1>
+            <ul>
+          EOF
+
+          for d in docs/*/; do
+            name=$(basename "$d")
+            echo "  <li><a href=\"$name/\">$name</a></li>" >> docs/index.html
+          done
+
+          cat >> docs/index.html <<'EOF'
+            </ul>
+          </body>
+          </html>
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if ! git diff --staged --quiet; then
+            git commit -m "build: update documents hub"
+            git push
+          else
+            echo "No changes detected."
+          fi

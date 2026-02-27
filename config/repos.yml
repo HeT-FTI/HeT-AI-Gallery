@@ -1,0 +1,8 @@
+repos:
+  - name: IE
+    url: git@github.com:HeT-FTI/IE.git
+  - name: adsp
+    url: git@github.com:HeT-FTI/adsp.git
+  - name: idsp
+    url: git@github.com:HeT-FTI/idsp.git
+ 
