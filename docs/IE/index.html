@@ -80,41 +80,96 @@
 <h1><span class="target" id="ie-project-documentation">IE Project Documentation</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
 <section id="id2">
 <h2><span class="target" id="introduction">Introduction</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
-<p>先进的构建系统、依赖项管理以及模块化开发支持。</p>
+<p>IE (Inference Engine) is a deep learning inference framework designed specifically for the embedded field based on the ANSC C99 standard.</p>
 </section>
 <section id="id3">
 <h2><span class="target" id="main-features">Main Features</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
 <ul class="simple">
-<li><p>Support for mixed C and C++ programming</p></li>
-<li><p>Built-in C++20 module support</p></li>
-<li><p>Conan-based dependency management</p></li>
-<li><p>Cross-platform build support (Windows/Linux/macOS)</p></li>
-<li><p>Automated code generation and processing</p></li>
-<li><p>Intelligent header and module conversion</p></li>
+<li><p><strong>Rapid development</strong>: The trained model (currently only supports <code class="docutils literal notranslate"><span class="pre">.flite</span></code>) can be directly converted into a code file or <code class="docutils literal notranslate"><span class="pre">.bin</span></code> file through tools, and quickly deployed in the project</p></li>
+<li><p><strong>Supports complex structures</strong>: Supports multiple input and multi branch network structures</p></li>
+<li><p><strong>Lightweight</strong>: Adopting time-division multiplexing for data structure design to ensure minimal resource consumption and facilitate integration into MCU</p></li>
+<li><p><strong>Single dependency</strong>: pure C development, minimum support for C99 standard, relying only on a single <strong>SMT</strong> library, no other third-party library dependencies, easy cross platform porting</p></li>
+<li><p><strong>High performance</strong>: can effectively utilize the acceleration capabilities of hardware platforms such as multi-core computing and SIMD parallelism</p></li>
+<li><p><strong>Trimmable</strong>: Supports operators to freely crop according to actual applications</p></li>
+<li><p><strong>Multi backend architecture</strong>: Reserved CPU/GPU/NPU backend interfaces, currently implemented CPU backend, supports custom memory allocation and operator registration</p></li>
 </ul>
 </section>
 <section id="id4">
 <h2><span class="target" id="quick-start">Quick Start</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install dependencies</span>
-conan<span class="w"> </span>install<span class="w"> </span>.
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-number">Code 1 </span><span class="caption-text">Using IE reasoning classification tasks</span><a class="headerlink" href="#id8" title="链接到此段代码"></a></div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ie_api.h&quot;</span>
 
-<span class="c1"># Build the project</span>
-conan<span class="w"> </span>build<span class="w"> </span>.
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">   </span><span class="cm">/* 1. Prepare to input data */</span>
+<span class="w">   </span><span class="n">IeTensorInfo</span><span class="w"> </span><span class="n">inputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="p">.</span><span class="n">dType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IE_DTYPE_UT8</span><span class="p">,</span>
+<span class="w">      </span><span class="p">.</span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">224</span><span class="p">,</span><span class="w"> </span><span class="mi">224</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">},</span>
+<span class="w">      </span><span class="p">.</span><span class="n">pData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image_data</span><span class="p">,</span>
+<span class="w">   </span><span class="p">};</span>
 
-<span class="c1"># Create the package</span>
-conan<span class="w"> </span>create<span class="w"> </span>.
+<span class="w">   </span><span class="cm">/* 2. Load model binary data and initialize the calculation graph */</span>
+<span class="w">   </span><span class="n">IeGraph</span><span class="w"> </span><span class="n">graph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="w">   </span><span class="n">ie_graph_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="n">pLayerDesc</span><span class="p">,</span><span class="w"> </span><span class="n">pTensorDesc</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">pDataBlob</span><span class="p">,</span><span class="w"> </span><span class="n">pAttrBlob</span><span class="p">,</span><span class="w"> </span><span class="n">pShapeBlob</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">ie_backend_init</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">tensors_count</span><span class="p">,</span><span class="w"> </span><span class="n">layers_count</span><span class="p">);</span>
+
+<span class="w">   </span><span class="cm">/* 3. Set input */</span>
+<span class="w">   </span><span class="n">ie_graph_set_input</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">inputs</span><span class="p">);</span>
+
+<span class="w">   </span><span class="cm">/* 4. Execute inference */</span>
+<span class="w">   </span><span class="n">ie_graph_compute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">);</span>
+
+<span class="w">   </span><span class="cm">/* 5. Get output and post-process */</span>
+<span class="w">   </span><span class="n">IeClassification</span><span class="w"> </span><span class="n">classification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="w">   </span><span class="n">ie_classification</span><span class="p">(</span><span class="n">ie_graph_get_output</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="n">out_tensor_index</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">classification</span><span class="p">);</span>
+
+<span class="w">   </span><span class="cm">/* 6. Release resources */</span>
+<span class="w">   </span><span class="n">ie_graph_release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">);</span>
+
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
+</div>
 </div>
 </section>
 <section id="id5">
 <h2><span class="target" id="project-structure">Project Structure</span><a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>fcpp/
-├── include/         # Header files
-├── src/             # Source files
-├── CMakeLists.txt   # CMake build configuration
-├── conanfile.py     # Conan package configuration
-├── metadata.json    # Project metadata
-└── LICENSE          # License file
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>IE/
+├── include/                   # 公共头文件
+│   ├── ie_api.h               # 统一 API 入口
+│   ├── ie_def.h               # 基础类型和宏定义
+│   ├── api/                   # 对外 API 模块头文件
+│   │   ├── ie_api_graph.h     # 计算图 API
+│   │   ├── ie_api_backend.h   # 后端 API
+│   │   └── ie_api_postprocess.h  # 后处理 API
+│   └── private/               # 内部头文件
+│       ├── ie_struct.h        # 内部数据结构
+│       ├── ie_operator.h      # 算子定义
+│       └── config/            # 可配置选项
+│           ├── ie_config_basic.h # 全局配置
+│           ├── ie_config_op.h # 算子启用配置
+│           └── ie_port.h      # 平台移植配置
+├── src/                       # 源代码实现
+│   ├── ie_graph.c             # 计算图核心逻辑
+│   ├── ie_tensor.c            # 张量操作
+│   ├── backend/               # 后端实现
+│   │   ├── ie_backend.c       # 后端接口
+│   │   └── cpu/               # CPU 后端
+|   │   └── gpu/               # GPU 后端
+|   │   └── npu/               # NPU 后端
+│   ├── layers/                # 网络层算子实现
+│   └── postprocess/           # 后处理模块
+├── SMT/                       # 内置数学库子模块
+├── examples/                  # 示例应用
+├── test_package/              # 测试工程
+│   └── test/
+│       ├── unit/              # 单元测试
+│       └── stress/            # 压力测试
+├── docs/                      # 文档系统
+├── CMakeLists.txt             # CMake 构建配置
+├── conanfile.py               # Conan 包管理配置
+└── metadata.json              # 项目元数据
 </pre></div>
 </div>
 </section>
