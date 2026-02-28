@@ -36,6 +36,11 @@ _`Quick Start`
 
       /* 2. Load model binary data and initialize the calculation graph */
       IeGraph graph = {0};
+      const void * pAttrBlob = load_bin("./ie_gAttrBlob.bin");
+      const void * pShapeBlob = load_bin("./ie_gShapeBlob.bin");
+      const void * pTensorDesc = load_bin("./ie_gTensorDesc.bin");
+      const void * pLayerDesc = load_bin("./ie_gLayerDesc.bin");
+      const void * pDataBlob = load_bin("./ie_gDataBlob.bin");
       ie_graph_init(&graph, pLayerDesc, pTensorDesc, NULL, pDataBlob, pAttrBlob, pShapeBlob,
                      ie_backend_init(NULL, NULL, NULL, 0), tensors_count, layers_count);
 
@@ -99,6 +104,7 @@ _`Project Structure`
 _`Detailed Settings`
 --------------------
 
+TODO
 For detailed settings in project-level meta, conan recipe, or cmake file, see:
 
 .. toctree::

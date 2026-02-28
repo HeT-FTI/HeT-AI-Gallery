@@ -111,6 +111,11 @@
 
 <span class="w">   </span><span class="cm">/* 2. Load model binary data and initialize the calculation graph */</span>
 <span class="w">   </span><span class="n">IeGraph</span><span class="w"> </span><span class="n">graph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pAttrBlob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gAttrBlob.bin&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pShapeBlob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gShapeBlob.bin&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pTensorDesc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gTensorDesc.bin&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pLayerDesc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gLayerDesc.bin&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pDataBlob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gDataBlob.bin&quot;</span><span class="p">);</span>
 <span class="w">   </span><span class="n">ie_graph_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="n">pLayerDesc</span><span class="p">,</span><span class="w"> </span><span class="n">pTensorDesc</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">pDataBlob</span><span class="p">,</span><span class="w"> </span><span class="n">pAttrBlob</span><span class="p">,</span><span class="w"> </span><span class="n">pShapeBlob</span><span class="p">,</span>
 <span class="w">                  </span><span class="n">ie_backend_init</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">tensors_count</span><span class="p">,</span><span class="w"> </span><span class="n">layers_count</span><span class="p">);</span>
 
@@ -175,7 +180,8 @@
 </section>
 <section id="id6">
 <h2><span class="target" id="detailed-settings">Detailed Settings</span><a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
-<p>For detailed settings in project-level meta, conan recipe, or cmake file, see:</p>
+<p>TODO
+For detailed settings in project-level meta, conan recipe, or cmake file, see:</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="components/cmake.html">1. CMakeList</a><ul>
