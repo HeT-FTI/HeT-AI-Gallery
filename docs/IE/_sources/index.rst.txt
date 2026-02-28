@@ -1,4 +1,4 @@
-_`fcpp Project Documentation`
+_`IE Project Documentation`
 =============================
 
 _`Introduction`
