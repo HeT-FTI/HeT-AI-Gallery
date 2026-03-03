@@ -17,103 +17,53 @@ _`Main Features`
 - **Trimmable**: Supports operators to freely crop according to actual applications
 - **Multi backend architecture**: Reserved CPU/GPU/NPU backend interfaces, currently implemented CPU backend, supports custom memory allocation and operator registration
 
-_`Quick Start`
+_`Application`
 --------------
 
-.. code-block:: c
-   :caption: Using IE reasoning classification tasks
+**分类任务 · Image Classification**
 
-   #include "ie_api.h"
+.. list-table::
+   :class: app-icon-table
+   :widths: 1 1 1 1
 
-   int main(void)
-   {
-      /* 1. Prepare to input data */
-      IeTensorInfo inputs = {
-         .dType = IE_DTYPE_UT8,
-         .shape = {1, 224, 224, 3},
-         .pData = image_data,
-      };
+   * - .. figure:: ../../images/vegetable_fruit.png
+          :width: 25%
+          :target: components/classification.html#mnist-handwritten-digit-recognition
+          :alt: MNIST
 
-      /* 2. Load model binary data and initialize the calculation graph */
-      IeGraph graph = {0};
-      const void * pAttrBlob = load_bin("./ie_gAttrBlob.bin");
-      const void * pShapeBlob = load_bin("./ie_gShapeBlob.bin");
-      const void * pTensorDesc = load_bin("./ie_gTensorDesc.bin");
-      const void * pLayerDesc = load_bin("./ie_gLayerDesc.bin");
-      const void * pDataBlob = load_bin("./ie_gDataBlob.bin");
-      ie_graph_init(&graph, pLayerDesc, pTensorDesc, NULL, pDataBlob, pAttrBlob, pShapeBlob,
-                     ie_backend_init(NULL, NULL, NULL, 0), tensors_count, layers_count);
+          MNIST Digit Recog.
 
-      /* 3. Set input */
-      ie_graph_set_input(&graph, &inputs);
+     - .. figure:: ../../images/vegetable_fruit.png
+          :width: 25%
+          :target: components/classification.html#vegetable-fruit-classification
+          :alt: Vegetable & Fruit
 
-      /* 4. Execute inference */
-      ie_graph_compute(&graph);
+          Vegetable & Fruit Classif.
 
-      /* 5. Get output and post-process */
-      IeClassification classification = {0};
-      ie_classification(ie_graph_get_output(&graph, out_tensor_index), &classification);
+     - .. figure:: ../../images/vegetable_fruit.png
+          :width: 25%
+          :target: components/classification.html#coffee-bean-grading
+          :alt: Coffee Bean
 
-      /* 6. Release resources */
-      ie_graph_release(&graph);
+          Coffee Bean Grading
 
-      return 0;
-   }
+     - \
 
-_`Project Structure`
---------------------
+----
 
-::
+**检测任务 · Object Detection**
 
-   IE/
-   ├── include/                   # 公共头文件
-   │   ├── ie_api.h               # 统一 API 入口
-   │   ├── ie_def.h               # 基础类型和宏定义
-   │   ├── api/                   # 对外 API 模块头文件
-   │   │   ├── ie_api_graph.h     # 计算图 API
-   │   │   ├── ie_api_backend.h   # 后端 API
-   │   │   └── ie_api_postprocess.h  # 后处理 API
-   │   └── private/               # 内部头文件
-   │       ├── ie_struct.h        # 内部数据结构
-   │       ├── ie_operator.h      # 算子定义
-   │       └── config/            # 可配置选项
-   │           ├── ie_config_basic.h # 全局配置
-   │           ├── ie_config_op.h # 算子启用配置
-   │           └── ie_port.h      # 平台移植配置
-   ├── src/                       # 源代码实现
-   │   ├── ie_graph.c             # 计算图核心逻辑
-   │   ├── ie_tensor.c            # 张量操作
-   │   ├── backend/               # 后端实现
-   │   │   ├── ie_backend.c       # 后端接口
-   │   │   └── cpu/               # CPU 后端
-   |   │   └── gpu/               # GPU 后端
-   |   │   └── npu/               # NPU 后端
-   │   ├── layers/                # 网络层算子实现
-   │   └── postprocess/           # 后处理模块
-   ├── SMT/                       # 内置数学库子模块
-   ├── examples/                  # 示例应用
-   ├── test_package/              # 测试工程
-   │   └── test/
-   │       ├── unit/              # 单元测试
-   │       └── stress/            # 压力测试
-   ├── docs/                      # 文档系统
-   ├── CMakeLists.txt             # CMake 构建配置
-   ├── conanfile.py               # Conan 包管理配置
-   └── metadata.json              # 项目元数据
+----
 
-_`Detailed Settings`
---------------------
+**控制任务 · Control / Gesture**
 
-TODO
-For detailed settings in project-level meta, conan recipe, or cmake file, see:
+*Coming Soon*
 
-.. toctree::
-   CMakeList <components/cmake>
-   Conanfile <components/conan>
-   Metadata <components/meta>
-   User concern contents <export>
-   :numbered:
-   :maxdepth: 2
+----
+
+**测量任务 · Measurement / Inspection**
+
+*Coming Soon*
 
 _`License`
 ----------

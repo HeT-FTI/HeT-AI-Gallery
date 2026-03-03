@@ -9,7 +9,7 @@
   <title>IE Project Documentation &mdash; fcpp 1.0.0 文档</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=1f3f84dc" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=bdada7e8" />
 
   
     <link rel="shortcut icon" href="_static/ALL_logo.jpg"/>
@@ -21,8 +21,7 @@
       <script src="_static/translations.js?v=540d3cec"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="1. CMakeLists Configuration" href="components/cmake.html" /> 
+    <link rel="search" title="搜索" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,13 +44,17 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="components/cmake.html">1. CMakeList</a></li>
-<li class="toctree-l1"><a class="reference internal" href="components/conan.html">2. Conanfile</a></li>
-<li class="toctree-l1"><a class="reference internal" href="components/meta.html">3. Metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="export.html">4. User concern contents</a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">IE Project Documentation</a><ul>
+<li><a class="reference internal" href="#id2">Introduction</a></li>
+<li><a class="reference internal" href="#id3">Main Features</a></li>
+<li><a class="reference internal" href="#id4">Application</a></li>
+<li><a class="reference internal" href="#id5">License</a></li>
 </ul>
-
+</li>
+</ul>
+</div>
         </div>
       </div>
     </nav>
@@ -95,125 +98,55 @@
 </ul>
 </section>
 <section id="id4">
-<h2><span class="target" id="quick-start">Quick Start</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
-<div class="literal-block-wrapper docutils container" id="id8">
-<div class="code-block-caption"><span class="caption-number">Code 1 </span><span class="caption-text">Using IE reasoning classification tasks</span><a class="headerlink" href="#id8" title="链接到此段代码"></a></div>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ie_api.h&quot;</span>
-
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">   </span><span class="cm">/* 1. Prepare to input data */</span>
-<span class="w">   </span><span class="n">IeTensorInfo</span><span class="w"> </span><span class="n">inputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="p">.</span><span class="n">dType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IE_DTYPE_UT8</span><span class="p">,</span>
-<span class="w">      </span><span class="p">.</span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">224</span><span class="p">,</span><span class="w"> </span><span class="mi">224</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">},</span>
-<span class="w">      </span><span class="p">.</span><span class="n">pData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image_data</span><span class="p">,</span>
-<span class="w">   </span><span class="p">};</span>
-
-<span class="w">   </span><span class="cm">/* 2. Load model binary data and initialize the calculation graph */</span>
-<span class="w">   </span><span class="n">IeGraph</span><span class="w"> </span><span class="n">graph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pAttrBlob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gAttrBlob.bin&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pShapeBlob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gShapeBlob.bin&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pTensorDesc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gTensorDesc.bin&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pLayerDesc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gLayerDesc.bin&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pDataBlob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_bin</span><span class="p">(</span><span class="s">&quot;./ie_gDataBlob.bin&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="n">ie_graph_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="n">pLayerDesc</span><span class="p">,</span><span class="w"> </span><span class="n">pTensorDesc</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">pDataBlob</span><span class="p">,</span><span class="w"> </span><span class="n">pAttrBlob</span><span class="p">,</span><span class="w"> </span><span class="n">pShapeBlob</span><span class="p">,</span>
-<span class="w">                  </span><span class="n">ie_backend_init</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">tensors_count</span><span class="p">,</span><span class="w"> </span><span class="n">layers_count</span><span class="p">);</span>
-
-<span class="w">   </span><span class="cm">/* 3. Set input */</span>
-<span class="w">   </span><span class="n">ie_graph_set_input</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">inputs</span><span class="p">);</span>
-
-<span class="w">   </span><span class="cm">/* 4. Execute inference */</span>
-<span class="w">   </span><span class="n">ie_graph_compute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">);</span>
-
-<span class="w">   </span><span class="cm">/* 5. Get output and post-process */</span>
-<span class="w">   </span><span class="n">IeClassification</span><span class="w"> </span><span class="n">classification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="w">   </span><span class="n">ie_classification</span><span class="p">(</span><span class="n">ie_graph_get_output</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="n">out_tensor_index</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">classification</span><span class="p">);</span>
-
-<span class="w">   </span><span class="cm">/* 6. Release resources */</span>
-<span class="w">   </span><span class="n">ie_graph_release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">);</span>
-
-<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
+<h2><span class="target" id="application">Application</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p><strong>分类任务 · Image Classification</strong></p>
+<table class="app-icon-table docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><figure class="align-default" id="id6">
+<a class="reference external image-reference" href="components/classification.html#mnist-handwritten-digit-recognition"><img alt="MNIST" src="_images/vegetable_fruit.png" style="width: 25%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1 </span><span class="caption-text">MNIST Digit Recog.</span><a class="headerlink" href="#id6" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+</td>
+<td><figure class="align-default" id="id7">
+<a class="reference external image-reference" href="components/classification.html#vegetable-fruit-classification"><img alt="Vegetable &amp; Fruit" src="_images/vegetable_fruit.png" style="width: 25%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 2 </span><span class="caption-text">Vegetable &amp; Fruit Classif.</span><a class="headerlink" href="#id7" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+</td>
+<td><figure class="align-default" id="id8">
+<a class="reference external image-reference" href="components/classification.html#coffee-bean-grading"><img alt="Coffee Bean" src="_images/vegetable_fruit.png" style="width: 25%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3 </span><span class="caption-text">Coffee Bean Grading</span><a class="headerlink" href="#id8" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+</td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<p><strong>检测任务 · Object Detection</strong></p>
+<hr class="docutils" />
+<p><strong>控制任务 · Control / Gesture</strong></p>
+<p><em>Coming Soon</em></p>
+<hr class="docutils" />
+<p><strong>测量任务 · Measurement / Inspection</strong></p>
+<p><em>Coming Soon</em></p>
 </section>
 <section id="id5">
-<h2><span class="target" id="project-structure">Project Structure</span><a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>IE/
-├── include/                   # 公共头文件
-│   ├── ie_api.h               # 统一 API 入口
-│   ├── ie_def.h               # 基础类型和宏定义
-│   ├── api/                   # 对外 API 模块头文件
-│   │   ├── ie_api_graph.h     # 计算图 API
-│   │   ├── ie_api_backend.h   # 后端 API
-│   │   └── ie_api_postprocess.h  # 后处理 API
-│   └── private/               # 内部头文件
-│       ├── ie_struct.h        # 内部数据结构
-│       ├── ie_operator.h      # 算子定义
-│       └── config/            # 可配置选项
-│           ├── ie_config_basic.h # 全局配置
-│           ├── ie_config_op.h # 算子启用配置
-│           └── ie_port.h      # 平台移植配置
-├── src/                       # 源代码实现
-│   ├── ie_graph.c             # 计算图核心逻辑
-│   ├── ie_tensor.c            # 张量操作
-│   ├── backend/               # 后端实现
-│   │   ├── ie_backend.c       # 后端接口
-│   │   └── cpu/               # CPU 后端
-|   │   └── gpu/               # GPU 后端
-|   │   └── npu/               # NPU 后端
-│   ├── layers/                # 网络层算子实现
-│   └── postprocess/           # 后处理模块
-├── SMT/                       # 内置数学库子模块
-├── examples/                  # 示例应用
-├── test_package/              # 测试工程
-│   └── test/
-│       ├── unit/              # 单元测试
-│       └── stress/            # 压力测试
-├── docs/                      # 文档系统
-├── CMakeLists.txt             # CMake 构建配置
-├── conanfile.py               # Conan 包管理配置
-└── metadata.json              # 项目元数据
-</pre></div>
-</div>
-</section>
-<section id="id6">
-<h2><span class="target" id="detailed-settings">Detailed Settings</span><a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
-<p>TODO
-For detailed settings in project-level meta, conan recipe, or cmake file, see:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="components/cmake.html">1. CMakeList</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="components/cmake.html#id2">1.1. Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/cmake.html#id3">1.2. Key Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/cmake.html#id4">1.3. Main Configurations</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="components/conan.html">2. Conanfile</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="components/conan.html#id2">2.1. Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/conan.html#id3">2.2. Main Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/conan.html#id4">2.3. Core Functionality</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="components/meta.html">3. Metadata</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="components/meta.html#id2">3.1. Project-level Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/meta.html#id3">3.2. File Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/meta.html#id4">3.3. Key Settings</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="export.html">4. User concern contents</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="export.html#id2">4.1. Theories or introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="export.html#id3">4.2. Usage demonstration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="export.html#id4">4.3. Applying results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="export.html#id5">4.4. Algorithm benchmark from test frame</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
-<section id="id7">
-<h2><span class="target" id="license">License</span><a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<h2><span class="target" id="license">License</span><a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
 <p>This project is licensed under the Apache-2.0 License. See the LICENSE file for details.</p>
 </section>
 </section>
@@ -221,9 +154,7 @@ For detailed settings in project-level meta, conan recipe, or cmake file, see:</
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="components/cmake.html" class="btn btn-neutral float-right" title="1. CMakeLists Configuration" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

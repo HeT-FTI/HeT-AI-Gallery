@@ -1,0 +1,36 @@
+_`Object Detection`
+===================
+
+Object detection locates and classifies multiple objects within a single image,
+outputting bounding boxes and confidence scores for each detection.
+IE enables real-time detection pipelines on embedded targets with limited SRAM.
+
+.. contents:: On this page
+   :local:
+   :depth: 1
+
+----
+
+_`Food Detection`
+------------------
+
+Detects and localizes food items on a tray or conveyor belt using a single RGB camera.
+Suitable for smart kitchen, canteen billing, and quality inspection scenarios.
+
+.. figure:: ../../images/detection/food.png
+   :align: center
+   :width: 80%
+
+   *Figure: Food object detection — bounding boxes with category labels and scores*
+
+**Key specs**
+
+- Input: 320 × 320 RGB
+- Categories: 20+ food types
+- Architecture: YOLO-family lightweight detector
+- Backend: CPU (multi-core optimized)
+
+**Deployment notes**
+
+The detection model is exported to ``.flite`` via the conversion tool and loaded at runtime
+with a single ``ie_load()`` call. No external libraries or OS required beyond the SMT base layer.

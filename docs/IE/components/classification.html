@@ -1,0 +1,180 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Classification &mdash; fcpp 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=bdada7e8" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.jpg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            fcpp
+              <img src="../_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Image Classification</a><ul>
+<li><a class="reference internal" href="#id2">MNIST Handwritten Digit Recognition</a></li>
+<li><a class="reference internal" href="#id3">Vegetable &amp; Fruit Classification</a></li>
+<li><a class="reference internal" href="#id4">Coffee Bean Grading</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">fcpp</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Image Classification</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/components/classification.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="image-classification">Image Classification</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>Image classification is the task of assigning a label or category to an input image.
+IE supports deploying lightweight classification networks on embedded devices with minimal footprint.</p>
+<nav class="contents local" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#id2" id="id8">MNIST Handwritten Digit Recognition</a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id9">Vegetable &amp; Fruit Classification</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id10">Coffee Bean Grading</a></p></li>
+</ul>
+</nav>
+<hr class="docutils" />
+<section id="id2">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink"><span class="target" id="mnist-handwritten-digit-recognition">MNIST Handwritten Digit Recognition</span></a><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>Recognizes handwritten digits (0–9) using a compact convolutional network trained on the MNIST dataset.
+The model is converted to <code class="docutils literal notranslate"><span class="pre">.flite</span></code> format and deployed directly on MCU without any OS dependency.</p>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../images/classification/mnist.png"><img alt="../images/classification/mnist.png" src="../images/classification/mnist.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><em>Figure: MNIST digit recognition — predicted label overlaid on input image</em></span><a class="headerlink" href="#id5" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><strong>Key specs</strong></p>
+<ul class="simple">
+<li><p>Input: 28 × 28 grayscale</p></li>
+<li><p>Classes: 10 (digits 0–9)</p></li>
+<li><p>Backend: CPU (SIMD optimized)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink"><span class="target" id="vegetable-fruit-classification">Vegetable &amp; Fruit Classification</span></a><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>Classifies common vegetables and fruits captured by a color camera.
+Demonstrates multi-class inference on a resource-constrained platform.</p>
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="../images/classification/vegetable_fruit.png"><img alt="../images/classification/vegetable_fruit.png" src="../images/classification/vegetable_fruit.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><em>Figure: Vegetable &amp; fruit classification demo</em></span><a class="headerlink" href="#id6" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><strong>Key specs</strong></p>
+<ul class="simple">
+<li><p>Input: 224 × 224 RGB</p></li>
+<li><p>Classes: 36 categories</p></li>
+<li><p>Backend: CPU</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id4">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink"><span class="target" id="coffee-bean-grading">Coffee Bean Grading</span></a><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>Grades green coffee beans by defect type using a top-view camera, enabling inline quality control
+on production lines without a PC or GPU.</p>
+<figure class="align-center" id="id7">
+<a class="reference internal image-reference" href="../images/classification/coffee_bean.png"><img alt="../images/classification/coffee_bean.png" src="../images/classification/coffee_bean.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><em>Figure: Coffee bean defect classification demo</em></span><a class="headerlink" href="#id7" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><strong>Key specs</strong></p>
+<ul class="simple">
+<li><p>Input: 128 × 128 RGB</p></li>
+<li><p>Classes: 5 grades</p></li>
+<li><p>Backend: CPU</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -6,10 +6,10 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3. Metadata Configuration &mdash; fcpp 1.0.0 文档</title>
+  <title>Metadata Configuration &mdash; fcpp 1.0.0 文档</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1f3f84dc" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=bdada7e8" />
 
   
     <link rel="shortcut icon" href="../_static/ALL_logo.jpg"/>
@@ -21,9 +21,7 @@
       <script src="../_static/translations.js?v=540d3cec"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
-    <link rel="next" title="4. Full demonstration of specific lib" href="../export.html" />
-    <link rel="prev" title="2. Conanfile Configuration" href="conan.html" /> 
+    <link rel="search" title="搜索" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,18 +44,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="cmake.html">1. CMakeList</a></li>
-<li class="toctree-l1"><a class="reference internal" href="conan.html">2. Conanfile</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Metadata</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">3.1. Project-level Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">3.2. File Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">3.3. Key Settings</a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Metadata Configuration</a><ul>
+<li><a class="reference internal" href="#id2">Project-level Settings</a></li>
+<li><a class="reference internal" href="#id3">File Structure</a></li>
+<li><a class="reference internal" href="#id4">Key Settings</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../export.html">4. User concern contents</a></li>
 </ul>
-
+</div>
         </div>
       </div>
     </nav>
@@ -72,7 +68,7 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active"><span class="section-number">3. </span>Metadata Configuration</li>
+      <li class="breadcrumb-item active">Metadata Configuration</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/components/meta.rst.txt" rel="nofollow"> 查看页面源码</a>
       </li>
@@ -83,20 +79,20 @@
            <div itemprop="articleBody">
              
   <section id="id1">
-<h1><span class="section-number">3. </span><span class="target" id="metadata-configuration">Metadata Configuration</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<h1><span class="target" id="metadata-configuration">Metadata Configuration</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
 <section id="id2">
-<h2><span class="section-number">3.1. </span><span class="target" id="project-level-settings">Project-level Settings</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<h2><span class="target" id="project-level-settings">Project-level Settings</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
 <p>The metadata.json file contains the metadata configuration for the fcpp project, including basic project
 information, build configuration, and dependency definitions.</p>
 </section>
 <section id="id3">
-<h2><span class="section-number">3.2. </span><span class="target" id="file-structure">File Structure</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<h2><span class="target" id="file-structure">File Structure</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
 <p>The JSON file includes sections for basic project information (name, version, license, description), authors and
 maintainers, build configuration (CMake version, C/C++ standards), module settings, dependency definitions, and
 documentation configuration.</p>
 </section>
 <section id="id4">
-<h2><span class="section-number">3.3. </span><span class="target" id="key-settings">Key Settings</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<h2><span class="target" id="key-settings">Key Settings</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
 <p>Basic project information defines the package identity. Build configuration specifies tool versions and language
 standards. Module settings control standard and user module usage. Dependencies are categorized into common,
 C-specific, and C++-specific requirements. Documentation settings configure Doxygen generation.</p>
@@ -108,10 +104,7 @@ dependencies like Boost and OpenCV.</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="conan.html" class="btn btn-neutral float-left" title="2. Conanfile Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../export.html" class="btn btn-neutral float-right" title="4. Full demonstration of specific lib" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
