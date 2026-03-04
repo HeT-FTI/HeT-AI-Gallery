@@ -20,48 +20,69 @@ _`Main Features`
 _`Application`
 --------------
 
-**分类任务 · Image Classification**
+**Classification Applications**
 
-.. list-table::
-   :class: app-icon-table
-   :widths: 1 1 1 1
+.. raw:: html
 
-   * - .. figure:: ../../images/vegetable_fruit.png
-          :width: 25%
-          :target: components/classification.html#mnist-handwritten-digit-recognition
-          :alt: MNIST
-
-          MNIST Digit Recog.
-
-     - .. figure:: ../../images/vegetable_fruit.png
-          :width: 25%
-          :target: components/classification.html#vegetable-fruit-classification
-          :alt: Vegetable & Fruit
-
-          Vegetable & Fruit Classif.
-
-     - .. figure:: ../../images/vegetable_fruit.png
-          :width: 25%
-          :target: components/classification.html#coffee-bean-grading
-          :alt: Coffee Bean
-
-          Coffee Bean Grading
-
-     - \
+   <table style="width:100%; border:0; border-collapse:collapse; text-align:center;">
+     <tr>
+       <td style="width:25%; padding:8px; border:0;">
+         <a href="components/mnist.rst">
+           <img src="../../images/mnist.png" alt="MNIST" style="width:200px; display:block;">
+         </a>
+         <p style="text-align:center;">MNIST Digit Recognition</p>
+       </td>
+       <td style="width:25%; padding:8px; border:0;">
+         <a href="components/vegetable_fruit.rst">
+           <img src="../../images/vegetable_fruit.png" alt="Vegetable &amp; Fruit" style="width:200px; display:block;">
+         </a>
+         <p style="text-align:center;">Vegetable&amp;Fruit Classification</p>
+       </td>
+       <td style="width:25%; padding:8px; border:0;">
+         <a href="components/coffee_bean.rst">
+           <img src="../../images/coffee_bean.png" alt="Coffee Bean" style="width:200px; display:block;">
+         </a>
+         <p style="text-align:center;">Coffee Bean Classification</p>
+       </td>
+       <td style="width:25%; padding:8px; border:0;">
+         <a>
+           <img alt="Stay tuned for updates" style="width:200px; display:block;">
+         </a>
+       </td>
+     </tr>
+   </table>
 
 ----
 
-**检测任务 · Object Detection**
+**Object Detection Applications**
+
+.. raw:: html
+
+   <table style="width:100%; border:0; border-collapse:collapse; text-align:center;">
+     <tr>
+       <td style="width:25%; padding:8px; border:0;">
+         <a href="components/food.rst">
+           <img src="../../images/food.png" alt="Food" style="width:200px; display:block;">
+         </a>
+         <p style="text-align:center;">Food Detection</p>
+       </td>
+       <td style="width:25%; padding:8px; border:0;">
+         <a>
+           <img alt="Stay tuned for updates" style="width:200px; display:block;">
+         </a>
+       </td>
+     </tr>
+   </table>
 
 ----
 
-**控制任务 · Control / Gesture**
+**Control Applications**
 
 *Coming Soon*
 
 ----
 
-**测量任务 · Measurement / Inspection**
+**Measurement Applications**
 
 *Coming Soon*
 
