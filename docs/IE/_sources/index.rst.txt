@@ -22,57 +22,53 @@ _`Application`
 
 **Classification Applications**
 
-.. raw:: html
+.. list-table::
+   :align: center
+   :widths: 1 1 1 1
 
-   <table style="width:100%; border:0; border-collapse:collapse; text-align:center;">
-     <tr>
-       <td style="width:25%; padding:8px; border:0;">
-         <a href="components/mnist.rst">
-           <img src="../images/mnist.png" alt="MNIST" style="width:200px; display:block;">
-         </a>
-         <p style="text-align:center;">MNIST Digit Recognition</p>
-       </td>
-       <td style="width:25%; padding:8px; border:0;">
-         <a href="components/vegetable_fruit.rst">
-           <img src="images/vegetable_fruit.png" alt="Vegetable &amp; Fruit" style="width:200px; display:block;">
-         </a>
-         <p style="text-align:center;">Vegetable&amp;Fruit Classification</p>
-       </td>
-       <td style="width:25%; padding:8px; border:0;">
-         <a href="components/coffee_bean.rst">
-           <img src="../../images/coffee_bean.png" alt="Coffee Bean" style="width:200px; display:block;">
-         </a>
-         <p style="text-align:center;">Coffee Bean Classification</p>
-       </td>
-       <td style="width:25%; padding:8px; border:0;">
-         <a>
-           <img alt="Stay tuned for updates" style="width:200px; display:block;">
-         </a>
-       </td>
-     </tr>
-   </table>
+   * - .. figure:: ../../images/mnist.png
+          :width: 200
+          :target: components/mnist.rst
+          :alt: MNIST
+
+       MNIST Digit Recognition
+
+     - .. figure:: ../../images/vegetable_fruit.png
+          :width: 200
+          :target: components/vegetable_fruit.rst
+          :alt: Vegetable & Fruit
+
+       Vegetable&Fruit Classification
+
+     - .. figure:: ../../images/coffee_bean.png
+          :width: 200
+          :target: components/coffee_bean.rst
+          :alt: Coffee Bean
+
+       Coffee Bean Classification
+
+     - .. figure:: ../../images/none.png
+          :width: 200
+          :alt: Stay tuned for updates
 
 ----
 
 **Object Detection Applications**
 
-.. raw:: html
+.. list-table::
+   :align: center
+   :widths: 1 1
 
-   <table style="width:100%; border:0; border-collapse:collapse; text-align:center;">
-     <tr>
-       <td style="width:25%; padding:8px; border:0;">
-         <a href="components/food.rst">
-           <img src="../../images/food.png" alt="Food" style="width:200px; display:block;">
-         </a>
-         <p style="text-align:center;">Food Detection</p>
-       </td>
-       <td style="width:25%; padding:8px; border:0;">
-         <a>
-           <img alt="Stay tuned for updates" style="width:200px; display:block;">
-         </a>
-       </td>
-     </tr>
-   </table>
+   * - .. figure:: ../../images/food.png
+          :width: 200
+          :target: components/food.rst
+          :alt: Food
+
+       Food Detection
+
+     - .. figure:: ../../images/none.png
+          :width: 200
+          :alt: Stay tuned for updates
 
 ----
 
