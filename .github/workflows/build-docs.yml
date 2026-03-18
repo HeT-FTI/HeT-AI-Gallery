@@ -109,7 +109,7 @@ jobs:
 
           for d in docs/*/; do
             name=$(basename "$d")
-            echo "  <li><a href=\"$name/\">$name</a></li>" >> docs/index.html
+            echo "  <li><a href=\"$name/\">123</a></li>" >> docs/index.html
           done
 
           cat >> docs/index.html <<'EOF'
