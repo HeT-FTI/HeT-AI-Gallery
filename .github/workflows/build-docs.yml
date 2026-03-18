@@ -95,13 +95,16 @@ jobs:
 
       - name: Generate main index.html
         run: |
-          cat > docs/index.html <<'EOF'
+          # 获取仓库名（例如：your-repo-name）
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          
+          cat > docs/index.html <<EOF
           <!DOCTYPE html>
           <html>
           <head>
             <meta charset="UTF-8">
             <title>AI Gallery</title>
-            <link rel="stylesheet" href="/.github/workflows/static/element-ui@2.15.14/index.css">
+            <link rel="stylesheet" href="/$REPO_NAME/.github/workflows/static/element-ui@2.15.14/index.css">
           </head>
           <body>
             <div id="app">
@@ -118,9 +121,9 @@ jobs:
                 </el-main>
               </el-container>
             </div>
-            <script src="/.github/workflows/static/jquery/jquery.js"></script>
-            <script src="/.github/workflows/static/vue-2.7.16/vue.js"></script>
-            <script src="/.github/workflows/static/element-ui@2.15.14/index.js"></script>
+            <script src="/$REPO_NAME/.github/workflows/static/jquery/jquery.js"></script>
+            <script src="/$REPO_NAME/.github/workflows/static/vue-2.7.16/vue.js"></script>
+            <script src="/$REPO_NAME/.github/workflows/static/element-ui@2.15.14/index.js"></script>
             <script>
               new Vue({
                 el: '#app',
@@ -128,20 +131,19 @@ jobs:
                   apps: [
           EOF
 
-          for d in docs/*/; do
-            name=$(basename "$d")
-            echo "              { name: '$name', url: '/$name/' }," >> docs/index.html
-          done
+              for d in docs/*/; do
+                name=$(basename "$d")
+                echo "              { name: '$name', url: '/$REPO_NAME/$name/' }," >> docs/index.html
+              done
 
-          cat >> docs/index.html <<'EOF'
-                  ]
-                }
-              })
-            </script>
-          </body>
-          </html>
-          EOF
-
+              cat >> docs/index.html <<'EOF'
+                      ]
+                    }
+                  })
+                </script>
+              </body>
+              </html>
+              EOF
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
