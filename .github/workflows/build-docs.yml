@@ -100,20 +100,44 @@ jobs:
           <html>
           <head>
             <meta charset="UTF-8">
-            <title>Documentation Hub</title>
+            <title>AI Gallery</title>
+            <link rel="stylesheet" href="/.github/workflows/static/element-ui@2.15.14/index.css">
           </head>
           <body>
-            <h1>AI Application Gallery</h1>
-            <ul>
+            <div id="app">
+              <el-container>
+                <el-header><h1>AI Application Gallery</h1></el-header>
+                <el-main>
+                  <el-row :gutter="20">
+                    <el-col :span="6" v-for="app in apps" :key="app.name">
+                      <el-card shadow="hover">
+                        <a :href="app.url">{{ app.name }}</a>
+                      </el-card>
+                    </el-col>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </div>
+            <script src="/.github/workflows/static/jquery/jquery.js"></script>
+            <script src="/.github/workflows/static/vue-2.7.16/vue.js"></script>
+            <script src="/.github/workflows/static/element-ui@2.15.14/index.js"></script>
+            <script>
+              new Vue({
+                el: '#app',
+                data: {
+                  apps: [
           EOF
 
           for d in docs/*/; do
             name=$(basename "$d")
-            echo "  <li><a href=\"$name/\">123</a></li>" >> docs/index.html
+            echo "              { name: '$name', url: '/$name/' }," >> docs/index.html
           done
 
           cat >> docs/index.html <<'EOF'
-            </ul>
+                  ]
+                }
+              })
+            </script>
           </body>
           </html>
           EOF
