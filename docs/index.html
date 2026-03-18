@@ -2,39 +2,28 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>AI Gallery</title>
-  <link rel="stylesheet" href="/HeT-AI-Gallery/.github/workflows/static/element-ui@2.15.14/index.css">
+  <title>AI Application Gallery</title>
+  <link rel="stylesheet" href="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/element-ui%402.15.14/lib/theme-chalk/index.css">
 </head>
 <body>
   <div id="app">
-    <el-container>
-      <el-header><h1>AI Application Gallery</h1></el-header>
-      <el-main>
-        <el-row :gutter="20">
-          <el-col :span="6" v-for="app in apps" :key="app.name">
-            <el-card shadow="hover">
-              <a :href="app.url">{{ app.name }}</a>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-main>
-    </el-container>
+    <h1>AI Application Gallery</h1>
+    <el-card shadow="hover" style="background-image: url('https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/pngs/default_application_cover.png'); background-size: cover; background-position: center; min-height: 150px; margin: 10px;">
+      <li><a href="IE/">IE</a></li>
+    </el-card>
+    <el-card shadow="hover" style="background-image: url('https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/pngs/default_application_cover.png'); background-size: cover; background-position: center; min-height: 150px; margin: 10px;">
+      <li><a href="adsp/">adsp</a></li>
+    </el-card>
+    <el-card shadow="hover" style="background-image: url('https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/pngs/default_application_cover.png'); background-size: cover; background-position: center; min-height: 150px; margin: 10px;">
+      <li><a href="idsp/">idsp</a></li>
+    </el-card>
   </div>
-  <script src="/HeT-AI-Gallery/.github/workflows/static/jquery/jquery.js"></script>
-  <script src="/HeT-AI-Gallery/.github/workflows/static/vue-2.7.16/vue.js"></script>
-  <script src="/HeT-AI-Gallery/.github/workflows/static/element-ui@2.15.14/index.js"></script>
+
+  <script src="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/jquery/jquery-3.7.1.min.js"></script>
+  <script src="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/vue-2.7.16/vue.js"></script>
+  <script src="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/element-ui@2.15.14/lib/index.js"></script>
   <script>
-    new Vue({
-      el: '#app',
-      data: {
-        apps: [
-              { name: 'IE', url: '/HeT-AI-Gallery/IE/' },
-              { name: 'adsp', url: '/HeT-AI-Gallery/adsp/' },
-              { name: 'idsp', url: '/HeT-AI-Gallery/idsp/' },
-            ]
-          }
-        })
-      </script>
-    </body>
-    </html>
-    EOF
+    new Vue({ el: '#app' });
+  </script>
+</body>
+</html>
