@@ -121,23 +121,24 @@ jobs:
               cover="${STATIC}/pngs/default_application_cover.png"
             fi
             if [ -f "${d}_sources/application_introduction.txt" ]; then
-              introduction_path="${RAW_BASE}/docs/${name}/_sources/application_introduction.txt"
+              introduction_content=$(cat "${d}_sources/application_introduction.txt")
             else
-              introduction_path="${STATIC}/txts/default_application_introduction.txt"
+              introduction_content="Default application introduction"
             fi
-            introduction_content=$(cat "$introduction_path") 
-            cat >> docs/index.html <<CARD
-              <el-card shadow="hover" :body-style="{ padding: '0px' }">
-                <img src="${cover}" class="image">
-                <div style="padding: 14px;">
-                  <span>${introduction_content}</span>
-                  <div class="bottom clearfix">
-                    <el-link href="${name}/" type="primary">${name}</el-link>
-                  </div>
-                </div>
-              </el-card>
-            CARD
+            
+          cat >> docs/index.html <<CARD
+          <el-card shadow="hover" :body-style="{ padding: '0px' }">
+            <img src="${cover}" class="image">
+            <div style="padding: 14px;">
+              <span>${introduction_content}</span>
+              <div class="bottom clearfix">
+                <el-link href="${name}/" type="primary">${name}</el-link>
+              </div>
+            </div>
+          </el-card>
+          CARD
           done
+
           cat >> docs/index.html <<EOF
             </div>
             <script src="${STATIC}/jquery/jquery-3.7.1.min.js"></script>
