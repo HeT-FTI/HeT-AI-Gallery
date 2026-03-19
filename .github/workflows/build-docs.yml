@@ -132,7 +132,7 @@ jobs:
                 <div style="padding: 14px;">
                   <span>${introduction_content}</span>
                   <div class="bottom clearfix">
-                    <el-link href= type="primary">${name}</el-link>
+                    <el-link href="${name}/" type="primary">${name}</el-link>
                   </div>
                 </div>
               </el-card>
