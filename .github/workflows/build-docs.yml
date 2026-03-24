@@ -89,8 +89,8 @@ jobs:
             cp -r "$repo_html_dir" "docs/$repo_name"
           done
           cp .github/workflows/static/template/index.html docs/index.html
-          cp -r .github/workflows/static/* docs/static/
-          cp -r config/* docs/config/
+          cp -r .github/workflows/static docs/_static/
+          cp -r config docs/_config/
 
       - name: Prevent Jekyll processing
         run: |

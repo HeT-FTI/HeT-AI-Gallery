@@ -1,7 +1,6 @@
-static: ./static       
-config: ./config
+static: ./_static       
+config: ./_config
 docs: .
-title: AI Application Gallery
 repos:
   - name: IE
     url: git@github.com:HeT-FTI/IE.git
@@ -15,5 +14,4 @@ repos:
     url: git@github.com:HeT-FTI/idsp.git
     type: class-3
     description: idsp配置介绍
-
  
