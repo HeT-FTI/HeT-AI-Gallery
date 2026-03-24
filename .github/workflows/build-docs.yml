@@ -88,68 +88,13 @@ jobs:
             echo "Copying $repo_name documentation..."
             cp -r "$repo_html_dir" "docs/$repo_name"
           done
+          cp .github/workflows/static/template/index.html docs/index.html
+          cp -r .github/workflows/static/* docs/static/
+          cp -r config/* docs/config/
 
       - name: Prevent Jekyll processing
         run: |
           touch docs/.nojekyll
-
-      - name: Generate main index.html
-        run: |
-          RAW_BASE="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main"
-          STATIC="${RAW_BASE}/.github/workflows/static"
-
-          cat > docs/index.html <<EOF
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="UTF-8">
-            <title>AI Application Gallery</title>
-            <link rel="stylesheet" href="${STATIC}/element-ui%402.15.14/lib/theme-chalk/index.css">
-          </head>
-          <body>
-            <div id="app">
-              <h1>AI Application Gallery</h1>
-          EOF
-
-          for d in docs/*/; do
-            [ -d "$d" ] || continue
-            name=$(basename "$d")
-            
-            if [ -f "${d}_images/application_cover.png" ]; then
-              cover="${RAW_BASE}/docs/${name}/_images/application_cover.png"
-            else
-              cover="${STATIC}/pngs/default_application_cover.png"
-            fi
-            if [ -f "${d}_sources/application_introduction.txt" ]; then
-              introduction_content=$(cat "${d}_sources/application_introduction.txt")
-            else
-              introduction_content="Default application introduction"
-            fi
-            
-          cat >> docs/index.html <<CARD
-          <el-card shadow="hover" :body-style="{ padding: '0px' }">
-            <img src="${cover}" class="image">
-            <div style="padding: 14px;">
-              <span>${introduction_content}</span>
-              <div class="bottom clearfix">
-                <el-link href="${name}/" type="primary">${name}</el-link>
-              </div>
-            </div>
-          </el-card>
-          CARD
-          done
-
-          cat >> docs/index.html <<EOF
-            </div>
-            <script src="${STATIC}/jquery/jquery-3.7.1.min.js"></script>
-            <script src="${STATIC}/vue-2.7.16/vue.js"></script>
-            <script src="${STATIC}/element-ui@2.15.14/lib/index.js"></script>
-            <script>
-              new Vue({ el: '#app' });
-            </script>
-          </body>
-          </html>
-          EOF
           
       - name: Commit and push
         run: |

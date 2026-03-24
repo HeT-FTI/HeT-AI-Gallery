@@ -1,7 +1,6 @@
-domain: https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main
-# static: ../.github/workflows/static       # 与docs/index.html的相对路径
-static: .github/workflows/static
-docs: docs
+static: ./static       
+config: ./config
+docs: .
 title: AI Application Gallery
 repos:
   - name: IE
