@@ -94,13 +94,15 @@ Basic Resizing
     :width: 200px
     :align: center
     :alt: Origin Image
-Origin Image(200*200)
+
+    Origin Image(200*200)
 
 .. figure:: ../images/OUT_logo_reshape.png
     :width: 256px
     :align: center
     :alt: Resized Logo Image
-Resized Image(256*256)
+
+    Resized Image(256*256)
 
 Example of resizing the logo image to 256x256 pixels using bilinear interpolation.
 
@@ -167,13 +169,6 @@ Reshape Example
        return 0;
    }
 
-.. figure:: _images/logo_reshape.png
-   :width: 400px
-   :align: center
-   :alt: Reshaped Logo Image
-
-   The logo image after being reshaped from HWC to CHW layout and then converted back to HWC for saving.
-
 Normalization for Deep Learning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -193,7 +188,7 @@ Normalization for Deep Learning
    idsp::Image normalized = norm_result.value;
 
 NMS for Object Detection Post-processing
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
