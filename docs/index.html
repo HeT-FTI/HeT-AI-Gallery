@@ -3,44 +3,233 @@
 <head>
   <meta charset="UTF-8">
   <title>AI Application Gallery</title>
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/element-ui%402.15.14/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="../.github/workflows/static/element-ui%402.15.14/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="../.github/workflows/static/css/index.css">
+  <script src="../.github/workflows/static/JavaScript/yaml.js"></script>
+  <script src="../.github/workflows/static/jquery/jquery-3.7.1.min.js"></script>
+  <script src="../.github/workflows/static/vue-2.7.16/vue.js"></script>
+  <script src="../.github/workflows/static/element-ui@2.15.14/lib/index.js"></script>
 </head>
-<body>
-  <div id="app">
-    <h1>AI Application Gallery</h1>
-<el-card shadow="hover" :body-style="{ padding: '0px' }">
-  <img src="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/pngs/default_application_cover.png" class="image">
-  <div style="padding: 14px;">
-    <span>Default application introduction</span>
-    <div class="bottom clearfix">
-      <el-link href="IE/" type="primary">IE</el-link>
+<body style="background-color:aqua;">
+  <div id="app" style="width: 100%;height: 100%;margin: 0px;">
+    <div id="top_div" style="background-color: red;">
+      <h1 style="margin: 0px;">AI Application Gallery</h1>
+    </div>
+    <hr style="
+        border: none;
+        border-top: 1px dashed #999;
+        margin: 5px 0px;
+        flex-shrink: 0;
+    ">
+    <div class="navigation-collapse-btn" id="dragBtn">
+        <div class="line-box">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </div>
+    <div id="bottom_div" style="background-color: bisque;">
+      <div id="navigation_bar" :class="{ collapsed: isCollapse }">
+        <div id="navigation_item" :class="{ collapsed: isCollapse }">
+          <el-button type="text" v-for="(item,index) in reposTypeList" :key="index" 
+          style="margin: 30px 0px" @click="change_reposType(item)">
+            [[item]]
+          </el-button>
+        </div>
+        <div id="navigation_collapse_trigger" @click="isCollapse = !isCollapse">
+          <i :class="isCollapse ? 'el-icon-arrow-right' : 'el-icon-arrow-left'"></i>
+        </div>
+      </div>
+      <div id="card_area">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover"
+              v-for="(item, index) in show_card_list" :key="index">
+              <img :src="item.image_url" class="image">
+              <div style="padding: 14px;">
+                  <span>[[ item.description ]]</span>
+                  <div class="bottom clearfix">
+                      <el-link :href="item.name + '/'" type="primary">[[item.name]]</el-link>
+                  </div>
+              </div>
+          </el-card>
+      </div>
     </div>
   </div>
-</el-card>
-<el-card shadow="hover" :body-style="{ padding: '0px' }">
-  <img src="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/pngs/default_application_cover.png" class="image">
-  <div style="padding: 14px;">
-    <span>Default application introduction</span>
-    <div class="bottom clearfix">
-      <el-link href="adsp/" type="primary">adsp</el-link>
-    </div>
-  </div>
-</el-card>
-<el-card shadow="hover" :body-style="{ padding: '0px' }">
-  <img src="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/pngs/default_application_cover.png" class="image">
-  <div style="padding: 14px;">
-    <span>Default application introduction</span>
-    <div class="bottom clearfix">
-      <el-link href="idsp/" type="primary">idsp</el-link>
-    </div>
-  </div>
-</el-card>
-  </div>
-  <script src="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/jquery/jquery-3.7.1.min.js"></script>
-  <script src="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/vue-2.7.16/vue.js"></script>
-  <script src="https://raw.githubusercontent.com/HeT-FTI/HeT-AI-Gallery/main/.github/workflows/static/element-ui@2.15.14/lib/index.js"></script>
   <script>
-    new Vue({ el: '#app' });
+    new Vue({
+      el: '#app',
+      delimiters: ['[[', ']]'],  // 将占位符改为 [[ ]],vue默认占位符和Django冲突
+      data() {
+        return {
+          isCollapse: true,
+          config_yaml:{},
+          show_card_list:[],
+          current_reposType:"",
+        }
+      },
+      computed: {
+        async reposTypeList() {
+            const repos_type = new Set();
+            let typeArray = new Array()
+            if (this.config_yaml?.repos && Array.isArray(this.config_yaml.repos)) {
+                this.config_yaml.repos.forEach(element => {
+                    if (element?.type) {
+                        repos_type.add(element.type);
+                    }
+                });
+                typeArray = Array.from(repos_type);
+                if (typeArray.length > 0) {
+                    await this.change_reposType(typeArray[0]);
+                }
+            }
+            return typeArray;
+        }
+      },
+      async created(){
+        try {
+          const response = await fetch('../config/repos.yml');
+          const yamlText = await response.text();
+          this.config_yaml = jsyaml.load(yamlText);
+        } catch (error) {
+            console.error('Error loading YAML:', error);
+        }
+      },
+      mounted (){
+        const that = this
+        const buttons = document.getElementsByClassName("navigation-collapse-btn")
+        Array.from(buttons).forEach(btn => {
+          // 为每个按钮添加点击事件监听器
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();              // 阻止事件冒泡
+            this.classList.toggle('active');   // 切换 active 类
+            that.isCollapse = ! that.isCollapse
+          });
+        })
+        document.addEventListener('DOMContentLoaded', function() {
+          const dragBtn = document.getElementById('dragBtn');
+          let isDragging = false;
+          let startX, startY, initialLeft, initialTop;
+
+          // 开始拖动 (兼容鼠标和触摸)
+          function startDrag(e) {
+              isDragging = true;
+              // 获取鼠标或触摸点的初始坐标
+              const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+              const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+              startX = clientX;
+              startY = clientY;
+              // 获取元素当前的位置 (相对于视口)
+              const rect = dragBtn.getBoundingClientRect();
+              initialLeft = rect.left;
+              initialTop = rect.top;
+              // 移除过渡效果，让拖动更跟手
+              dragBtn.style.transition = 'none';
+          }
+          // 拖动中
+          function onDrag(e) {
+              if (!isDragging) return;
+              e.preventDefault(); // 防止在手机上滚动页面
+              const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+              const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+              // 计算移动距离
+              const deltaX = clientX - startX;
+              const deltaY = clientY - startY;
+              // 更新位置
+              dragBtn.style.left = `${initialLeft + deltaX}px`;
+              dragBtn.style.top = `${initialTop + deltaY}px`;
+              // 重置 right 属性，防止冲突
+              dragBtn.style.right = 'auto';
+          }
+          // 结束拖动
+          function stopDrag() {
+              isDragging = false;
+              // 恢复过渡效果（用于点击时的缩放动画等）
+              dragBtn.style.transition = 'transform 0.1s';
+          }
+          // 绑定鼠标事件
+          dragBtn.addEventListener('mousedown', startDrag);
+          document.addEventListener('mousemove', onDrag);
+          document.addEventListener('mouseup', stopDrag);
+          // 绑定触摸事件 (手机端)
+          dragBtn.addEventListener('touchstart', startDrag, { passive: false });
+          document.addEventListener('touchmove', onDrag, { passive: false });
+          document.addEventListener('touchend', stopDrag);
+      });
+      },
+      methods: { 
+        async checkFileExists(url) {
+          try {
+              const response = await fetch(url, { method: 'HEAD' });
+              if (response.ok) {
+                console.log("存在-->",url)
+                  return response;
+              } else {
+                  return false;
+              }
+          } catch (error) {
+              return false;
+          }
+        },
+        async change_reposType(item) {
+          console.log("change_reposType-->", item);
+          
+          if (this.current_reposType === item) {
+              return;
+          }
+          
+          this.show_card_list = [];
+          
+          const DOMAIN = this.config_yaml.domain.replace(/^\/+|\/+$/g, '');
+          const STATIC = this.config_yaml.static.replace(/^\/+|\/+$/g, '');
+          const DOCS = this.config_yaml.docs.replace(/^\/+|\/+$/g, '');
+          
+          // 筛选符合条件的元素
+          const filteredRepos = this.config_yaml.repos.filter(element => element.type === item);
+          
+          // 并发处理所有异步操作
+          const results = await Promise.all(
+              filteredRepos.map(async (element) => {
+                  let default_cover_image = `${DOMAIN}/${STATIC}/pngs/all_title_card.png`;
+                  let app_cover_image = `${DOMAIN}/${DOCS}/${element.name}/_images/app_cover.png`;
+                  let app_description_url = `${DOMAIN}/${DOCS}/${element.name}/_sources/description.txt`;
+                  
+                  let image_url = default_cover_image;
+                  let description = element?.description || "该APP暂无介绍说明";
+                  
+                  // 并发检查封面和描述
+                  const [coverImageResponse, descriptionResponse] = await Promise.all([
+                      this.checkFileExists(app_cover_image),
+                      this.checkFileExists(app_description_url)
+                  ]);
+                  
+                  console.log("cover_image_response-->", coverImageResponse, element.name);
+                  
+                  if (coverImageResponse) {
+                      image_url = app_cover_image;
+                  }
+                  
+                  if (descriptionResponse) {
+                      try {
+                          description = await descriptionResponse.text();
+                      } catch (error) {
+                          console.error("读取描述失败:", element.name, error);
+                      }
+                  }
+                  
+                  return {
+                      name: element.name,
+                      type: element.type,
+                      image_url: image_url,
+                      description: description,
+                  };
+              })
+          );
+          
+          this.show_card_list = results;
+          this.current_reposType = item;
+          console.log("item-->", this.show_card_list);
+        }
+      } 
+    })
   </script>
 </body>
 </html>

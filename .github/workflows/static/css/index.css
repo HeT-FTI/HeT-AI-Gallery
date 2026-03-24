@@ -1,0 +1,217 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+#app {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;           
+    flex-direction: column;  
+}
+
+#top_div{
+    width: 100%;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+}
+#bottom_div {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+#navigation_bar {
+    width: 200px; 
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    position: relative;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    overflow: hidden;  /* 防止内容溢出 */
+}
+
+#navigation_bar.collapsed {
+    width: 35px;  /* 折叠时只显示触发器 */
+}
+
+/* 导航项区域*/
+#navigation_item {
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    background-color: rgb(94, 209, 94);
+    align-items: center;  
+    justify-content: flex-start;
+    overflow: auto;  
+    white-space: nowrap;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);  /* 统一缓动函数 */
+    padding: 10px 0;
+}
+/* 折叠状态 - */
+#navigation_item.collapsed {
+    width: 0;
+    padding: 10px 0;
+    opacity: 0;
+    visibility: hidden;
+}
+/* 折叠触发器 */
+#navigation_collapse_trigger {
+    width: 35px;
+    flex-shrink: 0;
+    background-color: chocolate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    transition: background-color 0.2s;
+    position: relative;
+}
+/* 悬停效果 */
+#navigation_collapse_trigger:hover {
+    background-color: #c87e4a;
+}
+/* 点击效果 */
+#navigation_collapse_trigger:active {
+    transform: scale(0.95);
+}
+/* 波纹效果 */
+#navigation_collapse_trigger::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: translate(-50%, -50%) scale(0);
+    transform-origin: 50% 50%;
+    pointer-events: none;
+}
+#navigation_collapse_trigger:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+}
+#card_area {
+    flex: 1;
+    background-color: blueviolet;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: auto;
+    padding: 20px;
+}
+
+/* 悬浮按钮容器（基础定位 + 拖拽支持）*/
+.navigation-collapse-btn {
+    /* 定位与层级 - 悬浮拖拽必需 */
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    z-index: 9999;
+    
+    /* 尺寸与布局 */
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* 视觉样式 - 保留紫色渐变 */
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    
+    /* 交互样式 - 拖拽必需 */
+    cursor: grab;
+    user-select: none;
+    
+    /* 过渡动画 - 分开处理不同属性 */
+    transition: 
+        transform 0.1s ease,           /* 拖动时的快速响应 */
+        background 0.3s ease,          /* 渐变切换 */
+        box-shadow 0.3s ease;          /* 阴影变化 */
+}
+/* 鼠标按下时（拖动反馈）*/
+.navigation-collapse-btn:active {
+    cursor: grabbing;
+    transform: scale(0.95);  /* 轻微缩小，提供按压反馈 */
+    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.5);
+}
+/* 悬停效果（保留渐变反转 + 轻微放大）*/
+.navigation-collapse-btn:hover {
+    transform: scale(1.05);  /* 悬停时轻微放大，避免与:active冲突 */
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.5);
+}
+/* 悬停时中间线条微动画（可选装饰效果）*/
+.navigation-collapse-btn:hover .line:nth-child(2) {
+    width: 20px;  /* 与原始24px协调，轻微收缩 */
+}
+.navigation-collapse-btn .line-box {
+    width: 20px;
+    height: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  /* 保持原始间距逻辑 */
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.navigation-collapse-btn .line {
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+/* 首尾线条缩短效果 */
+.navigation-collapse-btn .line:first-child,
+.navigation-collapse-btn .line:last-child {
+    width: 50%;
+}
+.navigation-collapse-btn .line:first-child {
+    transform-origin: right;
+}
+.navigation-collapse-btn .line:last-child {
+    align-self: flex-end;
+    transform-origin: left;
+}
+.navigation-collapse-btn.active .line-box {
+    transform: rotate(-45deg);
+}
+.navigation-collapse-btn.active .line:first-child {
+    transform: rotate(-90deg) translateX(1.5px);
+    width: 100%;
+}
+.navigation-collapse-btn.active .line:nth-child(2) {
+    opacity: 0;
+    transform: scale(0);
+}
+.navigation-collapse-btn.active .line:last-child {
+    transform: rotate(-90deg) translateX(-1.5px);
+    width: 100%;
+}
+/* 拖动过程中临时禁用 hover/active 的 transform，避免冲突 */
+.navigation-collapse-btn.dragging {
+    transition: none !important;
+    cursor: grabbing !important;
+}
+.navigation-collapse-btn.dragging:hover,
+.navigation-collapse-btn.dragging:active {
+    transform: none !important;
+}
+
+
