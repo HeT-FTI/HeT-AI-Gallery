@@ -1,0 +1,17 @@
+static: ./_static       
+config: ./_config
+docs: .
+repos:
+  - name: IE
+    url: git@github.com:HeT-FTI/IE.git
+    type: class-1
+    description: IE配置介绍
+  - name: adsp
+    url: git@github.com:HeT-FTI/adsp.git
+    type: class-2
+    description: adsp配置介绍
+  - name: idsp
+    url: git@github.com:HeT-FTI/idsp.git
+    type: class-3
+    description: idsp配置介绍
+ 
