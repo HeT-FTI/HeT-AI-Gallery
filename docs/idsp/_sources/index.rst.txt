@@ -1,61 +1,235 @@
-_`fcpp Project Documentation`
+IDSP Image Processing Library
 =============================
 
-_`Introduction`
+This section describes the image processing functionalities provided by the IDSP library.
+
+Overview
+--------
+
+IDSP provides a set of lightweight, high-performance image processing functions suitable for preprocessing in computer vision and deep learning pipelines. The library focuses on core operations: resizing, reshaping, normalization, and non-maximum suppression (NMS).
+
+Key Features
+------------
+
+- **Image Resizing**: Support for nearest-neighbor, bilinear, and bicubic interpolation with configurable pixel alignment.
+- **Image Reshaping**: Conversion between HWC (Height-Width-Channel) and CHW (Channel-Height-Width) layouts.
+- **Image Normalization**: Per-channel mean subtraction, standard deviation division, scaling, and biasing.
+- **Non-Maximum Suppression (NMS)**: Efficient greedy NMS for removing overlapping bounding boxes, with optional class-aware suppression.
+
+Data Structures
 ---------------
 
-fcpp is a modern C/C++ library development framework that integrates advanced build systems, dependency
-management, and modular development support.
+The library uses the following core data structures defined in `idsp::`:
 
-_`Main Features`
-----------------
+- **idsp::Image**
 
-- Support for mixed C and C++ programming
-- Built-in C++20 module support
-- Conan-based dependency management
-- Cross-platform build support (Windows/Linux/macOS)
-- Automated code generation and processing
-- Intelligent header and module conversion
+- **idsp::Shape**
 
-_`Quick Start`
+- **idsp::Status**
+
+- **idsp::Result**
+
+Image Processing Functions
+--------------------------
+
+Resize
+^^^^^^
+
+Resize an image to a target width and height using various interpolation methods.
+
+Reshape
+^^^^^^^
+
+Reshape an image between different layouts (HWC <-> CHW) without copying pixel data.
+
+
+Normalize
+^^^^^^^^^
+
+Normalize image pixel values using per-channel mean and standard deviation.
+
+
+NMS
+^^^
+
+Apply Non-Maximum Suppression to a set of bounding boxes.
+
+
+Usage Examples
 --------------
 
-.. code-block:: bash
+Basic Resizing
+^^^^^^^^^^^^^^
 
-   # Install dependencies
-   conan install .
-   
-   # Build the project
-   conan build .
+.. code-block:: cpp
 
-   # Create the package
-   conan create .
+   #include <idsp/image.hpp>
+   #include <idsp/io.hpp>
 
-_`Project Structure`
---------------------
+   int main() {
+       // Read image
+       idsp::io::ReadOptions opts;
+       opts.keep_color = true;
+       opts.output_color = idsp::ColorSpace::kRGB;
+       auto read_result = idsp::io::ReadImage("input.jpg", opts);
+       if (!read_result) {
+           std::cerr << "Failed to read image: " << read_result.status.msg << std::endl;
+           return 1;
+       }
+       idsp::Image img = read_result.value;
 
-::
+       // Resize to 224x224 using bilinear interpolation (default)
+       auto resize_result = idsp::image::Resize(img, 224, 224);
+       if (!resize_result) {
+           std::cerr << "Resize failed: " << resize_result.status.msg << std::endl;
+           return 1;
+       }
+       idsp::Image resized = resize_result.value;
 
-   fcpp/
-   ├── include/         # Header files
-   ├── src/             # Source files
-   ├── CMakeLists.txt   # CMake build configuration
-   ├── conanfile.py     # Conan package configuration
-   ├── metadata.json    # Project metadata
-   └── LICENSE          # License file
+       // Continue processing...
+       return 0;
+   }
 
-_`Detailed Settings`
---------------------
+.. figure:: ../images/OUT_logo.png
+    :width: 200px
+    :align: center
+    :alt: Origin Image
+Origin Image(200*200)
 
-For detailed settings in project-level meta, conan recipe, or cmake file, see:
+.. figure:: ../images/OUT_logo_reshape.png
+    :width: 256px
+    :align: center
+    :alt: Resized Logo Image
+Resized Image(256*256)
 
-.. toctree::
-   CMakeList <components/cmake>
-   Conanfile <components/conan>
-   Metadata <components/meta>
-   User concern contents <export>
-   :numbered:
-   :maxdepth: 2
+Example of resizing the logo image to 256x256 pixels using bilinear interpolation.
+
+Reshape Example
+^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+   #include <idsp/image.hpp>
+   #include <idsp/io.hpp>
+
+   int main() {
+       // Read image
+       idsp::io::ReadOptions opts;
+       opts.keep_color = true;
+       opts.output_color = idsp::ColorSpace::kRGB;
+       auto read_result = idsp::io::ReadImage("input.jpg", opts);
+       if (!read_result) {
+           std::cerr << "Failed to read image: " << read_result.status.msg << std::endl;
+           return 1;
+       }
+       idsp::Image img = read_result.value;
+
+       // Resize to 256x256 using bilinear interpolation (as an example preprocessing step)
+       idsp::image::ResizeOptions resize_opts;
+       resize_opts.interp = idsp::image::InterpType::kBilinear;
+       resize_opts.align = idsp::image::AlignMode::kHalfPixel;
+       auto resize_result = idsp::image::Resize(img, 256, 256, resize_opts);
+       if (!resize_result) {
+           std::cerr << "Resize failed: " << resize_result.status.msg << std::endl;
+           return 1;
+       }
+       idsp::Image resized_img = resize_result.value;
+
+       // Reshape the resized image from HWC to CHW layout
+       idsp::image::ReshapeOptions reshape_opts;
+       reshape_opts.dst_layout = idsp::Layout::kCHW;
+       auto reshape_result = idsp::image::Reshape(resized_img, resized_img.shape, reshape_opts);
+       if (!reshape_result) {
+           std::cerr << "Failed to reshape image: " << reshape_result.status.msg << std::endl;
+           return 1;
+       }
+       idsp::Image reshaped_img = reshape_result.value;
+
+       // The reshaped image is now in CHW layout. To visualize it as a standard image, we convert it back to HWC.
+       idsp::image::ReshapeOptions reshape_back_opts;
+       reshape_back_opts.dst_layout = idsp::Layout::kHWC;
+       auto reshape_back_result = idsp::image::Reshape(reshaped_img, reshaped_img.shape, reshape_back_opts);
+       if (!reshape_back_result) {
+           std::cerr << "Failed to reshape image back to HWC: " << reshape_back_result.status.msg << std::endl;
+           return 1;
+       }
+       idsp::Image reshaped_hwc_img = reshape_back_result.value;
+
+       // Save the image for visualization
+       idsp::io::WriteOptions write_opts;
+       write_opts.quality = 95;
+       auto write_result = idsp::io::WriteImage("/home/bowen/Drive/Documents/logo_reshape.png", reshaped_hwc_img, write_opts);
+       if (!write_result) {
+           std::cerr << "Failed to write image: " << write_result.msg << std::endl;
+           return 1;
+       }
+
+       return 0;
+   }
+
+.. figure:: _images/logo_reshape.png
+   :width: 400px
+   :align: center
+   :alt: Reshaped Logo Image
+
+   The logo image after being reshaped from HWC to CHW layout and then converted back to HWC for saving.
+
+Normalization for Deep Learning
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+   idsp::image::NormalizeOptions norm_opts;
+   norm_opts.mean = {0.485f, 0.456f, 0.406f}; // RGB mean
+   norm_opts.stddev = {0.229f, 0.224f, 0.225f}; // RGB std
+   norm_opts.scale = 1.0f / 255.0f; // If input is 0-255 uint8
+   norm_opts.bias = 0.0f;
+
+   auto norm_result = idsp::image::Normalize(resized, norm_opts);
+   if (!norm_result) {
+       std::cerr << "Normalization failed: " << norm_result.status.msg << std::endl;
+       return 1;
+   }
+   idsp::Image normalized = norm_result.value;
+
+NMS for Object Detection Post-processing
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+   std::vector<idsp::Box> boxes = {
+       {100, 100, 210, 210},
+       {105, 105, 215, 215},
+       {300, 300, 400, 400}
+   };
+   std::vector<float> scores = {0.9f, 0.75f, 0.8f};
+
+   // Apply NMS with IoU threshold 0.5
+   auto nms_result = idsp::image::NMS(boxes, scores, 0.5f);
+   if (!nms_result) {
+       std::cerr << "NMS failed: " << nms_result.status.msg << std::endl;
+       return 1;
+   }
+   std::vector<int> kept_indices = nms_result.value;
+   // kept_indices contains indices of boxes to keep, sorted by score descending
+
+Build and Linking
+-----------------
+
+To use the IDSP image processing library in your project, link against the `idsp` target provided by the CMake package:
+
+.. code-block:: cmake
+
+   find_package(idsp REQUIRED)
+   target_link_libraries(your_target PRIVATE idsp::idsp)
+
+This will automatically link both the C and C++ interfaces of the library.
+
+Thread Safety
+-------------
+
+All functions in the IDSP image processing library are thread-safe when called with distinct image objects. Shared access to the same image object from multiple threads requires external synchronization.
+
 
 _`License`
 ----------
