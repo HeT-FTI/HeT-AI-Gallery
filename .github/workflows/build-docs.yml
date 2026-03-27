@@ -48,14 +48,15 @@ jobs:
           mkdir -p documents/${{ matrix.repo.name }}/docs/doxygen/images
           rsync -av --delete cache-tmp/docs/sphinx/ documents/${{ matrix.repo.name }}/docs/sphinx
           rsync -av --delete cache-tmp/docs/images/ documents/${{ matrix.repo.name }}/docs/images
-          # rsync -av cache-tmp/docs/sphinx/ documents/${{ matrix.repo.name }}/docs/sphinx
-          # rsync -av cache-tmp/docs/images/ documents/${{ matrix.repo.name }}/docs/images
           mv cache-tmp/metadata.json documents/${{ matrix.repo.name }}/metadata.json
           mv cache-tmp/docs/build.py documents/${{ matrix.repo.name }}/docs/build.py
           mv cache-tmp/Doxyfile documents/${{ matrix.repo.name }}/Doxyfile
-          rm -rf cache-tmp || true
           
           python documents/${{ matrix.repo.name }}/docs/build.py  # let doxygen export empty
+          [ ! -f cache-tmp/sphinx/images/ALL_title_card.jpg ] && touch cache-tmp/sphinx/images/ALL_title_card.jpg
+          cp cache-tmp/sphinx/images/ALL_title_card.jpg documents/${{ matrix.repo.name }}/docs/sphinx/build/html/_images/ALL_title_card.png
+          
+          rm -rf cache-tmp || true
 
       - name: Upload built docs artifact
         uses: actions/upload-artifact@v4
