@@ -195,22 +195,34 @@
           this.show_card_list = [];
           // 筛选符合条件的元素
           const filteredRepos = this.config_yaml.repos.filter(element => element.type === item);
+          // 支持的图片后缀列表（按优先级排序，常用格式靠前）
+          const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'];
           // 并发处理所有异步操作
           const results = await Promise.all(
             filteredRepos.map(async (element) => {
-              let default_cover_image = `${this.STATIC}/pngs/all_title_card.png`;
-              let app_cover_image = `${this.DOCS}/${element.name}/_images/app_cover.png`;
+              let default_cover_image = `${this.STATIC}/pngs/ALL_title_card.png`;
               let app_description_url = `${this.DOCS}/${element.name}/_sources/description.txt`;
               let image_url = default_cover_image;
               let description = element?.description || "该APP暂无介绍说明";
-              // 并发检查封面和描述
-              const [coverImageResponse, descriptionResponse] = await Promise.all([
-                this.checkFileExists(app_cover_image),
-                this.checkFileExists(app_description_url)
-              ]);
-              if (coverImageResponse) {
-                image_url = app_cover_image;
+              
+              // 1. 构建所有可能的封面图片路径（动态后缀）
+              const possibleCoverPaths = imageExtensions.map(ext => 
+                `${this.DOCS}/${element.name}/_images/ALL_title_card${ext}`
+              );
+              
+              // 2. 并发检查所有可能的封面路径
+              const coverCheckResults = await Promise.all(
+                possibleCoverPaths.map(path => this.checkFileExists(path))
+              );
+              
+              // 3. 找到第一个存在的封面图片路径
+              const foundCoverIndex = coverCheckResults.findIndex(result => result !== false);
+              if (foundCoverIndex !== -1) {
+                image_url = possibleCoverPaths[foundCoverIndex];
               }
+              
+              // 4. 检查并读取描述文件
+              const descriptionResponse = await this.checkFileExists(app_description_url);
               if (descriptionResponse) {
                 try {
                   description = await descriptionResponse.text();
@@ -227,7 +239,6 @@
             })
           );
           this.show_card_list = results;
-          console.log("this.show_card_list-->",this.show_card_list)
           this.current_reposType = item;
         }
       } 
