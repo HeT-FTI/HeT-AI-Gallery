@@ -46,10 +46,10 @@ jobs:
           git clone --depth=1 "${{ matrix.repo.url }}" cache-tmp
           mkdir -p documents/${{ matrix.repo.name }}/docs
           mkdir -p documents/${{ matrix.repo.name }}/docs/doxygen/images
-          # rsync -av --delete cache-tmp/docs/sphinx/ documents/${{ matrix.repo.name }}/docs/sphinx
-          # rsync -av --delete cache-tmp/docs/images/ documents/${{ matrix.repo.name }}/docs/images
-          rsync -av cache-tmp/docs/sphinx/ documents/${{ matrix.repo.name }}/docs/sphinx
-          rsync -av cache-tmp/docs/images/ documents/${{ matrix.repo.name }}/docs/images
+          rsync -av --delete cache-tmp/docs/sphinx/ documents/${{ matrix.repo.name }}/docs/sphinx
+          rsync -av --delete cache-tmp/docs/images/ documents/${{ matrix.repo.name }}/docs/images
+          # rsync -av cache-tmp/docs/sphinx/ documents/${{ matrix.repo.name }}/docs/sphinx
+          # rsync -av cache-tmp/docs/images/ documents/${{ matrix.repo.name }}/docs/images
           mv cache-tmp/metadata.json documents/${{ matrix.repo.name }}/metadata.json
           mv cache-tmp/docs/build.py documents/${{ matrix.repo.name }}/docs/build.py
           mv cache-tmp/Doxyfile documents/${{ matrix.repo.name }}/Doxyfile
