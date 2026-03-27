@@ -1,0 +1,211 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>鸡翅智能测重系统 &mdash; fcpp 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=34088549"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="测量原理与算法" href="export.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            fcpp
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="export.html">测量原理与算法</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">fcpp</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">鸡翅智能测重系统</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id2">
+<h1><span class="target" id="id1">鸡翅智能测重系统</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h1>
+<section id="id4">
+<h2><span class="target" id="id3">产品简介</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>鸡翅智能测量系统是智能烤箱的核心功能模块，专为家庭厨房场景设计。
+通过内置摄像头拍摄图像，系统可自动完成鸡翅的尺寸测量和重量估算。</p>
+<p><strong>核心优势：</strong></p>
+<ul class="simple">
+<li><p>非接触式测量，无需额外操作，放入即可识别</p></li>
+<li><p>快速响应，测量结果即时反馈给烤箱控制系统</p></li>
+<li><p>重量估算误差 &lt; %，满足家庭烹饪精度要求</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2><span class="target" id="id5">功能特性</span><a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<section id="id8">
+<h3><span class="target" id="id7">透视畸变校正</span><a class="headerlink" href="#id8" title="链接到此标题。"></a></h3>
+<p>当相机以倾斜角度拍摄时，图像会产生透视畸变——近处物体显得更大，远处物体显得更小。
+系统自动校正这种畸变，确保测量结果准确可靠。</p>
+<figure class="align-center" id="id17">
+<a class="reference internal image-reference" href="_images/OUT_warp.jpg"><img alt="_images/OUT_warp.jpg" src="_images/OUT_warp.jpg" width="500" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1 </span><span class="caption-text">自动识别鸡翅轮廓并校正透视畸变</span><a class="headerlink" href="#id17" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id10">
+<h3><span class="target" id="id9">尺寸自动测量</span><a class="headerlink" href="#id10" title="链接到此标题。"></a></h3>
+<p>系统自动识别鸡翅轮廓，提取最小外接矩形，获取长轴和短轴尺寸，
+为后续体积估算和重量计算提供基础数据。</p>
+</section>
+<section id="id12">
+<h3><span class="target" id="id11">智能重量估算</span><a class="headerlink" href="#id12" title="链接到此标题。"></a></h3>
+<p>采用椭球体体积模型，根据测量尺寸自动计算鸡翅体积，并结合鸡肉密度参数估算重量。
+无需逐个称重，即可获得可靠的重量数据。</p>
+<figure class="align-center" id="id18">
+<a class="reference internal image-reference" href="_images/OUT_3d_model.png"><img alt="_images/OUT_3d_model.png" src="_images/OUT_3d_model.png" width="500" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 2 </span><span class="caption-text">基于椭球体模型的体积重建</span><a class="headerlink" href="#id18" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id14">
+<h3><span class="target" id="id13">数据输出接口</span><a class="headerlink" href="#id14" title="链接到此标题。"></a></h3>
+<p>系统为嵌入式平台提供简洁的数据输出接口，测量完成后直接输出结构化数据，
+便于智能烤箱主控系统调用：</p>
+<table class="docutils align-center" id="id19">
+<caption><span class="caption-number">表 1 </span><span class="caption-text">输出数据接口</span><a class="headerlink" href="#id19" title="链接到此表格。"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>参数</p></th>
+<th class="head"><p>类型</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>volume_cm3</p></td>
+<td><p>float</p></td>
+<td><p>估算体积（立方厘米）</p></td>
+</tr>
+<tr class="row-odd"><td><p>weight_g</p></td>
+<td><p>float</p></td>
+<td><p>估算重量（克）</p></td>
+</tr>
+<tr class="row-even"><td><p>major_axis_cm</p></td>
+<td><p>float</p></td>
+<td><p>长轴长度（厘米）</p></td>
+</tr>
+<tr class="row-odd"><td><p>minor_axis_cm</p></td>
+<td><p>float</p></td>
+<td><p>短轴长度（厘米）</p></td>
+</tr>
+<tr class="row-even"><td><p>confidence</p></td>
+<td><p>float</p></td>
+<td><p>测量置信度（0.0-1.0）</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>接口特点：</strong></p>
+<ul class="simple">
+<li><p>轻量级数据结构，适合嵌入式环境</p></li>
+<li><p>单次调用延迟 &lt; ms</p></li>
+<li><p>支持批量测量模式</p></li>
+<li><p>提供测量置信度评估</p></li>
+</ul>
+</section>
+</section>
+<section id="id16">
+<h2><span class="target" id="id15">更多详情</span><a class="headerlink" href="#id16" title="链接到此标题。"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="export.html">测量原理与算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="export.html#id4">测量流程概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export.html#id6">透视校正原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export.html#id12">重量估算模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export.html#id20">测量精度保障</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export.html#id24">使用建议</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="export.html" class="btn btn-neutral float-right" title="测量原理与算法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

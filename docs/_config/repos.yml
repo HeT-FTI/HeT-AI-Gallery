@@ -14,4 +14,16 @@ repos:
     url: git@github.com:HeT-FTI/idsp.git
     type: class-3
     description: idsp配置介绍
+  - name: facesen
+    url: git@github.com:HeT-FTI/facesen.git
+    type: class-1
+    description: facesen项目简介
+  - name: iseg
+    url: git@github.com:HeT-FTI/iseg.git
+    type: class-2
+    description: iseg项目简介
+  - name: objvoxel
+    url: git@github.com:HeT-FTI/objvoxel.git
+    type: class-3
+    description: objvoxel项目简介
  

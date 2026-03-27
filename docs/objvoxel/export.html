@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>测量原理与算法 &mdash; fcpp 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=34088549"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="prev" title="鸡翅智能测重系统" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            fcpp
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">测量原理与算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id4">测量流程概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">透视校正原理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">为什么需要透视校正？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">透视变换公式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">重量估算模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id14">椭球体体积模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">参数推断</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">重量计算</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id20">测量精度保障</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id22">相机参数配置</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id24">使用建议</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">fcpp</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">测量原理与算法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/export.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id2">
+<h1><span class="target" id="id1">测量原理与算法</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h1>
+<section id="id4">
+<h2><span class="target" id="id3">测量流程概述</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>系统采用图像处理技术，通过以下步骤完成测量：</p>
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+  <ol style="margin: 0; padding-left: 20px;">
+    <li style="margin: 10px 0;"><strong>图像采集</strong> — 相机拍摄鸡翅图像</li>
+    <li style="margin: 10px 0;"><strong>轮廓提取</strong> — 识别鸡翅边缘轮廓</li>
+    <li style="margin: 10px 0;"><strong>最小矩形计算</strong> — 计算外接矩形并获取长轴方向</li>
+    <li style="margin: 10px 0;"><strong>透视校正</strong> — 校正相机倾斜造成的畸变</li>
+    <li style="margin: 10px 0;"><strong>重量估算</strong> — 基于模型计算重量</li>
+    <li style="margin: 10px 0;"><strong>结果输出</strong> — 显示测量结果</li>
+  </ol>
+</div></section>
+<section id="id6">
+<h2><span class="target" id="id5">透视校正原理</span><a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<section id="id8">
+<h3><span class="target" id="id7">为什么需要透视校正？</span><a class="headerlink" href="#id8" title="链接到此标题。"></a></h3>
+<p>在实际产线环境中，相机通常安装在生产线上方，以一定倾斜角度拍摄。这种设置会导致：</p>
+<ul class="simple">
+<li><p><strong>近处区域</strong>：物体显示较大</p></li>
+<li><p><strong>远处区域</strong>：物体显示较小</p></li>
+<li><p><strong>测量误差</strong>：同一尺寸在不同位置呈现不同大小</p></li>
+</ul>
+<p>透视校正通过数学变换，将倾斜视角的图像&quot;拉平&quot;到正俯视角度，消除测量误差。</p>
+</section>
+<section id="id10">
+<h3><span class="target" id="id9">透视变换公式</span><a class="headerlink" href="#id10" title="链接到此标题。"></a></h3>
+<p>根据相机高度和俯仰角度计算透视变换矩阵：</p>
+<p><strong>像素/厘米比例计算：</strong></p>
+<div class="math notranslate nohighlight">
+\[\text{px/cm}(y) = \frac{W_{image}}{W_{real} \cdot \cos\theta \cdot (1 + \frac{y - y_c}{f \cdot \tan\theta})}\]</div>
+<p>其中：</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\theta\)</span> 为俯仰角度</p></li>
+<li><p><span class="math notranslate nohighlight">\(y\)</span> 为图像行坐标</p></li>
+<li><p><span class="math notranslate nohighlight">\(y_c\)</span> 为图像中心行</p></li>
+<li><p><span class="math notranslate nohighlight">\(f\)</span> 为相机焦距</p></li>
+</ul>
+<p><strong>透视变换矩阵：</strong></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix} x' \\ y' \\ w' \end{bmatrix} = \mathbf{M} \cdot \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}\end{split}\]</div>
+<p>变换后坐标：</p>
+<div class="math notranslate nohighlight">
+\[x_{new} = \frac{x'}{w'}, \quad y_{new} = \frac{y'}{w'}\]</div>
+<p>其中 <span class="math notranslate nohighlight">\(\mathbf{M}\)</span> 为 3×3 透视变换矩阵，由相机内外参计算得出。</p>
+</section>
+</section>
+<section id="id12">
+<h2><span class="target" id="id11">重量估算模型</span><a class="headerlink" href="#id12" title="链接到此标题。"></a></h2>
+<section id="id14">
+<h3><span class="target" id="id13">椭球体体积模型</span><a class="headerlink" href="#id14" title="链接到此标题。"></a></h3>
+<p>系统将鸡翅近似为椭球体，通过测量长轴、短轴和高度来计算体积：</p>
+<p><strong>体积公式：</strong></p>
+<div class="math notranslate nohighlight">
+\[V = \frac{4}{3}\pi \times a \times b \times c\]</div>
+<p>其中 a、b、c 分别为椭球体的三个半轴长度。</p>
+</section>
+<section id="id16">
+<h3><span class="target" id="id15">参数推断</span><a class="headerlink" href="#id16" title="链接到此标题。"></a></h3>
+<p>由于只能从图像获取长轴，系统采用饱和函数从长轴推断短轴和高度：</p>
+<div class="math notranslate nohighlight">
+\[y = A \times (1 - e^{-B \times L}) + C\]</div>
+<p>其中 L 为长轴长度，y 为推断的短轴或高度，A、B、C 为根据实测数据拟合的参数。短轴和高度分别使用不同的参数组进行推断。</p>
+</section>
+<section id="id18">
+<h3><span class="target" id="id17">重量计算</span><a class="headerlink" href="#id18" title="链接到此标题。"></a></h3>
+<p>重量由体积和密度相乘得出：</p>
+<div class="math notranslate nohighlight">
+\[W = V \times \rho\]</div>
+</section>
+</section>
+<section id="id20">
+<h2><span class="target" id="id19">测量精度保障</span><a class="headerlink" href="#id20" title="链接到此标题。"></a></h2>
+<section id="id22">
+<h3><span class="target" id="id21">相机参数配置</span><a class="headerlink" href="#id22" title="链接到此标题。"></a></h3>
+<p>为确保测量准确，需正确配置以下相机参数：</p>
+<table class="docutils align-center" id="id25">
+<caption><span class="caption-number">表 2 </span><span class="caption-text">相机配置参数</span><a class="headerlink" href="#id25" title="链接到此表格。"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>参数</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>相机高度</p></td>
+<td><p>相机到测量平面的垂直距离（厘米）</p></td>
+</tr>
+<tr class="row-odd"><td><p>俯仰角度</p></td>
+<td><p>相机光轴与垂直方向的夹角（度）</p></td>
+</tr>
+<tr class="row-even"><td><p>水平视场角</p></td>
+<td><p>相机水平方向的视场范围（度）</p></td>
+</tr>
+<tr class="row-odd"><td><p>图像分辨率</p></td>
+<td><p>拍摄图像的宽度和高度（像素）</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="id24">
+<h2><span class="target" id="id23">使用建议</span><a class="headerlink" href="#id24" title="链接到此标题。"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><strong>相机安装</strong>：建议相机高度 40-60cm，俯仰角度 20-40°，确保测量区域覆盖完整。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><strong>光照条件</strong>：保持均匀光照，避免强烈阴影或反光，有助于轮廓提取准确性。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><strong>定期校准</strong>：建议定期检查相机参数，确保测量精度稳定。</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="鸡翅智能测重系统" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
