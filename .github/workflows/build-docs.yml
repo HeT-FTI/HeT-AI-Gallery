@@ -53,8 +53,8 @@ jobs:
           mv cache-tmp/Doxyfile documents/${{ matrix.repo.name }}/Doxyfile
           
           python documents/${{ matrix.repo.name }}/docs/build.py  # let doxygen export empty
-          [ ! -f cache-tmp/docs/sphinx/images/ALL_title_card.png ] && touch cache-tmp/docs/sphinx/images/ALL_title_card.png
-          cp cache-tmp/docs/sphinx/images/ALL_title_card.png documents/${{ matrix.repo.name }}/docs/sphinx/build/html/_images/ALL_title_card.png
+          [ ! -f cache-tmp/docs/images/ALL_title_card.png ] && touch cache-tmp/docs/images/ALL_title_card.png
+          cp cache-tmp/docs/images/ALL_title_card.png documents/${{ matrix.repo.name }}/docs/sphinx/build/html/_images/ALL_title_card.png
           
           rm -rf cache-tmp || true
 
