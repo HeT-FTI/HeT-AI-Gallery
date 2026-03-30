@@ -1,80 +1,73 @@
-_`鸡翅智能测重系统`
-====================
+Object Intelligent Measurement System
+======================================
 
-_`产品简介`
------------
+Product Introduction
+--------------------
 
-鸡翅智能测量系统是智能烤箱的核心功能模块，专为家庭厨房场景设计。
-通过内置摄像头拍摄图像，系统可自动完成鸡翅的尺寸测量和重量估算。
+The Object Intelligent Measurement System is a core functional module for smart ovens, designed specifically for home kitchen scenarios.
+Through the built-in camera, the system automatically captures images and completes object dimension measurement and weight estimation.
 
-**核心优势：**
+**Core Advantages:**
 
-- 非接触式测量，无需额外操作，放入即可识别
-- 快速响应，测量结果即时反馈给烤箱控制系统
-- 重量估算误差 < %，满足家庭烹饪精度要求
+- Non-contact measurement, no extra operation required, ready to identify when placed
+- Fast response, measurement results are immediately fed back to the oven control system
+- Weight estimation error < 5%, meeting home cooking precision requirements
 
-_`功能特性`
------------
+Key Features
+------------
 
-_`透视畸变校正`
-^^^^^^^^^^^^^^^
+Perspective Distortion Correction
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-当相机以倾斜角度拍摄时，图像会产生透视畸变——近处物体显得更大，远处物体显得更小。
-系统自动校正这种畸变，确保测量结果准确可靠。
+When the camera shoots at a tilted angle, the image produces perspective distortion - objects closer appear larger, objects farther appear smaller.
+The system automatically corrects this distortion to ensure accurate and reliable measurement results.
 
 .. figure:: ../../images/OUT_warp.jpg
-   :width: 500
+   :width: 800
    :align: center
    
-   自动识别鸡翅轮廓并校正透视畸变
+   Automatic object contour recognition and perspective distortion correction
 
-_`尺寸自动测量`
-^^^^^^^^^^^^^^^
+Automatic Dimension Measurement
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-系统自动识别鸡翅轮廓，提取最小外接矩形，获取长轴和短轴尺寸，
-为后续体积估算和重量计算提供基础数据。
+The system automatically identifies object contours, extracts the minimum bounding rectangle, and obtains major and minor axis dimensions,
+providing basic data for subsequent volume estimation and weight calculation.
 
-_`智能重量估算`
-^^^^^^^^^^^^^^^
+Intelligent Weight Estimation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-采用椭球体体积模型，根据测量尺寸自动计算鸡翅体积，并结合鸡肉密度参数估算重量。
-无需逐个称重，即可获得可靠的重量数据。
+Using an ellipsoid volume model, the system automatically calculates object volume based on measured dimensions, and estimates weight combined with density parameters.
+Reliable weight data can be obtained without individual weighing.
 
 .. figure:: ../../images/OUT_3d_model.png
    :width: 500
    :align: center
    
-   基于椭球体模型的体积重建
+   Volume reconstruction based on ellipsoid model
 
-_`数据输出接口`
-^^^^^^^^^^^^^^^
+Data Output Interface
+^^^^^^^^^^^^^^^^^^^^^
 
-系统为嵌入式平台提供简洁的数据输出接口，测量完成后直接输出结构化数据，
-便于智能烤箱主控系统调用：
+The system provides a concise data output interface for embedded platforms. After measurement completion, structured data is directly output,
+facilitating calls from the smart oven main control system:
 
-.. table:: 输出数据接口
+.. table:: Output Data Interface
    :align: center
 
    ============== ========== =================================
-   参数           类型       说明
+   Parameter      Type       Description
    ============== ========== =================================
-   volume_cm3     float      估算体积（立方厘米）
-   weight_g       float      估算重量（克）
-   major_axis_cm  float      长轴长度（厘米）
-   minor_axis_cm  float      短轴长度（厘米）
-   confidence     float      测量置信度（0.0-1.0）
+   volume_cm3     float      Estimated volume (cubic centimeters)
+   weight_g       float      Estimated weight (grams)
+   major_axis_cm  float      Major axis length (centimeters)
+   minor_axis_cm  float      Minor axis length (centimeters)
+   confidence     float      Measurement confidence (0.0-1.0)
    ============== ========== =================================
 
-**接口特点：**
+**Interface Features:**
 
-- 轻量级数据结构，适合嵌入式环境
-- 单次调用延迟 < ms
-- 支持批量测量模式
-- 提供测量置信度评估
-
-_`更多详情`
------------
-
-.. toctree::
-   测量原理与算法 <export>
-   :maxdepth: 2
+- Lightweight data structure, suitable for embedded environments
+- Single call latency < 25ms
+- Supports batch measurement mode
+- Provides measurement confidence evaluation

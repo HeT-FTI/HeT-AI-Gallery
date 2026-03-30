@@ -1,21 +1,26 @@
-_`fcpp Project Documentation`
-=============================
+_`Face Detection Project Documentation`
+=========================================
 
 _`Introduction`
 ---------------
 
-fcpp is a modern C/C++ library development framework that integrates advanced build systems, dependency
-management, and modular development support.
+This project implements a **face detection system** using OpenCV's cascade classifiers. 
+It provides a complete pipeline for detecting faces in images and real-time video streams, 
+with configurable detection parameters and logging support.
 
 _`Main Features`
 ----------------
 
-- Support for mixed C and C++ programming
+- Supports both **Haar** and **LBP** cascade classifiers
+- **Real-time camera support** – detects faces from webcam input
+- **Configurable parameters** – adjustable scale factor, minimum neighbors, and detection size
+- **Model management** – automatically scans and loads XML model files
+- **Logging system** – built-in logger with developer mode for debugging
+- **Image utilities** – loading, preprocessing, and result visualization
 - Built-in C++20 module support
 - Conan-based dependency management
 - Cross-platform build support (Windows/Linux/macOS)
-- Automated code generation and processing
-- Intelligent header and module conversion
+- Mixed C and C++ programming support
 
 _`Quick Start`
 --------------
@@ -31,31 +36,136 @@ _`Quick Start`
    # Create the package
    conan create .
 
+_`Applying results`
+-------------------
+
+The following illustration shows face detection results:
+
+.. figure:: ../../images/OUT_demo1.jpg
+   :name: face detection 1
+   :width: 600
+   :align: center
+
+   Face detection example 1
+
+.. figure:: ../../images/OUT_demo2.jpg
+   :name: face detection 2
+   :width: 600
+   :align: center
+
+   Face detection example 2
+
+.. figure:: ../../images/OUT_demo3.jpg
+   :name: face detection 3
+   :width: 600
+   :align: center
+
+   Face detection example 3
+
+With this face detection algorithm, you can extract face regions from pictures for downstream applications.
+
+_`Usage Example`
+----------------
+
+.. code-block:: cpp
+
+   #include "facedetector.hpp"
+   #include "cfg.hpp"
+
+   int main() {
+       // Load configuration
+       FaceDetectConfig config;
+       config.loadModel("./models");
+       
+       // Create detector
+       auto detectors = FaceDetector::loadFromConfig(config);
+       FaceDetector* detector = detectors[0];
+       
+       // Detect faces
+       cv::Mat image = cv::imread("test.jpg");
+       DetectionResult result = detector->detect(image);
+       
+       // Draw and save results
+       ImageUtils::drawResults(image, result.faces, 
+                               result.modelName, result.timeMs);
+       cv::imwrite("result.jpg", image);
+       
+       // Clean up
+       FaceDetector::cleanup(detectors);
+       return 0;
+   }
+
+_`Usage demonstration`
+----------------------
+
+The face detection function processes an input image and returns detected face regions. It
+automatically loads the specified cascade model and applies detection with configurable parameters.
+
+.. code-block:: cpp
+   :caption: face detection demo
+   :name: face detection demo
+
+   #include "facedetector.hpp"
+   #include "cfg.hpp"
+
+   int main() {
+       // Load configuration
+       FaceDetectConfig config;
+       config.loadModel("./models");
+       
+       // Create detector
+       auto detectors = FaceDetector::loadFromConfig(config);
+       FaceDetector* detector = detectors[0];
+       
+       // Detect faces
+       cv::Mat image = cv::imread("test.jpg");
+       DetectionResult result = detector->detect(image);
+       
+       // Draw and save results
+       ImageUtils::drawResults(image, result.faces, 
+                               result.modelName, result.timeMs);
+       cv::imwrite("result.jpg", image);
+       
+       // Clean up
+       FaceDetector::cleanup(detectors);
+       return 0;
+   }
+
 _`Project Structure`
 --------------------
 
 ::
 
-   fcpp/
+   face-detection/
    ├── include/         # Header files
+   │   ├── cfg.hpp
+   │   ├── detector.hpp
+   │   ├── facedetector.hpp
+   │   ├── imageutils.hpp
+   │   └── logger.hpp
    ├── src/             # Source files
+   │   ├── cfg.cpp
+   │   ├── facedetector.cpp
+   │   └── imageutils.cpp
+   ├── test_package/    # Testing package
+   ├── docs/            # Documentation
    ├── CMakeLists.txt   # CMake build configuration
    ├── conanfile.py     # Conan package configuration
    ├── metadata.json    # Project metadata
    └── LICENSE          # License file
 
-_`Detailed Settings`
---------------------
+_`Theories or introduction`
+---------------------------
 
-For detailed settings in project-level meta, conan recipe, or cmake file, see:
+Face detection in :code:`cascade` is implemented using OpenCV's cascade classifiers. The algorithm uses
+a Haar or LBP cascade to scan images at multiple scales, detecting facial features through a
+trained classifier. The detector outputs bounding boxes around detected faces, with configurable
+parameters for sensitivity and accuracy.
 
-.. toctree::
-   CMakeList <components/cmake>
-   Conanfile <components/conan>
-   Metadata <components/meta>
-   User concern contents <export>
-   :numbered:
-   :maxdepth: 2
+The detection process involves:
+- Image pyramid scaling for multi-scale detection
+- Feature extraction using integral images
+- Cascade classification with stages of increasingly complex features
 
 _`License`
 ----------

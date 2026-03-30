@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fcpp Project Documentation &mdash; fcpp 1.0.0 文档</title>
+  <title>Face Detection Project Documentation &mdash; cascade 1.0.0 文档</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=1f3f84dc" />
@@ -21,8 +21,7 @@
       <script src="_static/translations.js?v=540d3cec"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="1. CMakeLists Configuration" href="components/cmake.html" /> 
+    <link rel="search" title="搜索" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,7 +33,7 @@
           
           
           <a href="#" class="icon icon-home">
-            fcpp
+            cascade
               <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -45,20 +44,29 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="components/cmake.html">1. CMakeList</a></li>
-<li class="toctree-l1"><a class="reference internal" href="components/conan.html">2. Conanfile</a></li>
-<li class="toctree-l1"><a class="reference internal" href="components/meta.html">3. Metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="export.html">4. User concern contents</a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Face Detection Project Documentation</a><ul>
+<li><a class="reference internal" href="#id2">Introduction</a></li>
+<li><a class="reference internal" href="#id3">Main Features</a></li>
+<li><a class="reference internal" href="#id4">Quick Start</a></li>
+<li><a class="reference internal" href="#id5">Applying results</a></li>
+<li><a class="reference internal" href="#id6">Usage Example</a></li>
+<li><a class="reference internal" href="#id7">Usage demonstration</a></li>
+<li><a class="reference internal" href="#id8">Project Structure</a></li>
+<li><a class="reference internal" href="#id9">Theories or introduction</a></li>
+<li><a class="reference internal" href="#id10">License</a></li>
 </ul>
-
+</li>
+</ul>
+</div>
         </div>
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">fcpp</a>
+          <a href="#">cascade</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -66,7 +74,7 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">fcpp Project Documentation</li>
+      <li class="breadcrumb-item active">Face Detection Project Documentation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> 查看页面源码</a>
       </li>
@@ -77,20 +85,26 @@
            <div itemprop="articleBody">
              
   <section id="id1">
-<h1><span class="target" id="fcpp-project-documentation">fcpp Project Documentation</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<h1><span class="target" id="face-detection-project-documentation">Face Detection Project Documentation</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
 <section id="id2">
 <h2><span class="target" id="introduction">Introduction</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
-<p>先进的构建系统、依赖项管理以及模块化开发支持。</p>
+<p>This project implements a <strong>face detection system</strong> using OpenCV's cascade classifiers.
+It provides a complete pipeline for detecting faces in images and real-time video streams,
+with configurable detection parameters and logging support.</p>
 </section>
 <section id="id3">
 <h2><span class="target" id="main-features">Main Features</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
 <ul class="simple">
-<li><p>Support for mixed C and C++ programming</p></li>
+<li><p>Supports both <strong>Haar</strong> and <strong>LBP</strong> cascade classifiers</p></li>
+<li><p><strong>Real-time camera support</strong> – detects faces from webcam input</p></li>
+<li><p><strong>Configurable parameters</strong> – adjustable scale factor, minimum neighbors, and detection size</p></li>
+<li><p><strong>Model management</strong> – automatically scans and loads XML model files</p></li>
+<li><p><strong>Logging system</strong> – built-in logger with developer mode for debugging</p></li>
+<li><p><strong>Image utilities</strong> – loading, preprocessing, and result visualization</p></li>
 <li><p>Built-in C++20 module support</p></li>
 <li><p>Conan-based dependency management</p></li>
 <li><p>Cross-platform build support (Windows/Linux/macOS)</p></li>
-<li><p>Automated code generation and processing</p></li>
-<li><p>Intelligent header and module conversion</p></li>
+<li><p>Mixed C and C++ programming support</p></li>
 </ul>
 </section>
 <section id="id4">
@@ -107,10 +121,111 @@ conan<span class="w"> </span>create<span class="w"> </span>.
 </div>
 </section>
 <section id="id5">
-<h2><span class="target" id="project-structure">Project Structure</span><a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>fcpp/
+<h2><span class="target" id="applying-results">Applying results</span><a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
+<p>The following illustration shows face detection results:</p>
+<figure class="align-center" id="face-detection-1">
+<a class="reference internal image-reference" href="_images/OUT_demo1.jpg"><img alt="_images/OUT_demo1.jpg" src="_images/OUT_demo1.jpg" width="600" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1 </span><span class="caption-text">Face detection example 1</span><a class="headerlink" href="#face-detection-1" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="face-detection-2">
+<a class="reference internal image-reference" href="_images/OUT_demo2.jpg"><img alt="_images/OUT_demo2.jpg" src="_images/OUT_demo2.jpg" width="600" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 2 </span><span class="caption-text">Face detection example 2</span><a class="headerlink" href="#face-detection-2" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="face-detection-3">
+<a class="reference internal image-reference" href="_images/OUT_demo3.jpg"><img alt="_images/OUT_demo3.jpg" src="_images/OUT_demo3.jpg" width="600" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3 </span><span class="caption-text">Face detection example 3</span><a class="headerlink" href="#face-detection-3" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>With this face detection algorithm, you can extract face regions from pictures for downstream applications.</p>
+</section>
+<section id="id6">
+<h2><span class="target" id="usage-example">Usage Example</span><a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;facedetector.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cfg.hpp&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Load configuration</span>
+<span class="w">    </span><span class="n">FaceDetectConfig</span><span class="w"> </span><span class="n">config</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">loadModel</span><span class="p">(</span><span class="s">&quot;./models&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Create detector</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">detectors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FaceDetector</span><span class="o">::</span><span class="n">loadFromConfig</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="w">    </span><span class="n">FaceDetector</span><span class="o">*</span><span class="w"> </span><span class="n">detector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detectors</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// Detect faces</span>
+<span class="w">    </span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cv</span><span class="o">::</span><span class="n">imread</span><span class="p">(</span><span class="s">&quot;test.jpg&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">DetectionResult</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detector</span><span class="o">-&gt;</span><span class="n">detect</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Draw and save results</span>
+<span class="w">    </span><span class="n">ImageUtils</span><span class="o">::</span><span class="n">drawResults</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">faces</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">result</span><span class="p">.</span><span class="n">modelName</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">timeMs</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cv</span><span class="o">::</span><span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;result.jpg&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">image</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Clean up</span>
+<span class="w">    </span><span class="n">FaceDetector</span><span class="o">::</span><span class="n">cleanup</span><span class="p">(</span><span class="n">detectors</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2><span class="target" id="usage-demonstration">Usage demonstration</span><a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<p>The face detection function processes an input image and returns detected face regions. It
+automatically loads the specified cascade model and applies detection with configurable parameters.</p>
+<div class="literal-block-wrapper docutils container" id="face-detection-demo">
+<div class="code-block-caption"><span class="caption-number">Code 1 </span><span class="caption-text">face detection demo</span><a class="headerlink" href="#face-detection-demo" title="链接到此段代码"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;facedetector.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cfg.hpp&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Load configuration</span>
+<span class="w">    </span><span class="n">FaceDetectConfig</span><span class="w"> </span><span class="n">config</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">loadModel</span><span class="p">(</span><span class="s">&quot;./models&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Create detector</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">detectors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FaceDetector</span><span class="o">::</span><span class="n">loadFromConfig</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="w">    </span><span class="n">FaceDetector</span><span class="o">*</span><span class="w"> </span><span class="n">detector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detectors</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// Detect faces</span>
+<span class="w">    </span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cv</span><span class="o">::</span><span class="n">imread</span><span class="p">(</span><span class="s">&quot;test.jpg&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">DetectionResult</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detector</span><span class="o">-&gt;</span><span class="n">detect</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Draw and save results</span>
+<span class="w">    </span><span class="n">ImageUtils</span><span class="o">::</span><span class="n">drawResults</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">faces</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">result</span><span class="p">.</span><span class="n">modelName</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">timeMs</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cv</span><span class="o">::</span><span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;result.jpg&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">image</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Clean up</span>
+<span class="w">    </span><span class="n">FaceDetector</span><span class="o">::</span><span class="n">cleanup</span><span class="p">(</span><span class="n">detectors</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h2><span class="target" id="project-structure">Project Structure</span><a class="headerlink" href="#id8" title="链接到此标题。"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>face-detection/
 ├── include/         # Header files
+│   ├── cfg.hpp
+│   ├── detector.hpp
+│   ├── facedetector.hpp
+│   ├── imageutils.hpp
+│   └── logger.hpp
 ├── src/             # Source files
+│   ├── cfg.cpp
+│   ├── facedetector.cpp
+│   └── imageutils.cpp
+├── test_package/    # Testing package
+├── docs/            # Documentation
 ├── CMakeLists.txt   # CMake build configuration
 ├── conanfile.py     # Conan package configuration
 ├── metadata.json    # Project metadata
@@ -118,41 +233,19 @@ conan<span class="w"> </span>create<span class="w"> </span>.
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h2><span class="target" id="detailed-settings">Detailed Settings</span><a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
-<p>For detailed settings in project-level meta, conan recipe, or cmake file, see:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="components/cmake.html">1. CMakeList</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="components/cmake.html#id2">1.1. Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/cmake.html#id3">1.2. Key Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/cmake.html#id4">1.3. Main Configurations</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="components/conan.html">2. Conanfile</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="components/conan.html#id2">2.1. Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/conan.html#id3">2.2. Main Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/conan.html#id4">2.3. Core Functionality</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="components/meta.html">3. Metadata</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="components/meta.html#id2">3.1. Project-level Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/meta.html#id3">3.2. File Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/meta.html#id4">3.3. Key Settings</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="export.html">4. User concern contents</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="export.html#id2">4.1. Theories or introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="export.html#id3">4.2. Usage demonstration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="export.html#id4">4.3. Applying results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="export.html#id5">4.4. Algorithm benchmark from test frame</a></li>
-</ul>
-</li>
-</ul>
-</div>
+<section id="id9">
+<h2><span class="target" id="theories-or-introduction">Theories or introduction</span><a class="headerlink" href="#id9" title="链接到此标题。"></a></h2>
+<p>Face detection in <code class="code docutils literal notranslate"><span class="pre">cascade</span></code> is implemented using OpenCV's cascade classifiers. The algorithm uses
+a Haar or LBP cascade to scan images at multiple scales, detecting facial features through a
+trained classifier. The detector outputs bounding boxes around detected faces, with configurable
+parameters for sensitivity and accuracy.</p>
+<p>The detection process involves:
+- Image pyramid scaling for multi-scale detection
+- Feature extraction using integral images
+- Cascade classification with stages of increasingly complex features</p>
 </section>
-<section id="id7">
-<h2><span class="target" id="license">License</span><a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<section id="id10">
+<h2><span class="target" id="license">License</span><a class="headerlink" href="#id10" title="链接到此标题。"></a></h2>
 <p>This project is licensed under the Apache-2.0 License. See the LICENSE file for details.</p>
 </section>
 </section>
@@ -160,9 +253,7 @@ conan<span class="w"> </span>create<span class="w"> </span>.
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="components/cmake.html" class="btn btn-neutral float-right" title="1. CMakeLists Configuration" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
