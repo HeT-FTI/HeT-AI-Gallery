@@ -235,14 +235,13 @@ automatically loads the specified cascade model and applies detection with confi
 </section>
 <section id="id9">
 <h2><span class="target" id="theories-or-introduction">Theories or introduction</span><a class="headerlink" href="#id9" title="链接到此标题。"></a></h2>
-<p>Face detection in <code class="code docutils literal notranslate"><span class="pre">cascade</span></code> is implemented using OpenCV's cascade classifiers. The algorithm uses
-a Haar or LBP cascade to scan images at multiple scales, detecting facial features through a
-trained classifier. The detector outputs bounding boxes around detected faces, with configurable
-parameters for sensitivity and accuracy.</p>
-<p>The detection process involves:
-- Image pyramid scaling for multi-scale detection
-- Feature extraction using integral images
-- Cascade classification with stages of increasingly complex features</p>
+<p>Face detection in <code class="code docutils literal notranslate"><span class="pre">cascade</span></code> is implemented using a sliding window approach with multi-scale image pyramids.
+The detector scans input images at various scales to locate facial regions, and returns bounding boxes around detected faces.
+Key detection parameters such as scale factor, minimum neighbors, and minimum face size are configurable to balance sensitivity and accuracy.</p>
+<p>The detection pipeline includes:
+- Multi-scale scanning to handle faces of different sizes
+- Adaptive thresholding to reduce false positives
+- Efficient region-of-interest processing</p>
 </section>
 <section id="id10">
 <h2><span class="target" id="license">License</span><a class="headerlink" href="#id10" title="链接到此标题。"></a></h2>
