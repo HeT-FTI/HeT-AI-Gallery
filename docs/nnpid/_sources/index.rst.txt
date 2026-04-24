@@ -1,0 +1,46 @@
+_`NNPID Overview`
+=================
+
+NNPID is a lightweight C/C++ library for adaptive PID control.
+It uses handwritten BP neural-network logic to adjust ``Kp``, ``Ki``, and ``Kd`` online,
+so the controller can respond better when system characteristics change during operation.
+
+For users, the key point is simple:
+
+- you provide the target value and measured value,
+- the library computes the control output,
+- the PID gains are adjusted gradually during runtime.
+
+_`Why Use It`
+-------------
+
+- Reduces repeated manual PID retuning
+- Suitable for desktop validation and embedded-oriented workflows
+- Pure C++ implementation with no external neural-network dependency
+- Small project structure and direct integration path
+
+_`Typical Use`
+--------------
+
+NNPID is suitable when you want a controller that starts from ordinary PID behavior but can continue adapting
+while the plant or operating condition changes.
+
+Typical cases include:
+
+- step-response control experiments,
+- disturbance rejection tests,
+- embedded control loops that need lightweight adaptive behavior.
+
+_`User Notes`
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
+   Result Interpretation <export>
+   Build Components <components/index>
+
+_`License`
+----------
+
+This project is licensed under Apache-2.0. See the LICENSE file for details.

@@ -1,0 +1,181 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Result Interpretation &mdash; fcpp-nnpid 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=1f3f84dc" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.jpg"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=34088549"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Build Components" href="components/index.html" />
+    <link rel="prev" title="NNPID Overview" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            fcpp-nnpid
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Result Interpretation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">What Good Behavior Looks Like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Basic Recommendation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Collaboration Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Visual Demonstrations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Steady-State Error Reduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Oscillation Suppression</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="components/index.html">Build Components</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">fcpp-nnpid</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Result Interpretation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/export.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="result-interpretation">Result Interpretation</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>When using NNPID, the most important runtime quantities are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">setpoint</span></code>: the target value,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">measured</span></code>: the actual process output,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output</span></code>: the control command,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kp</span> <span class="pre">/</span> <span class="pre">ki</span> <span class="pre">/</span> <span class="pre">kd</span></code>: the current adaptive PID gains.</p></li>
+</ul>
+<section id="id2">
+<h2><span class="target" id="what-good-behavior-looks-like">What Good Behavior Looks Like</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>In normal use, users generally want to see:</p>
+<ul class="simple">
+<li><p>smaller tracking error after repeated operation,</p></li>
+<li><p>acceptable overshoot,</p></li>
+<li><p>smoother settling,</p></li>
+<li><p>gains that change gradually instead of jumping violently.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2><span class="target" id="basic-recommendation">Basic Recommendation</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>Before applying NNPID to a real system, run at least one step test and one disturbance test.
+If the output remains saturated for long periods or gain values fluctuate too aggressively, reduce adaptation aggressiveness
+and re-check your sampling period.</p>
+</section>
+<section id="id4">
+<h2><span class="target" id="collaboration-notes">Collaboration Notes</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>When sharing results with collaborators, it is usually enough to provide:</p>
+<ul class="simple">
+<li><p>the test scenario,</p></li>
+<li><p>the initial PID gains,</p></li>
+<li><p>the final tracking result,</p></li>
+<li><p>a short description of overshoot and settling quality.</p></li>
+</ul>
+</section>
+<section id="id5">
+<h2><span class="target" id="visual-demonstrations">Visual Demonstrations</span><a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
+<p>The following plots are synchronized from the latest comparison tests and stored under <code class="docutils literal notranslate"><span class="pre">docs/images</span></code>
+with simplified <code class="docutils literal notranslate"><span class="pre">OUT_</span></code> naming for documentation publishing.</p>
+<section id="id6">
+<h3><span class="target" id="steady-state-error-reduction">Steady-State Error Reduction</span><a class="headerlink" href="#id6" title="链接到此标题。"></a></h3>
+<a class="reference internal image-reference" href="_images/OUT_steady_state.png"><img alt="Steady-state error comparison between fixed PID and NNPID" src="_images/OUT_steady_state.png" style="width: 100%;" />
+</a>
+<p>Scenario summary:</p>
+<ul class="simple">
+<li><p>Fixed PID starts from P-dominant settings and keeps visible static bias.</p></li>
+<li><p>NNPID gradually increases integral contribution and reduces long-term tracking offset.</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3><span class="target" id="oscillation-suppression">Oscillation Suppression</span><a class="headerlink" href="#id7" title="链接到此标题。"></a></h3>
+<a class="reference internal image-reference" href="_images/OUT_oscillation.png"><img alt="Oscillation suppression comparison between fixed PID and NNPID" src="_images/OUT_oscillation.png" style="width: 100%;" />
+</a>
+<p>Scenario summary:</p>
+<ul class="simple">
+<li><p>Fixed PID with aggressive gains shows persistent overshoot and oscillation.</p></li>
+<li><p>NNPID learns to reduce aggressive gains and introduces damping for faster stabilization.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="NNPID Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="components/index.html" class="btn btn-neutral float-right" title="Build Components" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

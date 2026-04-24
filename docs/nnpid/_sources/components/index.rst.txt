@@ -1,0 +1,11 @@
+_`Build Components`
+====================
+
+This section documents project-level build and metadata configuration files.
+
+.. toctree::
+   :maxdepth: 1
+
+   CMakeLists Configuration <cmake>
+   Conanfile Configuration <conan>
+   Metadata Configuration <meta>
