@@ -26,4 +26,8 @@ repos:
     url: git@github.com:HeT-FTI/objvoxel.git
     type: class-3
     description: objvoxel项目简介
+  - name: nnpid
+    url: git@github.com:HeT-FTI/nnpid.git
+    type: class-1
+    description: 自适应PID控制
  
