@@ -1,18 +1,18 @@
 :root {
-  --bg-primary: #06111f;
-  --bg-secondary: #0b1b30;
-  --panel-bg: rgba(10, 24, 42, 0.76);
-  --panel-strong: rgba(9, 20, 36, 0.9);
-  --panel-soft: rgba(255, 255, 255, 0.05);
-  --border-soft: rgba(148, 188, 255, 0.16);
-  --border-strong: rgba(122, 180, 255, 0.28);
-  --text-primary: #eef6ff;
-  --text-secondary: #98adc8;
-  --text-muted: #6f85a4;
-  --accent: #67d4ff;
-  --accent-strong: #8af0ff;
-  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.34);
-  --shadow-md: 0 14px 30px rgba(0, 0, 0, 0.24);
+  --bg-primary: #f7fafe;
+  --bg-secondary: #eef3fa;
+  --panel-bg: rgba(255, 255, 255, 0.9);
+  --panel-strong: rgba(255, 255, 255, 0.96);
+  --panel-soft: rgba(255, 255, 255, 0.65);
+  --border-soft: rgba(145, 166, 197, 0.24);
+  --border-strong: rgba(100, 137, 188, 0.36);
+  --text-primary: #1d2a3b;
+  --text-secondary: #5f738f;
+  --text-muted: #7e90a8;
+  --accent: #3b82c7;
+  --accent-strong: #255f9c;
+  --shadow-lg: 0 18px 44px rgba(82, 103, 130, 0.16);
+  --shadow-md: 0 10px 26px rgba(82, 103, 130, 0.12);
 }
 
 html,
@@ -24,9 +24,9 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
   background:
-    radial-gradient(circle at top left, rgba(88, 196, 255, 0.2), transparent 28%),
-    radial-gradient(circle at 85% 18%, rgba(79, 130, 255, 0.16), transparent 24%),
-    linear-gradient(135deg, var(--bg-primary), var(--bg-secondary) 48%, #081624 100%);
+    radial-gradient(circle at top left, rgba(105, 162, 233, 0.14), transparent 34%),
+    radial-gradient(circle at 85% 18%, rgba(132, 177, 231, 0.16), transparent 26%),
+    linear-gradient(140deg, #fbfdff, var(--bg-primary) 46%, var(--bg-secondary) 100%);
   color: var(--text-primary);
   font-family: "Avenir Next", "Segoe UI Variable", "Noto Sans SC", "PingFang SC", sans-serif;
 }
@@ -37,11 +37,11 @@ body::before {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(124, 168, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124, 168, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(150, 176, 211, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 176, 211, 0.1) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: radial-gradient(circle at center, black 55%, transparent 100%);
-  opacity: 0.26;
+  opacity: 0.18;
 }
 
 #app {
@@ -67,7 +67,7 @@ body::before {
   padding: 24px 32px;
   border: 1px solid var(--border-soft);
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(15, 32, 54, 0.88), rgba(8, 19, 35, 0.82));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 250, 255, 0.9));
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(18px);
 }
@@ -79,7 +79,7 @@ body::before {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-primary);
-  text-shadow: 0 0 18px rgba(102, 213, 255, 0.18);
+  text-shadow: 0 8px 18px rgba(111, 143, 181, 0.2);
 }
 
 #bottom_div {
@@ -106,7 +106,7 @@ body::before {
   overflow: hidden;
   border: 1px solid var(--border-soft);
   border-radius: 24px;
-  background: var(--panel-bg);
+  background: linear-gradient(180deg, var(--panel-strong), #f6f9fd);
   box-shadow: var(--shadow-md);
   backdrop-filter: blur(18px);
 }
@@ -128,7 +128,7 @@ body::before {
   gap: 6px;
   background: transparent;
   scrollbar-width: thin;
-  scrollbar-color: rgba(107, 154, 220, 0.4) transparent;
+  scrollbar-color: rgba(124, 151, 190, 0.38) transparent;
 }
 
 #navigation_item.collapsed {
@@ -154,15 +154,15 @@ body::before {
 #navigation_item .el-button--text:hover,
 #navigation_item .el-button--text:focus {
   color: var(--text-primary);
-  background: rgba(103, 212, 255, 0.08);
-  border-color: rgba(103, 212, 255, 0.16);
+  background: rgba(81, 128, 191, 0.08);
+  border-color: rgba(81, 128, 191, 0.16);
 }
 
 #navigation_collapse_trigger {
   width: 42px;
   height: 100%;
   flex-shrink: 0;
-  background: linear-gradient(180deg, rgba(103, 212, 255, 0.16), rgba(103, 212, 255, 0.04));
+  background: linear-gradient(180deg, rgba(82, 125, 186, 0.12), rgba(82, 125, 186, 0.04));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -195,12 +195,12 @@ body::before {
 }
 
 #navigation_collapse_trigger:hover {
-  background: linear-gradient(180deg, rgba(103, 212, 255, 0.24), rgba(103, 212, 255, 0.08));
-  box-shadow: inset 0 0 24px rgba(103, 212, 255, 0.12);
+  background: linear-gradient(180deg, rgba(82, 125, 186, 0.2), rgba(82, 125, 186, 0.08));
+  box-shadow: inset 0 0 18px rgba(82, 125, 186, 0.12);
 }
 
 #navigation_collapse_trigger:active {
-  background: linear-gradient(180deg, rgba(103, 212, 255, 0.3), rgba(103, 212, 255, 0.1));
+  background: linear-gradient(180deg, rgba(82, 125, 186, 0.26), rgba(82, 125, 186, 0.1));
 }
 
 #card_area {
@@ -219,7 +219,7 @@ body::before {
 .hover-card {
   width: min(100%, 380px);
   height: 160px;
-  background: linear-gradient(180deg, rgba(16, 34, 57, 0.94), rgba(9, 21, 37, 0.92));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 249, 255, 0.9));
   border: 1px solid var(--border-soft);
   border-radius: 22px;
   box-shadow: var(--shadow-md);
@@ -233,7 +233,7 @@ body::before {
 
 .hover-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.34);
+  box-shadow: 0 16px 36px rgba(82, 103, 130, 0.2);
   border-color: var(--border-strong);
   z-index: 10;
 }
@@ -253,7 +253,7 @@ body::before {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.08));
 }
 
 .custom-tooltip {
@@ -262,9 +262,9 @@ body::before {
   word-wrap: break-word;
   white-space: normal !important;
   line-height: 1.6;
-  border: 1px solid rgba(104, 165, 255, 0.16);
-  background: rgba(8, 18, 32, 0.96) !important;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(136, 161, 199, 0.32);
+  background: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 12px 24px rgba(82, 103, 130, 0.18);
 }
 
 .custom-tooltip .tooltip-inner {
@@ -314,9 +314,9 @@ body::before {
   justify-content: center;
   align-items: center;
   border-radius: 18px;
-  border: 1px solid rgba(129, 193, 255, 0.2);
-  background: linear-gradient(180deg, rgba(15, 39, 66, 0.95), rgba(9, 22, 38, 0.92));
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(136, 161, 199, 0.32);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(243, 248, 254, 0.95));
+  box-shadow: 0 12px 30px rgba(82, 103, 130, 0.2);
   cursor: grab;
   user-select: none;
   backdrop-filter: blur(18px);
@@ -326,14 +326,14 @@ body::before {
 .navigation-collapse-btn:active {
   cursor: grabbing;
   transform: scale(0.96);
-  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.34);
+  box-shadow: 0 14px 30px rgba(82, 103, 130, 0.24);
 }
 
 .navigation-collapse-btn:hover {
   transform: translateY(-2px);
-  border-color: rgba(138, 240, 255, 0.34);
-  background: linear-gradient(180deg, rgba(19, 48, 80, 0.96), rgba(10, 26, 44, 0.94));
-  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.34);
+  border-color: rgba(100, 137, 188, 0.4);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(238, 245, 253, 0.96));
+  box-shadow: 0 16px 36px rgba(82, 103, 130, 0.22);
 }
 
 .navigation-collapse-btn:hover .line:nth-child(2) {
@@ -352,10 +352,10 @@ body::before {
 .navigation-collapse-btn .line {
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(138, 240, 255, 0.9));
+  background: linear-gradient(90deg, rgba(61, 96, 143, 0.92), rgba(116, 148, 191, 0.92));
   border-radius: 999px;
   transition: all 0.3s ease;
-  box-shadow: 0 0 12px rgba(103, 212, 255, 0.24);
+  box-shadow: 0 2px 8px rgba(116, 148, 191, 0.2);
 }
 
 .navigation-collapse-btn .line:first-child,
@@ -412,11 +412,11 @@ body::before {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: rgba(120, 155, 210, 0.26);
+  background: rgba(142, 163, 194, 0.38);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(138, 188, 255, 0.4);
+  background: rgba(122, 150, 190, 0.48);
 }
 
 @media (max-width: 960px) {
