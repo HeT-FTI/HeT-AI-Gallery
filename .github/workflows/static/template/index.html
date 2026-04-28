@@ -11,9 +11,18 @@
   <script src="_static/element-ui@2.15.14/lib/index.js"></script>
 </head>
 <body>
+  <div class="bg-gradient"></div>
+  <canvas id="bg-canvas"></canvas>
+  <div class="bg-grid"></div>
+  <div class="overlay-scanlines"></div>
   <div id="app" >
     <div id="top_div">
-      <h1>AI Application Gallery</h1>
+      <div class="top-content">
+        <div class="top-left">
+          <img src="_static/pngs/logo.png" alt="HeT Logo" class="top-logo">
+          <h1>AI Application Gallery</h1>
+        </div>
+      </div>
     </div>
     <div class="navigation-collapse-btn" id="dragBtn">
         <div class="line-box">
@@ -25,8 +34,9 @@
     <div id="bottom_div">
       <div id="navigation_bar" :class="{ collapsed: isCollapse }">
         <div id="navigation_item" :class="{ collapsed: isCollapse }">
-          <el-button type="text" v-for="(item,index) in reposTypeList" :key="index" 
-          style="margin: 30px 0px" @click="change_reposType(item)">
+          <el-button type="text" v-for="(item,index) in reposTypeList" :key="index"
+          :class="{ 'is-active-nav': current_reposType === item }"
+          @click="change_reposType(item)">
             [[item]]
           </el-button>
         </div>
@@ -55,9 +65,15 @@
               </template>
             </el-tooltip>
             <div class="bottom">
-              <el-link :href="item.name + '/'" type="primary">
-                <span class="link-text">[[item.name]]</span>
-              </el-link>
+              <div class="tag-list" v-if="Array.isArray(item.tags) && item.tags.length > 0">
+                <img
+                  v-for="(tag, tagIndex) in item.tags"
+                  :key="`${item.name}-tag-${tagIndex}`"
+                  :src="tag"
+                  :alt="`${item.name} tag ${tagIndex + 1}`"
+                  class="tag-image"
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -85,7 +101,13 @@
             let typeArray = new Array()
             if (this.config_yaml?.repos && Array.isArray(this.config_yaml.repos)) {
                 this.config_yaml.repos.forEach(element => {
-                    if (element?.type) {
+                    if (Array.isArray(element?.type)) {
+                      element.type.forEach(type => {
+                        if (type) {
+                          repos_type.add(type);
+                        }
+                      });
+                    } else if (element?.type) {
                       repos_type.add(element.type);
                     }
                 });
@@ -171,8 +193,102 @@
           document.addEventListener('touchmove', onDrag, { passive: false });
           document.addEventListener('touchend', stopDrag);
       });
+
+        this.initBackgroundEffects();
       },
       methods: { 
+        initBackgroundEffects() {
+          const canvas = document.getElementById('bg-canvas');
+          if (!canvas) {
+            return;
+          }
+
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            return;
+          }
+
+          let width = 0;
+          let height = 0;
+          let particles = [];
+          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const particleCount = prefersReducedMotion ? 24 : 60;
+          const maxLinkDistance = prefersReducedMotion ? 80 : 120;
+
+          function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+          }
+
+          function createParticle() {
+            return {
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.28,
+              vy: (Math.random() - 0.5) * 0.28,
+              size: Math.random() * 2 + 0.4,
+              hue: Math.random() > 0.5 ? '1, 60, 187' : '79, 134, 221',
+              alpha: Math.random() * 0.15 + 0.03,
+            };
+          }
+
+          function initParticles() {
+            particles = Array.from({ length: particleCount }, createParticle);
+          }
+
+          function updateAndDrawParticle(p) {
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < 0 || p.x > width) {
+              p.vx *= -1;
+            }
+            if (p.y < 0 || p.y > height) {
+              p.vy *= -1;
+            }
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${p.hue}, ${p.alpha})`;
+            ctx.fill();
+          }
+
+          function drawParticleLinks() {
+            for (let i = 0; i < particles.length; i++) {
+              for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < maxLinkDistance) {
+                  const linkAlpha = (1 - distance / maxLinkDistance) * 0.055;
+                  ctx.beginPath();
+                  ctx.strokeStyle = `rgba(1, 60, 187, ${linkAlpha})`;
+                  ctx.lineWidth = 0.6;
+                  ctx.moveTo(particles[i].x, particles[i].y);
+                  ctx.lineTo(particles[j].x, particles[j].y);
+                  ctx.stroke();
+                }
+              }
+            }
+          }
+
+          function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(updateAndDrawParticle);
+            drawParticleLinks();
+            requestAnimationFrame(animate);
+          }
+
+          window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+          });
+
+          resizeCanvas();
+          initParticles();
+          animate();
+        },
         handleCardClick(item) {
           window.location.href = item.name + '/';
         },
@@ -188,13 +304,35 @@
               return false;
           }
         },
+        normalizeTagPath(tagPath) {
+          if (typeof tagPath !== 'string') {
+            return '';
+          }
+
+          const trimmed = tagPath.trim();
+          if (!trimmed) {
+            return '';
+          }
+
+          if (/^https?:\/\//i.test(trimmed)) {
+            return trimmed;
+          }
+
+          const cleanedPath = trimmed.replace(/^\.?\/+/, '');
+          return this.DOCS ? `${this.DOCS}/${cleanedPath}` : cleanedPath;
+        },
         async change_reposType(item) {
           if (this.current_reposType === item) {
               return;
           }
           this.show_card_list = [];
           // 筛选符合条件的元素
-          const filteredRepos = this.config_yaml.repos.filter(element => element.type === item);
+          const filteredRepos = this.config_yaml.repos.filter(element => {
+            if (Array.isArray(element?.type)) {
+              return element.type.includes(item);
+            }
+            return element?.type === item;
+          });
           // 支持的图片后缀列表（按优先级排序，常用格式靠前）
           const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'];
           // 并发处理所有异步操作
@@ -235,6 +373,9 @@
                 type: element.type,
                 image_url: image_url,
                 description: description,
+                tags: Array.isArray(element?.tags)
+                  ? element.tags.map(tag => this.normalizeTagPath(tag)).filter(Boolean)
+                  : [],
               };
             })
           );
