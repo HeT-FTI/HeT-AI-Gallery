@@ -1,0 +1,129 @@
+_`Reproducing these numbers`
+============================
+
+Every figure in this documentation is produced by a command in the tree, and this page is the list.
+The point is not that the numbers are large; it is that a reader who does not trust them can make
+them again instead of taking them on faith.
+
+Two rules make the list worth keeping:
+
+- **A number is only a measurement if the run that produced it is the run you are reading about.** The
+  coverage figure comes from a build, and the case count from the same build, so the two are taken
+  back to back -- ``coverage_gate.py`` first, ``number_sheet.py --record`` second. Reversing them
+  records yesterday's coverage next to today's case count, which is exactly the kind of pair that
+  looks plausible forever.
+- **This page names paths, and a check fails if one of them stops existing.** A reproduction
+  instruction that points at a renamed script is worse than none: it tells the reader the fault is in
+  their environment.
+
+What the numbers come from
+--------------------------
+
+.. code-block:: bash
+
+   conan create . -s build_type=Debug --build=missing      # builds, and runs the whole suite
+   python3 .github/project/coverage_gate.py                # the two coverage floors
+   python3 .github/project/number_sheet.py --record        # writes docs/verification-numbers.json
+
+``number_sheet.py`` reads the artefacts, not the prose: the case count from the test run, the
+coverage figures from the ``.gcov`` output. ``gates.py docs`` then compares the two numbers that
+appear on the :doc:`usage` page against that file, so a stale figure fails the build rather than
+aging quietly.
+
+The gates
+---------
+
+.. code-block:: bash
+
+   python3 .github/project/gates.py all                    # every project gate, 15-20 minutes
+
+Before a commit, the same list without the five that need a build of the library itself:
+
+.. code-block:: bash
+
+   python3 .github/project/gates.py license strict claims docs deps form boundaries \
+       capabilities ci-policy assume anchor scaffold census budget clocks observability \
+       combinations domain blast wired smoke regmap subset docvoice symbols equations \
+       enforce docshape docver docannot docscope compliance demo ports matrix apicontract \
+       guidefull
+
+Three of those are worth understanding before running them, because their failure modes are
+confusing:
+
+- ``census`` answers the question ``scaffold`` cannot. ``scaffold`` byte-compares the files it
+  lists, so a file the pinned release ships and no list mentions is neither checked nor declared --
+  and that is how a template stays "zero modification" on the files it looks at while the rest
+  diverge quietly. ``census`` requires every upstream file to sit in exactly one class, and the
+  files an instance *must* fill (``Doxyfile``, ``conf.py``) may differ only inside declared slots.
+  Its second rule is the one that bites: every line outside a slot must still match, so prose
+  cannot be added to a file that would have to be hand-merged on every re-pin.
+- ``docs`` compiles nothing, but it re-renders the pages that carry numbers and fails when a quoted
+  figure disagrees with ``verification-numbers.json``. A red ``docs`` after a green test run means the
+  prose is stale, not the code.
+- ``demo`` builds every example from the command **in that example's own header**. It is the only
+  check that keeps the instructions on the pages honest, and it is why a renamed source turns red
+  instead of leaving a reader with a broken line.
+- ``apicontract`` re-derives, for all 95 public headers, the evidence level and the case names that
+  the module table gives them, and compares that with the note on each header's own API page. The
+  note is a copy, and copies drift; this is the thing that makes the copy admissible.
+- ``guidefull`` holds the guides section to its own promise. It reads the promise table and the
+  hidden toctree and fails when they disagree in either direction, and it checks the six structural
+  parts of every promised page plus the one that is not structural: an Evidence section that names
+  the claim rows covering the page *and* what the page does not claim.
+- ``mutation`` (``mutate.py``) rewrites files in this tree and restores them. It must never be run
+  under ``timeout``: a kill in the middle leaves a mutant behind, and the next red looks like a
+  physics failure. After any interrupted run, check ``git status`` before believing anything.
+
+Two models, driven the same way
+-------------------------------
+
+The simulation plant is this project's own model, so "the plant and the controller agree" is a
+statement about one model. A third-party model is the only way to make it a statement about two, and
+``motulator`` -- Aalto University's electric-drives library, independently written and laboratory
+validated -- is that third party. Two scripts drive both with the same input and compare them step by
+step:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 26 44
+
+   * - Script
+     - What it drives
+     - What it compares
+   * - ``benchmark/script/reconcile_model.py``
+     - the same stator voltage and the same speed into both plants
+     - the current vector, step by step, across a step response
+   * - ``benchmark/script/reconcile_controller.py``
+     - this library's controller and the third party's against the same plant
+     - the reference the two produce for one operating point
+
+Neither is in CI, and the reason is not cost: a reconciliation needs a second Python environment, and
+it is something to run when the **plant** changes rather than on every push. So the honest statement
+is the one the claim row makes -- the reconciliation was done, its worst deviation is recorded, and
+re-running it is one command away. A reader deciding whether to trust the plant should run it once;
+a reader deciding whether to trust a *release* should not read the absence of a gate as a gap.
+
+The local-only gates
+--------------------
+
+Five gates are excluded from the list above because they need a full library build, and they are the
+ones that answer "does the claim still hold" rather than "does it compile": ``mutants``,
+``plantref``, ``mcdc``, ``pil`` and ``fmu``. They run before a release:
+
+.. code-block:: bash
+
+   python3 .github/project/mutate.py --check               # mutation scores, one module at a time
+   python3 .github/project/gates.py plantref mcdc pil fmu
+
+CI does not run them, by design -- they mutate the tree and take minutes per module. That is a
+statement about where the evidence lives, not a hidden exemption: this page is how a reader gets the
+same answers on their own machine.
+
+What this page does not do
+--------------------------
+
+It does not make the results portable. Everything here is produced on x86-64 Linux with gcc 13; a
+different compiler will produce different floating-point results at the last bit, and several cases
+compare trajectories bit for bit. When those disagree on your machine, the first question is which
+compiler and which optimisation level, not which side is wrong -- see
+:ref:`what has actually been run <platform-evidence>`.

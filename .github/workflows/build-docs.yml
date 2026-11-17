@@ -1,0 +1,183 @@
+name: Build sphinx docs from matrix
+
+on:
+  workflow_dispatch:
+    inputs:
+      matrix:
+        description: 'JSON-encoded matrix of repos (empty = generated from config/repos.yml)'
+        required: false
+        type: string
+  push:
+    branches: [ main ]
+    paths:
+      - 'config/repos.yml'
+      - '.github/workflows/build-docs.yml'
+      - '.github/workflows/static/**'
+  schedule:
+    # 每日兜底：上游仓库文档更新时本仓库不会有 push，靠它重建 docs hub。
+    - cron: '17 19 * * *'  # 19:17 UTC -> 03:17 Asia/Shanghai
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.resolve.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Resolve matrix
+        id: resolve
+        env:
+          INPUT_MATRIX: ${{ inputs.matrix }}
+        run: |
+          if [ -n "$INPUT_MATRIX" ]; then
+            echo "Matrix provided by workflow_dispatch input"
+            printf 'matrix=%s\n' "$INPUT_MATRIX" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "Generating matrix from config/repos.yml"
+          python3 - <<'EOF' >> "$GITHUB_OUTPUT"
+          import json
+          import yaml
+
+          config = yaml.safe_load(open('config/repos.yml', encoding='utf-8'))
+          print('matrix=' + json.dumps({'repo': config['repos']}))
+          EOF
+
+  sync-and-build:
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    strategy:
+      # 一个仓库坏掉不该把其余矩阵腿 cancel 掉；每条腿各自给出结论。
+      fail-fast: false
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # App 安装在 org 的 All repositories 上：新增仓库只改 config/repos.yml，CI 零改动。
+      # 每条腿现签一个只读、仅限本仓库、1 小时过期的安装令牌，不依赖任何逐仓库 secret。
+      - name: Mint per-repo read token
+        id: token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.DOCS_APP_ID }}
+          private-key: ${{ secrets.DOCS_APP_PRIVATE_KEY }}
+          owner: HeT-FTI
+          repositories: ${{ matrix.repo.name }}
+
+      - name: Setup Sphinx ${{ matrix.repo.name }}
+        run: |
+          sudo apt install -y doxygen graphviz
+          pip install numpy sphinx sphinx-intl sphinx-rtd-theme
+
+      - name: Clone and sync ${{ matrix.repo.name }}
+        env:
+          APP_TOKEN: ${{ steps.token.outputs.token }}
+        run: |
+          # App 令牌走 HTTPS：header 只在本次 git 调用生效，不写进 .git/config，
+          # 也不出现在进程参数里；后续 build.py 步骤拿不到令牌。
+          _auth=$(printf 'x-access-token:%s' "$APP_TOKEN" | base64 -w0)
+          _url=$(printf '%s' "${{ matrix.repo.url }}" | sed -e 's#^git@github.com:#https://github.com/#')
+          git -c http.extraHeader="Authorization: Basic $_auth" clone --depth=1 "$_url" cache-tmp
+          mkdir -p "documents/${{ matrix.repo.name }}"
+          # 两种 scaffold 的拷贝策略：
+          # - 0.3.9+（build.py 带 _validate_doc_sources）：校验 include/、src/、
+          #   docs/doxygen/dox 在场，整棵树必须在场。
+          # - 老 scaffold：只需要 docs/sphinx、docs/images 等路径；它的 build.py 会以
+          #   UTF-8 硬读源码（adsp 的 include/acoustic_sl.h 里有 Latin-1 的 ° 符号），
+          #   整棵树反而会因解码失败而红。
+          # TODO: 所有仓库迁移到 fcpp 0.3.9 制式后删除老 scaffold 分支，只保留整棵树。
+          if grep -q "_validate_doc_sources" cache-tmp/docs/build.py; then
+            rsync -a --delete --exclude '.git' "cache-tmp/" "documents/${{ matrix.repo.name }}/"
+          else
+            mkdir -p "documents/${{ matrix.repo.name }}/docs"
+            rsync -a --delete "cache-tmp/docs/sphinx/" "documents/${{ matrix.repo.name }}/docs/sphinx/"
+            rsync -a --delete "cache-tmp/docs/images/" "documents/${{ matrix.repo.name }}/docs/images/"
+            cp cache-tmp/metadata.json "documents/${{ matrix.repo.name }}/metadata.json"
+            cp cache-tmp/docs/build.py "documents/${{ matrix.repo.name }}/docs/build.py"
+            cp cache-tmp/Doxyfile "documents/${{ matrix.repo.name }}/Doxyfile"
+          fi
+
+          # 老 scaffold 的 build.py 假定 docs/{doxygen,sphinx}/images 已存在（shutil.copy2
+          # 不会建目录），而这两个目录在老仓库里可能是生成物而非跟踪文件。
+          # TODO: 所有仓库迁移到 fcpp 0.3.9 制式（自带这两个目录）后删除这两行。
+          mkdir -p "documents/${{ matrix.repo.name }}/docs/doxygen/images"
+          mkdir -p "documents/${{ matrix.repo.name }}/docs/sphinx/images"
+
+          python "documents/${{ matrix.repo.name }}/docs/build.py"
+
+          # 老 scaffold 可能不带 ALL_title_card.png，缺失时用空文件兜底，避免整步变红。
+          # 注意不能写成 `[ ! -f x ] && touch x`：文件存在时它返回 1，set -e 下会让整步失败。
+          # TODO: 所有仓库迁移到 fcpp 0.3.9 制式（随 docs/images 自带该图）后删除兜底，直接 cp。
+          title_card="documents/${{ matrix.repo.name }}/docs/images/ALL_title_card.png"
+          if [ ! -f "$title_card" ]; then touch "$title_card"; fi
+          cp "$title_card" "documents/${{ matrix.repo.name }}/docs/sphinx/build/html/_images/ALL_title_card.png"
+
+          rm -rf cache-tmp
+
+      - name: Upload built docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.repo.name }}
+          path: documents/${{ matrix.repo.name }}/docs/sphinx/build/html/
+
+
+  build-all:
+    needs: sync-and-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all built docs artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: documents
+          merge-multiple: false
+
+      - name: Create final docs directory
+        run: |
+          rm -rf docs
+          mkdir -p docs
+          for repo_html_dir in documents/*/; do
+            if [ ! -d "$repo_html_dir" ]; then continue; fi
+            repo_name=$(basename "$repo_html_dir")
+            echo "Copying $repo_name documentation..."
+            cp -r "$repo_html_dir" "docs/$repo_name"
+          done
+          cp .github/workflows/static/template/index.html docs/index.html
+          cp -r .github/workflows/static docs/_static/
+          cp -r config docs/_config/
+
+      - name: Prevent Jekyll processing
+        run: |
+          touch docs/.nojekyll
+          
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if ! git diff --staged --quiet; then
+            git commit -m "build: update documents hub"
+            git push
+          else
+            echo "No changes detected."
+          fi 

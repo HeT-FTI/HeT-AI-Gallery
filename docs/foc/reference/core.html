@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>core &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="motor" href="motor.html" />
+    <link rel="prev" title="Using the API" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using the API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-promised-here-and-what-is-not">What is promised here, and what is not</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-six-groups">The six groups</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">core</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#reading-this-page">Reading this page</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frames-types-and-clamps">Frames, types and clamps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#regulators-and-the-current-loop-furniture">Regulators and the current-loop furniture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reference-policies">Reference policies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#observers">Observers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#machine-data">Machine data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modulation-and-the-power-stage">Modulation and the power stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-up-and-commissioning">Start-up and commissioning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#motion-and-position">Motion and position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#health-faults-and-records">Health, faults and records</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-stages-the-task-pages-use">The stages the task pages use</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related">Related</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="motor.html">motor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hal.html">hal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver.html">driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html">comm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-api.html">c-api</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#three-faces-one-implementation">Three faces, one implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-to-find-something">How to find something</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#naming-rules-worth-knowing-before-you-read-any-page">Naming rules worth knowing before you read any page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-this-section-will-not-do">What this section will not do</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Using the API</a></li>
+      <li class="breadcrumb-item active">core</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/core.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="core">core</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The algorithms. Nothing in this group touches a pin: every stage takes numbers in, returns
+numbers out, and is written as a policy so the loop can inline it.</p>
+<section id="reading-this-page">
+<h2>Reading this page<a class="headerlink" href="#reading-this-page" title="链接到此标题。"></a></h2>
+<p>Each section below is one job the core does. The bullet lists name the headers — the name is the
+entry point you include; the sentence is what the header is for. Where a stage is something you
+call in a loop rather than a value you construct, the call sequence is spelled out.</p>
+</section>
+<section id="frames-types-and-clamps">
+<h2>Frames, types and clamps<a class="headerlink" href="#frames-types-and-clamps" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">types.hpp</span></code> — the error codes and clock helpers shared by the C++ path and the C API.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">transforms.hpp</span></code> — Clarke and Park and their inverses, in the amplitude-invariant convention
+the rest of the library assumes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">limits.hpp</span></code> — the clamps every stage shares: a symmetric clamp and a slew limiter with
+explicit rates.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">traits.hpp</span></code> — compile-time checks that a policy really implements the interfaces the loop
+calls, so a wrong policy is a diagnostic at instantiation, not a crash at 20 kHz.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">version.hpp</span></code> — the version query the core answers, from the string the C API reports.</p></li>
+</ul>
+</section>
+<section id="regulators-and-the-current-loop-furniture">
+<h2>Regulators and the current-loop furniture<a class="headerlink" href="#regulators-and-the-current-loop-furniture" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pi.hpp</span></code> — the proportional-integral regulator, with per-call gain scaling: how hard the
+drive resists, for this call only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feedforward.hpp</span></code> — the feedforward stage's input, its null form, and the decoupling
+implementation that consumes it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filters.hpp</span></code> — the first-order low pass the loop is filtered with, and why one pole is
+enough.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">step_metrics.hpp</span></code> — what a recorded step response actually did, in numbers a tuning decision
+can rest on (settling time, overshoot, steady-state error).</p></li>
+</ul>
+</section>
+<section id="reference-policies">
+<h2>Reference policies<a class="headerlink" href="#reference-policies" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reference.hpp</span></code> — the reference generator's input, its null form, and the MTPA
+implementation. The null form commands <code class="docutils literal notranslate"><span class="pre">id</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mtpv.hpp</span></code> — the maximum-torque-per-volt point, and the two ceilings that bound a machine's
+operating point.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">field_weakening.hpp</span></code> — whether field weakening is worth building for <em>this</em> machine, as
+advice, and the reference stage that acts on it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">command_source.hpp</span></code> — the command sources a drive can be driven by: step and analog, each
+with its own configuration and output.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position_reference.hpp</span></code> — a continuous mechanical angle built from an electrical estimate,
+with an index mark to fix its origin.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">friction_comp.hpp</span></code> — the friction a drive is told to cancel, and the speeds that decide when
+the axis counts as at rest.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cogging_comp.hpp</span></code> — the cogging-torque compensator: one harmonic's coefficients, the input
+it reads, and what it adds to the reference.</p></li>
+</ul>
+</section>
+<section id="observers">
+<h2>Observers<a class="headerlink" href="#observers" title="链接到此标题。"></a></h2>
+<p>Every observer implements <code class="docutils literal notranslate"><span class="pre">observer/observer_policy.hpp</span></code>: what it is given and what it has to
+return. The implementations differ in what they can see, not in what they promise.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 26.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Header</p></th>
+<th class="head"><p>Works from</p></th>
+<th class="head"><p>Where it stops working</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observer/back_emf_observer.hpp</span></code></p></td>
+<td><p>voltage and current</p></td>
+<td><p>below the speed at which back EMF is measurable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">observer/nonlinear_flux_observer.hpp</span></code></p></td>
+<td><p>the magnetisation map</p></td>
+<td><p>machines with no map</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observer/dual_inductance_observer.hpp</span></code></p></td>
+<td><p>two current models</p></td>
+<td><p>the region where neither model holds</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">observer/hfi_observer.hpp</span></code></p></td>
+<td><p>an injected carrier and saliency</p></td>
+<td><p>surface-mount machines, which have no saliency to read</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observer/blended_observer.hpp</span></code></p></td>
+<td><p>two estimates, shortest arc</p></td>
+<td><p>never on its own: it blends what it is given</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">observer/switchable_observer.hpp</span></code></p></td>
+<td><p>the run-time choice among the above</p></td>
+<td><p>when nobody states which one is active</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observer/ideal_observer.hpp</span></code></p></td>
+<td><p>the plant's true angle</p></td>
+<td><p>SIL only, by design</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">angle_source.hpp</span></code> — which angle to trust this tick, and what to say when the answer is not
+trustworthy. Two opinions are published rather than one arbitrated silently, so the consumer
+that has to act on the choice can see both that were available.</p></li>
+</ul>
+</section>
+<section id="machine-data">
+<h2>Machine data<a class="headerlink" href="#machine-data" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">machine_params.hpp</span></code> — the electrical facts about a machine that its algorithms need, in SI
+units.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">machine_map.hpp</span></code> — the magnetisation map: rows of current, inductance and flux that the
+observer interpolates.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">machine_map_text.hpp</span></code> — reads a machine document from text, and says precisely why when it
+cannot. Unknown keys are counted and ignored on purpose.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thermal_limit.hpp</span></code> — the thermal facts a current limit is derived from, and the limit
+itself.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bus_current_limit.hpp</span></code> — the <strong>bus's own</strong> ceiling, expressed as an authority over the torque
+command rather than as a phase current. It aims below the ceiling on purpose: a limiter that
+aims at its own limit spends its life above and below it, and the measurement it regulates on
+is a tick old.</p></li>
+</ul>
+</section>
+<section id="modulation-and-the-power-stage">
+<h2>Modulation and the power stage<a class="headerlink" href="#modulation-and-the-power-stage" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">svpwm.hpp</span></code> — the modulator: one evaluation's result, the input it is given, and the SVPWM
+that produces both.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_pulse.hpp</span></code> — the gate driver's own pulse-width limit, and the duty that survives once a
+narrow pulse is dropped.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">six_step.hpp</span></code> — what a six-step commutation needs to know, and what it decides each period.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">single_shunt.hpp</span></code> — what a single shunt can measure in one period, and the reconstruction
+built on that answer. A refused sample is an answer, not an error.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deadtime.hpp</span></code> — the dead-time estimate a compensator needs, and how it fades as the current
+leaves zero.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hall.hpp</span></code> — the six-step direction table, and the tracker that holds a direction across a
+sensor code change.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">brake_chopper.hpp</span></code> — the brake chopper's duties and the state it falls back to.</p></li>
+</ul>
+</section>
+<section id="start-up-and-commissioning">
+<h2>Start-up and commissioning<a class="headerlink" href="#start-up-and-commissioning" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">startup.hpp</span></code> — the start-up sequence as a state machine: its states, configuration and the
+routine that advances them.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alignment.hpp</span></code> — the rotor-alignment sequence as a state machine, and its null form.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">polarity.hpp</span></code> — the magnet-polarity pulse test: what a pulse pair concluded, and the test
+that runs it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stall_start.hpp</span></code> — the breakaway sequence: its phases, configuration and the output of one
+step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">commissioning.hpp</span></code> — the standstill estimators used to commission an axis: resistance,
+flux, current-sense offset and incremental inductance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">auto_tune.hpp</span></code> — the speed-loop tuner's contract: what it is asked for, what it reports,
+and what it is allowed to trust.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cogging_learn.hpp</span></code> — the cogging learner's contract: which orders, over how many
+revolutions, and what it measured when it finished.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sinusoid_fit.hpp</span></code> — a single tone measured out of a recorded window, and the quality of the
+fit it came from.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">commissioning_flow.hpp</span></code> — the session around the four estimators: which stage runs now, what
+a failure leaves behind, and what is allowed to survive it.</p></li>
+</ul>
+</section>
+<section id="motion-and-position">
+<h2>Motion and position<a class="headerlink" href="#motion-and-position" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">motion_profile.hpp</span></code> — the profile that shapes a velocity command into something the
+mechanics can follow.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position.hpp</span></code> — the position slot's input, its null form, and the proportional position
+controller.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">soft_limit.hpp</span></code> — the window an axis is allowed to occupy, and how the command is bent as
+it reaches the edge. An out-of-range target comes back as the <strong>previous</strong> target.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">homing.hpp</span></code> — the homing search: its states, failures, configuration and the routine that
+advances them.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gear_ratio.hpp</span></code> — electronic gearing: the ratio between motor and load, and where the output
+angle is folded.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">speed_from_angle.hpp</span></code> — mechanical speed from an angle, by differencing it across a fixed
+delay.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">move_trajectory.hpp</span></code> — the reference that says where to be <strong>on the way</strong>, not only where to
+end up: the stopping-distance ceiling it never exceeds, and why that ceiling is evaluated on
+the distance left after this tick.</p></li>
+</ul>
+</section>
+<section id="health-faults-and-records">
+<h2>Health, faults and records<a class="headerlink" href="#health-faults-and-records" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sm.hpp</span></code> — the motor state machine: the states an instance may be in, and the transitions
+between them.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">protection.hpp</span></code> — the fault vocabulary and the protector that chooses between them: one
+code per physical mechanism, and a latch that survives the cause.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">watchdog.hpp</span></code> — the one number a watchdog is sized by: how long the feeder may stay silent,
+and what that made it conclude.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">board_check.hpp</span></code> — board checks as numbers: what was measured, what the limits are, and what
+each item concluded — then one cause, not a list of failures.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trace.hpp</span></code> — the trace sink interface: one sample at a time, into a ring that may be the
+null sink.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trace_parse.hpp</span></code> — a window of trace samples as the host got it out of the ring, and the
+samples that window lost.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sensor_monitor.hpp</span></code> — whether the position sensor's own readings hold together, judged with
+no second opinion to compare against: the verdict, which check decided it, the step that was
+measured and the bound it was measured against.</p></li>
+</ul>
+</section>
+<section id="the-stages-the-task-pages-use">
+<h2>The stages the task pages use<a class="headerlink" href="#the-stages-the-task-pages-use" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 35.4%" />
+<col style="width: 64.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>You are doing</p></th>
+<th class="head"><p>Call</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sensorless start-up</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">StartupConfig</span></code> → <code class="docutils literal notranslate"><span class="pre">StartupRoutine::begin(pole_pairs)</span></code> → <code class="docutils literal notranslate"><span class="pre">step(dt,</span> <span class="pre">measured_rad)</span></code>
+until <code class="docutils literal notranslate"><span class="pre">finished</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>deciding whether to weaken</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MtpvConfig</span></code> → <code class="docutils literal notranslate"><span class="pre">Mtpv::validate()</span></code> → <code class="docutils literal notranslate"><span class="pre">base_speed_rad_s()</span></code> / <code class="docutils literal notranslate"><span class="pre">at_speed(omega_e)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>a torque command</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ReferenceInput</span></code> → <code class="docutils literal notranslate"><span class="pre">MtpaReference</span></code> (or <code class="docutils literal notranslate"><span class="pre">NullReferenceGenerator</span></code> for <code class="docutils literal notranslate"><span class="pre">id</span> <span class="pre">=</span> <span class="pre">0</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>a move</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SoftLimit::apply(target)</span></code> → <code class="docutils literal notranslate"><span class="pre">MotionProfile::step(target,</span> <span class="pre">feedback,</span> <span class="pre">dt)</span></code> → speed
+command</p></td>
+</tr>
+<tr class="row-even"><td><p>overload and trip</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Protector::step(input,</span> <span class="pre">dt)</span></code> → read <code class="docutils literal notranslate"><span class="pre">fault</span></code>; <code class="docutils literal notranslate"><span class="pre">derated_limit(temperature_c)</span></code>;
+<code class="docutils literal notranslate"><span class="pre">reset()</span></code> or <code class="docutils literal notranslate"><span class="pre">reset_cold()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>a board self-test</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BoardMeasurements</span></code> + <code class="docutils literal notranslate"><span class="pre">BoardLimits</span></code> → <code class="docutils literal notranslate"><span class="pre">check_board()</span></code> → <code class="docutils literal notranslate"><span class="pre">BoardReport</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="related">
+<h2>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the tasks that use these, in order: <a class="reference internal" href="../guides/index.html"><span class="doc">Guides by task</span></a></p></li>
+<li><p>what a policy costs at run time: <a class="reference internal" href="../cost-model.html"><span class="doc">What &quot;predictable&quot; costs</span></a></p></li>
+<li><p>the C face of the same stages: <a class="reference internal" href="c-api.html"><span class="doc">c-api</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="Using the API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="motor.html" class="btn btn-neutral float-right" title="motor" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

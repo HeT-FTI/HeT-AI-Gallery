@@ -1,0 +1,20 @@
+_`FAQ`
+======
+
+_`Why are images missing after build?`
+--------------------------------------
+
+This project distributes images through `docs/build.py`. Store final assets in `docs/images` instead of only in `docs/sphinx/images`.
+
+_`Why is the logo missing?`
+---------------------------
+
+`conf.py` references both logo and favicon as fixed assets. Keep these files:
+
+- `docs/images/OUT_logo.svg`
+- `docs/images/ALL_logo.jpg`
+
+_`How can I detect overbake quickly?`
+-------------------------------------
+
+Monitor the decline turning point at the end of the S-value plateau, and combine it with local char-area change using a dual-threshold rule.

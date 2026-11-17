@@ -1,0 +1,66 @@
+_`Result Interpretation`
+========================
+
+When using NNPID, the most important runtime quantities are:
+
+- ``setpoint``: the target value,
+- ``measured``: the actual process output,
+- ``output``: the control command,
+- ``kp / ki / kd``: the current adaptive PID gains.
+
+_`What Good Behavior Looks Like`
+--------------------------------
+
+In normal use, users generally want to see:
+
+- smaller tracking error after repeated operation,
+- acceptable overshoot,
+- smoother settling,
+- gains that change gradually instead of jumping violently.
+
+_`Basic Recommendation`
+-----------------------
+
+Before applying NNPID to a real system, run at least one step test and one disturbance test.
+If the output remains saturated for long periods or gain values fluctuate too aggressively, reduce adaptation aggressiveness
+and re-check your sampling period.
+
+_`Collaboration Notes`
+----------------------
+
+When sharing results with collaborators, it is usually enough to provide:
+
+- the test scenario,
+- the initial PID gains,
+- the final tracking result,
+- a short description of overshoot and settling quality.
+
+_`Visual Demonstrations`
+------------------------
+
+The following plots are synchronized from the latest comparison tests and stored under ``docs/images``
+with simplified ``OUT_`` naming for documentation publishing.
+
+_`Steady-State Error Reduction`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: ../../images/OUT_steady_state.png
+	:alt: Steady-state error comparison between fixed PID and NNPID
+	:width: 100%
+
+Scenario summary:
+
+- Fixed PID starts from P-dominant settings and keeps visible static bias.
+- NNPID gradually increases integral contribution and reduces long-term tracking offset.
+
+_`Oscillation Suppression`
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: ../../images/OUT_oscillation.png
+	:alt: Oscillation suppression comparison between fixed PID and NNPID
+	:width: 100%
+
+Scenario summary:
+
+- Fixed PID with aggressive gains shows persistent overshoot and oscillation.
+- NNPID learns to reduce aggressive gains and introduces damping for faster stabilization.

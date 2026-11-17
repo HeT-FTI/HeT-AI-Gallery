@@ -1,0 +1,49 @@
+_`Conan Recipe Configuration`
+=============================
+
+_`Purpose`
+----------
+
+The Conan recipe is the authoritative packaging pipeline for NNSeg. It maps metadata, dependencies, build settings,
+and validation steps into a reproducible package build.
+
+_`Lifecycle Summary`
+--------------------
+
+The PackageRecipe class executes the following phases:
+
+1. Initialize metadata and package identity from metadata.json.
+2. Load requirements from conandata.yml.
+3. Generate CMake toolchain and dependency files.
+4. Build the project with CMake.
+5. Validate resulting archives for compatibility.
+6. Run test_package through Conan test flow.
+
+_`Dependency Strategy`
+----------------------
+
+- Requirements are declared in conandata.yml.
+- Metadata categories (common/c/cpp/infra) control how CMake targets are linked.
+- GTest is kept for testing stages and filtered from runtime link groups.
+- pybind11 is enabled only when python bindings are requested.
+- In baremetal cross-build mode, dependencies are filtered by baremetal_white_list.
+
+_`Generation and Validation`
+----------------------------
+
+The recipe emits CMakeToolchain and CMakeDeps artifacts, then validates produced static archives
+using toolchain binutils. A compatibility report is written in JSON form during build.
+
+_`Common Commands`
+------------------
+
+.. code-block:: bash
+
+	# Debug package + tests
+	conan create . -s build_type=Debug --build=missing
+
+	# Release package
+	conan create . -s build_type=Release --build=missing
+
+	# Cross build example (profile names are project-specific)
+	conan create . -pr:b=default -pr:h=arm_profile -s build_type=Debug --build=missing -tf=""

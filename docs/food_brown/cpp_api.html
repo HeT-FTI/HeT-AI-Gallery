@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. C++ API 指南 &mdash; food_browning 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.jpg"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=34088549"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="4. C API 指南" href="c_api.html" />
+    <link rel="prev" title="2. 快速开始" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            food_browning
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">用户指南</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. 项目概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">2. 快速开始</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. C++ API 指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.1. nnseg 核心类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">3.2. food_browning 核心类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3.3. 日志</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_api.html">4. C API 指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">5. 配置说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="results_and_errors.html">6. 结果与错误处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">7. 实验说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">8. 常见问题</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="components/cmake.html">CMakeLists 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/conan.html">Conanfile 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/meta.html">元数据配置</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">food_browning</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3. </span>C++ API 指南</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cpp_api.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">3. </span><span class="target" id="c-api">C++ API 指南</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<section id="id2">
+<h2><span class="section-number">3.1. </span><span class="target" id="nnseg">nnseg 核心类型</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>定义于 <cite>include/nnseg.hpp</cite> 与 <cite>include/nnseg_types.hpp</cite>。</p>
+<ul class="simple">
+<li><p><cite>nnseg::NNSegEngine</cite></p></li>
+<li><p><cite>nnseg::SegConfig</cite></p></li>
+<li><p><cite>nnseg::ImageFrameView</cite></p></li>
+<li><p><cite>nnseg::SegmentationResult</cite></p></li>
+</ul>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;nnseg.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;nnseg_types.hpp&quot;</span>
+
+<span class="n">nnseg</span><span class="o">::</span><span class="n">NNSegEngine</span><span class="w"> </span><span class="n">engine</span><span class="p">;</span>
+<span class="n">nnseg</span><span class="o">::</span><span class="n">SegConfig</span><span class="w"> </span><span class="n">cfg</span><span class="p">;</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">model_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;model.onnx&quot;</span><span class="p">;</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">model_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;yolov11&quot;</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">err</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">engine</span><span class="p">.</span><span class="n">Init</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">err</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// handle init error</span>
+<span class="p">}</span>
+
+<span class="n">nnseg</span><span class="o">::</span><span class="n">ImageFrameView</span><span class="w"> </span><span class="n">frame</span><span class="p">;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">seg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">engine</span><span class="p">.</span><span class="n">Predict</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2><span class="section-number">3.2. </span><span class="target" id="food-browning">food_browning 核心类型</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>定义于 <cite>include/food_browning.hpp</cite>。</p>
+<ul class="simple">
+<li><p><cite>food_browning::FoodBrowningEngine</cite></p></li>
+<li><p><cite>food_browning::BrowningConfig</cite></p></li>
+<li><p><cite>food_browning::BrowningResult</cite></p></li>
+</ul>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;food_browning.hpp&quot;</span>
+
+<span class="n">food_browning</span><span class="o">::</span><span class="n">FoodBrowningEngine</span><span class="w"> </span><span class="n">browning</span><span class="p">;</span>
+<span class="n">food_browning</span><span class="o">::</span><span class="n">BrowningConfig</span><span class="w"> </span><span class="n">bcfg</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">err</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">browning</span><span class="p">.</span><span class="n">Init</span><span class="p">(</span><span class="n">bcfg</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">err</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// handle init error</span>
+<span class="p">}</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">browning</span><span class="p">.</span><span class="n">Analyze</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="w"> </span><span class="n">seg</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">result</span><span class="p">.</span><span class="n">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// handle runtime error</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2><span class="section-number">3.3. </span><span class="target" id="id1">日志</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>定义于 <cite>include/fb_logger.hpp</cite>。</p>
+<ul class="simple">
+<li><p><cite>food_browning::Logger::Instance().SetDebug(true)</cite></p></li>
+<li><p><cite>FB_LOG_DEBUG / FB_LOG_INFO / FB_LOG_WARN / FB_LOG_ERROR</cite></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="2. 快速开始" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="c_api.html" class="btn btn-neutral float-right" title="4. C API 指南" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

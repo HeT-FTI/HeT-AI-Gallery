@@ -1,0 +1,28 @@
+_`Quick Start`
+==============
+
+_`Prerequisites`
+----------------
+
+- Python 3.10+
+- Conan 2+
+- CMake
+- Doxygen and Graphviz (required by the full docs pipeline)
+
+_`Build and Test`
+-----------------
+
+.. code-block:: bash
+
+   # 1) Build and test (Debug profile, coverage-friendly)
+   conan create . -s build_type=Debug --build=missing
+
+   # 2) Build documentation through the project entrypoint
+   python ./docs/build.py
+
+_`Minimal Runtime Flow`
+-----------------------
+
+1. Initialize `nnseg` and run `Predict`.
+2. Initialize `food_browning` and run `Analyze`.
+3. Read per-instance maturity from `BrowningResult.items` and handle errors if `ok` is false.

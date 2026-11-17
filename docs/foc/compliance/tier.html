@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.1.1. Claim tiers &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="3.1.2. By industry" href="industries.html" />
+    <link rel="prev" title="3. What may be claimed, and to whom" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. What may be claimed, and to whom</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#four-readers-four-pages">3.1. Four readers, four pages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">3.1.1. Claim tiers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-five-tiers">3.1.1.1. The five tiers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#two-rules-that-keep-the-table-honest">3.1.1.2. Two rules that keep the table honest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#which-tier-lets-you-discuss-which-standard">3.1.1.3. Which tier lets you discuss which standard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related">3.1.1.4. Related</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="industries.html">3.1.2. By industry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="language.html">3.1.3. Language compliance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-four-sentences-this-project-never-says">3.2. The four sentences this project never says</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#where-the-evidence-is">3.3. Where the evidence is</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#related">3.4. Related</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>What may be claimed, and to whom</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.1.1. </span>Claim tiers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/compliance/tier.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">3.1.1. </span><span class="target" id="claim-tiers">Claim tiers</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>A tier is one sentence this project may say, plus the documents that sentence needs. The tiers
+exist so that &quot;where are we?&quot; has one answer inside the project and one answer in front of a
+customer, and so that the answer cannot be upgraded by enthusiasm.</p>
+<section id="the-five-tiers">
+<h2><span class="section-number">3.1.1.1. </span>The five tiers<a class="headerlink" href="#the-five-tiers" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8.0%" />
+<col style="width: 40.0%" />
+<col style="width: 30.0%" />
+<col style="width: 22.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Tier</p></th>
+<th class="head"><p>The sentence it buys</p></th>
+<th class="head"><p>What that sentence needs</p></th>
+<th class="head"><p>Where this project stands</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>T0</strong></p></td>
+<td><p>&quot;The language subset is organised by a downloadable draft or guideline; rule numbers come
+from the toolchain.&quot;</p></td>
+<td><p>no paid document at all</p></td>
+<td><p><strong>holds</strong>: the free material is on disk, each copy with a sha256</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>T1</strong></p></td>
+<td><p>&quot;Organised by rule number: N implemented, M not applicable, K deviated, deviations
+submitted as permits.&quot;</p></td>
+<td><p>the standard itself, plus the compliance guidance that defines the four categories</p></td>
+<td><p><strong>holds</strong>, with one exception: the mapping from a tool check to a rule number does not
+exist yet, so N/M/K cannot be filled in. That is the gap between T0 and T1, and it is
+named as an open item rather than rounded up</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>T2</strong></p></td>
+<td><p>the T1 sentence plus <strong>quantitative hardware failure evidence</strong>.</p></td>
+<td><p>failure-rate data for the components, which lives with the hardware supplier, not here</p></td>
+<td><p><strong>half</strong>: the method can be cited; no number can be computed by this repository, and the
+component data is not ours to publish</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>T3</strong></p></td>
+<td><p>&quot;assessed by a third party.&quot;</p></td>
+<td><p>an assessment contract</p></td>
+<td><p><strong>not this library's to issue</strong>: it can produce evidence, it cannot produce independence</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>T4</strong></p></td>
+<td><p>measured on real hardware, with the condition recorded.</p></td>
+<td><p>a motor, an inverter, a current probe</p></td>
+<td><p><strong>not done</strong>: there is no hardware in the loop, and <a class="reference internal" href="../boundaries.html"><span class="doc">What this library does not do</span></a> says so item by
+item</p></td>
+</tr>
+</tbody>
+</table>
+<p>Two of those rows are limits, not gaps. T3 needs a second organisation and T4 needs a bench;
+neither is bought, scheduled or wished into existence, and a page that showed them as &quot;in
+progress&quot; would be lying about what a library can be.</p>
+</section>
+<section id="two-rules-that-keep-the-table-honest">
+<h2><span class="section-number">3.1.1.2. </span>Two rules that keep the table honest<a class="headerlink" href="#two-rules-that-keep-the-table-honest" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>The status column is written from an actual result, never from intent.</strong> If a row says the
+document is in hand, there is a copy on disk with a recorded sha256, and the entry names the
+edition that was checked against its cover and contents page.</p></li>
+<li><p><strong>A tier is never upgraded in conversation.</strong> To move a row up, point its &quot;needs&quot; column at an
+actual copy — a file name plus the sha256 recorded when it was fetched. A row whose needs
+cannot be pointed at is <strong>T0</strong>, whatever anyone remembers.</p></li>
+</ol>
+<p>The reason for rule 2 is arithmetic, not distrust: the failure mode of a claim ladder is that
+everyone remembers the highest rung anyone ever mentioned, and the numbers behind it were never
+written down.</p>
+</section>
+<section id="which-tier-lets-you-discuss-which-standard">
+<h2><span class="section-number">3.1.1.3. </span>Which tier lets you discuss which standard<a class="headerlink" href="#which-tier-lets-you-discuss-which-standard" title="链接到此标题。"></a></h2>
+<p>The tiers are not industry-specific; the standards are. This is the join between the two pages,
+and <a class="reference internal" href="industries.html"><span class="doc">By industry</span></a> fills in the industry side:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 34.0%" />
+<col style="width: 46.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Standard family</p></th>
+<th class="head"><p>Becomes discussable at</p></th>
+<th class="head"><p>Because</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>MISRA C++ / compliance guidance</p></td>
+<td><p><strong>T1</strong></p></td>
+<td><p>the four categories and the five elements of a deviation permit are what T1 defines</p></td>
+</tr>
+<tr class="row-odd"><td><p>ISO 26262 (SEooC shape), IEC 61508-3 (technique tables)</p></td>
+<td><p><strong>T1</strong></p></td>
+<td><p>both are &quot;organised by clause number&quot; claims, plus the safety manual shape</p></td>
+</tr>
+<tr class="row-even"><td><p>ISO 26262 tool confidence, IEC 61508 tool qualification</p></td>
+<td><p><strong>T1</strong>, as an argument rather than a certificate</p></td>
+<td><p>the evidence is a self-test per gate, a differential build with two compilers, and a
+known-defect list — none of which is a formal tool qualification</p></td>
+</tr>
+<tr class="row-odd"><td><p>any ASIL, SIL, PL, Class, DAL or MDD level</p></td>
+<td><p><strong>never</strong></p></td>
+<td><p>levels belong to a whole machine; see the four sentences on <a class="reference internal" href="index.html"><span class="doc">What may be claimed, and to whom</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>&quot;third-party assessed&quot;</p></td>
+<td><p><strong>T3</strong></p></td>
+<td><p>which this library does not issue</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="related">
+<h2><span class="section-number">3.1.1.4. </span>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the four sentences, and the evidence behind each: <a class="reference internal" href="index.html"><span class="doc">What may be claimed, and to whom</span></a></p></li>
+<li><p>the industry-by-industry answer: <a class="reference internal" href="industries.html"><span class="doc">By industry</span></a></p></li>
+<li><p>what the language claim can support in detail: <a class="reference internal" href="language.html"><span class="doc">Language compliance</span></a></p></li>
+<li><p>what the library does not do at all: <a class="reference internal" href="../boundaries.html"><span class="doc">What this library does not do</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="3. What may be claimed, and to whom" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="industries.html" class="btn btn-neutral float-right" title="3.1.2. By industry" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

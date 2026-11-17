@@ -1,0 +1,26 @@
+_`Experimental Notes`
+=====================
+
+This page summarizes observed S-value dynamics for oven-baked chicken wings and provides practical hints for threshold design.
+
+_`Stage-by-Stage Notes`
+-----------------------
+
+1. Initial dip: protein denaturation and surface moisture film reduce color purity.
+2. Fast rise: stronger Maillard reaction and oil film increase perceived saturation.
+3. Plateau: color stabilizes in a golden-brown region and often maps to the best serving window.
+4. Decline: charring area increases and the S-value falls again.
+
+.. figure:: ../../images/OUT_hsv_s_curve_over_time.png
+   :name: hsv-s-curve-note
+   :width: 92%
+   :align: center
+
+   Multi-instance and global mean S-curve illustration.
+
+_`Engineering Recommendations`
+------------------------------
+
+- Use moving-window smoothing on global S-mean before detecting turning points.
+- Treat the plateau-end decline turning point as a candidate overbake trigger.
+- Combine S-value trend with local char-area metrics to reduce false positives.

@@ -1,0 +1,64 @@
+_`NNSeg Project Documentation`
+==============================
+
+_`Overview`
+-----------
+
+NNSeg is a C/C++ segmentation inference library focused on food-scene instance segmentation.
+The project provides a modern C++ API, a stable C ABI for integration with C runtimes, and a
+Conan-based packaging and test workflow.
+
+_`What This Documentation Covers`
+---------------------------------
+
+- Build and package integration through CMake and Conan.
+- Runtime usage of both C++ and C interfaces.
+- Metadata-driven project configuration and CI switches.
+- Input/output contracts, error behavior, and validation scope.
+
+_`Quick Start`
+--------------
+
+.. code-block:: bash
+
+   # Build and run test_package in one step
+   conan create . -s build_type=Debug --build=missing
+
+   # Build release package
+   conan create . -s build_type=Release --build=missing
+
+   # Build docs (Doxygen + Sphinx)
+   uv run ./docs/build.py
+
+_`Repository Layout`
+--------------------
+
+::
+
+   nn_seg/
+   ├── include/                 # Public C/C++ headers (nnseg.hpp, nnseg_c.h, ...)
+   ├── src/                     # Runtime implementation and C bridge
+   ├── api/                     # Optional Python binding source
+   ├── test_package/            # Integration executable + unit/stress tests
+   ├── benchmark/               # On-board benchmark framework
+   ├── docs/                    # Doxygen + Sphinx source
+   ├── CMakeLists.txt           # Build graph and target definitions
+   ├── conanfile.py             # Conan recipe
+   └── metadata.json            # Build/docs/CI control plane
+
+_`Documentation Map`
+--------------------
+
+.. toctree::
+   :maxdepth: 2
+   :numbered:
+
+   CMake build system <components/cmake>
+   Conan package recipe <components/conan>
+   Metadata reference <components/meta>
+   Runtime usage and validation <export>
+
+_`License`
+----------
+
+This project is licensed under Apache-2.0. See the LICENSE file for full terms.

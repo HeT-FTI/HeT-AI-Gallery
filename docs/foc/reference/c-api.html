@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>c-api &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Glossary" href="../glossary.html" />
+    <link rel="prev" title="comm" href="comm.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using the API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-promised-here-and-what-is-not">What is promised here, and what is not</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-six-groups">The six groups</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core.html">core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="motor.html">motor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hal.html">hal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver.html">driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html">comm</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">c-api</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-frozen-means-here-concretely">What &quot;frozen&quot; means here, concretely</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#status-codes">Status codes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#motor-handles">Motor handles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-run-read">Enable, run, read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#commands">Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#breakaway-tracing-and-tuning-sessions">Breakaway, tracing and tuning sessions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-commissioning-record">The commissioning record</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#functions-that-need-no-motor">Functions that need no motor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linking-it">Linking it</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related">Related</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#three-faces-one-implementation">Three faces, one implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-to-find-something">How to find something</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#naming-rules-worth-knowing-before-you-read-any-page">Naming rules worth knowing before you read any page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-this-section-will-not-do">What this section will not do</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Using the API</a></li>
+      <li class="breadcrumb-item active">c-api</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/c-api.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="c-api">c-api</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The frozen C11 surface, in <code class="docutils literal notranslate"><span class="pre">include/foc/api/foc_api.h</span></code>. It is not a second implementation: every
+entry point runs the same core as the C++ templates, and <a class="reference internal" href="../guides/c-and-cpp-callers.html"><span class="doc">Consuming the library from outside C++</span></a>
+proves that two doors give the same numbers, tick by tick.</p>
+<section id="what-frozen-means-here-concretely">
+<h2>What &quot;frozen&quot; means here, concretely<a class="headerlink" href="#what-frozen-means-here-concretely" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24.0%" />
+<col style="width: 76.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Rule</p></th>
+<th class="head"><p>Consequence for you</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Every fallible function returns <code class="docutils literal notranslate"><span class="pre">foc_err_t</span></code> and is <code class="docutils literal notranslate"><span class="pre">FOC_WARN_UNUSED</span></code></p></td>
+<td><p>ignoring a status is a compiler warning, and the project's own build treats it as an
+error. <code class="docutils literal notranslate"><span class="pre">(void)</span></code> does <strong>not</strong> silence it on GCC; bind first (<code class="docutils literal notranslate"><span class="pre">foc_err_t</span> <span class="pre">e</span> <span class="pre">=</span> <span class="pre">…</span></code>) — the
+escape exists and is deliberately the more typing</p></td>
+</tr>
+<tr class="row-odd"><td><p>Handles are opaque and generation-checked</p></td>
+<td><p>a stale handle answers <code class="docutils literal notranslate"><span class="pre">FOC_ERR_PARAM</span></code> instead of dereferencing freed memory. A
+use-after-free becomes a return value</p></td>
+</tr>
+<tr class="row-even"><td><p>Structs carry <code class="docutils literal notranslate"><span class="pre">struct_size</span></code> and fields are only appended</p></td>
+<td><p>an older caller keeps working; a newer field is <em>not read</em> rather than read out of
+somebody's stack. A field that cannot be left unset answers <code class="docutils literal notranslate"><span class="pre">FOC_ERR_NOT_IMPL</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>The pool is static and small</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FOC_ERR_NO_RESOURCE</span></code> is a real answer, not a memory-exhaustion symptom. You are told
+when the last slot is in use</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">_f64</span></code> variants exist for the commands</p></td>
+<td><p>a <code class="docutils literal notranslate"><span class="pre">double</span></code> command from a script keeps its bits; the <code class="docutils literal notranslate"><span class="pre">float</span></code> form is the one an
+embedded caller wants</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="status-codes">
+<h2>Status codes<a class="headerlink" href="#status-codes" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 66.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Code</p></th>
+<th class="head"><p>Meaning, and what to do about it</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FOC_OK</span></code></p></td>
+<td><p>done</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FOC_ERR_PARAM</span></code></p></td>
+<td><p>a null argument, an uncovered <code class="docutils literal notranslate"><span class="pre">struct_size</span></code>, an unconfigured policy, or a request the
+machine cannot satisfy. Fix the caller</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FOC_ERR_NO_RESOURCE</span></code></p></td>
+<td><p>the handle pool is exhausted. Release something</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FOC_ERR_STATE</span></code></p></td>
+<td><p>the call does not apply to this state (command before <code class="docutils literal notranslate"><span class="pre">enable</span></code>, for instance). Read the
+state machine, not the code</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FOC_ERR_NOT_IMPL</span></code></p></td>
+<td><p>this host cannot answer that — a missing callback, or a field this build does not read.
+<em>Not</em> a caller error, and the distinction is deliberate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FOC_ERR_FAULT</span></code></p></td>
+<td><p>a latched fault is blocking the call. Diagnose, then clear</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="motor-handles">
+<h2>Motor handles<a class="headerlink" href="#motor-handles" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 44.0%" />
+<col style="width: 56.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>What they are for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_create</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_motor_create_ex</span></code></p></td>
+<td><p>a handle from a nameplate, with the setup struct covering limits, carrier and dead time</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_create_host</span></code></p></td>
+<td><p>the same, with the HAL supplied as C callbacks (see <a class="reference internal" href="hal.html"><span class="doc">hal</span></a>) — the form scripted hosts
+and the Python module use</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_get_setup</span></code></p></td>
+<td><p>what was <strong>actually applied</strong>, so a caller never has to guess which defaults it got: zero
+means &quot;the library default&quot;</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_set_observer</span></code></p></td>
+<td><p>choose the observer at run time among the implemented kinds</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_destroy</span></code></p></td>
+<td><p>release the slot; the handle goes stale rather than dangling</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="enable-run-read">
+<h2>Enable, run, read<a class="headerlink" href="#enable-run-read" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 44.0%" />
+<col style="width: 56.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>What they are for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_enable</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_motor_disable</span></code></p></td>
+<td><p>output on and off. <code class="docutils literal notranslate"><span class="pre">disable</span></code> leaves the stage safe before it returns</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_clear_fault</span></code></p></td>
+<td><p>the operator action — the C face of <code class="docutils literal notranslate"><span class="pre">reset()</span></code>, which keeps the thermal memory</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_tick(motor,</span> <span class="pre">dt_s)</span></code></p></td>
+<td><p>one control period. The only function that must be called at a fixed rate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_get_state</span></code></p></td>
+<td><p>speed, <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">iq</span></code> — the three numbers a supervisor reads every period</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_get_status</span></code></p></td>
+<td><p>the state machine, the fault vocabulary and the mode in one struct</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_get_position_absolute</span></code></p></td>
+<td><p>a continuous mechanical angle, including the turns the encoder alone cannot see</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">foc_set_speed</span></code> / <code class="docutils literal notranslate"><span class="pre">foc_set_speed_f64</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_set_torque</span></code> / <code class="docutils literal notranslate"><span class="pre">foc_set_torque_f64</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc_set_position</span></code> / <code class="docutils literal notranslate"><span class="pre">foc_set_position_f64</span></code>, and <code class="docutils literal notranslate"><span class="pre">foc_set_command</span></code> for the case where the
+mode and the reference must change in the same period.</p>
+</section>
+<section id="breakaway-tracing-and-tuning-sessions">
+<h2>Breakaway, tracing and tuning sessions<a class="headerlink" href="#breakaway-tracing-and-tuning-sessions" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Session</p></th>
+<th class="head"><p>Functions</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>stall start</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_begin_stall_start</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_motor_get_stall_start</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc_motor_cancel_stall_start</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>trace ring</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_set_trace</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_motor_trace_read</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_motor_trace_reset</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>speed-loop tuning</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">foc_autotune_create</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_autotune_accumulate</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_autotune_finish</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc_autotune_reset</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_autotune_destroy</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>cogging learning</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">foc_cogging_learn_create</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_cogging_learn_accumulate</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc_cogging_learn_ready</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_cogging_learn_finish</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_cogging_learn_reset</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc_cogging_learn_destroy</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>protector</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">foc_protector_create</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_protector_step</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_protector_reset</span></code> (with a cold
+flag), <code class="docutils literal notranslate"><span class="pre">foc_protector_destroy</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>sensor monitor</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">foc_sensor_monitor_create</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_sensor_monitor_step</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_sensor_monitor_status</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc_sensor_monitor_reset</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_sensor_monitor_destroy</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>drive supervisor</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">foc_supervisor_create</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_supervisor_enable</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_supervisor_step</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc_supervisor_status</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_supervisor_disable</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_supervisor_clear</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc_supervisor_destroy</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The session shapes are the same in all of them — create, feed, ask, finish, destroy — and the
+handles are the same kind: a slot with a generation, so a session that was not destroyed is
+detectable rather than invisible.</p>
+</section>
+<section id="the-commissioning-record">
+<h2>The commissioning record<a class="headerlink" href="#the-commissioning-record" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">foc_commissioned_set_encode</span></code> and <code class="docutils literal notranslate"><span class="pre">foc_commissioned_set_decode</span></code> are the two functions that turn
+the numbers a commissioning run measures into bytes and back. They are in the C face on purpose: on
+a serial-numbered production line the thing that writes the record is usually not the thing that
+firmware lives in. Encoding refuses an unusable set and a short buffer; decoding names the check
+that failed and the byte offset, so the answer is &quot;re-measure this number&quot;, not &quot;this byte looks
+odd&quot;.</p>
+</section>
+<section id="functions-that-need-no-motor">
+<h2>Functions that need no motor<a class="headerlink" href="#functions-that-need-no-motor" title="链接到此标题。"></a></h2>
+<p>These take numbers and return numbers; they are the C face of the stages on <a class="reference internal" href="core.html"><span class="doc">core</span></a>, and the
+reason a script can plan a motion without owning a handle:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Answers</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_mtpa_reference</span></code></p></td>
+<td><p>the <code class="docutils literal notranslate"><span class="pre">(id,</span> <span class="pre">iq)</span></code> pair for a torque request at a current ceiling</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_field_weakening_worthwhile</span></code></p></td>
+<td><p>whether this machine has anywhere to weaken into, and why</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_current_pi_gains</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_speed_pi_gains</span></code></p></td>
+<td><p>gains from the nameplate and a requested bandwidth</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_rs_estimate</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_flux_estimate</span></code></p></td>
+<td><p>the two standstill identifications</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_board_check</span></code></p></td>
+<td><p>the twelve board items and the one cause behind the failures</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_torque_map_build</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_torque_command</span></code></p></td>
+<td><p>the nameplate restated in newton-metres, and a command through it</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_step_metrics</span></code></p></td>
+<td><p>settling time, overshoot and steady-state error out of a recorded step</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_sinusoid_fit</span></code></p></td>
+<td><p>one tone out of a window, and how good the fit was</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_hfi_size</span></code></p></td>
+<td><p>the carrier amplitude and frequency this machine can resolve</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linking-it">
+<h2>Linking it<a class="headerlink" href="#linking-it" title="链接到此标题。"></a></h2>
+<p>The ABI is C, the implementation is C++. Set <code class="docutils literal notranslate"><span class="pre">LINKER_LANGUAGE</span> <span class="pre">CXX</span></code> (or add one empty <code class="docutils literal notranslate"><span class="pre">.cpp</span></code>),
+otherwise the link fails on symbols named <code class="docutils literal notranslate"><span class="pre">__cxa_</span></code>. <a class="reference internal" href="../install.html"><span class="doc">Installing and toolchains</span></a> states this as a rule and
+<a class="reference internal" href="../index.html#honest-limits"><span class="std std-ref">the honest-limits row on a pure-C consumer</span></a> states the stronger version: a C consumer
+<em>without</em> the C++ runtime is not supported.</p>
+</section>
+<section id="related">
+<h2>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the C++ surface these call: <a class="reference internal" href="core.html"><span class="doc">core</span></a>, <a class="reference internal" href="motor.html"><span class="doc">motor</span></a></p></li>
+<li><p>the same experiment through both doors: <a class="reference internal" href="../guides/c-and-cpp-callers.html"><span class="doc">Consuming the library from outside C++</span></a></p></li>
+<li><p>the Python module, which binds this API and nothing else: <a class="reference internal" href="../quickstart.html"><span class="doc">Quick start</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="comm.html" class="btn btn-neutral float-left" title="comm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

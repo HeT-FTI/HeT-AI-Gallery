@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. What this library does not do &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="2. What each capability offers, and what it costs" href="capabilities.html" />
+    <link rel="prev" title="4. What &#34;predictable&#34; costs" href="cost-model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. What this library does not do</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">1.1. Deferred to your hardware, not to us</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">1.2. Claims this project does not make</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">1.3. Not a safety component</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>What this library does not do</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/boundaries.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1. </span><span class="target" id="what-this-library-does-not-do">What this library does not do</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>Every row below is a limit that will cost somebody a day if they meet it in the field instead of here. The point of the
+page is not humility: a control library whose boundaries are unstated gets used outside them, and the failure then looks
+like a bug in the library rather than a fact about the domain.</p>
+<p>This page is about what the <em>library</em> cannot do. It is a different list from <a class="reference internal" href="index.html#honest-limits"><span class="std std-ref">honest limits</span></a>, which
+is about what software verification cannot reach and is deferred to hardware -- dead-time, ADC timing, EMI, ISR worst
+case. Both are needed: one is a property of the method, the other of the evidence.</p>
+<p>Each row names the case that <strong>pins</strong> it, and the <cite>boundaries</cite> gate checks that every named case still exists. A
+statement whose case was renamed or deleted therefore fails the build rather than quietly becoming folklore. That is the
+only reason this page can be trusted after the person who wrote it has moved on.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 40.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>What it cannot do</p></th>
+<th class="head"><p>What that means for you</p></th>
+<th class="head"><p>Pinned by</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Resolve the magnet polarity.</strong></p></td>
+<td><p>The injection observer converges to <cite>dtheta = pi</cite> as happily as to zero: the d axis is right and the magnet is
+backwards, so the torque sign is inverted. Telling them apart needs a separate pulse or saturation test, which is
+<cite>MagnetPolarityTest</cite> applied once at commissioning -- not something the observer does for you.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilHfi.OutsideTheHalfTurnWindowItLocksToTheMirror</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Survive a wrong saliency sign.</strong></p></td>
+<td><p>A machine with <cite>Ld &gt; Lq</cite> needs <cite>demod_gain_a</cite> positive; the wrong sign does not give a worse estimate, it drives
+the estimate to the unstable equilibrium at <cite>+-pi/2</cite> and leaves it there.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilHfi.AWrongSaliencyDirectionRunsAwayInsteadOfLocking</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Say &quot;I do not know&quot; through `ObsState`.</strong></p></td>
+<td><p>The angle has no validity channel. An observer that is not measuring holds its last angle and reports zero
+speed -- indistinguishable from a stopped machine by those two numbers alone. Use <cite>locked()</cite> (or
+<cite>status()[&quot;observer_locked&quot;]</cite> from Python) to tell them apart.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SwitchableObserver.TheSelectedObserversLockVerdictIsReachableThroughTheSlot</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Run an injection carrier the control rate cannot resolve.</strong></p></td>
+<td><p>Past <cite>hfi_max_inject_hz(control_hz)</cite> the observer stops: the demodulated amplitude collapses, the lock drops out,
+the angle freezes, the speed reads zero, and a loop closing on it runs away (measured: -19.5 rad/s of speed
+bias). The request is refused at setup, and by <cite>update()</cite> for the paths that do not go through the bridge.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HfiObserver.ACarrierThisControlRateCannotResolveIsRefusedNotFrozen</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Use one carrier frequency at every control rate.</strong></p></td>
+<td><p>The ceiling is a sampling fact, not a machine fact: 9200 Hz is refused at 20 kHz and accepted at 40 kHz. Sizing a
+carrier for one rate and reusing it at another is the mistake this row exists to prevent.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HfiObserver.TheCarrierCeilingScalesWithTheControlRate</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Run the injection observer on a surface machine.</strong></p></td>
+<td><p><cite>predicted_gain_a()</cite> is proportional to <cite>(lq - ld)</cite>, so with <cite>lq == ld</cite> the demodulated signal is identically
+zero and no follower can lock. The mode is refused rather than admitted and left to fail later.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ApiObserverSelector.TheHfiModeRefusesWithoutACarrierOrWithoutSaliency</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Acquire a rotor that is already turning.</strong></p></td>
+<td><p>The loop pulls the angle only inside <cite>+-pi/2</cite> and has no way to pull a frequency it has never seen. A rotor handed
+to it mid-spin either gets caught or lands on the mirror, and which one is a property of the speed. A hand-over
+must seed it (<cite>seed_angle</cite>), which is what the blending observer does while the carrier is wound down.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilHfiEnvelope.AcquiringARotorAlreadyRunningNeedsASeed</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Reduce the low-speed servo's residual ripple by improving the angle.</strong></p></td>
+<td><p>The steady bias at 20 rad/s is 0.0039 rad/s (0.02 %); what remains is a ripple at the carrier frequency, and it is
+the injected current cross-coupling into torque on a turning machine -- linear in <cite>inject_v</cite> and in speed,
+indifferent to the saliency. Improving the angle by 13x does not move it. <cite>inject_v</cite> is the knob.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilSpeedRipple.TheFigureSurvivesSubstepResolution</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Reconstruct what the hardware actually did from a trace.</strong></p></td>
+<td><p>The trace records what the loop <em>believed</em>: the currents the PI acted on and the voltages it applied before
+modulation. A trace that looks perfect is therefore entirely consistent with a miscalibrated current sensor -- the
+loop is faithful to a wrong measurement. Use it to explain the loop's decisions, not to measure the phases.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Trace.TheRecordAgreesWithTheScalarReadBitForBit</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Start a load the drive cannot move.</strong></p></td>
+<td><p>The sequence ramps to its limit, holds, and after its grace period reports <cite>Failed</cite> with zero torque: measured
+0.200 N*m at 0.5 N*m/s reached at 400 ms, then a 200 ms grace. It cannot conjure torque -- the only honest
+answers are &quot;released&quot; and &quot;cannot start&quot;, and from outside a silent axis is indistinguishable from a working
+one, which is why the failure is a state rather than an absence.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">StallStart.AStuckAxisSaysFailedInsteadOfRampingForever</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>See a fault code while the drive is derating.</strong></p></td>
+<td><p>A hot machine below the trip temperature reports <cite>fault = None</cite> and <cite>active_mask = 0</cite> while its current limit is
+already falling -- measured: 3.00 A at 45 C, 1.80 A at 80 C, both with output allowed, then 0 A and no output at
+105 C. <cite>output_allowed</cite> is defined as <cite>active_mask == 0</cite>, so a fault means &quot;authority removed&quot; and derating is
+not one: read <cite>i_limit_a</cite> against the <cite>i_max_a</cite> you configured if you want to know the machine is hot. A
+commissioning tool that shows only the fault code will report a derating drive as healthy.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Protection.TheTemperatureLadderIsGradedRatherThanACliff</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Estimate a torque that accounts for iron loss or magnet temperature.</strong></p></td>
+<td><p><cite>torque_estimate()</cite> is <cite>kt*iq + 1.5*pp*(ld-lq)*id*iq</cite>, and <cite>kt</cite> is a nameplate number: it does not know that the
+magnet weakens as it heats, that iron loss subtracts torque at speed, or that the inverter adds no torque. The
+5 % agreement it reports is against the same model the plant integrates, so it is an agreement about the
+<em>model</em>, not a claim about a hot machine.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TorqueMap.TheEstimateMatchesTheMechanicsOfTheSilBench</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Improve a sensored axis's angle by adding the carrier.</strong></p></td>
+<td><p>The sensor owns the commutation angle, so the injection observer now runs for its own demodulation only: the
+carrier does reach the inverter (measured swing 0.45--0.67 across eight rate/PWM combinations), but the sensor
+keeps the angle and the published speed. <cite>status()[&quot;observer&quot;]</cite> naming <cite>HFI</cite> therefore does <em>not</em> mean the loop
+is commutating on the injected estimate -- compare the two explicitly if that is what you need.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MotorInjection.ASensoredAxisInjectsWithoutSurrenderingTheAngle</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Get a quiet speed estimate out of the injection observer for free.</strong></p></td>
+<td><p><cite>omega_e = omega_int + kp*error</cite>, and <cite>error</cite> carries the carrier, so the published speed holds 0.4180 rad/s at
+2000 Hz in a 20 rad/s servo unless <cite>speed_lpf_hz</cite> is set. The library's own path sets it (200 Hz); a caller that
+constructs the observer directly gets the raw value.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilSpeedRipple.ThePublishedSpeedCanBeCleanedAndTheRotorDoesNotCare</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Close a servo on a ten-millisecond-old speed.</strong></p></td>
+<td><p>Differencing the angle is quieter than the PLL and worse in a loop: at a 200 rad/s speed-loop bandwidth the window
+is transport delay in the feedback path, and no window length from 500 us to 10 ms wins on both settled accuracy
+and peak. The route is closed by measurement, not by taste.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilSpeedFromAngleClosedLoop.AWindowShortEnoughToBeOnTimeIsTheOnlyWayThisRouteWins</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Get a rotor angle out of three Hall sensors alone.</strong></p></td>
+<td><p>The code carries 60 degrees of information per edge and <em>nothing</em> inside a sector: two angles 59.96 degrees
+apart read the same code, so a decoder that sees only the code is wrong by up to 30 degrees -- worst case, half a
+sector, and no cleverness improves it. Ten degrees of mounting error on one sensor widens the bound to 35 and
+narrows the other sectors to 25 without ever producing an illegal code, so misplacement is invisible to the
+wiring. Everything finer than 60 degrees has to come from edge <em>timing</em>, which is the decoder's work, not the
+sensor's.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HallPhysics.InsideOneSectorTheCodeCarriesNoAngleInformation</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>See a dead Hall sensor all the time.</strong></p></td>
+<td><p>A stuck sensor freezes its bit: one sixth of a revolution reads as the illegal code 0 or 7 (that is the entire
+visible fault) and the other five sixths read as perfectly legal codes at 120-degree resolution, with the edge
+interval doubled. Worse, every surviving transition still flips exactly one bit, so the adjacency check that most
+decoders carry never fires -- measured, not assumed, and the first version of that case asserted the opposite.
+Anything built on Halls must watch the illegal window <em>and</em> the edge timing; either alone has a blind spot.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HallPhysics.ADeadSensorIsSilentForFiveSixthsOfTheRevolutionAndKeepsEveryRemainingCodeLegal</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Declare a dead Hall sensor over the whole revolution.</strong></p></td>
+<td><p>Both channels together still leave <strong>8.4 % of a revolution reading `Ok` while wrong by up to 59 degrees</strong>
+(13.7 % and 120 degrees with the sensor stuck high): the illegal window is 15.5 % and the interval check another
+53.9 %, so roughly a third of every revolution is undeclared. A drive built on Halls needs a second opinion --
+current or torque sanity, an index, anything independent of the codes -- rather than a cleverer check on the
+codes. This is the number that decides how the fault has to be handled, and it is asserted so it cannot quietly
+become &quot;the fault is caught&quot;.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HallTracker.AStuckSensorIsCoveredByTwoChannelsAndNeitherAloneIsEnough</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Cancel friction you have not measured.</strong></p></td>
+<td><p>The compensation is a torque of its own, so an estimate above the machine's breakaway moves the rotor even when
+the reference is held still -- measured, <strong>5.625 mrad of travel with no command at all</strong> from a <cite>(0.030, 0.030)</cite>
+estimate on a machine whose breakaway is 0.020. Below the breakaway it is safe but it takes the residual with it:
+<cite>(static - coulomb)/kp</cite> follows the estimate wherever it goes, 2.021 mrad at the true value and 1.007 at a 50 %
+over-estimate. There is nothing in the code stream that can tell you the estimate is wrong -- it has to come from a
+measurement, and the boundary of &quot;good enough&quot; is the breakaway.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FrictionComp.AnEstimateAboveTheBreakawayWalksTheAxisWithNoCommandAtAll</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Tell a stalled axis from a friction estimate that is too low.</strong></p></td>
+<td><p>Both read as &quot;at rest while the loop asks for more than the estimate&quot;, which is exactly what <cite>stalled</cite> reports, so
+the flag is honest about being one fact and not a diagnosis. Distinguishing them needs a second signal -- a torque
+measurement, an encoder that is not moving, or a command that would obviously move a healthy axis.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FrictionComp.TheStallFlagNeedsBothStillnessAndADemandAboveTheBreakaway</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Stop an axis at a wall without knowing the drive's delay.</strong></p></td>
+<td><p>The velocity ceiling is <cite>v^2 &lt;= 2*a*(d - v*dt)</cite> and <cite>dt</cite> is the drive's own latency, not the control period: on the
+SIL axis it is about 1 ms (one period plus the 0.8 ms current rise). Assuming it is zero -- the natural reading of
+&quot;it can decelerate at <cite>a</cite>&quot; -- crosses the wall by <strong>19 mm at 20 rad/s</strong>, which is exactly <cite>v*dt</cite>; with it the axis
+stops <strong>1.04 mm short</strong>. It cannot be derived from anything in the library, so it has to come from a commissioning
+run or a datasheet, and the number passed in should be the conservative one.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SoftLimit.TheDelayTermIsTheDifferenceBetweenNineteenMillimetresPastAndOneShort</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Synchronise two axes with a position-only gear.</strong></p></td>
+<td><p>A perfectly geared pair still shows a standing error of <cite>v*kd/kp</cite> -- <strong>25.6 mrad</strong> at 10 rad/s with <cite>kd</cite> 0.02 and
+<cite>kp</cite> 8 -- because a position loop following a moving reference always lags it. It scales with the rate and
+inversely with the gain, so raising <cite>kp</cite> buys accuracy at the price of stability, and the only term that removes it
+is the gear's velocity output fed forward as <cite>+kd*v_ref</cite>. A gear that emits only a position is a lag generator with
+a ratio.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ElectronicGear.TheSyncErrorIsTheRampLagInBothOfItsTerms</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Trust `v_max / psi_f` for the top speed.</strong></p></td>
+<td><p>It over-promises by about 4 %: the d-axis drop <cite>we*Lq*iq</cite> is part of the bus too. At 24 V and this nameplate the
+naive ceiling is <strong>2910 rad/s electrical</strong> and the machine's own steady state reaches <strong>2794</strong>, and weakening by
+<cite>id = -2 A</cite> lifts it to <strong>3320</strong> -- a factor of <strong>1.188</strong>, not the 1.202 the flux ratio promises, because the
+weakening current's own d-axis voltage eats part of the margin it buys. Both numbers come from bisecting the voltage
+that holds the operating point, not from a datasheet.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HighSpeed.TheVoltageCeilingIsFourPercentBelowTheNaiveRatioAndWeakeningLiftsIt</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Read the open-loop flux observer's angle at speed without knowing its bias.</strong></p></td>
+<td><p>Seeded and fed correctly it still carries a <strong>0.12 rad mean error at 200 rad/s electrical and 0.08 at 600</strong> -- a bias,
+not a sampling effect, which is why it is not speed-proportional and why the number has to be measured for the
+machine in front of you rather than assumed small. What <em>is</em> speed-independent at a fixed samples-per-cycle ratio and
+degrades 4.7x when the ratio drops from 40 to 8 is the sampling error on top of it.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HighSpeed.TheErrorFollowsSamplesPerCycleRatherThanTheSpeed</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Compute in double when the caller passes a double.</strong></p></td>
+<td><p>The <cite>_f64</cite> entry points exist so a call site does not lose a value to an <em>implicit</em> narrowing; the library
+still computes in <cite>float32</cite> throughout, and there is no wider range behind them. <cite>1e40</cite> is the value that
+says so: it is a finite <cite>double</cite> and an <cite>inf</cite> in <cite>float</cite>, and it is <strong>refused</strong> rather than accepted -- the
+check that decides is on the narrowed value, where it enters the loop, because judging the argument that
+arrived would let an infinity through. A caller sizing anything against a <cite>double</cite> range is sizing against a
+range the library does not have.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ApiC.AFiniteDoubleThatOverflowsFloatIsRefusedInsteadOfReachingTheLoopAsInfinity</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<section id="id2">
+<h2><span class="section-number">1.1. </span><span class="target" id="deferred-to-your-hardware-not-to-us">Deferred to your hardware, not to us</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>Four conclusions cannot be reached from this repository at all -- not &quot;not yet&quot;, but &quot;not by this
+tree&quot;, because no board has executed it here (<a class="reference internal" href="index.html#platform-evidence"><span class="std std-ref">what has actually been run</span></a>).
+They are listed here so that meeting them in the field reads as a known limit rather than as a
+defect, and
+<code class="docutils literal notranslate"><span class="pre">docs/sphinx/source/guides/on-machine-acceptance.rst</span></code> is the procedure that reaches the rest:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 40.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Not reachable here</p></th>
+<th class="head"><p>Why</p></th>
+<th class="head"><p>What it means for you</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Any conclusion above roughly 800 rad/s electrical</p></td>
+<td><p>The small motors this was designed around cannot get there</p></td>
+<td><p>The high-speed statements stay at their present level until a machine that reaches it is
+measured</p></td>
+</tr>
+<tr class="row-odd"><td><p>Intermittent failures, such as a start-up hand-over that fails one time in n</p></td>
+<td><p>They need hours to days of reproduction, which a person who has not seen the failure cannot
+arrange</p></td>
+<td><p>A field report of one is a lead, not yet a diagnosis</p></td>
+</tr>
+<tr class="row-even"><td><p>Thermal, EMC and long-term ageing behaviour</p></td>
+<td><p>No chamber, no instruments, no years</p></td>
+<td><p>Anything said here about heat, emissions or wear is a model, not a measurement</p></td>
+</tr>
+<tr class="row-odd"><td><p>The absolute parameters of one particular industrial motor</p></td>
+<td><p>The bench gives the <em>shape</em> of saturation, which transfers between machines; the numbers do
+not</p></td>
+<td><p>Use the shape to choose a model; measure your own machine to fill it in</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id3">
+<h2><span class="section-number">1.2. </span><span class="target" id="claims-this-project-does-not-make">Claims this project does not make</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>The rows above are limits of the <em>method</em>: things the library cannot do. The rows below are a
+different kind of statement -- capabilities somebody reasonably expects from a field-oriented control
+library, and that this project deliberately does not claim. They are listed so that meeting one in
+the field reads as a decision rather than as an omission.</p>
+<p>They carry no &quot;pinned by&quot; column, and that is not an oversight. A limit is pinned by the case that
+measures it; a claim that is <strong>not</strong> made is pinned by the absence of that measurement, which is what
+the level in the claim row already says. The claim table in the project README carries the number and
+the case; this page carries the sentence that may not be said.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Not claimed</p></th>
+<th class="head"><p>Why</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>&quot;Efficient&quot;</strong>, or any efficiency figure.</p></td>
+<td><p>Nothing here measures input power against shaft power. A modulator and a control loop set the
+<em>shape</em> of the voltages; efficiency lives in the switching devices, the winding and the
+modulation index, none of which this project models or measures.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Thermal protection</strong> in the sense of knowing the winding temperature.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">protection</span></code> integrates a copper-loss budget with one time constant. That is not a
+temperature, and the derating thresholds are numbers the caller supplies. Without a thermistor
+or a thermal observer it cannot tell you how hot the motor is -- and it says so instead of
+reporting a plausible degree count.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>&quot;Works down to a few milliamps.&quot;</strong></p></td>
+<td><p>The current-loop evidence starts at 0.1 A. Below that the resolution of the <em>model</em> is the
+limit rather than the ADC, and a model says nothing about a real sensor's noise, offset drift
+or amplifier settling.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>A sensorless low-speed servo as good as a sensored one.</strong></p></td>
+<td><p>Measured, and the answer is no. The gap is a property of the speed estimate rather than of the
+loop, and improving the angle does not close it -- the claim row carries both numbers, and the
+direction is what matters here.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>A sensorless procedure that names its own minimum speed.</strong></p></td>
+<td><p>Measured to be impossible from this evidence: the settled-window error is not monotone in
+speed, so &quot;the smallest speed at which an angle may be claimed&quot; is not an interval and no
+procedure can hand one out. The closed form the claim row derives is a lower bound.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>MTPA paired with a single-inductance observer.</strong></p></td>
+<td><p>MTPA is defined by a d-axis current, and those observers carry a constant flux target, so the
+angle error grows with d current at low speed. The pairing is refused by configuration rather
+than left to the reader: <code class="docutils literal notranslate"><span class="pre">DualInductanceObserver</span></code> is the member that makes MTPA reachable,
+and the refusal applies to the single-<code class="docutils literal notranslate"><span class="pre">L</span></code> observers, not to MTPA itself.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>&quot;The speed loop is validated past base speed.&quot;</strong></p></td>
+<td><p>Not established. Field weakening engages end to end through <code class="docutils literal notranslate"><span class="pre">Motor</span></code>, but at that operating
+point the q-axis current settles with a sign the PI's own contract says cannot happen. That is
+an open measurement rather than a resolved one, and it is recorded as open.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Anything about a specific motor.</strong></p></td>
+<td><p>Every number here is a property of the simulation plant and a stated nameplate.
+<code class="docutils literal notranslate"><span class="pre">BoardSelfTest</span></code> and <code class="docutils literal notranslate"><span class="pre">check_board()</span></code> exist to tell you how far your hardware is from that
+model -- and they are themselves unverified on metal, which is what the level in their claim
+row says.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id4">
+<h2><span class="section-number">1.3. </span><span class="target" id="not-a-safety-component">Not a safety component</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>This library is not certified, not redundant and not fail-safe. <code class="docutils literal notranslate"><span class="pre">protection</span></code> is a <em>supervisory</em>
+layer that assumes the MCU, the gate driver and the sensing are already working: it cannot protect
+against a failed current sensor, a shorted bridge or a lost PWM. Do not use it in any application
+where a wrong torque command can injure somebody.</p>
+<p>The latching behaviour exists to make a fault <strong>inspectable</strong> -- a fault that stays until somebody
+clears it is one a person can read after the fact -- not to make the drive safe. A latch is a
+diagnostic, and a diagnostic is not a safeguard. Where the supervisory layer does have teeth is
+<a class="reference internal" href="compliance/index.html"><span class="doc">What may be claimed, and to whom</span></a>, which states the sentences this project may and may not say about it.</p>
+<p>What is <em>not</em> on this page, because it is enforced by a gate rather than by a test case: no exceptions, no RTTI, no
+<cite>new</cite>/<cite>delete</cite>, no <cite>std::vector</cite>/<cite>std::string</cite>, C++17 and C11 only (<cite>strict</cite>), every installed header carrying a README
+claim row (<cite>claims</cite>), and every number in the documentation matching an artefact the build produced (<cite>docs</cite>).</p>
+<p>This page says what the library does not do. What it <em>may</em> say — the sentences that are allowed,
+the tiers behind them, and the answer each industry gets — is <a class="reference internal" href="compliance/index.html"><span class="doc">What may be claimed, and to whom</span></a>; the
+equivalent for a single capability is <a class="reference internal" href="capabilities.html"><span class="doc">What each capability offers, and what it costs</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="cost-model.html" class="btn btn-neutral float-left" title="4. What &#34;predictable&#34; costs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="capabilities.html" class="btn btn-neutral float-right" title="2. What each capability offers, and what it costs" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

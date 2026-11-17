@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.5. Above base speed &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.6. High speed and modulation" href="modulation-limits.html" />
+    <link rel="prev" title="1.1.4. Torque below base speed" href="torque-reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.5. Above base speed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-need">1.1.5.1. What you need</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-minimal-program">1.1.5.2. A minimal program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-numbers-come-from">1.1.5.3. Where the numbers come from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-goes-wrong">1.1.5.4. How it goes wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evidence">1.1.5.5. Evidence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#figure">1.1.5.6. Figure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.5. </span>Above base speed</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/high-speed-field-weakening.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.5. </span><span class="target" id="above-base-speed">Above base speed</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: the axis has to keep producing torque past the speed where the voltage
+ceiling stops it. Decide whether it is worth implementing, and if it is, know what
+the currents have to do.</p>
+<section id="what-you-need">
+<h2><span class="section-number">1.1.5.1. </span>What you need<a class="headerlink" href="#what-you-need" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/mtpv.hpp</span></code> -- the operating-region solver: the MTPA point, the base
+speed, and where the voltage ellipse and the current circle each bind.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/field_weakening.hpp</span></code> -- the running policy, which produces the dq
+reference at whatever speed the axis is actually at, plus its refusal semantics.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/machine_map.hpp</span></code> -- the nameplate as a function of current, for a
+machine whose inductance saturates. Optional: without it the solver uses the
+linear nameplate, which is what this page's example does.</p></li>
+</ul>
+</section>
+<section id="a-minimal-program">
+<h2><span class="section-number">1.1.5.2. </span>A minimal program<a class="headerlink" href="#a-minimal-program" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/high-speed-field-weakening.cxx</span></code> sweeps the electrical speed
+through the solver and prints where each ceiling starts to bind:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Field weakening -- above base speed: the voltage ceiling starts to bind, and the</span>
+<span class="linenos">  2</span><span class="c1">// currents have to leave the MTPA curve to keep producing torque.</span>
+<span class="linenos">  3</span><span class="c1">//</span>
+<span class="linenos">  4</span><span class="c1">// Build it the way the `demo` gate does -- the example calls into the library, so the</span>
+<span class="linenos">  5</span><span class="c1">// sources are part of the command, and `-Iinclude` alone fails at the link. A renamed</span>
+<span class="linenos">  6</span><span class="c1">// source turns that gate red instead of leaving a stale instruction here:</span>
+<span class="linenos">  7</span><span class="c1">//   g++ -std=c++17 -fno-exceptions -fno-rtti -Wall -Wextra -Werror -Iinclude</span>
+<span class="linenos">  8</span><span class="c1">//   docs/doxygen/dox/demos/high-speed-field-weakening.cxx src/core/*.cpp</span>
+<span class="linenos">  9</span><span class="c1">//   src/core/observer/*.cpp src/motor/*.cpp src/driver/*.cpp src/api/foc_api.c</span>
+<span class="linenos"> 10</span><span class="c1">//   src/api/bridge.cpp src/version.c</span>
+<span class="linenos"> 11</span><span class="c1">//   -o /tmp/high-speed-field-weakening</span>
+<span class="linenos"> 12</span><span class="c1">//</span>
+<span class="linenos"> 13</span><span class="c1">// With `--csv &lt;path&gt;` it writes the sweep as rows; `docs/demos/make_figures.py`</span>
+<span class="linenos"> 14</span><span class="c1">// draws this example&#39;s figure from that file.</span>
+<span class="linenos"> 15</span><span class="c1">//</span>
+<span class="linenos"> 16</span><span class="c1">// 弱磁 —— 基速以上：电压天花板开始约束，电流必须离开 MTPA 曲线才能继续出力。</span>
+<span class="linenos"> 17</span><span class="c1">// 带 `--csv &lt;path&gt;` 时把扫描写成行，供绘图脚本使用。</span>
+<span class="linenos"> 18</span>
+<span class="linenos"> 19</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="linenos"> 20</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="linenos"> 21</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstring&gt;</span>
+<span class="linenos"> 22</span>
+<span class="linenos"> 23</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/machine_params.hpp&gt;</span>
+<span class="linenos"> 24</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/mtpv.hpp&gt;</span>
+<span class="linenos"> 25</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/types.hpp&gt;</span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kVBusV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">24.0F</span><span class="p">;</span>
+<span class="linenos"> 30</span>
+<span class="linenos"> 31</span><span class="c1">/// The voltage the modulator can actually deliver over a whole rotation: the</span>
+<span class="linenos"> 32</span><span class="c1">/// inscribed circle of its hexagon, not the rail. The</span>
+<span class="linenos"> 33</span><span class="c1">/// modulation-limits example draws why those differ.</span>
+<span class="linenos"> 34</span><span class="c1">/// 调制器在整个旋转上都保证得住的电压：它六边形的**内切圆**，不是母线电压。两者为何不同见 modulation-limits 示例。</span>
+<span class="linenos"> 35</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kVMaxV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kVBusV</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1.7320508F</span><span class="p">;</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span><span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 40</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 41</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;--csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 42</span><span class="w">        </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="linenos"> 43</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 44</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usage: %s [--csv &lt;path&gt;]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="linenos"> 45</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 46</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 47</span>
+<span class="linenos"> 48</span><span class="w">    </span><span class="c1">// A salient machine whose characteristic current is well above its current</span>
+<span class="linenos"> 49</span><span class="w">    </span><span class="c1">// ceiling: `lambda = Ld * i_max / psi_f` above 1 is the domain where field</span>
+<span class="linenos"> 50</span><span class="w">    </span><span class="c1">// weakening has somewhere to go. The four nameplate machines of this</span>
+<span class="linenos"> 51</span><span class="w">    </span><span class="c1">// repository sit below it, which is why this one is synthetic and says so.</span>
+<span class="linenos"> 52</span><span class="w">    </span><span class="c1">// 一台凸极机，其特征电流远高于电流上限：`lambda = Ld * i_max / psi_f` 大于 1 才是有弱磁</span>
+<span class="linenos"> 53</span><span class="w">    </span><span class="c1">// 余地的区域。本仓库的四台铭牌机都在这个值以下，所以这一台是合成的，并且它自己说出来。</span>
+<span class="linenos"> 54</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MachineParams</span><span class="w"> </span><span class="n">machine</span><span class="p">{</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0e-3F</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0e-3F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01F</span><span class="p">};</span>
+<span class="linenos"> 55</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpvConfig</span><span class="w"> </span><span class="n">config</span><span class="p">{</span><span class="n">machine</span><span class="p">,</span><span class="w"> </span><span class="n">kVMaxV</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0F</span><span class="p">,</span><span class="w"> </span><span class="mi">7U</span><span class="p">};</span>
+<span class="linenos"> 56</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Mtpv</span><span class="w"> </span><span class="nf">solver</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="linenos"> 57</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">solver</span><span class="p">.</span><span class="n">validate</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 58</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;the machine/ceiling combination was refused</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos"> 59</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 61</span>
+<span class="linenos"> 62</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpvPoint</span><span class="w"> </span><span class="n">mtpa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solver</span><span class="p">.</span><span class="n">mtpa_point</span><span class="p">();</span>
+<span class="linenos"> 63</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">base_speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solver</span><span class="p">.</span><span class="n">base_speed_rad_s</span><span class="p">();</span>
+<span class="linenos"> 64</span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="kt">FILE</span><span class="o">*</span><span class="w"> </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 66</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv_path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 67</span><span class="w">        </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fopen</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+<span class="linenos"> 68</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 69</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fopen&quot;</span><span class="p">);</span>
+<span class="linenos"> 70</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos"> 71</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 72</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;speed_ratio,id_a,iq_a,torque_nm,voltage_limited</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos"> 73</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 74</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;nameplate: Ld 4 mH, Lq 8 mH, psi_f 0.01 Wb, i_max 3 A</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos"> 75</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;voltage ceiling %.3f V (the modulator&#39;s inscribed circle)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kVMaxV</span><span class="p">));</span>
+<span class="linenos"> 76</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;base speed %.1f rad/s elec -- from the flux at the MTPA point, not from psi_f</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos"> 77</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">base_speed</span><span class="p">));</span>
+<span class="linenos"> 78</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;MTPA point: id %+.4f A  iq %+.4f A  torque %.4f N.m  |i| %.4f A</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos"> 79</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">mtpa</span><span class="p">.</span><span class="n">id_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">mtpa</span><span class="p">.</span><span class="n">iq_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">mtpa</span><span class="p">.</span><span class="n">torque_nm</span><span class="p">),</span>
+<span class="linenos"> 80</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">mtpa</span><span class="p">.</span><span class="n">current_a</span><span class="p">));</span>
+<span class="linenos"> 81</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%8s %10s %10s %10s %12s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w/w_base&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id (A)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iq (A)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;torque (N.m)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;voltage binds&quot;</span><span class="p">);</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 83</span>
+<span class="linenos"> 84</span><span class="w">    </span><span class="c1">// Sweep the electrical speed. Below base speed the answer does not move: the</span>
+<span class="linenos"> 85</span><span class="w">    </span><span class="c1">// current ceiling is the only one in force and MTPA is the best use of it.</span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="c1">// Above it, the voltage ellipse starts to bind and the d current has to grow</span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="c1">// negative -- trading torque per amp for headroom.</span>
+<span class="linenos"> 88</span><span class="w">    </span><span class="c1">// 扫电角速度。基速以下答案不动：只有电流上限生效，而 MTPA 是它的最好用法。基速以上电压</span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="c1">// 椭圆开始约束，d 轴电流必须更负——用&quot;每安培转矩&quot;去换电压余量。</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">previous_limited</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="linenos"> 91</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">step</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 92</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">step</span><span class="p">);</span>
+<span class="linenos"> 93</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">omega_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ratio</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">base_speed</span><span class="p">;</span>
+<span class="linenos"> 94</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpvPoint</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solver</span><span class="p">.</span><span class="n">at_speed</span><span class="p">(</span><span class="n">omega_e</span><span class="p">);</span>
+<span class="linenos"> 95</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">limited</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">point</span><span class="p">.</span><span class="n">voltage_limited</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 96</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 97</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%.4f,%.6f,%.6f,%.6f,%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ratio</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">id_a</span><span class="p">),</span>
+<span class="linenos"> 98</span><span class="w">                         </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">iq_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">torque_nm</span><span class="p">),</span><span class="w"> </span><span class="n">limited</span><span class="p">);</span>
+<span class="linenos"> 99</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">limited</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">previous_limited</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">step</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">100</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%8.2f %10.4f %10.4f %10.5f %12s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ratio</span><span class="p">),</span>
+<span class="linenos">101</span><span class="w">                        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">id_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">iq_a</span><span class="p">),</span>
+<span class="linenos">102</span><span class="w">                        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">torque_nm</span><span class="p">),</span><span class="w"> </span><span class="n">point</span><span class="p">.</span><span class="n">voltage_limited</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;yes&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;no&quot;</span><span class="p">);</span>
+<span class="linenos">103</span><span class="w">            </span><span class="n">previous_limited</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limited</span><span class="p">;</span>
+<span class="linenos">104</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">105</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">106</span>
+<span class="linenos">107</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">108</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fclose</span><span class="p">(</span><span class="n">csv</span><span class="p">);</span>
+<span class="linenos">109</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;wrote %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">csv_path</span><span class="p">);</span>
+<span class="linenos">110</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">111</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">112</span>
+<span class="linenos">113</span><span class="w">    </span><span class="c1">// The number that decides whether field weakening is worth implementing at</span>
+<span class="linenos">114</span><span class="w">    </span><span class="c1">// all, printed rather than asserted: `lambda`. The `domain` gate uses the same</span>
+<span class="linenos">115</span><span class="w">    </span><span class="c1">// ratio, so a machine that lands outside it is a machine where field weakening is</span>
+<span class="linenos">116</span><span class="w">    </span><span class="c1">// not worth doing.</span>
+<span class="linenos">117</span><span class="w">    </span><span class="c1">// 决定&quot;弱磁值不值得做&quot;的那个数，打印出来而不是断言：`lambda`。`domain` 门用的是同一个</span>
+<span class="linenos">118</span><span class="w">    </span><span class="c1">// 比值，所以落在这个范围之外的机器，弱磁不值得做。</span>
+<span class="linenos">119</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">machine</span><span class="p">.</span><span class="n">ld</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">i_max_a</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">psi_f</span><span class="p">;</span>
+<span class="linenos">120</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">lambda = Ld * i_max / psi_f = %.3f  (above 1: field weakening has room)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">121</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lambda</span><span class="p">));</span>
+<span class="linenos">122</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">123</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Three numbers in its output are the whole decision:</p>
+<ul class="simple">
+<li><p><strong>`lambda = Ld * i_max / psi_f`</strong> -- above 1 the characteristic current sits
+beyond the current ceiling, so there is headroom to trade away; below 1 the
+machine cannot be weakened into a useful region at all. It is the same ratio the
+project's own domain check uses.</p></li>
+<li><p><strong>base speed</strong> -- computed from the flux <em>at the MTPA point</em>, not from <cite>psi_f</cite>.
+<cite>psi_f</cite> alone overstates it several-fold on a salient machine, and a drive sized
+on that number finds the real ceiling when its current loop saturates.</p></li>
+<li><p><strong>the voltage binds at ...</strong> -- the ratio where the ellipse takes over. Below it
+the answer is constant; above it the currents move every step.</p></li>
+</ul>
+</section>
+<section id="where-the-numbers-come-from">
+<h2><span class="section-number">1.1.5.3. </span>Where the numbers come from<a class="headerlink" href="#where-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>The voltage ceiling is the modulator's inscribed circle, not the rail.</strong> The
+<a class="reference internal" href="modulation-limits.html"><span class="doc">High speed and modulation</span></a> page shows why those differ and by how much; using the rail here makes the whole
+region look wider than it is.</p></li>
+<li><p><strong>The current ceiling is per axis in the nameplate and per vector here.</strong> <cite>|i|</cite>
+is what the solver bounds.</p></li>
+<li><p><strong>The nameplate is linear unless a machine map is supplied.</strong> Saturation moves
+the real boundary, and <cite>machine_map</cite> is the library's way of saying so.</p></li>
+</ul>
+</section>
+<section id="how-it-goes-wrong">
+<h2><span class="section-number">1.1.5.4. </span>How it goes wrong<a class="headerlink" href="#how-it-goes-wrong" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Base speed taken from `psi_f`.</strong> Too high by the amount MTPA already spends on
+the d axis, and the error is largest exactly on the salient machines this page
+exists for.</p></li>
+<li><p><strong>The voltage ceiling taken as the rail.</strong> The rail is only reachable at six
+angles of the rotation; a request sized to it clips five times a revolution and
+arrives as a sixth-order torque ripple rather than a fault.</p></li>
+<li><p><strong>Field weakening commanded without a speed.</strong> The d current it asks for is a
+function of speed; a caller that applies the above-base answer below base speed
+gives away torque per amp for nothing.</p></li>
+<li><p><strong>A machine outside the domain, treated as if inside.</strong> When <cite>lambda</cite> is below 1
+the honest answer is &quot;this machine cannot be weakened usefully&quot;, which is a
+sentence the page and the solver both say -- not a number pulled out of a solver
+that had to extrapolate.</p></li>
+</ol>
+</section>
+<section id="evidence">
+<h2><span class="section-number">1.1.5.5. </span>Evidence<a class="headerlink" href="#evidence" title="链接到此标题。"></a></h2>
+<p>Three claim rows cover this page -- <code class="docutils literal notranslate"><span class="pre">foc/core/field_weakening.hpp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc/core/mtpv.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">foc/core/machine_map.hpp</span></code> -- and the level this page
+may state is the minimum of those three. The numbers behind the boundaries are in
+those rows and in <code class="docutils literal notranslate"><span class="pre">test_mtpv.cpp</span></code>, not on this page.</p>
+<p>What this page does not claim: a saturated machine's operating point. The law
+assumes constant <code class="docutils literal notranslate"><span class="pre">Ld</span></code>/<code class="docutils literal notranslate"><span class="pre">Lq</span></code> and carries no <code class="docutils literal notranslate"><span class="pre">Rs</span></code> term, which is what makes it
+closed-form and what moves the answer on a machine that saturates; and no
+agreement with a real machine between the rows of its map is claimed, because the
+law is measured against a curve whose second derivative is known.</p>
+</section>
+<section id="figure">
+<h2><span class="section-number">1.1.5.6. </span>Figure<a class="headerlink" href="#figure" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-high-speed-field-weakening">
+<a class="reference internal image-reference" href="../_images/ALL_high_speed_field_weakening.png"><img alt="../_images/ALL_high_speed_field_weakening.png" src="../_images/ALL_high_speed_field_weakening.png" width="960" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.5 </span><span class="caption-text">left: the current path, from the MTPA point at the current ceiling, past the
+base-speed marker, along the voltage ellipse towards the characteristic current.
+right: the torque that is left as the speed rises</span><a class="headerlink" href="#figure-high-speed-field-weakening" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>The figure is produced by <code class="docutils literal notranslate"><span class="pre">docs/demos/make_figures.py</span></code> from this page's own
+example; the base-speed marker and the asymptote are both <strong>read from the run</strong>,
+not written into the plot. What it does not show is the machine: the nameplate here
+is linear and the currents are the solver's answer, so a real machine's path on
+this plane will bow where its inductances saturate.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="torque-reference.html" class="btn btn-neutral float-left" title="1.1.4. Torque below base speed" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="modulation-limits.html" class="btn btn-neutral float-right" title="1.1.6. High speed and modulation" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+_`C API Guide`
+==============
+
+_`nnseg C Interface`
+--------------------
+
+Defined in `include/nnseg_c.h`.
+
+- Lifecycle: `nnseg_create` -> `nnseg_init`/`nnseg_init_from_file` -> `nnseg_predict` -> `nnseg_result_release` -> `nnseg_destroy`
+- Status enum: `nnseg_status_t`
+
+.. code-block:: c
+
+   nnseg_engine_t *engine = nnseg_create();
+   if (!engine) {
+       return NNSEG_STATUS_NO_MEMORY;
+   }
+
+   nnseg_config_t cfg = {0};
+   cfg.model_path = "model.onnx";
+   cfg.model_type = "yolov11";
+
+   int32_t st = nnseg_init(engine, &cfg);
+   if (st != NNSEG_STATUS_OK) {
+       nnseg_destroy(engine);
+       return st;
+   }
+
+_`food_browning C Interface`
+----------------------------
+
+Defined in `include/food_browning_c.h`.
+
+- Lifecycle: `food_browning_create` -> `food_browning_init`/`food_browning_init_from_file` -> `food_browning_analyze` -> `food_browning_result_release` -> `food_browning_destroy`
+- Status enum: `food_browning_status_t`
+
+.. code-block:: c
+
+   food_browning_engine_t *engine = food_browning_create();
+   if (!engine) {
+       return FOOD_BROWNING_STATUS_NO_MEMORY;
+   }
+
+   food_browning_config_t cfg = {0};
+   int32_t st = food_browning_init(engine, &cfg);
+   if (st != FOOD_BROWNING_STATUS_OK) {
+       food_browning_destroy(engine);
+       return st;
+   }

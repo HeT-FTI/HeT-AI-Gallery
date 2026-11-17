@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. Measured responses &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="4. Outer-loop self-tuning" href="../sop.html" />
+    <link rel="prev" title="2. One machine, one shift" href="../guides/walkthrough.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Measured responses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#closed-loop-on-the-sil-plant">3.1. Closed loop on the SIL plant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#one-response-per-task">3.2. One response per task</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-the-numbers-live">3.3. Where the numbers live</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3. </span>Measured responses</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/demos/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">3. </span><span class="target" id="measured-responses">Measured responses</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>Every figure below is produced by running this library — no mock-up, no hand-drawn curve. The
+pipeline is:</p>
+<ol class="arabic simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">docs/demos/sil_export.cpp</span></code> drives the SIL bench through one scenario and writes a trace
+and a metrics CSV;</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">docs/demos/make_figures.py</span></code> compiles it against the repository sources, runs it, and
+plots the result;</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">docs/build.py</span></code> copies the figures into the site.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/venv/build/bin/activate<span class="w">        </span><span class="c1"># matplotlib + numpy</span>
+python3<span class="w"> </span>docs/demos/make_figures.py<span class="w">      </span><span class="c1"># regenerate figures and tables</span>
+</pre></div>
+</div>
+<p>To compile one example by hand instead: every example links against the whole of <code class="docutils literal notranslate"><span class="pre">src/</span></code>
+minus <code class="docutils literal notranslate"><span class="pre">version</span></code>, which the Conan recipe wraps in <code class="docutils literal notranslate"><span class="pre">extern</span> <span class="pre">&quot;C&quot;</span></code> and the raw headers do not.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-std<span class="o">=</span>c++17<span class="w"> </span>-O2<span class="w"> </span>-Iinclude<span class="w"> </span>-Itest_package/test/unit<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>docs/doxygen/dox/demos/torque-reference.cxx<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="k">$(</span>find<span class="w"> </span>src<span class="w"> </span>-name<span class="w"> </span><span class="s1">&#39;*.cpp&#39;</span><span class="w"> </span>-o<span class="w"> </span>-name<span class="w"> </span><span class="s1">&#39;*.c&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;/version\.&#39;</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>/tmp/torque-reference
+</pre></div>
+</div>
+<p>Swap the stem for the example you want; each task page below links to the one it uses.</p>
+<p>The scenarios mirror the SIL acceptance suite, so what you see here is the same closed
+loop the test suite asserts on.</p>
+<p>This page is the <strong>picture index</strong> of the site: one figure per task, in the order a machine
+meets them. Each figure is followed by what to look for and by the page that explains how to
+produce it. The numbers stay where they are measured — the three SIL scenarios keep their own
+metrics tables below, everything else points at the claim table in the project <code class="docutils literal notranslate"><span class="pre">README.md</span></code>
+rather than copying a value into prose.</p>
+<section id="closed-loop-on-the-sil-plant">
+<h2><span class="section-number">3.1. </span>Closed loop on the SIL plant<a class="headerlink" href="#closed-loop-on-the-sil-plant" title="链接到此标题。"></a></h2>
+<p>Three scenarios that need a closed loop: a current step, a speed step, and a sine. The C API —
+and therefore the Python module — runs on the stub HAL, whose current feedback is a fixed
+script, so these three come from the <strong>C++</strong> path with the SIL plant.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/ALL_demo_current_step.png"><img alt="../_images/ALL_demo_current_step.png" src="../_images/ALL_demo_current_step.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.1 </span><span class="caption-text">q-axis reference jumps 0 → +1 A → −1 A at standstill; iq follows it twice, the second time
+in the opposite direction</span><a class="headerlink" href="#id2" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-number">表 3.1 </span><span class="caption-text">measured on the +1 A half step</span><a class="headerlink" href="#id3" title="链接到此表格。"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>metric</p></th>
+<th class="head"><p>value</p></th>
+<th class="head"><p>unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>settling_time_5pct</p></td>
+<td><p>0.0009</p></td>
+<td><p>s</p></td>
+</tr>
+<tr class="row-odd"><td><p>overshoot</p></td>
+<td><p>0.00</p></td>
+<td><p>%</p></td>
+</tr>
+<tr class="row-even"><td><p>steady_state_error</p></td>
+<td><p>0.0101</p></td>
+<td><p>A</p></td>
+</tr>
+</tbody>
+</table>
+<p>What to look for: no overshoot, no integrator wind-up at the reversal (the second step settles
+as cleanly as the first), and a d-axis disturbance two orders of magnitude below the q-axis
+setpoint. Explained in <a class="reference internal" href="../guides/torque-reference.html"><span class="doc">Torque below base speed</span></a>.</p>
+<figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="../_images/ALL_demo_speed_step.png"><img alt="../_images/ALL_demo_speed_step.png" src="../_images/ALL_demo_speed_step.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.2 </span><span class="caption-text">speed reference steps to 100 rad/s while the current loop stays at 20 kHz: iq saturates
+during the ramp and collapses to the friction-compensating value once the speed settles</span><a class="headerlink" href="#id4" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-number">表 3.2 </span><span class="caption-text">measured on the step</span><a class="headerlink" href="#id5" title="链接到此表格。"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>metric</p></th>
+<th class="head"><p>value</p></th>
+<th class="head"><p>unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>settling_time_2pct</p></td>
+<td><p>0.0690</p></td>
+<td><p>s</p></td>
+</tr>
+<tr class="row-odd"><td><p>overshoot</p></td>
+<td><p>1.08</p></td>
+<td><p>%</p></td>
+</tr>
+<tr class="row-even"><td><p>steady_state_error</p></td>
+<td><p>-0.9067</p></td>
+<td><p>rad/s</p></td>
+</tr>
+</tbody>
+</table>
+<p>What to look for: iq hits its limit during the ramp — the loop is doing the right thing, not
+fighting itself — a small overshoot, and a steady-state error inside one percent. The outer
+loop this trace runs is the one tuned by <a class="reference internal" href="../sop.html"><span class="doc">Outer-loop self-tuning</span></a>.</p>
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="../_images/ALL_demo_sine_tracking.png"><img alt="../_images/ALL_demo_sine_tracking.png" src="../_images/ALL_demo_sine_tracking.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.3 </span><span class="caption-text">measured speed against a 1 Hz sine reference, first 0.25 s of transient trimmed off</span><a class="headerlink" href="#id6" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default" id="id7">
+<caption><span class="caption-number">表 3.3 </span><span class="caption-text">measured over two cycles</span><a class="headerlink" href="#id7" title="链接到此表格。"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>metric</p></th>
+<th class="head"><p>value</p></th>
+<th class="head"><p>unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>worst_error_pct_of_amplitude</p></td>
+<td><p>2.54</p></td>
+<td><p>%</p></td>
+</tr>
+<tr class="row-odd"><td><p>peak_to_peak_speed</p></td>
+<td><p>99.98</p></td>
+<td><p>rad/s</p></td>
+</tr>
+</tbody>
+</table>
+<p>What to look for: the peak-to-peak swing stays at the reference amplitude (no collapse) and the
+worst error stays a few percent. A step test cannot see phase lag and amplitude collapse; a
+sine can. Explained in <a class="reference internal" href="../sop.html"><span class="doc">Outer-loop self-tuning</span></a>.</p>
+</section>
+<section id="one-response-per-task">
+<h2><span class="section-number">3.2. </span>One response per task<a class="headerlink" href="#one-response-per-task" title="链接到此标题。"></a></h2>
+<p>The same figure step, applied to each task page's own example — no plant, no closed loop,
+just the quantity that task is about:</p>
+<figure class="align-center" id="id8">
+<a class="reference internal image-reference" href="../_images/ALL_startup_sensorless.png"><img alt="../_images/ALL_startup_sensorless.png" src="../_images/ALL_startup_sensorless.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.4 </span><span class="caption-text">the forced angle, unwrapped, and the current the start-up recipe asks for: a flat hold, then
+the pull</span><a class="headerlink" href="#id8" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="../guides/startup-sensorless.html"><span class="doc">Bringing a sensorless machine up</span></a> — what the curve cannot show is whether the rotor followed.</p>
+<figure class="align-center" id="id9">
+<a class="reference internal image-reference" href="../_images/ALL_low_speed_injection.png"><img alt="../_images/ALL_low_speed_injection.png" src="../_images/ALL_low_speed_injection.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.5 </span><span class="caption-text">left: angle error against time for three saliency ratios, on a log axis because the decay is
+over inside the first division; right: the library's own sensitivity function, zero at a
+saliency ratio of one</span><a class="headerlink" href="#id9" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="../guides/low-speed-injection.html"><span class="doc">Zero and low speed</span></a> — the right panel is the reason a surface-mount machine
+gets no benefit from injection.</p>
+<figure class="align-center" id="id10">
+<a class="reference internal image-reference" href="../_images/ALL_high_speed_field_weakening.png"><img alt="../_images/ALL_high_speed_field_weakening.png" src="../_images/ALL_high_speed_field_weakening.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.6 </span><span class="caption-text">left: the current path from the MTPA point at the current ceiling, past the base-speed
+marker, along the voltage ellipse towards the characteristic current; right: the torque that
+is left as the speed rises</span><a class="headerlink" href="#id10" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="../guides/high-speed-field-weakening.html"><span class="doc">Above base speed</span></a> — read the left panel together with
+<a class="reference internal" href="../guides/modulation-limits.html"><span class="doc">High speed and modulation</span></a>: the ellipse is where modulation ends.</p>
+<figure class="align-center" id="id11">
+<a class="reference internal image-reference" href="../_images/ALL_modulation_limits.png"><img alt="../_images/ALL_modulation_limits.png" src="../_images/ALL_modulation_limits.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.7 </span><span class="caption-text">the same amplitude sweep at 0 and at 30 electrical degrees: both grow linearly with the
+request, and they clamp at two different amplitudes</span><a class="headerlink" href="#id11" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="../guides/modulation-limits.html"><span class="doc">High speed and modulation</span></a> — the gap between the two clamp points is the overmodulation
+region, and it is where six-step lives.</p>
+<figure class="align-center" id="id12">
+<a class="reference internal image-reference" href="../_images/ALL_positioning.png"><img alt="../_images/ALL_positioning.png" src="../_images/ALL_positioning.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.8 </span><span class="caption-text">one move shaped by an acceleration limit: the velocity command ramps up at the ceiling, then
+decays as the error shrinks, and the position converges without overshoot</span><a class="headerlink" href="#id12" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="../guides/positioning.html"><span class="doc">Positioning an axis</span></a> — the profile is the reference, so the tail of the curve is the
+plant's, not the loop's.</p>
+<figure class="align-center" id="id13">
+<a class="reference internal image-reference" href="../_images/ALL_current_sampling.png"><img alt="../_images/ALL_current_sampling.png" src="../_images/ALL_current_sampling.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.9 </span><span class="caption-text">left: the sampling window one shunt leaves, against the modulation index, at three vector
+angles — hollow markers are the samples the library refused; right: the dead-time correction
+the library commands, read in the alpha-beta frame, for a step and a ramp</span><a class="headerlink" href="#id13" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="../guides/current-sampling.html"><span class="doc">Sampling and the power stage</span></a> — the refusals matter more than the window: a refused sample
+is the library saying it does not know the current.</p>
+<figure class="align-center" id="id14">
+<a class="reference internal image-reference" href="../_images/ALL_protection_and_derating.png"><img alt="../_images/ALL_protection_and_derating.png" src="../_images/ALL_protection_and_derating.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.10 </span><span class="caption-text">left: how long an overload lasts below the hard trip — a duration that runs away as the
+current approaches the rating; right: the continuous limit against temperature, with the trip
+threshold drawn on top of it</span><a class="headerlink" href="#id14" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="../guides/protection-and-derating.html"><span class="doc">Health and protection</span></a> — the trip line is read from its own constant, so the
+two panels cannot disagree.</p>
+<figure class="align-center" id="id15">
+<a class="reference internal image-reference" href="../_images/ALL_callers.png"><img alt="../_images/ALL_callers.png" src="../_images/ALL_callers.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 3.11 </span><span class="caption-text">a torque command through the C ABI: the measured current follows the command, and the duty
+span written back through the callback moves at each step</span><a class="headerlink" href="#id15" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="../guides/c-and-cpp-callers.html"><span class="doc">Consuming the library from outside C++</span></a> — the same experiment runs through the C++ door, and the page
+reports the difference between the two doors rather than the curve.</p>
+</section>
+<section id="where-the-numbers-live">
+<h2><span class="section-number">3.3. </span>Where the numbers live<a class="headerlink" href="#where-the-numbers-live" title="链接到此标题。"></a></h2>
+<p>No figure on this page states a measured value in its caption. A value that matters is either a
+row of one of the three metrics tables above (written by the same run that drew the curve) or a
+claim row in the project <code class="docutils literal notranslate"><span class="pre">README.md</span></code>, whose evidence is a test case. <a class="reference internal" href="../usage.html"><span class="doc">Usage and verification</span></a> collects
+those claim rows per face; <a class="reference internal" href="../capabilities.html"><span class="doc">What each capability offers, and what it costs</span></a> says what each one owes.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../guides/walkthrough.html" class="btn btn-neutral float-left" title="2. One machine, one shift" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../sop.html" class="btn btn-neutral float-right" title="4. Outer-loop self-tuning" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

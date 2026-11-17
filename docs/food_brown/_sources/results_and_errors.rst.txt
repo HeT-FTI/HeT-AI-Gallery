@@ -1,0 +1,40 @@
+_`Results and Error Handling`
+=============================
+
+_`S-Value Trend Interpretation`
+-------------------------------
+
+From experiments, chicken wings often show the following staged S-value pattern during baking:
+
+1. Slight initial dip.
+2. Rapid rise during browning.
+3. Stable high plateau.
+4. Decline near overbake/charring.
+
+.. figure:: ../../images/OUT_hsv_s_curve_over_time.png
+   :name: hsv-s-trend
+   :width: 92%
+   :align: center
+
+   Per-instance and global mean S-value over time.
+
+_`Result Structures`
+--------------------
+
+- C++: `nnseg::SegmentationResult`, `food_browning::BrowningResult`.
+- C: `nnseg_segmentation_result_t`, `food_browning_result_t`.
+
+For production telemetry, it is recommended to record:
+
+- frame index
+- instance ID and class ID
+- `surface_s` and `maturity`
+- `error_message`
+
+_`Error Handling Recommendations`
+---------------------------------
+
+- `INVALID_ARGUMENT`: check null pointers, size values, and channel layout.
+- `NOT_INITIALIZED`: verify initialization order.
+- `RUNTIME_ERROR`: verify model path, inputs, and runtime diagnostics.
+- `NO_MEMORY`: inspect peak memory and object lifecycle release.

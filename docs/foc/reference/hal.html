@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hal &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="driver" href="driver.html" />
+    <link rel="prev" title="motor" href="motor.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using the API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-promised-here-and-what-is-not">What is promised here, and what is not</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-six-groups">The six groups</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core.html">core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="motor.html">motor</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">hal</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ten-interfaces-one-per-physical-fact">Ten interfaces, one per physical fact</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-c-callback-form">The C-callback form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-the-hal-is-not-asked-to-do">What the HAL is <em>not</em> asked to do</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related">Related</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="driver.html">driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html">comm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-api.html">c-api</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#three-faces-one-implementation">Three faces, one implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-to-find-something">How to find something</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#naming-rules-worth-knowing-before-you-read-any-page">Naming rules worth knowing before you read any page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-this-section-will-not-do">What this section will not do</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Using the API</a></li>
+      <li class="breadcrumb-item active">hal</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/hal.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="hal">hal</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>This is the corner of the library <strong>you</strong> implement. Everything else is the library's; these are
+the board's, and the library never guesses any of them.</p>
+<section id="ten-interfaces-one-per-physical-fact">
+<h2>Ten interfaces, one per physical fact<a class="headerlink" href="#ten-interfaces-one-per-physical-fact" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26.0%" />
+<col style="width: 44.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Interface</p></th>
+<th class="head"><p>The fact it carries</p></th>
+<th class="head"><p>If you get it wrong</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pwm.hpp</span></code></p></td>
+<td><p>how a duty reaches the switches, and what the switch promises in return</p></td>
+<td><p>the modulator is perfect and the output is not</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">current_sense.hpp</span></code></p></td>
+<td><p>three phase currents, <strong>including what to do while the shunt cannot see the current</strong></p></td>
+<td><p>the loop closes on a number the hardware never measured</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">position.hpp</span></code></p></td>
+<td><p>the rotor angle and velocity the observers are corrected against</p></td>
+<td><p>every observer converges to the wrong angle, confidently</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dc_link.hpp</span></code></p></td>
+<td><p>the bus voltage the modulator scales its duties by</p></td>
+<td><p>duties are right in per-unit and wrong in volts</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fault_input.hpp</span></code></p></td>
+<td><p>the power stage's one-bit fault output</p></td>
+<td><p>a hardware trip is invisible until the next command</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">hall.hpp</span></code></p></td>
+<td><p>the three hall sensors as one three-bit field</p></td>
+<td><p>six-step commutation starts a sector late</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">brake_switch.hpp</span></code></p></td>
+<td><p>the brake resistor's switch, whose safe state is <strong>open</strong></p></td>
+<td><p>a braking resistor stays connected at power-up</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clock.hpp</span></code></p></td>
+<td><p>the monotonic microsecond clock the loop is timed against</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max_period_us</span></code> reports something that is not the tick interval</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">temperature.hpp</span></code></p></td>
+<td><p>the winding temperature a derating limit is derived from — and whether the reading is a
+measurement at all</p></td>
+<td><p>a derating schedule that quietly assumes a temperature nobody measured</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mechanical_brake.hpp</span></code></p></td>
+<td><p>the shaft's holding brake: engage, release, and whether it is <strong>actually</strong> holding</p></td>
+<td><p>the drive cuts the bridge believing the shaft is held, and the load drops</p></td>
+</tr>
+</tbody>
+</table>
+<p>Three of them are optional — the clock, the temperature and the mechanical brake — and
+<code class="docutils literal notranslate"><span class="pre">traits.hpp</span></code> exposes <code class="docutils literal notranslate"><span class="pre">has_temperature_v</span></code>, <code class="docutils literal notranslate"><span class="pre">has_mechanical_brake_v</span></code> and the clock probe so a
+consumer can ask. An absent member means &quot;there is nothing to sequence&quot;, never &quot;assume the safe
+value&quot;: the eight without a default are the ones where no honest default exists.</p>
+<p>Every one of them is a template policy, not a virtual base: the motor takes the HAL as a type
+parameter and calls it directly, so an interface that is implemented wrong is a compile error
+(<a class="reference internal" href="core.html"><span class="doc">core</span></a>'s <code class="docutils literal notranslate"><span class="pre">traits.hpp</span></code>) rather than a jump through a null pointer at 20 kHz.</p>
+</section>
+<section id="the-c-callback-form">
+<h2>The C-callback form<a class="headerlink" href="#the-c-callback-form" title="链接到此标题。"></a></h2>
+<p>A host that is not ready to write a policy supplies plain C functions instead. Five are
+required, and the rest change what the loop is allowed to know:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">foc_hal_callbacks_t</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w">  </span><span class="p">(</span><span class="o">*</span><span class="n">pwm_write_duty</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">duty_uvw</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+<span class="w">    </span><span class="kt">void</span><span class="w">  </span><span class="p">(</span><span class="o">*</span><span class="n">read_current</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">uvw_a</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">read_angle_mech_rad</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">read_voltage_v</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">read_drive_fault</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">read_velocity_rad_s</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">);</span><span class="w">   </span><span class="cm">/* optional */</span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">now_us</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">);</span><span class="w">             </span><span class="cm">/* optional */</span>
+<span class="w">    </span><span class="cm">/* appended fields -- see struct_size */</span>
+<span class="p">}</span><span class="w"> </span><span class="n">foc_hal_callbacks_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The two optional callbacks are absent-by-meaning, not by accident:</p>
+<ul class="simple">
+<li><p><strong>no ``read_velocity_rad_s``</strong> means the host cannot measure speed, and the library derives it
+from the angle instead. That is a different controller, not a degraded one;</p></li>
+<li><p><strong>no ``now_us``</strong> means the caller trusts the <code class="docutils literal notranslate"><span class="pre">dt</span></code> it passes to <code class="docutils literal notranslate"><span class="pre">foc_tick()</span></code>.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">struct_size</span></code> is what makes appended fields visible at all: the library reads only what the
+caller's struct covers, so an older caller keeps working and a newer field is <em>not read</em> rather
+than read out of somebody's stack.</p>
+<p>A missing <code class="docutils literal notranslate"><span class="pre">read_drive_fault</span></code> is answered with <code class="docutils literal notranslate"><span class="pre">FOC_ERR_NOT_IMPL</span></code>, not <code class="docutils literal notranslate"><span class="pre">FOC_ERR_PARAM</span></code>. The
+two mean different things — &quot;this host cannot tell you about faults&quot; is not &quot;you passed a bad
+argument&quot; — and the library refuses to let the first read like the second.</p>
+</section>
+<section id="what-the-hal-is-not-asked-to-do">
+<h2>What the HAL is <em>not</em> asked to do<a class="headerlink" href="#what-the-hal-is-not-asked-to-do" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>It does not decide when to sample.</strong> The trigger belongs to the timer chain; the HAL reports
+what the ADC saw, and <a class="reference internal" href="core.html"><span class="doc">core</span></a> decides whether that is usable.</p></li>
+<li><p><strong>It does not convert units.</strong> Currents in amps, angles in radians, voltages in volts. A HAL
+that scales is a HAL that hides a factor of two.</p></li>
+<li><p><strong>It does not allocate.</strong> Every callback receives a <code class="docutils literal notranslate"><span class="pre">user</span></code> pointer chosen at construction;
+nothing in the interface can allocate, because nothing in the interface is called with a
+context the library owns.</p></li>
+</ul>
+</section>
+<section id="related">
+<h2>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>reference implementations for benches and tests: <a class="reference internal" href="driver.html"><span class="doc">driver</span></a></p></li>
+<li><p>the first page a porting engineer should read: <a class="reference internal" href="../guides/startup-sensorless.html"><span class="doc">Bringing a sensorless machine up</span></a></p></li>
+<li><p>the sampling decision the HAL only reports: <a class="reference internal" href="../guides/current-sampling.html"><span class="doc">Sampling and the power stage</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="motor.html" class="btn btn-neutral float-left" title="motor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="driver.html" class="btn btn-neutral float-right" title="driver" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

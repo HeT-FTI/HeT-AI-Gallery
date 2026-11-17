@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.12. Acceptance on your machine &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="2. One machine, one shift" href="walkthrough.html" />
+    <link rel="prev" title="1.1.11. Porting the library to a board" href="porting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.12. Acceptance on your machine</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#do-them-in-order">1.1.12.1. Do them in order</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#three-rules-that-keep-the-results-usable">1.1.12.2. Three rules that keep the results usable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-this-procedure-does-not-reach">1.1.12.3. What this procedure does not reach</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-do-have-afterwards">1.1.12.4. What you do have afterwards</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.12. </span>Acceptance on your machine</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/on-machine-acceptance.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.12. </span><span class="target" id="acceptance-on-your-machine">Acceptance on your machine</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: you have a board, this library, and no interest in trusting either one on faith. This page
+is the procedure that decides whether the pair works. It is written for the person who will run it,
+not for the person who wrote the library.</p>
+<p>Three things are true before you start, and they are worth reading twice:</p>
+<ul class="simple">
+<li><p><strong>This procedure is ours; the result will be yours.</strong> Nothing on this page has been run on
+hardware by this project -- see <a class="reference internal" href="../index.html#platform-evidence"><span class="std std-ref">what has actually been run</span></a>. What the
+library ships is host-and-SIL evidence plus this list. When you run it, the board-level evidence
+becomes yours, and it is worth the paper it is written on in a way ours could not be.</p></li>
+<li><p><strong>Every number below is an expectation from the simulation bench, not a fact about your machine.</strong>
+A different motor is a different machine. Where a number appears, it is there so you know what
+&quot;roughly right&quot; looks like; where it conflicts with your datasheet, your datasheet wins and the
+number is the thing that needs explaining.</p></li>
+<li><p><strong>The library judges, you paste the verdict.</strong> Every estimator behind these cards answers with a
+<cite>valid</cite> flag and a cause. A card passes when the code says it passed. &quot;The waveform looked smooth&quot;
+is how an expert reaches a conclusion; it is not available here, and it is not needed.</p></li>
+</ul>
+<section id="do-them-in-order">
+<h2><span class="section-number">1.1.12.1. </span>Do them in order<a class="headerlink" href="#do-them-in-order" title="链接到此标题。"></a></h2>
+<p>H0 comes first because everything after it assumes the board tells the truth. A card that fails
+invalidates the ones below it, not the ones above it.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8.0%" />
+<col style="width: 26.0%" />
+<col style="width: 34.0%" />
+<col style="width: 32.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Card</p></th>
+<th class="head"><p>What you do</p></th>
+<th class="head"><p>It passes when</p></th>
+<th class="head"><p>If it fails, look here first</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>H0</strong></p></td>
+<td><p>Wire up, power at 1 A, run <code class="docutils literal notranslate"><span class="pre">board_check.hpp</span></code>'s self-test over every item, print
+<code class="docutils literal notranslate"><span class="pre">board_cause_name()</span></code>.</p></td>
+<td><p>Every item reports ok and the cause is none.</p></td>
+<td><p>The cause names one thing on purpose: a reversed current polarity is a swapped lead or sensor
+direction; a current offset means doing H4 first; a dead-time complaint means the PWM setup
+or the bus scaling; a sampling-instant complaint means the ADC trigger is not at the centre
+of the zero vector.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>H1</strong></p></td>
+<td><p>Lock the shaft, sweep six d-axis voltages through the resistance estimator, fit the line.</p></td>
+<td><p>Positive resistance within 30 % of the nameplate, and the intercept (the volt-seconds the
+dead time eats) between 0.45 V and 0.75 V. The bench expects 0.55–0.65 V at a 12 V bus and
+1 µs.</p></td>
+<td><p>A resistance that is negative or three times out means the bus scaling is wrong. An intercept
+near zero means the dead time never made it into the bridge.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>H2</strong></p></td>
+<td><p>Turn the rotor by hand to eight positions, step the d-axis at each, fit inductance against
+angle.</p></td>
+<td><p>Both inductances positive and the sinusoidal fit within 10 % residual. The bench expects the
+ratio between 1.0 (surface magnet) and 1.8 (interior magnet).</p></td>
+<td><p>A poor fit means the eight angles were uneven or the current had not settled. Too small an
+inductance means the step was shorter than the estimator needs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>H3</strong></p></td>
+<td><p>Force rotation with a fixed voltage vector, no current loop and no observer, and fit the
+flux linkage from the back-EMF at two speeds.</p></td>
+<td><p>The two speeds agree within 5 %, and the result is within 10 % of what the torque constant
+implies.</p></td>
+<td><p>A linkage that reads low by a fifth means the speeds were too low: the back-EMF has to stand
+clear of the dead-time plateau to be measurable.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>H4</strong></p></td>
+<td><p>With the shaft locked, compare the library's current readings against the supply's own
+display at two or more points, and fit gain and offset.</p></td>
+<td><p>Gain between 0.9 and 1.1, offset under 100 mA.</p></td>
+<td><p>A gain that is off invalidates <strong>every current number you have measured so far</strong>, including
+H1's resistance. Redo them.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>H6</strong></p></td>
+<td><p>Lock the shaft and sweep q-axis current from 0.2 A to the drive's maximum, measuring
+incremental inductance at each point.</p></td>
+<td><p>A monotone fall, with more than 5 % between the ends.</p></td>
+<td><p>No fall is not a failure: it says this motor does not saturate and the nominal model is
+enough. Write it down and skip the saturation features.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>H7</strong></p></td>
+<td><p>Lock the shaft and sweep 20 mA to 1 A in sixteen points, taking the difference between
+commanded and resistive voltage at each.</p></td>
+<td><p>The curve flattens toward zero at low current and saturates by the drive's dead time above
+roughly 0.1 A -- the shape the bench measured, not a straight ramp.</p></td>
+<td><p>A genuinely wide linear ramp contradicts the bench's model, and the compensation constant the
+simulation chose for this shape would be the thing to revisit. Do not adjust it by eye.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>H5</strong></p></td>
+<td><p>Optional and last: current step, speed step, then compare the sensorless angle against an
+encoder as truth.</p></td>
+<td><p>Steady-state error sign agrees with the bench and the magnitude is within a factor of two.</p></td>
+<td><p>This is the card a non-specialist is most likely to get stuck on. The first action is to
+re-check that H0–H4 are green rather than to tune anything.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="three-rules-that-keep-the-results-usable">
+<h2><span class="section-number">1.1.12.2. </span>Three rules that keep the results usable<a class="headerlink" href="#three-rules-that-keep-the-results-usable" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>One variable per card.</strong> The most expensive mistake is a card that quietly changed two things --
+a rotor that found a new working point while you thought you were holding it still. It happened
+to us on the bench, and a real motor does it more readily.</p></li>
+<li><p><strong>Write the criterion before you run.</strong> Each card above has a pass condition and a first thing to
+check; if you change either, change it <em>before</em> the measurement, not after you have seen the
+number.</p></li>
+<li><p><strong>Believe the verdict, not the waveform.</strong> The estimators answer with a flag and a cause. A card
+whose numbers look plausible and whose flag says invalid has failed.</p></li>
+</ol>
+</section>
+<section id="what-this-procedure-does-not-reach">
+<h2><span class="section-number">1.1.12.3. </span>What this procedure does not reach<a class="headerlink" href="#what-this-procedure-does-not-reach" title="链接到此标题。"></a></h2>
+<p>Four things stay out of reach even with a board and these cards; they are on
+<a class="reference internal" href="../boundaries.html"><span class="doc">What this library does not do</span></a> as well, because a limit that lives only on a procedure page is a limit people
+will meet in the field:</p>
+<ul class="simple">
+<li><p>Above roughly 800 rad/s electrical with the small motors this was designed around: the machine
+cannot get there, so the high-speed conclusions stay where they are.</p></li>
+<li><p>Intermittent faults: they need hours-to-days of reproduction, and a person who has not seen the
+failure before cannot be asked to arrange it.</p></li>
+<li><p>Thermal, EMC and long-term ageing: no chamber, no instruments, no years.</p></li>
+<li><p>The absolute parameters of one particular industrial motor: what H6 gives you is the <em>shape</em> of
+saturation, which transfers. The numbers do not.</p></li>
+</ul>
+</section>
+<section id="what-you-do-have-afterwards">
+<h2><span class="section-number">1.1.12.4. </span>What you do have afterwards<a class="headerlink" href="#what-you-do-have-afterwards" title="链接到此标题。"></a></h2>
+<p>Six assertions that were host-and-SIL claims become statements about your machine: the resistance
+estimate, the dead-time volt-seconds, both inductances and their ratio, the flux linkage, the current
+sensor's gain and offset, and the shape of the dead-time curve. The observer's accuracy -- the single
+most load-bearing claim in the library -- becomes yours only after H5.</p>
+<p>None of that changes a claim row in this documentation, and it should not: the tree can only speak
+for what it has measured. What changes is your own evidence, and the moment you have it, you know
+something about this library that we do not.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="porting.html" class="btn btn-neutral float-left" title="1.1.11. Porting the library to a board" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="walkthrough.html" class="btn btn-neutral float-right" title="2. One machine, one shift" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

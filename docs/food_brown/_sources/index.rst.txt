@@ -1,0 +1,26 @@
+_`Food Browning SDK Documentation`
+==================================
+
+Project documentation for algorithm and SDK integrators, focused on segmentation and browning analysis APIs in this repository.
+
+.. toctree::
+   :caption: User Guide
+   :maxdepth: 2
+   :numbered:
+
+   overview
+   quickstart
+   cpp_api
+   c_api
+   configuration
+   results_and_errors
+   export
+   faq
+
+.. toctree::
+   :caption: Appendix
+   :maxdepth: 1
+
+   components/cmake
+   components/conan
+   components/meta

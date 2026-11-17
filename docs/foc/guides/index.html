@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Guides by task &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.1. Bringing a sensorless machine up" href="startup-sensorless.html" />
+    <link rel="prev" title="2. Installing and toolchains" href="../install.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Guides by task</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-ten-pages">1.1. The ten pages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>Guides by task</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1. </span><span class="target" id="guides-by-task">Guides by task</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The API reference answers &quot;what does this function take&quot;. This section answers
+the other question: <strong>&quot;I have a task; which pieces do I need, and how do they go
+together.&quot;</strong> One page per task, not per header.</p>
+<p>Every page in this section has the same seven parts, so one you have read teaches you
+where to look on the next one:</p>
+<ol class="arabic simple">
+<li><p><strong>The task</strong> -- the question in the words a user would use.</p></li>
+<li><p><strong>What you need</strong> -- the headers, and what each one is for.</p></li>
+<li><p><strong>A minimal program</strong> -- compiled with this repository's own flags, in
+<code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/</span></code>.</p></li>
+<li><p><strong>Where the numbers come from</strong> -- which nameplate field or helper produces
+each constant, because a retyped gain is a second machine.</p></li>
+<li><p><strong>How it goes wrong</strong> -- the failure modes that compile cleanly.</p></li>
+<li><p><strong>Evidence</strong> -- which claim rows cover the page, and what the page does not
+claim.</p></li>
+<li><p><strong>Figure</strong> -- produced by <code class="docutils literal notranslate"><span class="pre">docs/demos/make_figures.py</span></code>, never hand-drawn.</p></li>
+</ol>
+<p>Two rules apply to every page and are worth stating once:</p>
+<ul class="simple">
+<li><p><strong>The listing *is* the file.</strong> Part 3 is a <code class="docutils literal notranslate"><span class="pre">literalinclude</span></code> of the example in
+<code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/</span></code>, not a copy of it: what the page shows is the translation unit
+that produced part 7's figure, so the two cannot drift. The one compile command lives in
+<a class="reference internal" href="../demos/index.html"><span class="doc">Measured responses</span></a> instead of being repeated on every page.</p></li>
+<li><p><strong>The evidence level is the minimum of the page's claim rows</strong>, and the level
+itself lives in the claim table in the project <code class="docutils literal notranslate"><span class="pre">README.md</span></code>. No page in this
+section repeats a level or a measured number; a number copied into a page is a
+second source of truth with a shelf life.</p></li>
+<li><p><strong>The figure shows what it shows.</strong> Where a page's headline number is not
+visible in the figure, the page says so rather than choosing a figure that
+looks like it agrees.</p></li>
+</ul>
+<section id="the-ten-pages">
+<h2><span class="section-number">1.1. </span>The ten pages<a class="headerlink" href="#the-ten-pages" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 44.0%" />
+<col style="width: 40.0%" />
+<col style="width: 16.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>The task</p></th>
+<th class="head"><p>Pieces</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bring a sensorless machine up, and know when to trust the observer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">alignment</span></code> <code class="docutils literal notranslate"><span class="pre">polarity</span></code> <code class="docutils literal notranslate"><span class="pre">startup</span></code> <code class="docutils literal notranslate"><span class="pre">stall_start</span></code>
+<code class="docutils literal notranslate"><span class="pre">observer/blended_observer</span></code></p></td>
+<td><p><a class="reference internal" href="startup-sensorless.html"><span class="doc">Bringing a sensorless machine up</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Commutate without an encoder, and choose between the observers that can</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">observer/back_emf_observer</span></code> <code class="docutils literal notranslate"><span class="pre">observer/nonlinear_flux_observer</span></code>
+<code class="docutils literal notranslate"><span class="pre">observer/dual_inductance_observer</span></code></p></td>
+<td><p><a class="reference internal" href="observers.html"><span class="doc">Choosing an angle observer</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Produce torque at zero and low speed, and know when this machine cannot</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">observer/hfi_observer</span></code> <code class="docutils literal notranslate"><span class="pre">observer/dual_inductance_observer</span></code></p></td>
+<td><p><a class="reference internal" href="low-speed-injection.html"><span class="doc">Zero and low speed</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Turn a torque request into a dq current reference and close both axes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reference</span></code> <code class="docutils literal notranslate"><span class="pre">limits</span></code> <code class="docutils literal notranslate"><span class="pre">pi</span></code> <code class="docutils literal notranslate"><span class="pre">feedforward</span></code></p></td>
+<td><p><a class="reference internal" href="torque-reference.html"><span class="doc">Torque below base speed</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Keep producing torque above base speed, and decide whether it is worth it</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">field_weakening</span></code> <code class="docutils literal notranslate"><span class="pre">mtpv</span></code> <code class="docutils literal notranslate"><span class="pre">machine_map</span></code></p></td>
+<td><p><a class="reference internal" href="high-speed-field-weakening.html"><span class="doc">Above base speed</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Modulate the voltage: overmodulation, minimum pulse, six-step</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">svpwm</span></code> <code class="docutils literal notranslate"><span class="pre">min_pulse</span></code> <code class="docutils literal notranslate"><span class="pre">six_step</span></code></p></td>
+<td><p><a class="reference internal" href="modulation-limits.html"><span class="doc">High speed and modulation</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Build a position loop, home the axis, stay inside soft limits</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">position</span></code> <code class="docutils literal notranslate"><span class="pre">position_reference</span></code> <code class="docutils literal notranslate"><span class="pre">motion_profile</span></code> <code class="docutils literal notranslate"><span class="pre">homing</span></code>
+<code class="docutils literal notranslate"><span class="pre">soft_limit</span></code> <code class="docutils literal notranslate"><span class="pre">gear_ratio</span></code></p></td>
+<td><p><a class="reference internal" href="positioning.html"><span class="doc">Positioning an axis</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Sample current accurately: dead time, one shunt, the sampling instant</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">deadtime</span></code> <code class="docutils literal notranslate"><span class="pre">single_shunt</span></code> <code class="docutils literal notranslate"><span class="pre">trace</span></code> <code class="docutils literal notranslate"><span class="pre">board_check</span></code></p></td>
+<td><p><a class="reference internal" href="current-sampling.html"><span class="doc">Sampling and the power stage</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Know when it has failed, and where the parameters came from</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">protection</span></code> <code class="docutils literal notranslate"><span class="pre">watchdog</span></code> <code class="docutils literal notranslate"><span class="pre">thermal_limit</span></code> <code class="docutils literal notranslate"><span class="pre">brake_chopper</span></code>
+<code class="docutils literal notranslate"><span class="pre">auto_tune</span></code> <code class="docutils literal notranslate"><span class="pre">commissioning</span></code></p></td>
+<td><p><a class="reference internal" href="protection-and-derating.html"><span class="doc">Health and protection</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Consume the library from C, Python or a simulation master</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">api/foc_api.h</span></code> <code class="docutils literal notranslate"><span class="pre">comm/frame</span></code> <code class="docutils literal notranslate"><span class="pre">comm/register_map</span></code>
+<code class="docutils literal notranslate"><span class="pre">comm/encoder_stream</span></code> <code class="docutils literal notranslate"><span class="pre">api/python_bindings.cpp</span></code></p></td>
+<td><p><a class="reference internal" href="c-and-cpp-callers.html"><span class="doc">Consuming the library from outside C++</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Every page in the list carries all seven parts and its example compiles, which
+makes the list above the boundary of what this section promises rather than a
+forecast: a task that is not in it is not covered here, and the pieces column
+says what it would take to add it.</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="the-figures-already-on-the-site">
+<h2><span class="section-number">1.2. </span>The figures already on the site<a class="headerlink" href="#the-figures-already-on-the-site" title="链接到此标题。"></a></h2>
+<p><a class="reference internal" href="../demos/index.html"><span class="doc">Measured responses</span></a> holds the SIL traces that the figure step draws on. They
+are scenario pages rather than task pages: a scenario says &quot;watch the loop do
+this&quot;, a task page says &quot;here is what to wire on your machine&quot;.</p>
+</section>
+<section id="reading-the-pages-in-order">
+<h2><span class="section-number">1.3. </span>Reading the pages in order<a class="headerlink" href="#reading-the-pages-in-order" title="链接到此标题。"></a></h2>
+<p>The nine pages below are independent on purpose, but a machine does not meet them
+independently: it is read, checked, aligned, given a torque command, run past base
+speed, positioned and tripped. <a class="reference internal" href="walkthrough.html"><span class="doc">One machine, one shift</span></a> does exactly that, in that order,
+on one nameplate, and states one number per stage — every one printed by a script
+that page includes.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../install.html" class="btn btn-neutral float-left" title="2. Installing and toolchains" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="startup-sensorless.html" class="btn btn-neutral float-right" title="1.1.1. Bringing a sensorless machine up" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

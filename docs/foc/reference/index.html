@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using the API &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="core" href="core.html" />
+    <link rel="prev" title="5. Reproducing these numbers" href="../reproducing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using the API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-promised-here-and-what-is-not">What is promised here, and what is not</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-six-groups">The six groups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html">core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="motor.html">motor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hal.html">hal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver.html">driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html">comm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-api.html">c-api</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#three-faces-one-implementation">Three faces, one implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-find-something">How to find something</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#naming-rules-worth-knowing-before-you-read-any-page">Naming rules worth knowing before you read any page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-this-section-will-not-do">What this section will not do</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Using the API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="using-the-api">Using the API</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>This section is the <strong>contract</strong>, organised by what you are doing rather than by file. Six groups,
+one page each: what you call, what it gives back, and what it will not do for you.</p>
+<section id="what-is-promised-here-and-what-is-not">
+<h2>What is promised here, and what is not<a class="headerlink" href="#what-is-promised-here-and-what-is-not" title="链接到此标题。"></a></h2>
+<p>Every public declaration in this library is grouped — <code class="docutils literal notranslate"><span class="pre">core</span></code>, <code class="docutils literal notranslate"><span class="pre">motor</span></code>, <code class="docutils literal notranslate"><span class="pre">hal</span></code>, <code class="docutils literal notranslate"><span class="pre">driver</span></code>,
+<code class="docutils literal notranslate"><span class="pre">comm</span></code> and the C API — and this section documents each group at the level a user needs: the
+entry points you call, the shape of the data they exchange, and the failure they leave you with.</p>
+<p>It deliberately does <strong>not</strong> enumerate every declaration. A complete per-header listing is a
+different artefact: the project builds it internally for review, and it is not published,
+because an exhaustive dump of the surface is not documentation — it is a map that tells a reader
+what exists without telling them what to do, and it tells a competitor where every seam is
+without telling them anything about why. What is published is the part that answers &quot;how do I
+use this&quot;, page by page.</p>
+<p>Two consequences, stated plainly:</p>
+<ul class="simple">
+<li><p><strong>Missing entry point = missing documentation.</strong> If you need something this section does not
+mention, the honest reading is that the documentation owes you a page, not that the library
+lacks a seam. That is an issue against this section.</p></li>
+<li><p><strong>Names are stable, ordering is not.</strong> The names on these pages are the contract (the C API's
+are frozen; the C++ ones are the ones the guide pages use. Anything else — helper namespaces,
+detail headers, file layout — is free to move, and no page promises otherwise.</p></li>
+</ul>
+</section>
+<section id="the-six-groups">
+<h2>The six groups<a class="headerlink" href="#the-six-groups" title="链接到此标题。"></a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 40.0%" />
+<col style="width: 38.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Group</p></th>
+<th class="head"><p>What is in it</p></th>
+<th class="head"><p>Read it when</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="core.html"><span class="doc">core</span></a></p></td>
+<td><p>frames and transforms, regulators, observers, reference policies, modulation, motion,
+protection, machine data</p></td>
+<td><p>you are choosing an algorithm, not wiring a board</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="motor.html"><span class="doc">motor</span></a></p></td>
+<td><p>the motor instance, its configuration, telemetry and the command it accepts</p></td>
+<td><p>you are assembling the loop on your own hardware</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="hal.html"><span class="doc">hal</span></a></p></td>
+<td><p>the eight interfaces a board must satisfy — this is the set <em>you</em> implement</p></td>
+<td><p>you are porting to a new inverter</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="driver.html"><span class="doc">driver</span></a></p></td>
+<td><p>the reference implementations of those interfaces: callback and stub HALs</p></td>
+<td><p>you are on a host, a test bench, or bridging plain C callbacks</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="comm.html"><span class="doc">comm</span></a></p></td>
+<td><p>frames, register map, encoder stream — the wire contracts</p></td>
+<td><p>the axis is driven by another device</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="c-api.html"><span class="doc">c-api</span></a></p></td>
+<td><p>the frozen C11 surface: handles, status codes, the servo façade</p></td>
+<td><p>you are not writing C++</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="three-faces-one-implementation">
+<h2>Three faces, one implementation<a class="headerlink" href="#three-faces-one-implementation" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16.0%" />
+<col style="width: 30.0%" />
+<col style="width: 54.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Face</p></th>
+<th class="head"><p>Entry point</p></th>
+<th class="head"><p>What it is for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>C++17</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">foc::motor::Motor&lt;Observer,</span> <span class="pre">Modulator,</span> <span class="pre">CurrentPi,</span> <span class="pre">Hal&gt;</span></code></p></td>
+<td><p>the whole loop, inlined into your translation unit; you own the gains and the HAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>C11</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_t</span></code> handle + <code class="docutils literal notranslate"><span class="pre">foc_*</span></code> functions</p></td>
+<td><p>a frozen ABI over the same core, for projects that are not C++ and for scripted tests</p></td>
+</tr>
+<tr class="row-even"><td><p>Python</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">foc_python</span></code> (host only)</p></td>
+<td><p>the same C surface behind pybind11 — scripting, logging, analysis</p></td>
+</tr>
+</tbody>
+</table>
+<p>The three doors are not three implementations: <a class="reference internal" href="../guides/c-and-cpp-callers.html"><span class="doc">Consuming the library from outside C++</span></a> runs the same
+experiment through the C handle path and the C++ template path and subtracts them tick by tick.</p>
+</section>
+<section id="how-to-find-something">
+<h2>How to find something<a class="headerlink" href="#how-to-find-something" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24.0%" />
+<col style="width: 34.0%" />
+<col style="width: 42.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>You know</p></th>
+<th class="head"><p>Go to</p></th>
+<th class="head"><p>Because</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>the task</p></td>
+<td><p><a class="reference internal" href="../guides/index.html"><span class="doc">Guides by task</span></a></p></td>
+<td><p>one page per task: what to wire, what the numbers are, how it fails</p></td>
+</tr>
+<tr class="row-odd"><td><p>a name</p></td>
+<td><p><a class="reference internal" href="../symbols.html"><span class="doc">Symbols and units</span></a></p></td>
+<td><p>every symbol the documentation may use, with its unit and its frame</p></td>
+</tr>
+<tr class="row-even"><td><p>a word</p></td>
+<td><p><a class="reference internal" href="../glossary.html"><span class="doc">Glossary</span></a></p></td>
+<td><p>defined once, with where it is used <em>in this library</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>a group</p></td>
+<td><p>the table above</p></td>
+<td><p>one page per group, entry points first</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="naming-rules-worth-knowing-before-you-read-any-page">
+<h2>Naming rules worth knowing before you read any page<a class="headerlink" href="#naming-rules-worth-knowing-before-you-read-any-page" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26.0%" />
+<col style="width: 74.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Rule</p></th>
+<th class="head"><p>What it means</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc::core::X&lt;Y&gt;</span></code></p></td>
+<td><p>a policy: a template parameter, not a base class. The loop takes it by value and inlines
+it, which is why there are no virtual calls in the control path</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Config</span></code> / <code class="docutils literal notranslate"><span class="pre">Input</span></code> / <code class="docutils literal notranslate"><span class="pre">Output</span></code></p></td>
+<td><p>the aggregate a stage is configured with, fed, and gives back. All are
+aggregate-initialised, so <code class="docutils literal notranslate"><span class="pre">{}</span></code> is a valid input with documented meaning</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Null*</span></code></p></td>
+<td><p>an inert implementation of the same interface: a stage that is present in the type
+system and costs nothing</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc_*</span></code></p></td>
+<td><p>the C ABI. Every function that can fail returns <code class="docutils literal notranslate"><span class="pre">foc_err_t</span></code> and is
+<code class="docutils literal notranslate"><span class="pre">FOC_WARN_UNUSED</span></code> — ignoring a status is a build failure by design</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">foc_motor_t</span></code></p></td>
+<td><p>an opaque handle with a generation counter: a stale handle is <em>detected</em>, never
+dereferenced</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="what-this-section-will-not-do">
+<h2>What this section will not do<a class="headerlink" href="#what-this-section-will-not-do" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>It will not replace the task page.</strong> Entry points tell you what exists; the task page tells you
+the order, the numbers, and the way it goes wrong.</p></li>
+<li><p><strong>It will not list internals.</strong> Anonymous-namespace helpers, detail headers and file layout are
+not part of the contract and are not documented here.</p></li>
+<li><p><strong>It will not promise cycle counts.</strong> Those belong to a chip, not to this page — see
+<a class="reference internal" href="../cost-model.html"><span class="doc">What &quot;predictable&quot; costs</span></a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../reproducing.html" class="btn btn-neutral float-left" title="5. Reproducing these numbers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="core.html" class="btn btn-neutral float-right" title="core" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

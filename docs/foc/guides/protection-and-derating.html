@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.10. Health and protection &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.11. Porting the library to a board" href="porting.html" />
+    <link rel="prev" title="1.1.9. Sampling and the power stage" href="current-sampling.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.10. Health and protection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-need">1.1.10.1. What you need</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-minimal-program">1.1.10.2. A minimal program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-numbers-come-from">1.1.10.3. Where the numbers come from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-goes-wrong">1.1.10.4. How it goes wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evidence">1.1.10.5. Evidence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#figure">1.1.10.6. Figure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.10. </span>Health and protection</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/protection-and-derating.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.10. </span><span class="target" id="health-and-protection">Health and protection</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: decide what a drive does when something is wrong -- how long an overload
+may last, what happens after it trips, and what the answers must not be confused
+with.</p>
+<section id="what-you-need">
+<h2><span class="section-number">1.1.10.1. </span>What you need<a class="headerlink" href="#what-you-need" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/protection.hpp</span></code> -- the mechanism matrix (over-current, over- and
+under-voltage, temperature, i2t, stall, lost sync), the ranked fault, the latched
+mask, and the derated current limit that goes with it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/watchdog.hpp</span></code> -- silence measurement: <code class="docutils literal notranslate"><span class="pre">Feeding</span></code>, <code class="docutils literal notranslate"><span class="pre">Expired</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ClockLost</span></code>, and the distinction between kicking and polling.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/thermal_limit.hpp</span></code> -- the winding's own first-order model, which is
+where the temperature the protector is fed with comes from.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/brake_chopper.hpp</span></code> -- the bus over-voltage path, with the brake
+resistor's thermal budget rather than a voltage-only decision.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/auto_tune.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">foc/core/commissioning.hpp</span></code> -- the parameter
+path: where the numbers a protection compares against are supposed to come from.
+The procedure that produces them is <a class="reference internal" href="../sop.html"><span class="doc">Outer-loop self-tuning</span></a>, not a constant.</p></li>
+</ul>
+</section>
+<section id="a-minimal-program">
+<h2><span class="section-number">1.1.10.2. </span>A minimal program<a class="headerlink" href="#a-minimal-program" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/protection-and-derating.cxx</span></code> sweeps the i2t budget below the
+hard trip, reads the derating curve across the trip temperature, walks the latch
+through a trip and a reset, asks a watchdog past its window, and pushes the bus
+into a brake chopper. The same file produces this page's figure.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Protection -- health and protection: what a drive does when something is wrong,</span>
+<span class="linenos">  2</span><span class="c1">// and how the answers differ from the ones that look like them.</span>
+<span class="linenos">  3</span><span class="c1">//</span>
+<span class="linenos">  4</span><span class="c1">// Build it the way the `demo` gate does -- the example calls into the library, so the</span>
+<span class="linenos">  5</span><span class="c1">// sources are part of the command, and `-Iinclude` alone fails at the link. A renamed</span>
+<span class="linenos">  6</span><span class="c1">// source turns that gate red instead of leaving a stale instruction here:</span>
+<span class="linenos">  7</span><span class="c1">//   g++ -std=c++17 -fno-exceptions -fno-rtti -Wall -Wextra -Werror -Iinclude</span>
+<span class="linenos">  8</span><span class="c1">//   docs/doxygen/dox/demos/protection-and-derating.cxx src/core/*.cpp</span>
+<span class="linenos">  9</span><span class="c1">//   src/core/observer/*.cpp src/motor/*.cpp src/driver/*.cpp src/api/foc_api.c</span>
+<span class="linenos"> 10</span><span class="c1">//   src/api/bridge.cpp src/version.c</span>
+<span class="linenos"> 11</span><span class="c1">//   -o /tmp/protection-and-derating</span>
+<span class="linenos"> 12</span><span class="c1">//</span>
+<span class="linenos"> 13</span><span class="c1">// With `--csv &lt;path&gt;` it writes the two sweeps and the latch timeline as rows;</span>
+<span class="linenos"> 14</span><span class="c1">// `docs/demos/make_figures.py` draws this example&#39;s figure from that file.</span>
+<span class="linenos"> 15</span><span class="c1">//</span>
+<span class="linenos"> 16</span><span class="c1">// 保护 —— 健康与保护：驱动器在出问题时会做什么，以及那些看起来一样的答案之间差在哪里。</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="linenos"> 19</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="linenos"> 20</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstring&gt;</span>
+<span class="linenos"> 21</span>
+<span class="linenos"> 22</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/brake_chopper.hpp&gt;</span>
+<span class="linenos"> 23</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/protection.hpp&gt;</span>
+<span class="linenos"> 24</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/types.hpp&gt;</span>
+<span class="linenos"> 25</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/watchdog.hpp&gt;</span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span><span class="c1">// The configuration the library&#39;s own protection tests use, retyped here on</span>
+<span class="linenos"> 30</span><span class="c1">// purpose: a protection review is a review of *these* numbers, and a demo with its</span>
+<span class="linenos"> 31</span><span class="c1">// own invented limits would be reviewing nothing.</span>
+<span class="linenos"> 32</span><span class="c1">// 库自己的保护测试所用的配置，这里故意照抄一遍：保护评审评审的就是**这些**数，而一个自己发明</span>
+<span class="linenos"> 33</span><span class="c1">// 限值的演示什么都没评审。</span>
+<span class="linenos"> 34</span><span class="k">auto</span><span class="w"> </span><span class="n">protection_config</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 35</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionConfig</span><span class="w"> </span><span class="n">config</span><span class="p">{};</span>
+<span class="linenos"> 36</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">i_hard_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0F</span><span class="p">;</span>
+<span class="linenos"> 37</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">i_max_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.0F</span><span class="p">;</span>
+<span class="linenos"> 38</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">i2t_a2s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.5F</span><span class="p">;</span><span class="w"> </span><span class="c1">// 3 A squared times 0.5 s: the equilibrium the rating implies</span>
+<span class="linenos"> 39</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">i2t_cooling_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">;</span>
+<span class="linenos"> 40</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">v_max_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">30.0F</span><span class="p">;</span>
+<span class="linenos"> 41</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">v_min_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">18.0F</span><span class="p">;</span>
+<span class="linenos"> 42</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">t_trip_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0F</span><span class="p">;</span>
+<span class="linenos"> 43</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">t_derate_start_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">60.0F</span><span class="p">;</span>
+<span class="linenos"> 44</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">t_derate_end_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">110.0F</span><span class="p">;</span>
+<span class="linenos"> 45</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">stall_speed_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0F</span><span class="p">;</span>
+<span class="linenos"> 46</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">stall_current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="linenos"> 47</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">stall_time_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">;</span>
+<span class="linenos"> 48</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">sync_error_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.25F</span><span class="p">;</span>
+<span class="linenos"> 49</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">hysteresis_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.05F</span><span class="p">;</span>
+<span class="linenos"> 50</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">config</span><span class="p">;</span>
+<span class="linenos"> 51</span><span class="p">}</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span><span class="c1">// A healthy bus at 24 V, a valid flux estimate and a comfortable temperature, so</span>
+<span class="linenos"> 54</span><span class="c1">// that the one input under test is the only thing that can trip.</span>
+<span class="linenos"> 55</span><span class="c1">// 24 V 的健康母线、有效的磁链估计、舒适的温度，于是被测的那个输入是唯一可能跳闸的东西。</span>
+<span class="linenos"> 56</span><span class="k">auto</span><span class="w"> </span><span class="n">healthy_input</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">current_a</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature_c</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionInput</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 57</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionInput</span><span class="w"> </span><span class="n">input</span><span class="p">{};</span>
+<span class="linenos"> 58</span><span class="w">    </span><span class="n">input</span><span class="p">.</span><span class="n">i_magnitude_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_a</span><span class="p">;</span>
+<span class="linenos"> 59</span><span class="w">    </span><span class="n">input</span><span class="p">.</span><span class="n">v_bus_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">24.0F</span><span class="p">;</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="n">input</span><span class="p">.</span><span class="n">temperature_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temperature_c</span><span class="p">;</span>
+<span class="linenos"> 61</span><span class="w">    </span><span class="n">input</span><span class="p">.</span><span class="n">omega_e_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0F</span><span class="p">;</span>
+<span class="linenos"> 62</span><span class="w">    </span><span class="n">input</span><span class="p">.</span><span class="n">flux_error_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01F</span><span class="p">;</span>
+<span class="linenos"> 63</span><span class="w">    </span><span class="n">input</span><span class="p">.</span><span class="n">flux_valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="linenos"> 64</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">input</span><span class="p">;</span>
+<span class="linenos"> 65</span><span class="p">}</span>
+<span class="linenos"> 66</span>
+<span class="linenos"> 67</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span><span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 70</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 71</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;--csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 72</span><span class="w">        </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="linenos"> 73</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 74</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usage: %s [--csv &lt;path&gt;]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="linenos"> 75</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 76</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 77</span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 79</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv_path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 80</span><span class="w">        </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fopen</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+<span class="linenos"> 81</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 82</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fopen&quot;</span><span class="p">);</span>
+<span class="linenos"> 83</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos"> 84</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 85</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;kind,x,value,flag</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 87</span>
+<span class="linenos"> 88</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kDt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0e-6F</span><span class="p">;</span><span class="w"> </span><span class="c1">// 10 kHz</span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionConfig</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">protection_config</span><span class="p">();</span>
+<span class="linenos"> 90</span>
+<span class="linenos"> 91</span><span class="w">    </span><span class="c1">// ------------------------------------------------------------- i2t budget</span>
+<span class="linenos"> 92</span><span class="w">    </span><span class="c1">// The budget is `i_cont^2 * tau`, so the continuous rating sits *at* the</span>
+<span class="linenos"> 93</span><span class="w">    </span><span class="c1">// limit forever and only the excess spends the margin. Below the hard trip</span>
+<span class="linenos"> 94</span><span class="w">    </span><span class="c1">// (4 A) the question is therefore not &quot;does it trip&quot; but &quot;how long&quot;, and that</span>
+<span class="linenos"> 95</span><span class="w">    </span><span class="c1">// time goes to infinity as the current approaches the rating.</span>
+<span class="linenos"> 96</span><span class="w">    </span><span class="c1">// 预算是 `i_cont²·τ`，所以连续额定永远**坐在**限值上，只有超出的部分花掉余量。在硬跳闸</span>
+<span class="linenos"> 97</span><span class="w">    </span><span class="c1">// （4 A）以下，问题不是&quot;跳不跳&quot;而是&quot;多久&quot;，而这个时长在电流逼近额定时趋于无穷。</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;protection: %.0f A hard, %.1f A continuous, budget %.1f A^2*s, %.1f s cooling</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos"> 99</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">i_hard_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">i_max_a</span><span class="p">),</span>
+<span class="linenos">100</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">i2t_a2s</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">i2t_cooling_s</span><span class="p">));</span>
+<span class="linenos">101</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%10s %14s %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;i (A)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;trip after (s)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;fault&quot;</span><span class="p">);</span>
+<span class="linenos">102</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">24</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">step</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">103</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.02F</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mf">0.04F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">step</span><span class="p">));</span>
+<span class="linenos">104</span><span class="w">        </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Protector</span><span class="w"> </span><span class="nf">protector</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="linenos">105</span><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">time_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">106</span><span class="w">        </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionOutput</span><span class="w"> </span><span class="n">output</span><span class="p">{};</span>
+<span class="linenos">107</span><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">time_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">60.0F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">108</span><span class="w">            </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">protector</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">healthy_input</span><span class="p">(</span><span class="n">current_a</span><span class="p">,</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">),</span><span class="w"> </span><span class="n">kDt</span><span class="p">);</span>
+<span class="linenos">109</span><span class="w">            </span><span class="n">time_s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kDt</span><span class="p">;</span>
+<span class="linenos">110</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">fault</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">FaultCode</span><span class="o">::</span><span class="n">None</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">111</span><span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<span class="linenos">112</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">113</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">114</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">tripped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">output</span><span class="p">.</span><span class="n">fault</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">FaultCode</span><span class="o">::</span><span class="n">None</span><span class="p">;</span>
+<span class="linenos">115</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">116</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;i2t,%.3f,%.5f,%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">current_a</span><span class="p">),</span>
+<span class="linenos">117</span><span class="w">                         </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tripped</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">time_s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">),</span><span class="w"> </span><span class="n">tripped</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos">118</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">step</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">119</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tripped</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">120</span><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%10.3f %14.4f %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">current_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">time_s</span><span class="p">),</span>
+<span class="linenos">121</span><span class="w">                            </span><span class="s">&quot;I2t&quot;</span><span class="p">);</span>
+<span class="linenos">122</span><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">123</span><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%10.3f %14s %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">current_a</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;never&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="p">);</span>
+<span class="linenos">124</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">125</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">126</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">127</span>
+<span class="linenos">128</span><span class="w">    </span><span class="c1">// ------------------------------------------------------------ derating</span>
+<span class="linenos">129</span><span class="w">    </span><span class="c1">// The continuous limit is a curve in temperature; the trip is a threshold.</span>
+<span class="linenos">130</span><span class="w">    </span><span class="c1">// They are not two spellings of one decision: at the trip temperature the</span>
+<span class="linenos">131</span><span class="w">    </span><span class="c1">// curve still allows current, so a controller that only reads the curve never</span>
+<span class="linenos">132</span><span class="w">    </span><span class="c1">// trips, and a controller that only reads the trip runs at full current right</span>
+<span class="linenos">133</span><span class="w">    </span><span class="c1">// up to it.</span>
+<span class="linenos">134</span><span class="w">    </span><span class="c1">// 连续限幅是温度上的一条曲线；跳闸是一个阈值。它们不是同一个决定的两种写法：在跳闸温度上</span>
+<span class="linenos">135</span><span class="w">    </span><span class="c1">// 曲线仍然允许电流，所以只读曲线的控制器永不跳闸，而只读跳闸的控制器会把满电流一直用到那一点。</span>
+<span class="linenos">136</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">%-10s %10s %10s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;T (C)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;limit (A)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;trip?&quot;</span><span class="p">);</span>
+<span class="linenos">137</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">120</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">138</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">step</span><span class="p">);</span>
+<span class="linenos">139</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">limit_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Protector</span><span class="p">(</span><span class="n">config</span><span class="p">).</span><span class="n">derated_limit</span><span class="p">(</span><span class="n">temperature_c</span><span class="p">);</span>
+<span class="linenos">140</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">trip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temperature_c</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">t_trip_c</span><span class="p">;</span>
+<span class="linenos">141</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">142</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;derate,%.1f,%.5f,%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">temperature_c</span><span class="p">),</span>
+<span class="linenos">143</span><span class="w">                         </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">limit_a</span><span class="p">),</span><span class="w"> </span><span class="n">trip</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos">144</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">145</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%-10.0f %10.4f %10s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">temperature_c</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">limit_a</span><span class="p">),</span>
+<span class="linenos">146</span><span class="w">                        </span><span class="n">trip</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;trip&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="p">);</span>
+<span class="linenos">147</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">148</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">149</span>
+<span class="linenos">150</span><span class="w">    </span><span class="c1">// The trip threshold on its own row: it is a configuration number, not a</span>
+<span class="linenos">151</span><span class="w">    </span><span class="c1">// sample of the curve, and a figure that drew it from the curve would be</span>
+<span class="linenos">152</span><span class="w">    </span><span class="c1">// showing the curve&#39;s zero crossing instead of the trip.</span>
+<span class="linenos">153</span><span class="w">    </span><span class="c1">// 跳闸阈值单独一行：它是配置里的数，不是曲线上的采样点；从曲线里取它来画，画出来的会是</span>
+<span class="linenos">154</span><span class="w">    </span><span class="c1">// 曲线的零点而不是跳闸点。</span>
+<span class="linenos">155</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">156</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">at_trip_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Protector</span><span class="p">(</span><span class="n">config</span><span class="p">).</span><span class="n">derated_limit</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">t_trip_c</span><span class="p">);</span>
+<span class="linenos">157</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;trip,%.1f,%.5f,0</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">t_trip_c</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">at_trip_a</span><span class="p">));</span>
+<span class="linenos">158</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">159</span>
+<span class="linenos">160</span><span class="w">    </span><span class="c1">// --------------------------------------------------------------- latching</span>
+<span class="linenos">161</span><span class="w">    </span><span class="c1">// An over-current trip is latched: when the current comes back inside the</span>
+<span class="linenos">162</span><span class="w">    </span><span class="c1">// limits the output stays disabled, because the reason it tripped has not been</span>
+<span class="linenos">163</span><span class="w">    </span><span class="c1">// looked at yet. `reset()` is the only way out, and it is the caller&#39;s</span>
+<span class="linenos">164</span><span class="w">    </span><span class="c1">// decision -- a drive that cleared itself would restart into the same fault.</span>
+<span class="linenos">165</span><span class="w">    </span><span class="c1">// 过流跳闸是锁存的：电流回到限值以内之后输出仍然被禁，因为跳闸的原因还没有人看过。</span>
+<span class="linenos">166</span><span class="w">    </span><span class="c1">// `reset()` 是唯一的出路，而且是调用方的决定——自己复位的驱动器会一头撞回同一个故障。</span>
+<span class="linenos">167</span><span class="w">    </span><span class="p">{</span>
+<span class="linenos">168</span><span class="w">        </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Protector</span><span class="w"> </span><span class="nf">protector</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="linenos">169</span><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">time_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">170</span><span class="w">        </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">FaultCode</span><span class="w"> </span><span class="n">previous_fault</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">FaultCode</span><span class="o">::</span><span class="n">None</span><span class="p">;</span>
+<span class="linenos">171</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">latch timeline (10 ms at 4.5 A, then healthy input):</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">172</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">300</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">step</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">173</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">time_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.010F</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mf">4.5F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="linenos">174</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionOutput</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">protector</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">healthy_input</span><span class="p">(</span><span class="n">current_a</span><span class="p">,</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">),</span><span class="w"> </span><span class="n">kDt</span><span class="p">);</span>
+<span class="linenos">175</span><span class="w">            </span><span class="n">time_s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kDt</span><span class="p">;</span>
+<span class="linenos">176</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">fault</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">FaultCode</span><span class="o">::</span><span class="n">None</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">previous_fault</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">FaultCode</span><span class="o">::</span><span class="n">None</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">177</span><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  4.5 A at %.1f ms -&gt; fault, output_allowed %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1000.0F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">time_s</span><span class="p">),</span>
+<span class="linenos">178</span><span class="w">                            </span><span class="n">output</span><span class="p">.</span><span class="n">output_allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos">179</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">180</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">current_a</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">2.0F</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">step</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">110</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">299</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">181</span><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  back to 1 A at %.1f ms -&gt; output_allowed %d (latched)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">182</span><span class="w">                            </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1000.0F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">time_s</span><span class="p">),</span><span class="w"> </span><span class="n">output</span><span class="p">.</span><span class="n">output_allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos">183</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">184</span><span class="w">            </span><span class="n">previous_fault</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">output</span><span class="p">.</span><span class="n">fault</span><span class="p">;</span>
+<span class="linenos">185</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">step</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">299</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">186</span><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">187</span><span class="w">                    </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;latch,%.3f,%.4f,%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1000.0F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">time_s</span><span class="p">),</span>
+<span class="linenos">188</span><span class="w">                                 </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">i_limit_a</span><span class="p">),</span><span class="w"> </span><span class="n">output</span><span class="p">.</span><span class="n">output_allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos">189</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos">190</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">191</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">192</span><span class="w">        </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionOutput</span><span class="w"> </span><span class="n">after</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">protector</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">healthy_input</span><span class="p">(</span><span class="mf">1.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">),</span><span class="w"> </span><span class="n">kDt</span><span class="p">);</span>
+<span class="linenos">193</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  healthy current, no reset   -&gt; output_allowed %d, limit %.2f A</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">after</span><span class="p">.</span><span class="n">output_allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="linenos">194</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">after</span><span class="p">.</span><span class="n">i_limit_a</span><span class="p">));</span>
+<span class="linenos">195</span><span class="w">        </span><span class="n">protector</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span>
+<span class="linenos">196</span><span class="w">        </span><span class="n">after</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">protector</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">healthy_input</span><span class="p">(</span><span class="mf">1.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">),</span><span class="w"> </span><span class="n">kDt</span><span class="p">);</span>
+<span class="linenos">197</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  after reset()               -&gt; output_allowed %d, limit %.2f A</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">after</span><span class="p">.</span><span class="n">output_allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="linenos">198</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">after</span><span class="p">.</span><span class="n">i_limit_a</span><span class="p">));</span>
+<span class="linenos">199</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">200</span>
+<span class="linenos">201</span><span class="w">    </span><span class="c1">// -------------------------------------------------------------- watchdog</span>
+<span class="linenos">202</span><span class="w">    </span><span class="c1">// It measures silence, not progress. A loop that is alive but stuck still gets</span>
+<span class="linenos">203</span><span class="w">    </span><span class="c1">// kicked if the kick sits in the wrong place; a loop that is dead cannot kick.</span>
+<span class="linenos">204</span><span class="w">    </span><span class="c1">// 它量的是**沉默**，不是进展。活着但卡住的循环，如果喂狗写错了地方，照样会被喂；而死的循环</span>
+<span class="linenos">205</span><span class="w">    </span><span class="c1">// 喂不了。</span>
+<span class="linenos">206</span><span class="w">    </span><span class="p">{</span>
+<span class="linenos">207</span><span class="w">        </span><span class="k">constexpr</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">kWindowNs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5&#39;000&#39;000ULL</span><span class="p">;</span><span class="w"> </span><span class="c1">// 5 ms</span>
+<span class="linenos">208</span><span class="w">        </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Watchdog</span><span class="w"> </span><span class="n">watchdog</span><span class="p">;</span>
+<span class="linenos">209</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">watchdog</span><span class="p">.</span><span class="n">setup</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">WatchdogConfig</span><span class="p">{</span><span class="n">kWindowNs</span><span class="p">})</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">210</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  watchdog refused the window</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">211</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">212</span><span class="w">        </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">names</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;unarmed&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;feeding&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;expired&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;clock lost&quot;</span><span class="p">};</span>
+<span class="linenos">213</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">now_ns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1&#39;000&#39;000ULL</span><span class="p">;</span><span class="w"> </span><span class="n">now_ns</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">3&#39;000&#39;000ULL</span><span class="p">;</span><span class="w"> </span><span class="n">now_ns</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1&#39;000&#39;000ULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">214</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">WatchdogReport</span><span class="w"> </span><span class="n">report</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">watchdog</span><span class="p">.</span><span class="n">kick</span><span class="p">(</span><span class="n">now_ns</span><span class="p">);</span>
+<span class="linenos">215</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  watchdog kick at %llu ms -&gt; %s, %llu ms left</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">216</span><span class="w">                        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">now_ns</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1&#39;000&#39;000ULL</span><span class="p">),</span><span class="w"> </span><span class="n">names</span><span class="p">[</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">report</span><span class="p">.</span><span class="n">state</span><span class="p">)],</span>
+<span class="linenos">217</span><span class="w">                        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">report</span><span class="p">.</span><span class="n">remaining_ns</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1&#39;000&#39;000ULL</span><span class="p">));</span>
+<span class="linenos">218</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">219</span><span class="w">        </span><span class="c1">// Asking is not kicking: `poll()` says what the state is at that instant</span>
+<span class="linenos">220</span><span class="w">        </span><span class="c1">// without moving the deadline, which is what a supervisor does on its own</span>
+<span class="linenos">221</span><span class="w">        </span><span class="c1">// schedule -- the loop that must be watched cannot be the one doing the</span>
+<span class="linenos">222</span><span class="w">        </span><span class="c1">// watching.</span>
+<span class="linenos">223</span><span class="w">        </span><span class="c1">// 问不是喂：`poll()` 说出那一刻的状态而不动截止时间，这正是监督者按自己的节奏做的事——</span>
+<span class="linenos">224</span><span class="w">        </span><span class="c1">// 被看的那个环路不能同时是看的那个。</span>
+<span class="linenos">225</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">WatchdogReport</span><span class="w"> </span><span class="n">expired</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">watchdog</span><span class="p">.</span><span class="n">poll</span><span class="p">(</span><span class="mi">9&#39;000&#39;000ULL</span><span class="p">);</span>
+<span class="linenos">226</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  watchdog asked at 9 ms (no kick since 3) -&gt; %s, silence %llu ms</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">227</span><span class="w">                    </span><span class="n">names</span><span class="p">[</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">expired</span><span class="p">.</span><span class="n">state</span><span class="p">)],</span>
+<span class="linenos">228</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">expired</span><span class="p">.</span><span class="n">step_ns</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1&#39;000&#39;000ULL</span><span class="p">));</span>
+<span class="linenos">229</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">WatchdogReport</span><span class="w"> </span><span class="n">late</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">watchdog</span><span class="p">.</span><span class="n">kick</span><span class="p">(</span><span class="mi">10&#39;000&#39;000ULL</span><span class="p">);</span>
+<span class="linenos">230</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  a kick after the trip -&gt; %s (it does not clear itself)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">names</span><span class="p">[</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">late</span><span class="p">.</span><span class="n">state</span><span class="p">)]);</span>
+<span class="linenos">231</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">232</span>
+<span class="linenos">233</span><span class="w">    </span><span class="c1">// ---------------------------------------------------------- brake chopper</span>
+<span class="linenos">234</span><span class="w">    </span><span class="c1">// The resistor is a budget, not a switch: its thermal mass is what decides how</span>
+<span class="linenos">235</span><span class="w">    </span><span class="c1">// long a regen event may last, and a chopper that only follows the voltage can</span>
+<span class="linenos">236</span><span class="w">    </span><span class="c1">// burn itself out while holding the bus perfectly.</span>
+<span class="linenos">237</span><span class="w">    </span><span class="c1">// 电阻是一个预算，不是一个开关：它的热容决定一次回馈能持续多久，而一个只看电压的斩波器</span>
+<span class="linenos">238</span><span class="w">    </span><span class="c1">// 可以在把母线守得很好的同时把自己烧掉。</span>
+<span class="linenos">239</span><span class="w">    </span><span class="p">{</span>
+<span class="linenos">240</span><span class="w">        </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BrakeChopper</span><span class="w"> </span><span class="nf">chopper</span><span class="p">(</span>
+<span class="linenos">241</span><span class="w">            </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BrakeChopperConfig</span><span class="p">{</span><span class="mf">32.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">30.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">10.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.9F</span><span class="p">,</span><span class="w"> </span><span class="mf">100.0e-6F</span><span class="p">,</span><span class="w"> </span><span class="mf">100.0e-6F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0F</span><span class="p">});</span>
+<span class="linenos">242</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">brake chopper, bus ramps to 34 V then falls back:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">243</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">60</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">step</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">244</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">v_bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">step</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="mf">28.0F</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mf">0.2F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">step</span><span class="p">)))</span>
+<span class="linenos">245</span><span class="w">                                            </span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="mf">34.0F</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mf">0.2F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">step</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">30</span><span class="p">)));</span>
+<span class="linenos">246</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BrakeChopperOutput</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chopper</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">v_bus</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-3F</span><span class="p">);</span>
+<span class="linenos">247</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">step</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">step</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">output</span><span class="p">.</span><span class="n">on</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">248</span><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  v_bus %5.1f V -&gt; on %d, duty %.2f, i2t %.3f A^2*s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_bus</span><span class="p">),</span>
+<span class="linenos">249</span><span class="w">                            </span><span class="n">output</span><span class="p">.</span><span class="n">on</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">duty</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">i2t_a2s</span><span class="p">));</span>
+<span class="linenos">250</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">251</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">252</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">253</span>
+<span class="linenos">254</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">255</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fclose</span><span class="p">(</span><span class="n">csv</span><span class="p">);</span>
+<span class="linenos">256</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;wrote %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">csv_path</span><span class="p">);</span>
+<span class="linenos">257</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">258</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">259</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">260</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="where-the-numbers-come-from">
+<h2><span class="section-number">1.1.10.3. </span>Where the numbers come from<a class="headerlink" href="#where-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>The i2t budget is not &quot;rated current for one second&quot;.</strong> It is
+<code class="docutils literal notranslate"><span class="pre">i_continuous^2</span> <span class="pre">*</span> <span class="pre">tau</span></code>, the equilibrium of the thermal model, and that
+identity is what pins the units down: a budget that is anything else either
+trips a machine running at its own nameplate or never trips at all.</p></li>
+<li><p><strong>The cooling time constant is the winding's</strong>, not a tuning number. It is the
+same quantity <code class="docutils literal notranslate"><span class="pre">thermal_limit.hpp</span></code> models, and if the two disagree the budget is
+describing a different machine from the one the temperature comes from.</p></li>
+<li><p><strong>The trip and the derating endpoints come from the insulation class and the
+magnet</strong>, and the third temperature -- where derating starts -- is where the
+drive begins to give up torque in order to stay below the other two.</p></li>
+<li><p><strong>The watchdog window</strong> is set by the slowest legitimate silence in the system,
+not by the control period: too tight and it trips on a long branch, too loose and
+it reports a dead loop as healthy.</p></li>
+<li><p><strong>The brake resistor's budget</strong> is its thermal mass; <code class="docutils literal notranslate"><span class="pre">duty_max</span></code> and the minimum
+on/off times belong to the gate driver. The chopper's job is to spend the first
+without violating the second.</p></li>
+</ul>
+</section>
+<section id="how-it-goes-wrong">
+<h2><span class="section-number">1.1.10.4. </span>How it goes wrong<a class="headerlink" href="#how-it-goes-wrong" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>The budget read as a threshold.</strong> &quot;It trips above rated current&quot; is the wrong
+mental model: at the rated current the budget's equilibrium <em>is</em> the budget, so
+the time to trip is infinite, and just above it the time is finite but long. A
+supervisor that expects a threshold will size a contactor for the wrong event.</p></li>
+<li><p><strong>Derating and tripping treated as one decision.</strong> They are two numbers with a
+gap between them: at the trip temperature the derating curve still allows
+current. A controller that only applies the curve never trips, and one that only
+applies the trip runs at full current right up to the wire's limit.</p></li>
+<li><p><strong>A trip that clears itself.</strong> The output stays disabled after the current comes
+back, and that is deliberate: the reason it tripped has not been looked at.
+<code class="docutils literal notranslate"><span class="pre">reset()</span></code> is the caller's explicit decision, and a drive that auto-reset would
+restart into the same fault at a rate set by the fault itself.</p></li>
+<li><p><strong>A watchdog kicked from the wrong place.</strong> It measures silence, not progress.
+Kicking it from the same loop that must be watched -- or from an interrupt that
+keeps running while the loop is stuck -- produces a perfectly fed watchdog
+attached to a dead controller.</p></li>
+<li><p><strong>A chopper that only watches the bus.</strong> Holding the bus at the threshold with a
+resistor whose thermal budget is spent is a controlled way to burn the resistor.
+The budget latches the duty to zero for that reason.</p></li>
+</ol>
+</section>
+<section id="evidence">
+<h2><span class="section-number">1.1.10.5. </span>Evidence<a class="headerlink" href="#evidence" title="链接到此标题。"></a></h2>
+<p>Five claim rows cover this page: <code class="docutils literal notranslate"><span class="pre">foc/core/protection.hpp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc/core/watchdog.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">foc/core/thermal_limit.hpp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc/core/brake_chopper.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">foc/core/commissioning.hpp</span></code>; the level this
+page may state is the minimum of those five. The times, temperatures and budgets
+this page would otherwise want to quote live in those rows and in their test files
+-- the example here retypes the same configuration the protection tests use, on
+purpose, so that what it demonstrates is the shipped behaviour and not a demo-only
+set of limits.</p>
+<p>What this page does not claim: an order of severity among the fault codes; a
+hardware watchdog, since the latch this page describes arms nothing and reads no
+register; or any peak voltage and ringing during clamping, which depend on
+parasitic inductance and ESR that this model does not have.</p>
+</section>
+<section id="figure">
+<h2><span class="section-number">1.1.10.6. </span>Figure<a class="headerlink" href="#figure" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-protection-and-derating">
+<a class="reference internal image-reference" href="../_images/ALL_protection_and_derating.png"><img alt="../_images/ALL_protection_and_derating.png" src="../_images/ALL_protection_and_derating.png" width="760" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.10 </span><span class="caption-text">left: how long an overload lasts, below the hard trip -- a duration that runs
+away as the current approaches the rating; right: the continuous limit against
+temperature, with the trip threshold drawn on top of it at a temperature where
+the limit is still not zero</span><a class="headerlink" href="#figure-protection-and-derating" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>Both panels come from this page's example. The trip line is drawn from its own row
+of data rather than from where the curve reaches zero, because those are two
+different temperatures and drawing one for the other is exactly failure mode 2.
+What the figure does not show is the rest of the page: the latch, the watchdog and
+the chopper are printed by the same program and are not time-series in the figure,
+because a latch has one interesting instant and a plot of it would be one step.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="current-sampling.html" class="btn btn-neutral float-left" title="1.1.9. Sampling and the power stage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="porting.html" class="btn btn-neutral float-right" title="1.1.11. Porting the library to a board" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

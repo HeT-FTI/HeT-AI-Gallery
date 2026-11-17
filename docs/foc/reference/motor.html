@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>motor &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="hal" href="hal.html" />
+    <link rel="prev" title="core" href="core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using the API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-promised-here-and-what-is-not">What is promised here, and what is not</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-six-groups">The six groups</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core.html">core</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">motor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-shape">The shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lifecycle">Lifecycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#commands">Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#readback">Readback</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-whole-tick-in-one-object">The whole tick, in one object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related">Related</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="hal.html">hal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver.html">driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html">comm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-api.html">c-api</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#three-faces-one-implementation">Three faces, one implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-to-find-something">How to find something</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#naming-rules-worth-knowing-before-you-read-any-page">Naming rules worth knowing before you read any page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-this-section-will-not-do">What this section will not do</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Using the API</a></li>
+      <li class="breadcrumb-item active">motor</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/motor.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="motor">motor</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The instance that owns a control loop. It is one type, and the loop is a template: the observer,
+the modulator, the regulator and the HAL are type parameters, so the whole tick inlines into
+your translation unit and nothing in the control path is an indirect call.</p>
+<section id="the-shape">
+<h2>The shape<a class="headerlink" href="#the-shape" title="链接到此标题。"></a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">Observer</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Modulator</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Controller</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">HalPolicy</span><span class="p">,</span>
+<span class="w">          </span><span class="k">typename</span><span class="w"> </span><span class="nc">RefGenerator</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">core</span><span class="o">::</span><span class="n">NullReferenceGenerator</span><span class="p">,</span>
+<span class="w">          </span><span class="k">typename</span><span class="w"> </span><span class="nc">FeedForward</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">core</span><span class="o">::</span><span class="n">NullFeedforward</span><span class="p">,</span>
+<span class="w">          </span><span class="k">typename</span><span class="w"> </span><span class="nc">PositionControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">core</span><span class="o">::</span><span class="n">NullPositionControl</span><span class="p">,</span>
+<span class="w">          </span><span class="k">typename</span><span class="w"> </span><span class="nc">Aligner</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">core</span><span class="o">::</span><span class="n">NullAlignment</span><span class="p">,</span>
+<span class="w">          </span><span class="k">typename</span><span class="w"> </span><span class="nc">Trace</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="n">core</span><span class="o">::</span><span class="n">NullTrace</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Motor</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The four leading parameters have no default, because a drive that has not chosen an observer has
+not chosen how it knows the angle. Everything after them is an inert default: present in the
+type system, costing nothing, replaceable one at a time.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Policies</span></code> is how those parameters arrive at run time — one instance per control axis plus the
+speed loop:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Policies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Observer</span><span class="w"> </span><span class="n">observer</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Modulator</span><span class="w"> </span><span class="n">modulator</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Controller</span><span class="w"> </span><span class="n">current_d</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Controller</span><span class="w"> </span><span class="n">current_q</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Controller</span><span class="w"> </span><span class="n">speed</span><span class="p">;</span>
+<span class="w">    </span><span class="n">RefGenerator</span><span class="w"> </span><span class="n">reference</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">FeedForward</span><span class="w"> </span><span class="n">feed_forward</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">PositionControl</span><span class="w"> </span><span class="n">position</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">Aligner</span><span class="w"> </span><span class="n">align</span><span class="p">{};</span>
+<span class="w">    </span><span class="cm">/* Trace */</span><span class="w"> </span><span class="n">trace</span><span class="p">{};</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Two regulators for the current and one for the speed is not an accident of naming: the two
+current axes have different plants once decoupling is in place, and a shared integrator would
+make the d-axis disturbance visible on the q axis.</p>
+</section>
+<section id="lifecycle">
+<h2>Lifecycle<a class="headerlink" href="#lifecycle" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 26.0%" />
+<col style="width: 44.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Call</p></th>
+<th class="head"><p>Returns</p></th>
+<th class="head"><p>What it means</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">init()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></p></td>
+<td><p>policies are checked and the HAL is validated; nothing has moved yet</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">start()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></p></td>
+<td><p>the state machine leaves <code class="docutils literal notranslate"><span class="pre">Idle</span></code>: from here on, <code class="docutils literal notranslate"><span class="pre">tick()</span></code> is expected every period</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tick(dt_s)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></p></td>
+<td><p>one control period: read, observe, regulate, modulate, write</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stop()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></p></td>
+<td><p>back to <code class="docutils literal notranslate"><span class="pre">Idle</span></code>; the output is safe before it returns</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fault()</span></code> / <code class="docutils literal notranslate"><span class="pre">fault(code)</span></code></p></td>
+<td><p>—</p></td>
+<td><p>trip deliberately (the HAL or your supervisor saw something)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clear_fault()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></p></td>
+<td><p>the operator action; a latched fault does not clear because the cause went away</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">tick()</span></code> is the only function that must be called at a fixed rate, and it is the only one that
+touches the HAL. Everything else may be called from a slower context.</p>
+</section>
+<section id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 34.0%" />
+<col style="width: 36.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Call</p></th>
+<th class="head"><p>Sets</p></th>
+<th class="head"><p>Note</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">set_torque(iq_a)</span></code></p></td>
+<td><p>a q-axis current reference directly</p></td>
+<td><p>the reference policy is bypassed; <code class="docutils literal notranslate"><span class="pre">id</span></code> stays at what the policy says</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">set_speed(rad_s)</span></code></p></td>
+<td><p>a mechanical speed reference</p></td>
+<td><p>closed by the speed regulator, decimated by <code class="docutils literal notranslate"><span class="pre">speed_loop_period_s</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">set_position(rad)</span></code></p></td>
+<td><p>a mechanical position reference</p></td>
+<td><p>the outer loop; the speed reference it produces is what the speed loop sees</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">set_command(const</span> <span class="pre">Command&amp;)</span></code></p></td>
+<td><p>mode, reference and feed-forward in one call</p></td>
+<td><p>the only one that can change the mode and the reference in the same period</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">set_feedforward_current(iq_a)</span></code></p></td>
+<td><p>an additive iq term</p></td>
+<td><p>set once and it stays; <code class="docutils literal notranslate"><span class="pre">set_speed()</span></code> deliberately does not clear it</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">begin_stall_start(recipe)</span></code> / <code class="docutils literal notranslate"><span class="pre">cancel_stall_start()</span></code></p></td>
+<td><p>the breakaway sequence</p></td>
+<td><p>the caller owns the axis again as soon as the sequence releases it</p></td>
+</tr>
+</tbody>
+</table>
+<p>The one rule that costs integrators a day: after a start-up sequence releases the axis, the
+caller must command something <strong>in the same control period</strong>, or the start-up torque keeps being
+applied.</p>
+</section>
+<section id="readback">
+<h2>Readback<a class="headerlink" href="#readback" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">telemetry()</span></code> — <code class="docutils literal notranslate"><span class="pre">speed_mech_rad_s</span></code>, <code class="docutils literal notranslate"><span class="pre">id_a</span></code>, <code class="docutils literal notranslate"><span class="pre">iq_a</span></code> and <code class="docutils literal notranslate"><span class="pre">max_period_us</span></code>. That last
+field is the worst tick interval the target itself has seen: the number belongs to the chip,
+which is why it is measured here rather than published anywhere.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">state()</span></code> — the state-machine state; <code class="docutils literal notranslate"><span class="pre">status()</span></code> — the first error since the last clear.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode()</span></code> — which reference is in force.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fault_code()</span></code> — the fault in the library's own vocabulary.</p></li>
+</ul>
+<p>Policies are reachable after construction — <code class="docutils literal notranslate"><span class="pre">observer()</span></code>, <code class="docutils literal notranslate"><span class="pre">reference()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">feed_forward()</span></code>, <code class="docutils literal notranslate"><span class="pre">position()</span></code>, <code class="docutils literal notranslate"><span class="pre">aligner()</span></code> — because a drive that cannot ask its observer
+what it thinks at run time cannot be commissioned.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">MotorConfig</span></code> is the machine plus the setup decisions that go with it: <code class="docutils literal notranslate"><span class="pre">rs</span></code>, <code class="docutils literal notranslate"><span class="pre">ld</span></code>, <code class="docutils literal notranslate"><span class="pre">lq</span></code>,
+<code class="docutils literal notranslate"><span class="pre">kt</span></code>, <code class="docutils literal notranslate"><span class="pre">j</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code> (the nameplate, in SI units), <code class="docutils literal notranslate"><span class="pre">pole_pairs</span></code>, then the limits and timing that
+belong to the <em>installation</em> — <code class="docutils literal notranslate"><span class="pre">i_max_a</span></code>, <code class="docutils literal notranslate"><span class="pre">pwm_freq_hz</span></code>, <code class="docutils literal notranslate"><span class="pre">deadtime_ns</span></code>, and the decimation
+periods of the two outer loops.</p>
+<p>Two helpers turn that into gains without ever hiding a number:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Helper</p></th>
+<th class="head"><p>What it derives, and from what</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">current_pi_config(config,</span> <span class="pre">bandwidth_rad_s,</span> <span class="pre">v_bus)</span></code></p></td>
+<td><p>current-loop gains from <code class="docutils literal notranslate"><span class="pre">rs</span></code>/<code class="docutils literal notranslate"><span class="pre">ld</span></code> and the requested bandwidth; the output clamp comes
+from <code class="docutils literal notranslate"><span class="pre">v_bus</span></code>, not from a constant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">speed_pi_config(config,</span> <span class="pre">bandwidth_rad_s)</span></code></p></td>
+<td><p>speed-loop gains from <code class="docutils literal notranslate"><span class="pre">kt</span></code> and <code class="docutils literal notranslate"><span class="pre">j</span></code> — the two numbers that decide how fast the axis can
+be, and therefore how fast it may be told to be</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">position_p_config(config,</span> <span class="pre">bandwidth,</span> <span class="pre">velocity_limit,</span> <span class="pre">accel_limit)</span></code></p></td>
+<td><p>the outer position gain plus the two limits the profile needs</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">psi_f_wb(config)</span></code></p></td>
+<td><p>the flux linkage behind <code class="docutils literal notranslate"><span class="pre">kt</span></code>: <code class="docutils literal notranslate"><span class="pre">kt</span> <span class="pre">/</span> <span class="pre">(1.5</span> <span class="pre">*</span> <span class="pre">pole_pairs)</span></code>. Using <code class="docutils literal notranslate"><span class="pre">kt</span></code> directly in a
+voltage equation is dimensionally wrong</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-whole-tick-in-one-object">
+<h2>The whole tick, in one object<a class="headerlink" href="#the-whole-tick-in-one-object" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">drive_supervisor.hpp</span></code> is the assembly around the parts: one tick that reads the bus, runs the
+protection, drives the chopper and only then lets the control loop have its turn. It exists because
+the <em>order</em> is the claim — a protection evaluated after the loop has already commanded is a
+protection that arrives one tick late — and because the status it returns has to name a cause:
+the derated limit, the temperature that produced it (<code class="docutils literal notranslate"><span class="pre">NaN</span></code> when no channel answered), the bus
+voltage, the chopper's duty and the tick number.</p>
+</section>
+<section id="related">
+<h2>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the interfaces a board must satisfy: <a class="reference internal" href="hal.html"><span class="doc">hal</span></a></p></li>
+<li><p>reference implementations for benches: <a class="reference internal" href="driver.html"><span class="doc">driver</span></a></p></li>
+<li><p>the loop assembled by hand, both doors: <a class="reference internal" href="../guides/c-and-cpp-callers.html"><span class="doc">Consuming the library from outside C++</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="core.html" class="btn btn-neutral float-left" title="core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="hal.html" class="btn btn-neutral float-right" title="hal" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

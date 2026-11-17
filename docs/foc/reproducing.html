@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5. Reproducing these numbers &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Using the API" href="reference/index.html" />
+    <link rel="prev" title="4. Usage and verification" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Reproducing these numbers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-the-numbers-come-from">5.1. What the numbers come from</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-gates">5.2. The gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#two-models-driven-the-same-way">5.3. Two models, driven the same way</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-local-only-gates">5.4. The local-only gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-this-page-does-not-do">5.5. What this page does not do</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">5. </span>Reproducing these numbers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reproducing.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">5. </span><span class="target" id="reproducing-these-numbers">Reproducing these numbers</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>Every figure in this documentation is produced by a command in the tree, and this page is the list.
+The point is not that the numbers are large; it is that a reader who does not trust them can make
+them again instead of taking them on faith.</p>
+<p>Two rules make the list worth keeping:</p>
+<ul class="simple">
+<li><p><strong>A number is only a measurement if the run that produced it is the run you are reading about.</strong> The
+coverage figure comes from a build, and the case count from the same build, so the two are taken
+back to back -- <code class="docutils literal notranslate"><span class="pre">coverage_gate.py</span></code> first, <code class="docutils literal notranslate"><span class="pre">number_sheet.py</span> <span class="pre">--record</span></code> second. Reversing them
+records yesterday's coverage next to today's case count, which is exactly the kind of pair that
+looks plausible forever.</p></li>
+<li><p><strong>This page names paths, and a check fails if one of them stops existing.</strong> A reproduction
+instruction that points at a renamed script is worse than none: it tells the reader the fault is in
+their environment.</p></li>
+</ul>
+<section id="what-the-numbers-come-from">
+<h2><span class="section-number">5.1. </span>What the numbers come from<a class="headerlink" href="#what-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conan<span class="w"> </span>create<span class="w"> </span>.<span class="w"> </span>-s<span class="w"> </span><span class="nv">build_type</span><span class="o">=</span>Debug<span class="w"> </span>--build<span class="o">=</span>missing<span class="w">      </span><span class="c1"># builds, and runs the whole suite</span>
+python3<span class="w"> </span>.github/project/coverage_gate.py<span class="w">                </span><span class="c1"># the two coverage floors</span>
+python3<span class="w"> </span>.github/project/number_sheet.py<span class="w"> </span>--record<span class="w">        </span><span class="c1"># writes docs/verification-numbers.json</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">number_sheet.py</span></code> reads the artefacts, not the prose: the case count from the test run, the
+coverage figures from the <code class="docutils literal notranslate"><span class="pre">.gcov</span></code> output. <code class="docutils literal notranslate"><span class="pre">gates.py</span> <span class="pre">docs</span></code> then compares the two numbers that
+appear on the <a class="reference internal" href="usage.html"><span class="doc">Usage and verification</span></a> page against that file, so a stale figure fails the build rather than
+aging quietly.</p>
+</section>
+<section id="the-gates">
+<h2><span class="section-number">5.2. </span>The gates<a class="headerlink" href="#the-gates" title="链接到此标题。"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>.github/project/gates.py<span class="w"> </span>all<span class="w">                    </span><span class="c1"># every project gate, 15-20 minutes</span>
+</pre></div>
+</div>
+<p>Before a commit, the same list without the five that need a build of the library itself:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>.github/project/gates.py<span class="w"> </span>license<span class="w"> </span>strict<span class="w"> </span>claims<span class="w"> </span>docs<span class="w"> </span>deps<span class="w"> </span>form<span class="w"> </span>boundaries<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>capabilities<span class="w"> </span>ci-policy<span class="w"> </span>assume<span class="w"> </span>anchor<span class="w"> </span>scaffold<span class="w"> </span>census<span class="w"> </span>budget<span class="w"> </span>clocks<span class="w"> </span>observability<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>combinations<span class="w"> </span>domain<span class="w"> </span>blast<span class="w"> </span>wired<span class="w"> </span>smoke<span class="w"> </span>regmap<span class="w"> </span>subset<span class="w"> </span>docvoice<span class="w"> </span>symbols<span class="w"> </span>equations<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>enforce<span class="w"> </span>docshape<span class="w"> </span>docver<span class="w"> </span>docannot<span class="w"> </span>docscope<span class="w"> </span>compliance<span class="w"> </span>demo<span class="w"> </span>ports<span class="w"> </span>matrix<span class="w"> </span>apicontract<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>guidefull
+</pre></div>
+</div>
+<p>Three of those are worth understanding before running them, because their failure modes are
+confusing:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">census</span></code> answers the question <code class="docutils literal notranslate"><span class="pre">scaffold</span></code> cannot. <code class="docutils literal notranslate"><span class="pre">scaffold</span></code> byte-compares the files it
+lists, so a file the pinned release ships and no list mentions is neither checked nor declared --
+and that is how a template stays &quot;zero modification&quot; on the files it looks at while the rest
+diverge quietly. <code class="docutils literal notranslate"><span class="pre">census</span></code> requires every upstream file to sit in exactly one class, and the
+files an instance <em>must</em> fill (<code class="docutils literal notranslate"><span class="pre">Doxyfile</span></code>, <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>) may differ only inside declared slots.
+Its second rule is the one that bites: every line outside a slot must still match, so prose
+cannot be added to a file that would have to be hand-merged on every re-pin.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs</span></code> compiles nothing, but it re-renders the pages that carry numbers and fails when a quoted
+figure disagrees with <code class="docutils literal notranslate"><span class="pre">verification-numbers.json</span></code>. A red <code class="docutils literal notranslate"><span class="pre">docs</span></code> after a green test run means the
+prose is stale, not the code.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demo</span></code> builds every example from the command <strong>in that example's own header</strong>. It is the only
+check that keeps the instructions on the pages honest, and it is why a renamed source turns red
+instead of leaving a reader with a broken line.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">apicontract</span></code> re-derives, for all 95 public headers, the evidence level and the case names that
+the module table gives them, and compares that with the note on each header's own API page. The
+note is a copy, and copies drift; this is the thing that makes the copy admissible.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">guidefull</span></code> holds the guides section to its own promise. It reads the promise table and the
+hidden toctree and fails when they disagree in either direction, and it checks the six structural
+parts of every promised page plus the one that is not structural: an Evidence section that names
+the claim rows covering the page <em>and</em> what the page does not claim.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mutation</span></code> (<code class="docutils literal notranslate"><span class="pre">mutate.py</span></code>) rewrites files in this tree and restores them. It must never be run
+under <code class="docutils literal notranslate"><span class="pre">timeout</span></code>: a kill in the middle leaves a mutant behind, and the next red looks like a
+physics failure. After any interrupted run, check <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> before believing anything.</p></li>
+</ul>
+</section>
+<section id="two-models-driven-the-same-way">
+<h2><span class="section-number">5.3. </span>Two models, driven the same way<a class="headerlink" href="#two-models-driven-the-same-way" title="链接到此标题。"></a></h2>
+<p>The simulation plant is this project's own model, so &quot;the plant and the controller agree&quot; is a
+statement about one model. A third-party model is the only way to make it a statement about two, and
+<code class="docutils literal notranslate"><span class="pre">motulator</span></code> -- Aalto University's electric-drives library, independently written and laboratory
+validated -- is that third party. Two scripts drive both with the same input and compare them step by
+step:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 26.0%" />
+<col style="width: 44.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Script</p></th>
+<th class="head"><p>What it drives</p></th>
+<th class="head"><p>What it compares</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">benchmark/script/reconcile_model.py</span></code></p></td>
+<td><p>the same stator voltage and the same speed into both plants</p></td>
+<td><p>the current vector, step by step, across a step response</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">benchmark/script/reconcile_controller.py</span></code></p></td>
+<td><p>this library's controller and the third party's against the same plant</p></td>
+<td><p>the reference the two produce for one operating point</p></td>
+</tr>
+</tbody>
+</table>
+<p>Neither is in CI, and the reason is not cost: a reconciliation needs a second Python environment, and
+it is something to run when the <strong>plant</strong> changes rather than on every push. So the honest statement
+is the one the claim row makes -- the reconciliation was done, its worst deviation is recorded, and
+re-running it is one command away. A reader deciding whether to trust the plant should run it once;
+a reader deciding whether to trust a <em>release</em> should not read the absence of a gate as a gap.</p>
+</section>
+<section id="the-local-only-gates">
+<h2><span class="section-number">5.4. </span>The local-only gates<a class="headerlink" href="#the-local-only-gates" title="链接到此标题。"></a></h2>
+<p>Five gates are excluded from the list above because they need a full library build, and they are the
+ones that answer &quot;does the claim still hold&quot; rather than &quot;does it compile&quot;: <code class="docutils literal notranslate"><span class="pre">mutants</span></code>,
+<code class="docutils literal notranslate"><span class="pre">plantref</span></code>, <code class="docutils literal notranslate"><span class="pre">mcdc</span></code>, <code class="docutils literal notranslate"><span class="pre">pil</span></code> and <code class="docutils literal notranslate"><span class="pre">fmu</span></code>. They run before a release:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>.github/project/mutate.py<span class="w"> </span>--check<span class="w">               </span><span class="c1"># mutation scores, one module at a time</span>
+python3<span class="w"> </span>.github/project/gates.py<span class="w"> </span>plantref<span class="w"> </span>mcdc<span class="w"> </span>pil<span class="w"> </span>fmu
+</pre></div>
+</div>
+<p>CI does not run them, by design -- they mutate the tree and take minutes per module. That is a
+statement about where the evidence lives, not a hidden exemption: this page is how a reader gets the
+same answers on their own machine.</p>
+</section>
+<section id="what-this-page-does-not-do">
+<h2><span class="section-number">5.5. </span>What this page does not do<a class="headerlink" href="#what-this-page-does-not-do" title="链接到此标题。"></a></h2>
+<p>It does not make the results portable. Everything here is produced on x86-64 Linux with gcc 13; a
+different compiler will produce different floating-point results at the last bit, and several cases
+compare trajectories bit for bit. When those disagree on your machine, the first question is which
+compiler and which optimisation level, not which side is wrong -- see
+<a class="reference internal" href="index.html#platform-evidence"><span class="std std-ref">what has actually been run</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="usage.html" class="btn btn-neutral float-left" title="4. Usage and verification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="reference/index.html" class="btn btn-neutral float-right" title="Using the API" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

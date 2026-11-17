@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>comm &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="c-api" href="c-api.html" />
+    <link rel="prev" title="driver" href="driver.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using the API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-promised-here-and-what-is-not">What is promised here, and what is not</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-six-groups">The six groups</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core.html">core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="motor.html">motor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hal.html">hal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver.html">driver</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">comm</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-three">The three</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#records-that-outlive-the-run">Records that outlive the run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-a-dense-register-map">Why a dense register map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#two-rules-that-make-a-register-map-survivable">Two rules that make a register map survivable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sequence-numbers">Sequence numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-out-of-scope">What is out of scope</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related">Related</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="c-api.html">c-api</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#three-faces-one-implementation">Three faces, one implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-to-find-something">How to find something</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#naming-rules-worth-knowing-before-you-read-any-page">Naming rules worth knowing before you read any page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-this-section-will-not-do">What this section will not do</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Using the API</a></li>
+      <li class="breadcrumb-item active">comm</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/comm.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="comm">comm</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>Three wire contracts, in increasing order of how much they assume. Each is a <em>format</em>: it
+describes bytes and their meaning, and nothing here decides when to send them.</p>
+<section id="the-three">
+<h2>The three<a class="headerlink" href="#the-three" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26.0%" />
+<col style="width: 44.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Header</p></th>
+<th class="head"><p>What it defines</p></th>
+<th class="head"><p>What it refuses to guess</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">frame.hpp</span></code></p></td>
+<td><p>a frame layout, its status, and a checker that keeps sequence numbers honest</p></td>
+<td><p>the transport: a frame is bytes, not a bus</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">register_map.hpp</span></code></p></td>
+<td><p>the register table a host talks to, dense from 1 so enumeration has no holes</p></td>
+<td><p>the encoding: registers are entries, not units</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">encoder_stream.hpp</span></code></p></td>
+<td><p>the bit-level contract for an absolute encoder: layout, one frame, and the assembly
+across turns</p></td>
+<td><p>the electrical layer: it reads a bit stream somebody else framed</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="records-that-outlive-the-run">
+<h2>Records that outlive the run<a class="headerlink" href="#records-that-outlive-the-run" title="链接到此标题。"></a></h2>
+<p>A frame is something you send; these two are something you <strong>keep</strong>. They share the rest of the
+page's rule — bytes and their meaning, never a transport — but their reader arrives after a power
+cycle, so what a decoder refuses matters more than what an encoder writes.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">commissioned_set.hpp</span></code> — the numbers a commissioning run measures, in a form that survives a
+power cycle: what is stored, what is derived again on load, and the six ways decoding refuses
+(short buffer, foreign marker, unknown schema, a reserved byte that is not zero, a check value
+that does not match, a field that cannot be true).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">board_record.hpp</span></code> — one production test's outcome in bytes: which unit, when, and every row it
+judged — so &quot;this board passed&quot; is a record with a payload rather than a log line.</p></li>
+</ul>
+</section>
+<section id="why-a-dense-register-map">
+<h2>Why a dense register map<a class="headerlink" href="#why-a-dense-register-map" title="链接到此标题。"></a></h2>
+<p>Register zero is not &quot;the first register&quot; in this library — it is the <em>absence</em> of one. The table
+starts at 1 and has no holes, so enumeration is a loop and not a search, and a missing register
+is a missing index rather than a reserved zero that every reader has to special-case.</p>
+</section>
+<section id="two-rules-that-make-a-register-map-survivable">
+<h2>Two rules that make a register map survivable<a class="headerlink" href="#two-rules-that-make-a-register-map-survivable" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>Monotone</strong>: a build never renumbers an existing register. New entries are appended, because a
+host that was flashed last quarter is still a host.</p></li>
+<li><p><strong>Self-describing enough to be checked</strong>: every entry says what it is, so a host reading a
+register it does not know can say so instead of using the value.</p></li>
+</ul>
+</section>
+<section id="sequence-numbers">
+<h2>Sequence numbers<a class="headerlink" href="#sequence-numbers" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">frame.hpp</span></code>'s checker exists because the two common transport failures — a dropped frame and a
+repeated one — look the same to a receiver that only reads payloads. A sequence number makes them
+different: a gap is a loss, a repeat is a duplicate, and both are answers the receiver can act on
+instead of a value it half-trusts.</p>
+</section>
+<section id="what-is-out-of-scope">
+<h2>What is out of scope<a class="headerlink" href="#what-is-out-of-scope" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>No bus implementation.</strong> CAN, EtherCAT, UART: the frames fit any of them, and no page here
+promises a timing guarantee on a bus.</p></li>
+<li><p><strong>No security layer.</strong> Authentication and integrity are transport concerns; this layer checks
+what it can check locally (sequence, status) and says so.</p></li>
+</ul>
+</section>
+<section id="related">
+<h2>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the C face a host most often talks to: <a class="reference internal" href="c-api.html"><span class="doc">c-api</span></a></p></li>
+<li><p>the byte-level seams of the loop: <a class="reference internal" href="core.html"><span class="doc">core</span></a>'s <code class="docutils literal notranslate"><span class="pre">trace.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">trace_parse.hpp</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="driver.html" class="btn btn-neutral float-left" title="driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="c-api.html" class="btn btn-neutral float-right" title="c-api" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

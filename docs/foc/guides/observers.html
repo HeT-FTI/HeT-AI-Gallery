@@ -1,0 +1,619 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.2. Choosing an angle observer &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.3. Zero and low speed" href="low-speed-injection.html" />
+    <link rel="prev" title="1.1.1. Bringing a sensorless machine up" href="startup-sensorless.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.2. Choosing an angle observer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-need">1.1.2.1. What you need</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-minimal-program">1.1.2.2. A minimal program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-numbers-come-from">1.1.2.3. Where the numbers come from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-goes-wrong">1.1.2.4. How it goes wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evidence">1.1.2.5. Evidence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#figure">1.1.2.6. Figure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.2. </span>Choosing an angle observer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/observers.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.2. </span><span class="target" id="choosing-an-angle-observer">Choosing an angle observer</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: commutate without an encoder, and know before the machine turns which of
+the library's observers to trust, and where it stops being good enough.</p>
+<section id="what-you-need">
+<h2><span class="section-number">1.1.2.1. </span>What you need<a class="headerlink" href="#what-you-need" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/observer/back_emf_observer.hpp</span></code> -- the smallest one: integrate
+<code class="docutils literal notranslate"><span class="pre">v</span> <span class="pre">-</span> <span class="pre">Rs*i</span></code>, subtract <code class="docutils literal notranslate"><span class="pre">L*i</span></code>, take the angle of what is left. Two parameters,
+one inductance, and no correction term of any kind.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/observer/nonlinear_flux_observer.hpp</span></code> -- the same idea with a pull
+towards the rotor flux added, which is what replaces a missing integration
+constant: it needs no seed and it corrects itself, at the cost of a floor below
+which the correction dominates the signal.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/observer/dual_inductance_observer.hpp</span></code> -- the same integrator with
+the angle recovered from <strong>both</strong> inductances, closed form. It costs one more
+parameter and buys the model that a salient machine actually has.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/observer/blended_observer.hpp</span></code> -- if the answer depends on speed, this
+is the hand-over between two of the above, so that the choice is a function of
+the operating point instead of a decision made once (see
+<a class="reference internal" href="low-speed-injection.html"><span class="doc">Zero and low speed</span></a>).</p></li>
+</ul>
+</section>
+<section id="a-minimal-program">
+<h2><span class="section-number">1.1.2.2. </span>A minimal program<a class="headerlink" href="#a-minimal-program" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/observers.cxx</span></code> drives all three through the same exact
+steady state, so the only difference between the three answers is the model each
+one carries. It sweeps speed and the d-axis current, and writes one row per
+(current, speed, observer); the same file produces this page's figure.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Observers -- which one to trust, and where its ceiling is: three observers</span>
+<span class="linenos">  2</span><span class="c1">// driven by the same exact steady state, so the only difference between the</span>
+<span class="linenos">  3</span><span class="c1">// three numbers is the model each one carries.</span>
+<span class="linenos">  4</span><span class="c1">//</span>
+<span class="linenos">  5</span><span class="c1">// Build it the way the `demo` gate does -- the example calls into the library, so</span>
+<span class="linenos">  6</span><span class="c1">// the sources are part of the command, and `-Iinclude` alone fails at the link:</span>
+<span class="linenos">  7</span><span class="c1">//   g++ -std=c++17 -fno-exceptions -fno-rtti -Wall -Wextra -Werror -Iinclude</span>
+<span class="linenos">  8</span><span class="c1">//   docs/doxygen/dox/demos/observers.cxx src/core/*.cpp</span>
+<span class="linenos">  9</span><span class="c1">//   src/core/observer/*.cpp src/motor/*.cpp src/driver/*.cpp src/api/foc_api.c</span>
+<span class="linenos"> 10</span><span class="c1">//   src/api/bridge.cpp src/version.c -o /tmp/observers</span>
+<span class="linenos"> 11</span><span class="c1">//</span>
+<span class="linenos"> 12</span><span class="c1">// With `--csv &lt;path&gt;` it writes one row per (d-axis current, speed, observer);</span>
+<span class="linenos"> 13</span><span class="c1">// `docs/demos/make_figures.py` draws this example&#39;s figure from that file.</span>
+<span class="linenos"> 14</span><span class="c1">//</span>
+<span class="linenos"> 15</span><span class="c1">// There is no plant in this program. The voltage is not simulated, it is computed</span>
+<span class="linenos"> 16</span><span class="c1">// from the machine&#39;s own steady-state equations for the speed and the d-axis</span>
+<span class="linenos"> 17</span><span class="c1">// current on the row, and the current fed to the observer is the current those</span>
+<span class="linenos"> 18</span><span class="c1">// equations were solved for. That is what makes the comparison a comparison: a</span>
+<span class="linenos"> 19</span><span class="c1">// simulated plant would add its own error to all three columns equally, which is</span>
+<span class="linenos"> 20</span><span class="c1">// the one thing a reader trying to choose between observers does not need.</span>
+<span class="linenos"> 21</span><span class="c1">//</span>
+<span class="linenos"> 22</span><span class="c1">// Two of the three must be seeded, because a pure integrator cannot know its own</span>
+<span class="linenos"> 23</span><span class="c1">// integration constant -- the library says so on the type and hands you</span>
+<span class="linenos"> 24</span><span class="c1">// `seed_flux()` for it. They are **not** seeded with the same vector, and that is</span>
+<span class="linenos"> 25</span><span class="c1">// the first thing this program is for. The single-`L` observer&#39;s estimate is</span>
+<span class="linenos"> 26</span><span class="c1">// `psi - L*i`, not `psi`: its recursion subtracts the increment of `L*i` every step,</span>
+<span class="linenos"> 27</span><span class="c1">// so whatever was seeded stays in the estimate as a fixed vector. Hand it the stator</span>
+<span class="linenos"> 28</span><span class="c1">// flux and `-L*i_0` stays behind -- `8e-4 * 0.5 = 4e-4` Wb here, against a 4.76e-3 Wb</span>
+<span class="linenos"> 29</span><span class="c1">// rotor flux, whose angle is 0.084 rad. Measured on the same row at 20 rad/s: 0.085</span>
+<span class="linenos"> 30</span><span class="c1">// rad with the stator seed, 0.0012 with the rotor seed. The dual-inductance observer</span>
+<span class="linenos"> 31</span><span class="c1">// is the other way round -- its state *is* the stator flux</span>
+<span class="linenos"> 32</span><span class="c1">// (`psi_f*e^(j*theta) + L0*i + L1*conj(i)*e^(j*2*theta)`), so that is what it takes,</span>
+<span class="linenos"> 33</span><span class="c1">// and the rotor seed was measurably wrong for it in the opposite direction. The two</span>
+<span class="linenos"> 34</span><span class="c1">// seeds below therefore differ, and the difference is in the observers, not in a</span>
+<span class="linenos"> 35</span><span class="c1">// preference of this file.</span>
+<span class="linenos"> 36</span><span class="c1">//</span>
+<span class="linenos"> 37</span><span class="c1">// 观测器 —— 该信哪一个、它在哪里到头：三个观测器被同一个精确稳态驱动，于是三个数</span>
+<span class="linenos"> 38</span><span class="c1">// 字之间的差别只剩它们各自带的模型。</span>
+<span class="linenos"> 39</span><span class="c1">//</span>
+<span class="linenos"> 40</span><span class="c1">// 这个程序里没有被控对象。电压不是仿真出来的，而是由电机自己的稳态方程按本行的转速与</span>
+<span class="linenos"> 41</span><span class="c1">// d 轴电流算出来的，喂给观测器的电流也是同一组方程解出来的。这才让比较成为比较：一个</span>
+<span class="linenos"> 42</span><span class="c1">// 仿真被控对象会给三列加上它自己的误差，而正在选型的人最不需要的正是那个。</span>
+<span class="linenos"> 43</span><span class="c1">//</span>
+<span class="linenos"> 44</span><span class="c1">// 三个之中有两个必须被播种，因为纯积分器无从知道自己的积分常数 —— 库在类型上写着这件事，</span>
+<span class="linenos"> 45</span><span class="c1">// 并把 `seed_flux()` 交给你。它们 **不是** 用同一个矢量播的，而这正是本程序要说的第一件事。</span>
+<span class="linenos"> 46</span><span class="c1">// 单电感观测器的估计量是 `psi - L*i` 而不是 `psi`：它的递推每一步都减去 `L*i` 的增量，所以播</span>
+<span class="linenos"> 47</span><span class="c1">// 进去的东西会以固定矢量的形式留在估计里。把定子磁链交给它，`-L*i_0` 就留在里面——这里是</span>
+<span class="linenos"> 48</span><span class="c1">// `8e-4 * 0.5 = 4e-4` Wb，对着 4.76e-3 Wb 的转子磁链，对应角度 0.084 rad。同一行实测，</span>
+<span class="linenos"> 49</span><span class="c1">// 20 rad/s：定子种子 0.085 rad，转子种子 0.0012。双电感观测器正好相反 —— 它的状态 *就是*</span>
+<span class="linenos"> 50</span><span class="c1">// 定子磁链（`psi_f*e^(j*theta) + L0*i + L1*conj(i)*e^(j*2*theta)`），所以它吃的是那个；</span>
+<span class="linenos"> 51</span><span class="c1">// 用转子磁链去播它，在反方向上是可测地错的。下面两个种子因此不同，差别在观测器身上，</span>
+<span class="linenos"> 52</span><span class="c1">// 不在这份文件的偏好里。</span>
+<span class="linenos"> 53</span><span class="c1">// 带 `--csv &lt;path&gt;` 时按 (d 轴电流, 转速, 观测器) 逐行写出；`docs/demos/make_figures.py`</span>
+<span class="linenos"> 54</span><span class="c1">// 用它画本片的图。</span>
+<span class="linenos"> 55</span>
+<span class="linenos"> 56</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="linenos"> 57</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="linenos"> 58</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstring&gt;</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/observer/back_emf_observer.hpp&gt;</span>
+<span class="linenos"> 61</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/observer/dual_inductance_observer.hpp&gt;</span>
+<span class="linenos"> 62</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/observer/nonlinear_flux_observer.hpp&gt;</span>
+<span class="linenos"> 63</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/transforms.hpp&gt;</span>
+<span class="linenos"> 64</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/types.hpp&gt;</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 67</span>
+<span class="linenos"> 68</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">6.28318530718F</span><span class="p">;</span>
+<span class="linenos"> 69</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kPi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14159265359F</span><span class="p">;</span>
+<span class="linenos"> 70</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kDtS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0e-5F</span><span class="p">;</span><span class="w">      </span><span class="c1">// 20 kHz control loop</span>
+<span class="linenos"> 71</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kSettleSteps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20000</span><span class="p">;</span><span class="w">  </span><span class="c1">// one second of ticks before the row is read</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span><span class="c1">/// The machine, named once. Lq is twice Ld on purpose: with Ld == Lq the two</span>
+<span class="linenos"> 74</span><span class="c1">/// single-inductance observers have no model error to show, and a page about</span>
+<span class="linenos"> 75</span><span class="c1">/// choosing between them would be comparing three copies of the same answer.</span>
+<span class="linenos"> 76</span><span class="c1">/// 电机只写一次。Lq 是 Ld 的两倍是有意的：Ld == Lq 时两个单电感观测器没有模型误差</span>
+<span class="linenos"> 77</span><span class="c1">/// 可露，那一页就变成同一个答案比三遍了。</span>
+<span class="linenos"> 78</span><span class="k">struct</span><span class="w"> </span><span class="nc">Machine</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 79</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">rs_ohm</span><span class="p">;</span>
+<span class="linenos"> 80</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">ld_h</span><span class="p">;</span>
+<span class="linenos"> 81</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">lq_h</span><span class="p">;</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">psi_f_wb</span><span class="p">;</span>
+<span class="linenos"> 83</span><span class="p">};</span>
+<span class="linenos"> 84</span>
+<span class="linenos"> 85</span><span class="k">constexpr</span><span class="w"> </span><span class="n">Machine</span><span class="w"> </span><span class="n">kMachine</span><span class="p">{</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="mf">4.7619e-3F</span><span class="p">};</span>
+<span class="linenos"> 86</span>
+<span class="linenos"> 87</span><span class="c1">/// The one inductance the two single-`L` observers are given. It is the **q-axis**</span>
+<span class="linenos"> 88</span><span class="c1">/// one, because that is what a single-`L` model means: the design point is</span>
+<span class="linenos"> 89</span><span class="c1">/// `i_d = 0`, where the whole current lies on q and `Lq` is the inductance that</span>
+<span class="linenos"> 90</span><span class="c1">/// turns it into flux. Handing them `Ld` instead would manufacture a model error</span>
+<span class="linenos"> 91</span><span class="c1">/// the library does not have, and the page would then be measuring this file&#39;s</span>
+<span class="linenos"> 92</span><span class="c1">/// mistake rather than the observers. On a machine with `Ld == Lq` the choice</span>
+<span class="linenos"> 93</span><span class="c1">/// disappears, which is why the machine below deliberately does not have it.</span>
+<span class="linenos"> 94</span><span class="c1">/// 两个单电感观测器拿的是 **q 轴** 电感，因为这就是单电感模型的含义：设计点是 `i_d = 0`，</span>
+<span class="linenos"> 95</span><span class="c1">/// 电流全在 q 轴上，把电流变成磁链的就是 `Lq`。给它们 `Ld` 会造出一个库本身没有的模型</span>
+<span class="linenos"> 96</span><span class="c1">/// 误差，那一页量的就成了本文件的错误而不是观测器。`Ld == Lq` 的机器上这个选择不存在，</span>
+<span class="linenos"> 97</span><span class="c1">/// 所以下面这台机器故意不是那样。</span>
+<span class="linenos"> 98</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kSingleL_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">lq_h</span><span class="p">;</span>
+<span class="linenos"> 99</span>
+<span class="linenos">100</span><span class="c1">/// One step of the steady state at `theta_e`: the d-q voltage that holds (i_d,</span>
+<span class="linenos">101</span><span class="c1">/// i_q) against the back-EMF, rotated back into the stationary frame. `inv_park`</span>
+<span class="linenos">102</span><span class="c1">/// is the library&#39;s own, so the demo cannot disagree with it about a sign.</span>
+<span class="linenos">103</span><span class="c1">/// 稳态在 `theta_e` 处的一步：顶住反电势、维持 (i_d, i_q) 所需的 dq 电压，再转回静止系。</span>
+<span class="linenos">104</span><span class="c1">/// 用的是库自己的 `inv_park`，于是本演示不可能在符号上和它不一致。</span>
+<span class="linenos">105</span><span class="k">struct</span><span class="w"> </span><span class="nc">Sample</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">106</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v_ab</span><span class="p">;</span>
+<span class="linenos">107</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">i_ab</span><span class="p">;</span>
+<span class="linenos">108</span><span class="p">};</span>
+<span class="linenos">109</span>
+<span class="linenos">110</span><span class="k">auto</span><span class="w"> </span><span class="n">sample_at</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">speed_rad_s</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_d_a</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_q_a</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">theta_e_rad</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Sample</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">111</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">v_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">rs_ohm</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i_d_a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">speed_rad_s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">lq_h</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i_q_a</span><span class="p">;</span>
+<span class="linenos">112</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">v_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">rs_ohm</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i_q_a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">speed_rad_s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">kMachine</span><span class="p">.</span><span class="n">ld_h</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i_d_a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">psi_f_wb</span><span class="p">);</span>
+<span class="linenos">113</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Sample</span><span class="p">{</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">inv_park</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">{</span><span class="n">v_d</span><span class="p">,</span><span class="w"> </span><span class="n">v_q</span><span class="p">},</span><span class="w"> </span><span class="n">theta_e_rad</span><span class="p">),</span>
+<span class="linenos">114</span><span class="w">                  </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">inv_park</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">{</span><span class="n">i_d_a</span><span class="p">,</span><span class="w"> </span><span class="n">i_q_a</span><span class="p">},</span><span class="w"> </span><span class="n">theta_e_rad</span><span class="p">)};</span>
+<span class="linenos">115</span><span class="p">}</span>
+<span class="linenos">116</span>
+<span class="linenos">117</span><span class="k">auto</span><span class="w"> </span><span class="n">wrap_pi</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">angle_rad</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">118</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">angle_rad</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">kPi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">119</span><span class="w">        </span><span class="n">angle_rad</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">kTwoPi</span><span class="p">;</span>
+<span class="linenos">120</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">121</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">angle_rad</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="o">-</span><span class="n">kPi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">122</span><span class="w">        </span><span class="n">angle_rad</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kTwoPi</span><span class="p">;</span>
+<span class="linenos">123</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">124</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">angle_rad</span><span class="p">;</span>
+<span class="linenos">125</span><span class="p">}</span>
+<span class="linenos">126</span>
+<span class="linenos">127</span><span class="c1">/// What one observer answers after the same settling time, against the same truth.</span>
+<span class="linenos">128</span><span class="c1">/// 同一个稳定时间之后，一个观测器给出的答案，面对同一个真值。</span>
+<span class="linenos">129</span><span class="k">struct</span><span class="w"> </span><span class="nc">Reading</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">130</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">error_rad</span><span class="p">;</span><span class="w">  </span><span class="c1">///&lt; the worst excursion over one revolution, signed: the sign says which side it fell on</span>
+<span class="linenos">131</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">omega_rad_s</span><span class="p">;</span><span class="w">    </span><span class="c1">///&lt; mean over the measurement revolution, not one sample</span>
+<span class="linenos">132</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">ripple_rad_s</span><span class="p">;</span><span class="w">   </span><span class="c1">///&lt; worst departure from that mean over the same revolution</span>
+<span class="linenos">133</span><span class="p">};</span>
+<span class="linenos">134</span>
+<span class="linenos">135</span><span class="c1">/// The rotor flux at electrical angle zero. This observer&#39;s estimate is `psi - L*i`,</span>
+<span class="linenos">136</span><span class="c1">/// not `psi`: its recursion subtracts the *increment* of `L*i`, so whatever is seeded</span>
+<span class="linenos">137</span><span class="c1">/// stays in the estimate as a fixed vector. Seeding it with the stator flux therefore</span>
+<span class="linenos">138</span><span class="c1">/// leaves `L*i_0` behind -- a 0.084 rad offset vector on this machine, added to one</span>
+<span class="linenos">139</span><span class="c1">/// that rotates -- and the angle error then swings with the electrical frequency</span>
+<span class="linenos">140</span><span class="c1">/// instead of holding still. The two seeds differ because the two states differ; there</span>
+<span class="linenos">141</span><span class="c1">/// is no single &quot;the flux&quot; to hand both of them.</span>
+<span class="linenos">142</span><span class="c1">/// 电角度为零处的转子磁链。本观测器的估计量是 `psi - L*i` 而不是 `psi`：它的递推减掉的是</span>
+<span class="linenos">143</span><span class="c1">/// `L*i` 的 *增量*，所以播进去的东西会以固定矢量的形式留在估计里。因此用定子磁链去播它，就</span>
+<span class="linenos">144</span><span class="c1">/// 等于留下 `L*i_0`——在这台机器上是 0.084 rad 的偏置矢量，加在一个正在旋转的矢量上——角度</span>
+<span class="linenos">145</span><span class="c1">/// 误差于是随电频率摆动，而不是稳定不动。两个种子不同，是因为两个状态不同：不存在一个可以</span>
+<span class="linenos">146</span><span class="c1">/// 同时交给它们两个的“那个磁链”。</span>
+<span class="linenos">147</span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">rotor_flux_at_zero</span><span class="p">()</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">148</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">{</span><span class="n">kMachine</span><span class="p">.</span><span class="n">psi_f_wb</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">};</span>
+<span class="linenos">149</span><span class="p">}</span>
+<span class="linenos">150</span>
+<span class="linenos">151</span><span class="c1">/// The stator flux at electrical angle zero, from the library&#39;s own expression</span>
+<span class="linenos">152</span><span class="c1">/// `psi = psi_f*e^(j*theta) + L0*i + L1*conj(i)*e^(j*2*theta)`, which at theta = 0</span>
+<span class="linenos">153</span><span class="c1">/// collapses to `(psi_f + Ld*i_d, Lq*i_q)`. The dual-inductance observer is the one</span>
+<span class="linenos">154</span><span class="c1">/// whose state is this vector, so this is the seed it takes.</span>
+<span class="linenos">155</span><span class="c1">/// 电角度为零处的定子磁链，取自库自己的表达式，在 theta = 0 处塌缩成</span>
+<span class="linenos">156</span><span class="c1">/// `(psi_f + Ld*i_d, Lq*i_q)`。双电感观测器是状态就是它的那一个，所以这才是它该吃的种子。</span>
+<span class="linenos">157</span><span class="k">auto</span><span class="w"> </span><span class="n">stator_flux_at_zero</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">i_d_a</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_q_a</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">158</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">{</span><span class="n">kMachine</span><span class="p">.</span><span class="n">psi_f_wb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">ld_h</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i_d_a</span><span class="p">,</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">lq_h</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i_q_a</span><span class="p">};</span>
+<span class="linenos">159</span><span class="p">}</span>
+<span class="linenos">160</span>
+<span class="linenos">161</span><span class="c1">/// Drive one already-constructed observer across the same steady state, and report</span>
+<span class="linenos">162</span><span class="c1">/// the **worst** angle error over one electrical revolution after settling.</span>
+<span class="linenos">163</span><span class="c1">///</span>
+<span class="linenos">164</span><span class="c1">/// Two choices in here are about not measuring the harness. The settling run covers a</span>
+<span class="linenos">165</span><span class="c1">/// whole number of revolutions, so the reading does not depend on where the rotor</span>
+<span class="linenos">166</span><span class="c1">/// happens to stop. And the number reported is the worst error over a full revolution</span>
+<span class="linenos">167</span><span class="c1">/// rather than one sample, because a model error is a fixed vector in *some* frame:</span>
+<span class="linenos">168</span><span class="c1">/// a d-axis flux error is invisible to a single reading taken at rotor phase zero (it</span>
+<span class="linenos">169</span><span class="c1">/// changes the magnitude of the estimate and not its angle) and reads at full size a</span>
+<span class="linenos">170</span><span class="c1">/// quarter turn later. One sample per speed therefore measures the reading phase -- this</span>
+<span class="linenos">171</span><span class="c1">/// program gave 0.000 and 0.083 rad for the same observer at the same current before</span>
+<span class="linenos">172</span><span class="c1">/// the revolution was swept. The sign is kept: it says which side of the truth the</span>
+<span class="linenos">173</span><span class="c1">/// worst excursion fell on.</span>
+<span class="linenos">174</span><span class="c1">/// 把已经构造好的观测器推过同一段稳态，并报告稳定之后 **一个电周期内最差** 的角度误差。</span>
+<span class="linenos">175</span><span class="c1">///</span>
+<span class="linenos">176</span><span class="c1">/// 这里有两个选择都是为了避免量到台架自己。稳定段跑整数个电周期，读数就不取决于转子恰好停在</span>
+<span class="linenos">177</span><span class="c1">/// 哪里。报的是整转内的最差值而不是单次采样，因为模型误差是 *某个* 坐标系里的固定矢量：d 轴</span>
+<span class="linenos">178</span><span class="c1">/// 磁链误差在转子相位为零处的单次读数上完全看不见（它改变估计的幅值而不改变角度），四分之一</span>
+<span class="linenos">179</span><span class="c1">/// 转之后才读出全部大小。每个转速取一次样，量的就是读数相位——在扫这一整转之前，本程序对同一个</span>
+<span class="linenos">180</span><span class="c1">/// 观测器、同一个电流给出过 0.000 和 0.083 rad。符号保留：它说明最差的那次落在真值的哪一侧。</span>
+<span class="linenos">181</span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">Observer</span><span class="o">&gt;</span>
+<span class="linenos">182</span><span class="k">auto</span><span class="w"> </span><span class="n">settled</span><span class="p">(</span><span class="n">Observer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">observer</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">speed_rad_s</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_d_a</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_q_a</span><span class="p">,</span>
+<span class="linenos">183</span><span class="w">             </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;*</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Reading</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">184</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">step_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">speed_rad_s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kDtS</span><span class="p">;</span>
+<span class="linenos">185</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">turns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kSettleSteps</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">step_rad</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">kTwoPi</span><span class="p">));</span>
+<span class="linenos">186</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">lround</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">turns</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">step_rad</span><span class="p">));</span>
+<span class="linenos">187</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">per_turn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">lround</span><span class="p">(</span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">step_rad</span><span class="p">));</span>
+<span class="linenos">188</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">theta_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">189</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ObsState</span><span class="w"> </span><span class="n">state</span><span class="p">{};</span>
+<span class="linenos">190</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">seed</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">191</span><span class="w">        </span><span class="n">observer</span><span class="p">.</span><span class="n">seed_flux</span><span class="p">(</span><span class="o">*</span><span class="n">seed</span><span class="p">);</span>
+<span class="linenos">192</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">193</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">worst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">194</span><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">omega_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+<span class="linenos">195</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">omega_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">196</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">omega_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">197</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">measured</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">198</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">steps</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">per_turn</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">step</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">199</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">Sample</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_at</span><span class="p">(</span><span class="n">speed_rad_s</span><span class="p">,</span><span class="w"> </span><span class="n">i_d_a</span><span class="p">,</span><span class="w"> </span><span class="n">i_q_a</span><span class="p">,</span><span class="w"> </span><span class="n">theta_e</span><span class="p">);</span>
+<span class="linenos">200</span><span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">observer</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">sample</span><span class="p">.</span><span class="n">v_ab</span><span class="p">,</span><span class="w"> </span><span class="n">sample</span><span class="p">.</span><span class="n">i_ab</span><span class="p">,</span><span class="w"> </span><span class="n">kDtS</span><span class="p">);</span>
+<span class="linenos">201</span><span class="w">        </span><span class="n">theta_e</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">step_rad</span><span class="p">;</span>
+<span class="linenos">202</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">theta_e</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">kTwoPi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">203</span><span class="w">            </span><span class="n">theta_e</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">kTwoPi</span><span class="p">;</span>
+<span class="linenos">204</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">205</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">step</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">steps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">206</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wrap_pi</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="n">theta_e</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">theta_e</span><span class="p">);</span>
+<span class="linenos">207</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">fabs</span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fabs</span><span class="p">(</span><span class="n">worst</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">208</span><span class="w">                </span><span class="n">worst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+<span class="linenos">209</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">210</span><span class="w">            </span><span class="c1">// The speed is reported as a mean over the same revolution, and its ripple</span>
+<span class="linenos">211</span><span class="w">            </span><span class="c1">// separately: a control loop closes on the mean but is disturbed by the</span>
+<span class="linenos">212</span><span class="w">            </span><span class="c1">// ripple, and one instantaneous sample would report whichever of the two</span>
+<span class="linenos">213</span><span class="w">            </span><span class="c1">// the reading phase happened to land on.</span>
+<span class="linenos">214</span><span class="w">            </span><span class="c1">// 转速报同一转内的均值，纹波单独报：闭环吃的是均值，被扰动的是纹波，而单次采样只会</span>
+<span class="linenos">215</span><span class="w">            </span><span class="c1">// 报出读数相位恰好落上的那一个。</span>
+<span class="linenos">216</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">omega</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="n">omega_e</span><span class="p">;</span>
+<span class="linenos">217</span><span class="w">            </span><span class="n">omega_sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">omega</span><span class="p">);</span>
+<span class="linenos">218</span><span class="w">            </span><span class="n">omega_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">measured</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">omega</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmin</span><span class="p">(</span><span class="n">omega_low</span><span class="p">,</span><span class="w"> </span><span class="n">omega</span><span class="p">);</span>
+<span class="linenos">219</span><span class="w">            </span><span class="n">omega_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">measured</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">omega</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmax</span><span class="p">(</span><span class="n">omega_high</span><span class="p">,</span><span class="w"> </span><span class="n">omega</span><span class="p">);</span>
+<span class="linenos">220</span><span class="w">            </span><span class="o">++</span><span class="n">measured</span><span class="p">;</span>
+<span class="linenos">221</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">222</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">223</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">omega_mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">omega_sum</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">measured</span><span class="p">));</span>
+<span class="linenos">224</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ripple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmax</span><span class="p">(</span><span class="n">omega_high</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">omega_mean</span><span class="p">,</span><span class="w"> </span><span class="n">omega_mean</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">omega_low</span><span class="p">);</span>
+<span class="linenos">225</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Reading</span><span class="p">{</span><span class="n">worst</span><span class="p">,</span><span class="w"> </span><span class="n">omega_mean</span><span class="p">,</span><span class="w"> </span><span class="n">ripple</span><span class="p">};</span>
+<span class="linenos">226</span><span class="p">}</span>
+<span class="linenos">227</span>
+<span class="linenos">228</span><span class="c1">/// These names are printed and also written into a comma-separated field, so none of</span>
+<span class="linenos">229</span><span class="c1">/// them may contain a comma. A comma in a name does not fail loudly -- the reader</span>
+<span class="linenos">230</span><span class="c1">/// just gets a short row and the series disappears from the figure.</span>
+<span class="linenos">231</span><span class="c1">/// 这些名字既上屏又进 CSV 字段，所以都不能带逗号。带了不会报错 —— 读者只是拿到一行</span>
+<span class="linenos">232</span><span class="c1">/// 短数据，曲线就从图里消失了。</span>
+<span class="linenos">233</span><span class="k">auto</span><span class="w"> </span><span class="n">observer_name</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">234</span><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">235</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="linenos">236</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;back-emf (single L)&quot;</span><span class="p">;</span>
+<span class="linenos">237</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span>
+<span class="linenos">238</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;nonlinear flux (single L)&quot;</span><span class="p">;</span>
+<span class="linenos">239</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span>
+<span class="linenos">240</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;dual inductance (Ld/Lq)&quot;</span><span class="p">;</span>
+<span class="linenos">241</span><span class="w">    </span><span class="k">default</span><span class="o">:</span>
+<span class="linenos">242</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;?&quot;</span><span class="p">;</span>
+<span class="linenos">243</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">244</span><span class="p">}</span>
+<span class="linenos">245</span>
+<span class="linenos">246</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos">247</span>
+<span class="linenos">248</span><span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">249</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos">250</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;--csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">251</span><span class="w">        </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="linenos">252</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">253</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usage: %s [--csv &lt;path&gt;]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="linenos">254</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos">255</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">256</span>
+<span class="linenos">257</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kSpeeds</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">20.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">50.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">100.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">200.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">400.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">800.0F</span><span class="p">};</span>
+<span class="linenos">258</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kDaxis</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0F</span><span class="p">};</span>
+<span class="linenos">259</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kIqA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">;</span>
+<span class="linenos">260</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kObservers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="linenos">261</span>
+<span class="linenos">262</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">FILE</span><span class="o">*</span><span class="w"> </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">csv_path</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">nullptr</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fopen</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+<span class="linenos">263</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv_path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">csv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">264</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cannot write %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">csv_path</span><span class="p">);</span>
+<span class="linenos">265</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">266</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">267</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">268</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;panel,i_d_a,speed_rad_s,observer,worst_error_rad,omega_rad_s,omega_ripple_rad_s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">269</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">270</span>
+<span class="linenos">271</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;machine: Rs %.3f ohm, Ld %.1e H, Lq %.1e H, psi_f %.4e Wb, iq %.2f A</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">272</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kMachine</span><span class="p">.</span><span class="n">rs_ohm</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kMachine</span><span class="p">.</span><span class="n">ld_h</span><span class="p">),</span>
+<span class="linenos">273</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kMachine</span><span class="p">.</span><span class="n">lq_h</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kMachine</span><span class="p">.</span><span class="n">psi_f_wb</span><span class="p">),</span>
+<span class="linenos">274</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kIqA</span><span class="p">));</span>
+<span class="linenos">275</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%-13s %-26s %12s %10s %10s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;speed (rad/s)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;observer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;worst (rad)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;omega&quot;</span><span class="p">,</span>
+<span class="linenos">276</span><span class="w">                </span><span class="s">&quot;ripple&quot;</span><span class="p">);</span>
+<span class="linenos">277</span>
+<span class="linenos">278</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_d</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">kDaxis</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">279</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">panel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_d</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0F</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;id0&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;idneg&quot;</span><span class="p">;</span>
+<span class="linenos">280</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">-- i_d = %.1f A --</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i_d</span><span class="p">));</span>
+<span class="linenos">281</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">kSpeeds</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">282</span><span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kObservers</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">283</span><span class="w">                </span><span class="n">Reading</span><span class="w"> </span><span class="n">reading</span><span class="p">{};</span>
+<span class="linenos">284</span><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">285</span><span class="w">                    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BackEmfObserver</span><span class="w"> </span><span class="n">observer</span><span class="p">{{</span><span class="n">kMachine</span><span class="p">.</span><span class="n">rs_ohm</span><span class="p">,</span><span class="w"> </span><span class="n">kSingleL_h</span><span class="p">}};</span>
+<span class="linenos">286</span><span class="w">                    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rotor_flux_at_zero</span><span class="p">();</span>
+<span class="linenos">287</span><span class="w">                    </span><span class="n">reading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">settled</span><span class="p">(</span><span class="n">observer</span><span class="p">,</span><span class="w"> </span><span class="n">speed</span><span class="p">,</span><span class="w"> </span><span class="n">i_d</span><span class="p">,</span><span class="w"> </span><span class="n">kIqA</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">seed</span><span class="p">);</span>
+<span class="linenos">288</span><span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">289</span><span class="w">                    </span><span class="c1">// The non-linear flux observer carries a correction, so it needs no</span>
+<span class="linenos">290</span><span class="w">                    </span><span class="c1">// seed: the pull towards `psi_f` is what replaces the missing</span>
+<span class="linenos">291</span><span class="w">                    </span><span class="c1">// integration constant. That same correction is why it has a floor</span>
+<span class="linenos">292</span><span class="w">                    </span><span class="c1">// instead of a seed.</span>
+<span class="linenos">293</span><span class="w">                    </span><span class="c1">// 非线性磁链观测器带修正，所以不需要种子：拉向 `psi_f` 的那一项就是缺失</span>
+<span class="linenos">294</span><span class="w">                    </span><span class="c1">// 的积分常数的替代。也正是这项修正给了它地板而不是种子。</span>
+<span class="linenos">295</span><span class="w">                    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">NonlinearFluxObserver</span><span class="w"> </span><span class="n">observer</span><span class="p">{</span>
+<span class="linenos">296</span><span class="w">                        </span><span class="p">{</span><span class="n">kMachine</span><span class="p">.</span><span class="n">rs_ohm</span><span class="p">,</span><span class="w"> </span><span class="n">kSingleL_h</span><span class="p">,</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">psi_f_wb</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-4F</span><span class="p">}};</span>
+<span class="linenos">297</span><span class="w">                    </span><span class="n">reading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">settled</span><span class="p">(</span><span class="n">observer</span><span class="p">,</span><span class="w"> </span><span class="n">speed</span><span class="p">,</span><span class="w"> </span><span class="n">i_d</span><span class="p">,</span><span class="w"> </span><span class="n">kIqA</span><span class="p">);</span>
+<span class="linenos">298</span><span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">299</span><span class="w">                    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">DualInductanceObserver</span><span class="w"> </span><span class="n">observer</span><span class="p">{</span>
+<span class="linenos">300</span><span class="w">                        </span><span class="p">{</span><span class="n">kMachine</span><span class="p">.</span><span class="n">rs_ohm</span><span class="p">,</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">ld_h</span><span class="p">,</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">lq_h</span><span class="p">,</span><span class="w"> </span><span class="n">kMachine</span><span class="p">.</span><span class="n">psi_f_wb</span><span class="p">}};</span>
+<span class="linenos">301</span><span class="w">                    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stator_flux_at_zero</span><span class="p">(</span><span class="n">i_d</span><span class="p">,</span><span class="w"> </span><span class="n">kIqA</span><span class="p">);</span>
+<span class="linenos">302</span><span class="w">                    </span><span class="n">reading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">settled</span><span class="p">(</span><span class="n">observer</span><span class="p">,</span><span class="w"> </span><span class="n">speed</span><span class="p">,</span><span class="w"> </span><span class="n">i_d</span><span class="p">,</span><span class="w"> </span><span class="n">kIqA</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">seed</span><span class="p">);</span>
+<span class="linenos">303</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos">304</span><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%-13.0f %-26s %12.6f %10.3f %10.3f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">speed</span><span class="p">),</span>
+<span class="linenos">305</span><span class="w">                            </span><span class="n">observer_name</span><span class="p">(</span><span class="n">index</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">reading</span><span class="p">.</span><span class="n">error_rad</span><span class="p">),</span>
+<span class="linenos">306</span><span class="w">                            </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">reading</span><span class="p">.</span><span class="n">omega_rad_s</span><span class="p">),</span>
+<span class="linenos">307</span><span class="w">                            </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">reading</span><span class="p">.</span><span class="n">ripple_rad_s</span><span class="p">));</span>
+<span class="linenos">308</span><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">309</span><span class="w">                    </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%s,%.1f,%.0f,%s,%.9f,%.6f,%.6f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">panel</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i_d</span><span class="p">),</span>
+<span class="linenos">310</span><span class="w">                                 </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">speed</span><span class="p">),</span><span class="w"> </span><span class="n">observer_name</span><span class="p">(</span><span class="n">index</span><span class="p">),</span>
+<span class="linenos">311</span><span class="w">                                 </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">reading</span><span class="p">.</span><span class="n">error_rad</span><span class="p">),</span>
+<span class="linenos">312</span><span class="w">                                 </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">reading</span><span class="p">.</span><span class="n">omega_rad_s</span><span class="p">),</span>
+<span class="linenos">313</span><span class="w">                                 </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">reading</span><span class="p">.</span><span class="n">ripple_rad_s</span><span class="p">));</span>
+<span class="linenos">314</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos">315</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">316</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">317</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">318</span>
+<span class="linenos">319</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">320</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fclose</span><span class="p">(</span><span class="n">csv</span><span class="p">);</span>
+<span class="linenos">321</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">wrote %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">csv_path</span><span class="p">);</span>
+<span class="linenos">322</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">323</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">324</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="where-the-numbers-come-from">
+<h2><span class="section-number">1.1.2.3. </span>Where the numbers come from<a class="headerlink" href="#where-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>The one inductance the single-``L`` observers are given is ``Lq``.</strong> Their
+models are written for the operating point they are meant for -- <code class="docutils literal notranslate"><span class="pre">i_d</span> <span class="pre">~</span> <span class="pre">0</span></code>,
+where the current sits on the q axis -- and the header says so on
+<code class="docutils literal notranslate"><span class="pre">apply_params()</span></code>. Handing them <code class="docutils literal notranslate"><span class="pre">Ld</span></code> is not a stricter test, it is a different
+machine, and it manufactures a bias the library does not have.</p></li>
+<li><p><strong>The seeds are per observer, not per page.</strong> <code class="docutils literal notranslate"><span class="pre">seed_flux()</span></code> fixes the last
+integration constant so that the observer's <em>own</em> estimate equals the vector you
+hand it. For the single-<code class="docutils literal notranslate"><span class="pre">L</span></code> observer that estimate is <code class="docutils literal notranslate"><span class="pre">psi</span> <span class="pre">-</span> <span class="pre">L*i</span></code>; for the
+dual-inductance one it is the stator flux itself. The same vector is correct for
+one and wrong for the other.</p></li>
+<li><p><strong>``psi_f`` comes from the nameplate, not from a measurement in this file.</strong> It is
+<code class="docutils literal notranslate"><span class="pre">Kt</span></code> divided by <code class="docutils literal notranslate"><span class="pre">1.5*pole_pairs</span></code>; the value here is chosen so that the machine
+is a plausible small servo, and every conclusion on this page is a ratio that
+does not depend on it.</p></li>
+<li><p><strong>``dt`` is the control period, and it is part of the answer, not a detail.</strong> The
+integrators are backward-Euler, so a fraction of a step of rotation is built into
+every reading; the faster the machine, the larger that fraction gets.</p></li>
+</ul>
+</section>
+<section id="how-it-goes-wrong">
+<h2><span class="section-number">1.1.2.4. </span>How it goes wrong<a class="headerlink" href="#how-it-goes-wrong" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Both observers seeded with the same vector.</strong> The one that does not hold that
+quantity keeps the difference as a fixed vector, forever -- a pure integrator
+never forgets an integration constant. The failure does not look like a bug: the
+estimate still turns at the right speed, it is simply offset by a constant, and
+only the observer whose estimate <em>is</em> the seeded quantity is unaffected.</p></li>
+<li><p><strong>One sample per operating point.</strong> A model error is a fixed vector in the
+stationary frame, so its angle cost depends on where the rotor happens to be at
+the moment of reading: at rotor phase zero a d-axis flux error changes the
+magnitude of the estimate and not its angle at all. Reading once per speed
+measures the reading phase, and it will happily report a clean result for an
+observer that is a tenth of a radian out a quarter of a turn later. Sweep a whole
+revolution and report the worst.</p></li>
+<li><p><strong>A single-``L`` observer used where ``i_d`` is not zero.</strong> The residual is
+<code class="docutils literal notranslate"><span class="pre">(Lq</span> <span class="pre">-</span> <span class="pre">Ld)*i_d</span></code> against a much larger rotor flux, and it scales with the amount
+of field weakening asked for. This is why the field-weakening path needs a
+different observer rather than a different parameter, and why an MTPA reference
+-- which is <em>defined</em> by its <code class="docutils literal notranslate"><span class="pre">i_d</span></code> -- is not a place to put a single-<code class="docutils literal notranslate"><span class="pre">L</span></code>
+estimator behind.</p></li>
+<li><p><strong>A closed loop given the mean and not the ripple.</strong> All three report the true
+mean speed when the model is right; they differ in how much the instantaneous
+value moves between samples, and a current loop working from the instantaneous
+value sees that difference even though the mean is identical.</p></li>
+<li><p><strong>The sampled-data floor mistaken for a model error.</strong> Above a few hundred
+rad/s every observer here is limited by the same thing, and it is arithmetic, not
+physics: the step of rotation happens <em>between</em> the samples. No parameter, no
+seed and no better model removes it -- a shorter period does.</p></li>
+</ol>
+</section>
+<section id="evidence">
+<h2><span class="section-number">1.1.2.5. </span>Evidence<a class="headerlink" href="#evidence" title="链接到此标题。"></a></h2>
+<p>Three claim rows cover this page -- <code class="docutils literal notranslate"><span class="pre">foc/core/observer/back_emf_observer.hpp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc/core/observer/nonlinear_flux_observer.hpp</span></code> and
+<code class="docutils literal notranslate"><span class="pre">foc/core/observer/dual_inductance_observer.hpp</span></code> -- and the level this page may
+state is the minimum of those three. Every measured number this page would
+otherwise want to quote -- the size of the single-<code class="docutils literal notranslate"><span class="pre">L</span></code> bias against <code class="docutils literal notranslate"><span class="pre">i_d</span></code>, the
+speed at which each observer's floor takes over, what a resistance or a current
+offset costs -- lives in those rows and in the headers' own measured notes.</p>
+<p>What this page does <strong>not</strong> claim: anything about a switching inverter. The program
+above has no dead time, no current ripple, no sensor noise and no saturation, and it
+is exact about its own parameters. Those are the four things that decide whether an
+observer works on a real drive, and they are not visible in this figure by
+construction -- the figure is there to isolate the model, which is the only thing it
+can isolate honestly.</p>
+</section>
+<section id="figure">
+<h2><span class="section-number">1.1.2.6. </span>Figure<a class="headerlink" href="#figure" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-observers">
+<a class="reference internal image-reference" href="../_images/ALL_observers.png"><img alt="../_images/ALL_observers.png" src="../_images/ALL_observers.png" width="900" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.2 </span><span class="caption-text">the columns differ only in the d-axis current; the upper row is the worst angle
+error over one electrical revolution, the lower row the speed estimate's ripple --
+the mean is exact for all three and would plot as a flat line</span><a class="headerlink" href="#figure-observers" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>Both panels come from this page's example. The left column is the operating point
+the single-<code class="docutils literal notranslate"><span class="pre">L</span></code> models are written for, and there the three curves lie on top of one
+another: the only visible difference is the coefficient of the step of rotation,
+which the corrected observer halves. The right column is the same three observers at
+one ampere of negative d-axis current, and the picture separates them -- two lines
+leave, one stays where it was. What the figure does not show is anything about cost:
+the dual-inductance observer is not slower or heavier than the others in a way this
+plot could express, and it wins the right column by carrying one more parameter that
+somebody has to have measured.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="startup-sensorless.html" class="btn btn-neutral float-left" title="1.1.1. Bringing a sensorless machine up" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="low-speed-injection.html" class="btn btn-neutral float-right" title="1.1.3. Zero and low speed" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

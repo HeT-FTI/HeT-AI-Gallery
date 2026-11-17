@@ -1,0 +1,262 @@
+_`Installing and toolchains`
+============================
+
+:doc:`quickstart` is the short path: four steps to a running loop. This page is the reference
+behind step 1 and step 2 — the matrix, the three ways to consume the package, and the link
+errors that mean you have it almost right.
+
+Nothing on this page needs Sphinx or Doxygen: those build **this documentation**, not the
+library.
+
+What the build needs
+--------------------
+
+The floors are in ``metadata.json``, not in this page — the table repeats them so that a reader
+can see the whole picture at once, and ``metadata.json`` stays the one place they are declared:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 26 20 54
+
+   * - Tool
+     - Floor
+     - Notes
+   * - Conan
+     - 2.x
+     - the package is built and consumed through Conan; ``conan --version`` is the check
+   * - CMake
+     - ``metadata.json`` → ``cmake_version``
+     - a consumer's own CMake may be older; the floor applies to building the package
+   * - C++ compiler
+     - C++17
+     - GCC, Clang or MSVC. The library builds with ``-fno-exceptions -fno-rtti`` — a compiler
+       that cannot do that cannot build it
+   * - C compiler
+     - C11
+     - only for the C ABI consumer; the implementation is still C++
+   * - Cross toolchain
+     - any
+     - ``benchmark/profiles/cortex-a7.profile`` is the worked example: a Cortex-A Linux target,
+       no Python bindings, no tests in the target graph
+
+Library dependencies come in three buckets, and only one of them reaches a device build:
+
+- **core** — ``etl`` (fixed-capacity containers, header-only). This is the only dependency on
+  the bare-metal whitelist.
+- **test** — ``GTest``. Host only.
+- **bindings** — ``pybind11``. Host only, and skipped automatically on a cross build.
+
+Three ways to consume it
+------------------------
+
+Two of them end at the same link line, which is the point: one aggregate target carries both
+component targets and the package metadata guarantees their order.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 40 38
+
+   * - You have
+     - Do
+     - Then
+   * - Conan
+     - ``self.requires("foc/0.1.0")`` in ``requirements()``
+     - ``find_package(foc REQUIRED)`` + ``target_link_libraries(app PRIVATE foc::foc)``
+   * - A prebuilt or locally installed package
+     - put the Conan generator folder (or the install prefix) on ``CMAKE_PREFIX_PATH``
+     - the same ``find_package`` and the same ``foc::foc`` target
+   * - The repository itself
+     - ``add_subdirectory(foc)``
+     - the in-tree targets are ``foc_c``, ``foc_cpp`` and the aggregate ``foc``. The ``foc::``
+       namespace is added by the **exported** package config, so it does not exist in this case
+
+Link the aggregate target and not ``foc_c`` alone unless you know why: the aggregate is what
+the package's own tests use, and it is the only one whose ordering is guaranteed.
+
+The C consumer's link failure
+-----------------------------
+
+A C program can use the C ABI and still has to link the C++ runtime:
+
+.. code-block:: cmake
+
+   add_executable(app main.c)
+   set_target_properties(app PROPERTIES LINKER_LANGUAGE CXX)   # without this: __cxa_*
+   target_link_libraries(app PRIVATE foc::foc)
+
+Without ``LINKER_LANGUAGE CXX`` (or one empty ``.cpp`` in the target) the link fails with
+symbols named ``__cxa_`` — the C++ runtime's own entry points. That is not a packaging accident: the ABI is C, the
+implementation is C++, and the library says so instead of hiding a C++ runtime behind a C
+header. :ref:`The pure-C row in honest limits <honest-limits>` is the stronger version of the same
+statement — a C consumer *without* the C++ runtime is explicitly not supported.
+
+Common failures, and what each one means
+----------------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 42 58
+
+   * - Symptom
+     - What it is
+   * - a link error naming ``__cxa_`` symbols
+     - the C target is being linked as C; set ``LINKER_LANGUAGE CXX``
+   * - ``foc::foc target not found``
+     - the Conan generator folder is not on ``CMAKE_PREFIX_PATH``, or ``find_package`` was
+       called before ``conan install`` ran
+   * - ``import foc_python`` fails
+     - the bindings are host-only and off on cross builds; check
+       ``metadata.json`` → ``enable_python_bindings``, and put the built module's directory on
+       ``PYTHONPATH``
+   * - the library compiles but a policy does not
+     - the motor is policy-composed: an observer or modulator that does not model the required
+       concept fails at instantiation, with the concept name in the error
+   * - ``-Werror`` fails inside the library headers
+     - the headers are built with the project's own warning set; a consumer's stricter set can
+       differ. Open an issue rather than silencing it — the headers are meant to be clean
+   * - the doc build fails on ``doxygen``
+     - documentation tooling is separate from the library; the site needs a loadable
+       ``doxygen`` and ``sphinx`` but a consumer never does
+
+What CI actually builds
+-----------------------
+
+The table states what CI **builds and runs**, not what the language permits. The runner labels live in
+``.github/workflows/``; the standards and the build type come from ``metadata.json``.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 20 20 20
+
+   * - Feature
+     - MSVC — ``windows-latest``
+     - Apple-Clang — ``macos-latest``
+     - GCC — ``ubuntu-latest``
+   * - build, link and run the suite
+     - yes
+     - yes
+     - yes
+   * - the C11 ABI, consumed from C
+     - yes
+     - yes
+     - yes
+   * - the exported package, consumed by ``find_package``
+     - yes
+     - yes
+     - yes
+
+Two qualifications, both of them about what a check mark does not mean:
+
+**C++20 and C++23 build, but they are not separate legs.** The standard is a ``metadata.json`` field
+and the whole suite is compiled at it, so a language mode never arrives untested -- but the three
+legs above are the ones whose runtime behaviour is exercised on each platform.
+
+**C++ Modules are experimental and no leg compiles one.** ``generate_modules_inplace`` is ``false``,
+so module generation is an unexercised code path: treat it as unverified until a leg covers it rather
+than as a feature the table above implies.
+
+Platforms
+---------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Platform
+     - What is actually covered
+   * - **Desktop** -- Windows, Linux, macOS
+     - each is a build-and-run leg, which is what the table above records
+   * - **Cortex-A Linux** -- ``arm-linux-a53``
+     - a cross build with the Python bindings skipped, and the ``pil`` gate replaying one scenario on
+       the target ISA under qemu
+   * - **Cortex-M bare metal** -- ``mcu-m4``, ``arm-none-eabi``
+     - a cross build and a link; no execution, because nothing in CI has a board attached
+   * - anything else
+     - works through a generated Conan profile, and is **not covered by CI** until a leg is added
+       for it
+
+The numeric domain belongs to the platform rather than being an implementation detail: the library
+computes in single precision and assumes a single-precision FPU instead of emulating one. On a part
+without an FPU the same code runs through software floating point and none of the timing figures in
+this repository apply to it. ``double`` appears only where a value is cheaper to keep exact than to
+re-derive -- the trajectory's position accumulator converts at its exit -- so it is not a second
+numeric domain, and the ``_f64`` C entry points avoid a narrowing at the *call site* only. Q31 fixed
+point is deliberately not implemented; :doc:`boundaries` says where that decision comes from.
+
+Cross builds
+------------
+
+Two things change on a cross build, and both are by design:
+
+- **the Python bindings are not built** — a target with no Python cannot load them, and
+  pretending otherwise produces a module nobody can import;
+- **the tests are not run on the target** — they are host tests over the same sources. What
+  cannot be verified without hardware is listed under :ref:`honest limits <honest-limits>`.
+
+The worked example is ``benchmark/profiles/cortex-a7.profile``; the same two switches are what
+a Cortex-M bare-metal profile sets, with ``etl`` as the only dependency left in the graph.
+
+Adding a dependency
+-------------------
+
+Two files, and neither of them is a ``CMakeLists.txt``: the graph is computed from
+``conandata.yml`` and the package names and targets to link come from the ``dependencies`` field of
+``metadata.json``. The requirement can be a package archived on `Conan Center`_ or one you built
+yourself -- for the second, you also need a Conan remote that serves it, because a build with no
+source for a requirement is a build that resolves differently on somebody else's machine.
+
+.. _Conan Center: https://conan.io/center
+
+The downstream contract
+-----------------------
+
+This template is also built by the **HeT DevTools** VS Code extension in a *managed lane*: it creates
+its own private venv and ``CONAN_HOME`` and a **generated** Conan profile instead of probing the user's
+machine. The interfaces below are backward compatible; by default the behaviour is byte for byte the
+CI one.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 24 22 14 40
+
+   * - Interface
+     - Value
+     - Default
+     - Meaning
+   * - ``HET_CMAKE_MIN``
+     - version string (e.g. ``3.15``)
+     - unset
+     - Overrides the ``cmake_minimum_required`` floor (the CI baseline is 3.28)
+   * - ``HET_CMAKE_BUILD_REQUIRE``
+     - ``none`` or a version
+     - unset
+     - Skips or replaces the ConanCenter ``cmake/<metadata.cmake_version>``; read by **both** recipes
+   * - ``metadata.graphviz_bin``
+     - directory path
+     - **absent**
+     - Absent means use ``dot`` from ``PATH``. This is a **machine-specific** field and normally should
+       not be committed
+   * - ``conancenter`` remote name
+     - keep the standard name
+     - --
+     - A downstream private ``CONAN_HOME`` may point it at a corporate mirror, so never assume its URL
+   * - Coverage artifact
+     - ``test_package/test/export/coverage/coverage_summary.json``
+     - --
+     - **Parse the JSON, not the HTML.** The ``coverage_report/index.html`` path stays a stable
+       artifact, but its layout belongs to genhtml and may be restyled at any release
+   * - ``user.het:run_tests``
+     - conan conf (``-c user.het:run_tests=False``)
+     - ``True``
+     - Narrows ``metadata.trigger_tests`` for one run and leaves the library uninstrumented, which is
+       what the build-only CI legs do. Namespaced to the template rather than the package
+
+The implementations live in ``CMakeLists.txt``, ``conanfile.py``, ``test_package/conanfile.py`` and
+``docs/build.py``.
+
+Next
+----
+
+- the four-step path: :doc:`quickstart`
+- what "predictable" costs, and what it does not cover: :doc:`cost-model`
+- the API, one page per group: :doc:`reference/index`

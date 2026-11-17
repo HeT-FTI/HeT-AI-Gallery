@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. What may be claimed, and to whom &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="3.1.1. Claim tiers" href="tier.html" />
+    <link rel="prev" title="2. What each capability offers, and what it costs" href="../capabilities.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. What may be claimed, and to whom</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#four-readers-four-pages">3.1. Four readers, four pages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tier.html">3.1.1. Claim tiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="industries.html">3.1.2. By industry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="language.html">3.1.3. Language compliance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-four-sentences-this-project-never-says">3.2. The four sentences this project never says</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-the-evidence-is">3.3. Where the evidence is</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#related">3.4. Related</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3. </span>What may be claimed, and to whom</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/compliance/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">3. </span><span class="target" id="what-may-be-claimed-and-to-whom">What may be claimed, and to whom</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>This page answers one question: <strong>which sentence about compliance may this project put in front
+of which customer today?</strong> It does not answer &quot;what would we have to buy to say more&quot; — that is
+<a class="reference internal" href="tier.html"><span class="doc">Claim tiers</span></a>, and it does not answer &quot;what does my industry ask first&quot; — that is
+<a class="reference internal" href="industries.html"><span class="doc">By industry</span></a>.</p>
+<section id="four-readers-four-pages">
+<h2><span class="section-number">3.1. </span>Four readers, four pages<a class="headerlink" href="#four-readers-four-pages" title="链接到此标题。"></a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24.0%" />
+<col style="width: 26.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Who is asking</p></th>
+<th class="head"><p>Go to</p></th>
+<th class="head"><p>What that page gives</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Procurement, or a customer's buyer</p></td>
+<td><p><a class="reference internal" href="tier.html"><span class="doc">Claim tiers</span></a></p></td>
+<td><p>the five claim tiers: the sentence each one buys, the documents it needs, and where this
+project stands in each</p></td>
+</tr>
+<tr class="row-odd"><td><p>A safety engineer in one industry</p></td>
+<td><p><a class="reference internal" href="industries.html"><span class="doc">By industry</span></a></p></td>
+<td><p>eight cards, one per industry: what they ask, what they actually read, what can be given
+today, and what is missing</p></td>
+</tr>
+<tr class="row-even"><td><p>A tool or language reviewer</p></td>
+<td><p><a class="reference internal" href="language.html"><span class="doc">Language compliance</span></a></p></td>
+<td><p>the language claim in detail: the rule table, its two lists, the deviation permits, and
+what each of them can and cannot support</p></td>
+</tr>
+<tr class="row-odd"><td><p>An auditor</p></td>
+<td><p>this page, then <a class="reference internal" href="../boundaries.html"><span class="doc">What this library does not do</span></a></p></td>
+<td><p>the four sentences below, and the list of things this library does not do at all</p></td>
+</tr>
+<tr class="row-even"><td><p>A customer's licence reviewer</p></td>
+<td><p><a class="reference internal" href="../third-party.html"><span class="doc">Third-party code: what we link, and what we may read</span></a></p></td>
+<td><p>every dependency we link with its licence and the paths it may appear on, and the licence of
+each upstream project this library is allowed to read from</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-four-sentences-this-project-never-says">
+<h2><span class="section-number">3.2. </span>The four sentences this project never says<a class="headerlink" href="#the-four-sentences-this-project-never-says" title="链接到此标题。"></a></h2>
+<p>These are fixed. They are not softened by a modifier, and no page on this site may contradict
+them. The wording is generated from <cite>.github/project/compliance/claims.json</cite>, so the API
+documentation and this site say the same four things.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18.0%" />
+<col style="width: 82.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Never</p></th>
+<th class="head"><p>The sentence, and why</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Level</strong></p></td>
+<td><p>This library claims no ASIL, SIL or Class B level. Levels come out of a hazard analysis
+and safety goals for a <strong>whole machine</strong>; a library has no such context, so it can supply
+evidence about its own behaviour and nothing about the level of the system it lands in.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Rule set</strong></p></td>
+<td><p>This library claims no conformance to AUTOSAR C++14: it is built as C++17, and the
+document is a C++14 rule set. What can be said is tighter and checkable: the rules are
+organised by that document's numbering, and every C++17 delta is recorded.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Third party</strong></p></td>
+<td><p>NASA and JPL coding standards are not a compliance basis here; their use is a free,
+third-party-readable checklist.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Independence</strong></p></td>
+<td><p>This library claims reproducibility, not independent verification: a third party can
+re-run every gate and get the same numbers, which is not the same as having been verified
+independently.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Two of the four are worth reading twice. &quot;Reproducible&quot; is a property of the artefact and can be
+demonstrated in an afternoon; &quot;independently verified&quot; is a property of the <em>relationship</em>
+between two organisations and cannot be demonstrated by the first organisation at all. And a rule
+set is a document about a language version, not a certificate about this code.</p>
+</section>
+<section id="where-the-evidence-is">
+<h2><span class="section-number">3.3. </span>Where the evidence is<a class="headerlink" href="#where-the-evidence-is" title="链接到此标题。"></a></h2>
+<p>Every claim above is re-runnable, and a claim that cannot be re-run is not evidence. These are the
+artefacts, and the command that regenerates each:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Artefact</p></th>
+<th class="head"><p>Re-run with</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>the rule table, one rule per line</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/compliance/gen_subset.py</span> <span class="pre">--check</span></code> (stale means exit 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>the four counts, per language</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/compliance/subset_gate.py</span> <span class="pre">--summary</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>the deviation permits, five elements each</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/gates.py</span> <span class="pre">subset</span></code> (also checks the NOLINT bijection)</p></td>
+</tr>
+<tr class="row-odd"><td><p>this project's own strictness, composed from outside the pinned file</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/gates.py</span> <span class="pre">enforce</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>the evidence level of each capability</p></td>
+<td><p>the claim table in the project <code class="docutils literal notranslate"><span class="pre">README.md</span></code>, whose rows carry an evidence level and a
+test case</p></td>
+</tr>
+</tbody>
+</table>
+<p>No count is printed on this page on purpose: a number copied into prose is a second source of
+truth with a shelf life. The counts live in the artefacts above.</p>
+</section>
+<section id="related">
+<h2><span class="section-number">3.4. </span>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>what this library does not do at all: <a class="reference internal" href="../boundaries.html"><span class="doc">What this library does not do</span></a></p></li>
+<li><p>what each capability owes before it may be claimed: <a class="reference internal" href="../capabilities.html"><span class="doc">What each capability offers, and what it costs</span></a></p></li>
+<li><p>how the evidence is produced: <a class="reference internal" href="../usage.html"><span class="doc">Usage and verification</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../capabilities.html" class="btn btn-neutral float-left" title="2. What each capability offers, and what it costs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="tier.html" class="btn btn-neutral float-right" title="3.1.1. Claim tiers" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

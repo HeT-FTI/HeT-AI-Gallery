@@ -1,0 +1,57 @@
+_`Project Overview`
+===================
+
+_`Positioning`
+--------------
+
+This project provides a C/C++ SDK for food browning analysis with two core parts:
+
+- `nnseg`: instance segmentation engine.
+- `food_browning`: browning maturity estimation over segmented instances.
+
+_`Scope`
+--------
+
+- Input: image frame and optional runtime/model configuration.
+- Output: instance-level segmentation result, browning score, and error information.
+- Typical use cases: stage detection during baking, doneness window detection, and overbake warning.
+
+_`Observed Visual Stages`
+-------------------------
+
+The following figures illustrate typical visual stages of chicken wings during oven baking.
+
+.. figure:: ../../images/OUT_wings_stage01_initial.jpg
+   :name: wings-stage-01
+   :width: 82%
+   :align: center
+
+   Stage 1: Initial heating with a slight desaturation trend.
+
+.. figure:: ../../images/OUT_wings_stage02_coloring_onset.jpg
+   :name: wings-stage-02
+   :width: 82%
+   :align: center
+
+   Stage 2: Color development starts as the Maillard reaction intensifies.
+
+.. figure:: ../../images/OUT_wings_stage03_golden_plateau.jpg
+   :name: wings-stage-03
+   :width: 82%
+   :align: center
+
+   Stage 3: Golden plateau, often corresponding to a desirable serving window.
+
+.. figure:: ../../images/OUT_wings_stage04_overbake_warning.jpg
+   :name: wings-stage-04
+   :width: 82%
+   :align: center
+
+   Stage 4: Overbake warning with increasing dark regions.
+
+.. figure:: ../../images/OUT_wings_stage05_charred_decline.jpg
+   :name: wings-stage-05
+   :width: 82%
+   :align: center
+
+   Stage 5: Deep charring where the S-value usually enters a decline segment.

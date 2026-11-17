@@ -1,0 +1,126 @@
+_`Choosing an angle observer`
+=============================
+
+The task: commutate without an encoder, and know before the machine turns which of
+the library's observers to trust, and where it stops being good enough.
+
+What you need
+-------------
+
+- ``foc/core/observer/back_emf_observer.hpp`` -- the smallest one: integrate
+  ``v - Rs*i``, subtract ``L*i``, take the angle of what is left. Two parameters,
+  one inductance, and no correction term of any kind.
+- ``foc/core/observer/nonlinear_flux_observer.hpp`` -- the same idea with a pull
+  towards the rotor flux added, which is what replaces a missing integration
+  constant: it needs no seed and it corrects itself, at the cost of a floor below
+  which the correction dominates the signal.
+- ``foc/core/observer/dual_inductance_observer.hpp`` -- the same integrator with
+  the angle recovered from **both** inductances, closed form. It costs one more
+  parameter and buys the model that a salient machine actually has.
+- ``foc/core/observer/blended_observer.hpp`` -- if the answer depends on speed, this
+  is the hand-over between two of the above, so that the choice is a function of
+  the operating point instead of a decision made once (see
+  :doc:`low-speed-injection`).
+
+A minimal program
+-----------------
+
+``docs/doxygen/dox/demos/observers.cxx`` drives all three through the same exact
+steady state, so the only difference between the three answers is the model each
+one carries. It sweeps speed and the d-axis current, and writes one row per
+(current, speed, observer); the same file produces this page's figure.
+
+.. literalinclude:: ../../../../docs/doxygen/dox/demos/observers.cxx
+   :language: cpp
+   :linenos:
+
+Where the numbers come from
+---------------------------
+
+- **The one inductance the single-``L`` observers are given is ``Lq``.** Their
+  models are written for the operating point they are meant for -- ``i_d ~ 0``,
+  where the current sits on the q axis -- and the header says so on
+  ``apply_params()``. Handing them ``Ld`` is not a stricter test, it is a different
+  machine, and it manufactures a bias the library does not have.
+- **The seeds are per observer, not per page.** ``seed_flux()`` fixes the last
+  integration constant so that the observer's *own* estimate equals the vector you
+  hand it. For the single-``L`` observer that estimate is ``psi - L*i``; for the
+  dual-inductance one it is the stator flux itself. The same vector is correct for
+  one and wrong for the other.
+- **``psi_f`` comes from the nameplate, not from a measurement in this file.** It is
+  ``Kt`` divided by ``1.5*pole_pairs``; the value here is chosen so that the machine
+  is a plausible small servo, and every conclusion on this page is a ratio that
+  does not depend on it.
+- **``dt`` is the control period, and it is part of the answer, not a detail.** The
+  integrators are backward-Euler, so a fraction of a step of rotation is built into
+  every reading; the faster the machine, the larger that fraction gets.
+
+How it goes wrong
+-----------------
+
+1. **Both observers seeded with the same vector.** The one that does not hold that
+   quantity keeps the difference as a fixed vector, forever -- a pure integrator
+   never forgets an integration constant. The failure does not look like a bug: the
+   estimate still turns at the right speed, it is simply offset by a constant, and
+   only the observer whose estimate *is* the seeded quantity is unaffected.
+2. **One sample per operating point.** A model error is a fixed vector in the
+   stationary frame, so its angle cost depends on where the rotor happens to be at
+   the moment of reading: at rotor phase zero a d-axis flux error changes the
+   magnitude of the estimate and not its angle at all. Reading once per speed
+   measures the reading phase, and it will happily report a clean result for an
+   observer that is a tenth of a radian out a quarter of a turn later. Sweep a whole
+   revolution and report the worst.
+3. **A single-``L`` observer used where ``i_d`` is not zero.** The residual is
+   ``(Lq - Ld)*i_d`` against a much larger rotor flux, and it scales with the amount
+   of field weakening asked for. This is why the field-weakening path needs a
+   different observer rather than a different parameter, and why an MTPA reference
+   -- which is *defined* by its ``i_d`` -- is not a place to put a single-``L``
+   estimator behind.
+4. **A closed loop given the mean and not the ripple.** All three report the true
+   mean speed when the model is right; they differ in how much the instantaneous
+   value moves between samples, and a current loop working from the instantaneous
+   value sees that difference even though the mean is identical.
+5. **The sampled-data floor mistaken for a model error.** Above a few hundred
+   rad/s every observer here is limited by the same thing, and it is arithmetic, not
+   physics: the step of rotation happens *between* the samples. No parameter, no
+   seed and no better model removes it -- a shorter period does.
+
+Evidence
+--------
+
+Three claim rows cover this page -- ``foc/core/observer/back_emf_observer.hpp``,
+``foc/core/observer/nonlinear_flux_observer.hpp`` and
+``foc/core/observer/dual_inductance_observer.hpp`` -- and the level this page may
+state is the minimum of those three. Every measured number this page would
+otherwise want to quote -- the size of the single-``L`` bias against ``i_d``, the
+speed at which each observer's floor takes over, what a resistance or a current
+offset costs -- lives in those rows and in the headers' own measured notes.
+
+What this page does **not** claim: anything about a switching inverter. The program
+above has no dead time, no current ripple, no sensor noise and no saturation, and it
+is exact about its own parameters. Those are the four things that decide whether an
+observer works on a real drive, and they are not visible in this figure by
+construction -- the figure is there to isolate the model, which is the only thing it
+can isolate honestly.
+
+Figure
+------
+
+.. figure:: ../../images/ALL_observers.png
+   :name: figure observers
+   :width: 900
+   :align: center
+
+   the columns differ only in the d-axis current; the upper row is the worst angle
+   error over one electrical revolution, the lower row the speed estimate's ripple --
+   the mean is exact for all three and would plot as a flat line
+
+Both panels come from this page's example. The left column is the operating point
+the single-``L`` models are written for, and there the three curves lie on top of one
+another: the only visible difference is the coefficient of the step of rotation,
+which the corrected observer halves. The right column is the same three observers at
+one ampere of negative d-axis current, and the picture separates them -- two lines
+leave, one stays where it was. What the figure does not show is anything about cost:
+the dual-inductance observer is not slower or heavier than the others in a way this
+plot could express, and it wins the right column by carrying one more parameter that
+somebody has to have measured.

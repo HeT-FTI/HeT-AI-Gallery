@@ -1,0 +1,444 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.1.3. Language compliance &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="4. Usage and verification" href="../usage.html" />
+    <link rel="prev" title="3.1.2. By industry" href="industries.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. What may be claimed, and to whom</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#four-readers-four-pages">3.1. Four readers, four pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tier.html">3.1.1. Claim tiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="industries.html">3.1.2. By industry</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">3.1.3. Language compliance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-rule-table">3.1.3.1. The rule table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-two-lists-and-why-neither-can-answer-alone">3.1.3.2. The two lists, and why neither can answer alone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-four-counts-and-what-each-one-means">3.1.3.3. The four counts, and what each one means</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-can-be-said-today">3.1.3.4. What can be said today</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-cannot-be-said-yet">3.1.3.5. What cannot be said yet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-evidence-lives">3.1.3.6. Where the evidence lives</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#known-gaps">3.1.3.7. Known gaps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-four-sentences-this-project-never-says">3.2. The four sentences this project never says</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#where-the-evidence-is">3.3. Where the evidence is</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#related">3.4. Related</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>What may be claimed, and to whom</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.1.3. </span>Language compliance</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/compliance/language.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">3.1.3. </span><span class="target" id="language-compliance">Language compliance</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>This page is the <strong>language half</strong> of the claim: the rule table, its deviations,
+and what each of them can support. The four sentences that no tier and no
+industry change are on <a class="reference internal" href="index.html"><span class="doc">What may be claimed, and to whom</span></a>; the tiers themselves are on <a class="reference internal" href="tier.html"><span class="doc">Claim tiers</span></a>; the
+industry-by-industry answers are on <a class="reference internal" href="industries.html"><span class="doc">By industry</span></a>.</p>
+<p>It answers one question honestly: <strong>which sentence about language
+compliance may this project put in front of a customer today, and which may it
+not put in front of anybody yet.</strong></p>
+<p>It is deliberately short, and every claim on it points at a file or a gate that
+can be re-run. A claim that cannot be re-run is not evidence, it is a
+recollection -- and the whole point of the report is that the two differ.</p>
+<section id="the-rule-table">
+<span id="subset-table"></span><h2><span class="section-number">3.1.3.1. </span>The rule table<a class="headerlink" href="#the-rule-table" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/rules.tsv</span></code> is the claim, one rule per line. It is
+<strong>generated</strong>, from two inputs:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/tool-checks.txt</span></code> -- a snapshot of the check names the
+pinned <code class="docutils literal notranslate"><span class="pre">.github/misc/.clang-tidy</span></code> <strong>names</strong> in its <code class="docutils literal notranslate"><span class="pre">Checks:</span></code> block. The
+snapshot exists because a glob quietly matching one more check adds a rule to
+the subset with nobody deciding to. It records what that block names, not what
+the tool resolves it to -- see the next section for why those are two different
+questions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/rules-manual.json</span></code> -- everything a tool cannot decide:
+what the compiler flags enforce, what this repository's own gates and tests
+enforce, which units have no behaviour to check, which rules are deviated and
+which are open.</p></li>
+</ul>
+<p>Regenerate with <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/compliance/gen_subset.py</span></code>; <code class="docutils literal notranslate"><span class="pre">--check</span></code> reports
+drift instead of writing.</p>
+</section>
+<section id="the-two-lists-and-why-neither-can-answer-alone">
+<h2><span class="section-number">3.1.3.2. </span>The two lists, and why neither can answer alone<a class="headerlink" href="#the-two-lists-and-why-neither-can-answer-alone" title="链接到此标题。"></a></h2>
+<p>The pinned <code class="docutils literal notranslate"><span class="pre">.github/misc/.clang-tidy</span></code> is a <strong>loose baseline of intent, by
+design</strong>. Its <code class="docutils literal notranslate"><span class="pre">Checks:</span></code> value is a folded scalar whose <code class="docutils literal notranslate"><span class="pre">#</span></code> lines are
+literal, so <code class="docutils literal notranslate"><span class="pre">clang-tidy</span> <span class="pre">--dump-config</span></code> resolves the list to <code class="docutils literal notranslate"><span class="pre">-*</span></code>: the
+scaffold's own <code class="docutils literal notranslate"><span class="pre">tidy</span></code> gate compiles every source in <code class="docutils literal notranslate"><span class="pre">src/</span></code> and constrains
+nothing. That is the template's posture rather than a defect, and it is not a
+patch this project sends upstream: the private-domain syntax of this
+repository (<code class="docutils literal notranslate"><span class="pre">//</span> <span class="pre">Conan::ImportStart</span></code> and the rest) is governed by the IaC
+layer -- the shared conventions, the codegen starter and the skills -- so the
+linter is deliberately kept out of that argument and stays compatible with
+whatever an instance decides.</p>
+<p>What follows from that is the part that matters to a reader of this page:
+<strong>the pinned file cannot be the answer to &quot;what is enforced&quot;.</strong> Two facts are
+true at once, and the page would be misleading if it stated either alone:</p>
+<ul class="simple">
+<li><p>the pinned configuration <strong>names</strong> <code class="docutils literal notranslate"><span class="pre">bugprone-*</span></code>, <code class="docutils literal notranslate"><span class="pre">performance-*</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cert-*</span></code> and two <code class="docutils literal notranslate"><span class="pre">cppcoreguidelines-*</span></code> checks, which is what
+<code class="docutils literal notranslate"><span class="pre">tool-checks.txt</span></code> records;</p></li>
+<li><p>the pinned configuration <strong>runs</strong> none of them, which is why <code class="docutils literal notranslate"><span class="pre">enforce</span></code>
+exists.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">.github/project/enforce.json</span></code> is where this project declares its own
+strictness. The gate composes a check set from <strong>outside</strong> the pinned file --
+<code class="docutils literal notranslate"><span class="pre">clang-tidy</span> <span class="pre">--checks</span></code> overrides the config's <code class="docutils literal notranslate"><span class="pre">Checks</span></code> key while its
+<code class="docutils literal notranslate"><span class="pre">CheckOptions</span></code> and <code class="docutils literal notranslate"><span class="pre">HeaderFilterRegex</span></code> still apply -- so the pinned file
+stays byte-identical and the families still run over every target. The same
+file carries three things a reader needs: the families that run, the checks
+exempted from a family (each with a signed deviation permit, or the gate
+fails), and the checks this project has looked at and decided <strong>not</strong> to run.
+That third list is a record with a count and a reason per entry; an entry with
+no reason or no evidence fails the gate, because an omission and a decision
+are otherwise indistinguishable.</p>
+<p>Two consequences worth stating plainly:</p>
+<ul class="simple">
+<li><p><strong>The word &quot;implemented&quot; in the rule table means &quot;a named mechanism runs it&quot;,
+and the mechanism for a lint rule is now the family table.</strong> A check that the
+pinned file names while nothing executes it is not an implemented rule; it is a
+sentence about a file. The <code class="docutils literal notranslate"><span class="pre">tidy:</span></code> rows therefore describe the pinned
+intent, and the rows whose enforcement comes from <code class="docutils literal notranslate"><span class="pre">enforce</span></code> say so.</p></li>
+<li><p><strong>&quot;This check is on&quot; is a claim about a run, not about a configuration.</strong> The
+witness is <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/gates.py</span> <span class="pre">enforce</span></code>, which fails if any
+target does not compile, reports any diagnostic from the extra families, and
+runs a positive control: a scratch file that must be diagnosed with the
+families on and must be clean with them off.</p></li>
+</ul>
+</section>
+<section id="the-four-counts-and-what-each-one-means">
+<h2><span class="section-number">3.1.3.3. </span>The four counts, and what each one means<a class="headerlink" href="#the-four-counts-and-what-each-one-means" title="链接到此标题。"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">subset</span></code> gate (<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/gates.py</span> <span class="pre">subset</span></code>) prints the
+same four numbers and refuses to pass unless they add up to the number of rows,
+so a rule that matched no status surfaces as an arithmetic failure rather than
+as a line nobody notices is missing.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 16.0%" />
+<col style="width: 64.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Status</p></th>
+<th class="head"><p>Means</p></th>
+<th class="head"><p>What makes it legal</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">implemented</span></code></p></td>
+<td><p>something enforces it</p></td>
+<td><p>the <code class="docutils literal notranslate"><span class="pre">check</span></code> column names the mechanism, in one of four forms:
+<code class="docutils literal notranslate"><span class="pre">tidy:&lt;check&gt;</span></code> (a check the pinned config enables), <code class="docutils literal notranslate"><span class="pre">gate:&lt;name&gt;</span></code>
+(a gate that exists), <code class="docutils literal notranslate"><span class="pre">test:&lt;file&gt;</span></code> (a test file that exists) or
+<code class="docutils literal notranslate"><span class="pre">case:&lt;id&gt;</span></code> (a case in the negative-compilation set). A row whose
+<code class="docutils literal notranslate"><span class="pre">check</span></code> names nothing that exists fails the build.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">not-applicable</span></code></p></td>
+<td><p>there is nothing to enforce</p></td>
+<td><p>two sub-cases, told apart by the <code class="docutils literal notranslate"><span class="pre">delta</span></code> column. <code class="docutils literal notranslate"><span class="pre">delta:</span> <span class="pre">none</span></code>
+means the unit has no behaviour: an interface, a lookup table or a test
+double -- the thirteen terminal <code class="docutils literal notranslate"><span class="pre">L1</span></code> modules of the claim table in the
+project <code class="docutils literal notranslate"><span class="pre">README.md</span></code>. <code class="docutils literal notranslate"><span class="pre">delta:</span> <span class="pre">vacuous</span></code> means the language feature is
+rejected by the build (exceptions, RTTI), so a rule about it has no
+operand.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">deviation</span></code></p></td>
+<td><p>we do not follow it, on purpose</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/deviation/&lt;rule&gt;.md</span></code> exists and carries all five
+elements: reason, impact, compensating control, approver, review date.
+Missing one element fails the build, and so does a <code class="docutils literal notranslate"><span class="pre">NOLINT</span></code> in the
+shipped tree with no record -- and a record with no suppression.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">open</span></code></p></td>
+<td><p>we intend to have it and do not</p></td>
+<td><p>this count may only fall. <code class="docutils literal notranslate"><span class="pre">.github/project/compliance/subset-baseline.json</span></code>
+freezes it; raising it means re-freezing the baseline in the same
+commit, which is a review event rather than an accident.</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/COMPLIANCE-SUMMARY.md</span></code> renders the same four counts for a
+delivery package, plus the per-source breakdown.</p>
+</section>
+<section id="what-can-be-said-today">
+<h2><span class="section-number">3.1.3.4. </span>What can be said today<a class="headerlink" href="#what-can-be-said-today" title="链接到此标题。"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Language baseline C++17 (N4659) / C11 (N1570), enforced per public header by
+`gates.py strict`. Of the N rules registered in the subset, N1 are enforced
+by a named mechanism, N2 do not apply and carry a reason, N3 are submitted
+as deviation permits with their five elements, N4 are open.
+</pre></div>
+</div>
+<p>The numbers are not written here on purpose: they are the output of the gate and
+of <code class="docutils literal notranslate"><span class="pre">COMPLIANCE-SUMMARY.md</span></code>, and a number copied into prose is a second source
+of truth with a shelf life. Read them from the gate.</p>
+<p>Two sentences that follow directly, because each has a re-runnable witness:</p>
+<ul class="simple">
+<li><p><strong>Ignoring a C ABI error code is a build failure.</strong> The witness is a real
+compilation, not a syntax check: <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/negative_compile.py</span></code>
+runs <code class="docutils literal notranslate"><span class="pre">c_abi_dropped_error_code</span></code> with <code class="docutils literal notranslate"><span class="pre">-Werror</span></code> and requires the
+diagnostic. It also pins the counter-intuitive part: a <code class="docutils literal notranslate"><span class="pre">(void)</span></code> cast does
+<strong>not</strong> silence <code class="docutils literal notranslate"><span class="pre">warn_unused_result</span></code> on GCC, while binding the value first
+does.</p></li>
+<li><p><strong>The rule set cannot drift from the pinned tool configuration.</strong> The witness
+is <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/gates.py</span> <span class="pre">subset</span></code>, which compares the enabled
+check set against <code class="docutils literal notranslate"><span class="pre">tool-checks.txt</span></code> and refuses a row that names a check the
+block does not name.</p></li>
+<li><p><strong>The CERT C++ family runs, and the pinned file did not need to change.</strong> The
+witness is <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/gates.py</span> <span class="pre">enforce</span></code>, which composes the
+check set from that block and from the family table and requires every target
+to compile and to produce no diagnostic from the extra families. The family
+was measured at zero on the source before it was switched on; the three sites
+it found on the way were fixed rather than suppressed.</p></li>
+</ul>
+</section>
+<section id="what-cannot-be-said-yet">
+<h2><span class="section-number">3.1.3.5. </span>What cannot be said yet<a class="headerlink" href="#what-cannot-be-said-yet" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 38.0%" />
+<col style="width: 62.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Sentence</p></th>
+<th class="head"><p>Why not, and what would close it</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&quot;Organised per MISRA C++:2023: N implemented / M not applicable /
+K deviated&quot;</p></td>
+<td><p>The four categories are exactly the ones MISRA Compliance:2020 asks for,
+and the deviation permits already carry its five elements -- but the
+mapping from tool check to MISRA rule number does not exist, so N/M/K
+cannot be filled in. That is the <code class="docutils literal notranslate"><span class="pre">misra-rule-mapping</span></code> row of the
+<code class="docutils literal notranslate"><span class="pre">open</span></code> register, and it is the difference between the two lowest tiers
+on <a class="reference internal" href="tier.html"><span class="doc">Claim tiers</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;Compliant with MISRA C++:2023&quot;, or any ASIL / SIL / Class B level</p></td>
+<td><p>Levels are derived from the whole machine's hazard analysis and safety
+goals. A library has no such context, so it can supply evidence about its
+own behaviour and nothing about the level of the system it lands in. See
+<a class="reference internal" href="../index.html#honest-limits"><span class="std std-ref">honest limits</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>&quot;Independently verified&quot;</p></td>
+<td><p>One author plus tooling can produce reproducibility, which is what this
+repository does produce: a third party who clones it and runs the gates
+gets the same numbers. It cannot produce independence.</p></td>
+</tr>
+<tr class="row-odd"><td><p>&quot;Every check in the pinned configuration is enforced&quot;</p></td>
+<td><p>The configuration states an intent and the resolver discards it, so the
+two are separate questions and only the second one is evidence. What this
+repo enforces is in the family table, and the family table is not the
+whole of that block: the checks it names but no gate executes are recorded
+as <code class="docutils literal notranslate"><span class="pre">open</span></code> in the rule table, not as <code class="docutils literal notranslate"><span class="pre">implemented</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="where-the-evidence-lives">
+<h2><span class="section-number">3.1.3.6. </span>Where the evidence lives<a class="headerlink" href="#where-the-evidence-lives" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Artefact</p></th>
+<th class="head"><p>Re-run with</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/rules.tsv</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/compliance/gen_subset.py</span> <span class="pre">--check</span></code> (stale means exit 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/COMPLIANCE-SUMMARY.md</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/compliance/subset_gate.py</span> <span class="pre">--summary</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/deviation/*.md</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/gates.py</span> <span class="pre">subset</span></code> (five elements, and the
+NOLINT bijection)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/subset-baseline.json</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/compliance/subset_gate.py</span> <span class="pre">--baseline</span></code> (a review event,
+not a reflex)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.github/project/enforce.json</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/gates.py</span> <span class="pre">enforce</span></code> (every target compiles, no
+diagnostic from a family, and the positive control still fires) and
+<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/enforce_gate.py</span> <span class="pre">--selftest</span></code> (the families are
+really switched on)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.github/project/compliance/tool-checks.txt</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/compliance/gen_subset.py</span> <span class="pre">--check</span></code>; the snapshot
+and the pinned block are compared by the <code class="docutils literal notranslate"><span class="pre">subset</span></code> gate</p></td>
+</tr>
+<tr class="row-even"><td><p>The materials the citations come from</p></td>
+<td><p>the internal procurement ledger (not part of the delivery package): it records which
+edition of each document was obtained, the sha256 of the copy, and which claim it supports</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="known-gaps">
+<h2><span class="section-number">3.1.3.7. </span>Known gaps<a class="headerlink" href="#known-gaps" title="链接到此标题。"></a></h2>
+<p>Three things are unresolved on purpose, and each costs the sentence it blocks:</p>
+<ul class="simple">
+<li><p><strong>The snapshot can age.</strong> <code class="docutils literal notranslate"><span class="pre">tool-checks.txt</span></code> is a copy, and the tool
+installed here resolves more check names than the copy lists. Re-snapshotting
+would file rows for checks no gate runs, which is the defect this page exists
+to prevent, so the enforced set is read from the family table and the
+snapshot keeps its older meaning. The decision to re-snapshot is open.</p></li>
+<li><p><strong>No mapping from a check to a MISRA rule number.</strong> Every count on this page
+is a count of checks or of units, not of rules in a named standard. The rule
+numbers are the <code class="docutils literal notranslate"><span class="pre">misra-rule-mapping</span></code> row of the <code class="docutils literal notranslate"><span class="pre">open</span></code> register.</p></li>
+<li><p><strong>Two delivery forms exist and are not claimed.</strong> <code class="docutils literal notranslate"><span class="pre">.github/project/forms.json</span></code>
+registers the FMU and the Python module with <code class="docutils literal notranslate"><span class="pre">claim_status:</span> <span class="pre">gap</span></code> and writes
+the gap out: no claim row describes the FMU (it has a runnable demonstration --
+a standard master loads it and drives the loop -- but no level, no boundary
+statement and no &quot;what it does not claim&quot;), and Python appears only as an
+evidence path on three rows, never as a claim that the binding behaves. The
+page therefore says &quot;a form exists&quot; and not &quot;a form is supported&quot;.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>The procurement ledger is internal by design and is not shipped. The
+consequence is deliberate: what a customer receives is the rule table, the
+deviation permits and the summary, not the list of documents this project
+bought to write them.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="industries.html" class="btn btn-neutral float-left" title="3.1.2. By industry" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../usage.html" class="btn btn-neutral float-right" title="4. Usage and verification" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,460 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.3. Zero and low speed &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.4. Torque below base speed" href="torque-reference.html" />
+    <link rel="prev" title="1.1.2. Choosing an angle observer" href="observers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.3. Torque at zero speed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-need">1.1.3.1. What you need</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-minimal-program">1.1.3.2. A minimal program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-numbers-come-from">1.1.3.3. Where the numbers come from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-goes-wrong">1.1.3.4. How it goes wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evidence">1.1.3.5. Evidence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#figure">1.1.3.6. Figure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.3. </span>Zero and low speed</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/low-speed-injection.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.3. </span><span class="target" id="zero-and-low-speed">Zero and low speed</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: produce torque with no back EMF to observe, and find out before the
+commissioning session whether this machine can be observed at standstill at all.</p>
+<section id="what-you-need">
+<h2><span class="section-number">1.1.3.1. </span>What you need<a class="headerlink" href="#what-you-need" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/observer/hfi_observer.hpp</span></code> -- saliency tracking by high-frequency
+injection: the carrier, the demodulator, the PLL, and the two refusals.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/observer/dual_inductance_observer.hpp</span></code> -- the same flux integrator
+with the angle recovered from two inductances instead of one. It needs no
+injection, and on a machine with equal inductances it degenerates to the
+single-inductance answer -- so it is not a way around the first failure mode
+below, it is a way to stop paying the bias that a single inductance brings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/observer/blended_observer.hpp</span></code> -- the hand-over between the two as
+speed rises, so the page does not end at the point where the low-speed method
+stops working.</p></li>
+</ul>
+</section>
+<section id="a-minimal-program">
+<h2><span class="section-number">1.1.3.2. </span>A minimal program<a class="headerlink" href="#a-minimal-program" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/low-speed-injection.cxx</span></code> holds a salient machine at
+standstill, drives it with the observer's own injection, and runs the loop three
+times: a surface-mount rotor, an interior rotor, and an interior rotor observed
+by a controller that cannot resolve the carrier. The same file produces this
+page's figure.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Low speed -- zero and low speed: high-frequency injection, and the machines it</span>
+<span class="linenos">  2</span><span class="c1">// refuses to work on.</span>
+<span class="linenos">  3</span><span class="c1">//</span>
+<span class="linenos">  4</span><span class="c1">// Build it the way the `demo` gate does -- the example calls into the library, so the</span>
+<span class="linenos">  5</span><span class="c1">// sources are part of the command, and `-Iinclude` alone fails at the link. A renamed</span>
+<span class="linenos">  6</span><span class="c1">// source turns that gate red instead of leaving a stale instruction here:</span>
+<span class="linenos">  7</span><span class="c1">//   g++ -std=c++17 -fno-exceptions -fno-rtti -Wall -Wextra -Werror -Iinclude</span>
+<span class="linenos">  8</span><span class="c1">//   docs/doxygen/dox/demos/low-speed-injection.cxx src/core/*.cpp</span>
+<span class="linenos">  9</span><span class="c1">//   src/core/observer/*.cpp src/motor/*.cpp src/driver/*.cpp src/api/foc_api.c</span>
+<span class="linenos"> 10</span><span class="c1">//   src/api/bridge.cpp src/version.c</span>
+<span class="linenos"> 11</span><span class="c1">//   -o /tmp/low-speed-injection</span>
+<span class="linenos"> 12</span><span class="c1">//</span>
+<span class="linenos"> 13</span><span class="c1">// With `--csv &lt;path&gt;` it writes both sweeps as rows; `docs/demos/make_figures.py`</span>
+<span class="linenos"> 14</span><span class="c1">// draws this example&#39;s figure from that file.</span>
+<span class="linenos"> 15</span><span class="c1">//</span>
+<span class="linenos"> 16</span><span class="c1">// 低速 —— 零速与低速：高频注入，以及它拒绝在哪些机器上工作。</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="linenos"> 19</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="linenos"> 20</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstring&gt;</span>
+<span class="linenos"> 21</span>
+<span class="linenos"> 22</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/observer/hfi_observer.hpp&gt;</span>
+<span class="linenos"> 23</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/types.hpp&gt;</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">6.28318530718F</span><span class="p">;</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span><span class="c1">// A standstill salient machine, small enough to read: two axes, no back EMF, no</span>
+<span class="linenos"> 30</span><span class="c1">// saturation. `lq_ratio == 1` is a surface-mount rotor -- the case this example is</span>
+<span class="linenos"> 31</span><span class="c1">// about.</span>
+<span class="linenos"> 32</span><span class="c1">// 一台静止的凸极电机，小到能一眼读完：两个轴、没有反电动势、没有饱和。</span>
+<span class="linenos"> 33</span><span class="c1">// `lq_ratio == 1` 就是表贴式转子——本示例要讲的就是这一种。</span>
+<span class="linenos"> 34</span><span class="k">struct</span><span class="w"> </span><span class="nc">SalientPlant</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 35</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">rs_ohm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="linenos"> 36</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">ld_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.010F</span><span class="p">;</span>
+<span class="linenos"> 37</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">lq_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.010F</span><span class="p">;</span>
+<span class="linenos"> 38</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">theta_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.7F</span><span class="p">;</span><span class="w"> </span><span class="c1">// where the rotor happens to be</span>
+<span class="linenos"> 39</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">i_alpha_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos"> 40</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">i_beta_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">v_ab</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">dt_s</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 43</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cos</span><span class="p">(</span><span class="n">theta_rad</span><span class="p">);</span>
+<span class="linenos"> 44</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_rad</span><span class="p">);</span>
+<span class="linenos"> 45</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">v_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">v_ab</span><span class="p">.</span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">v_ab</span><span class="p">.</span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+<span class="linenos"> 46</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">v_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">v_ab</span><span class="p">.</span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">v_ab</span><span class="p">.</span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+<span class="linenos"> 47</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i_alpha_a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">i_beta_a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+<span class="linenos"> 48</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i_beta_a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">i_alpha_a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+<span class="linenos"> 49</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_d_next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">dt_s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">v_d</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">rs_ohm</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i_d</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ld_h</span><span class="p">);</span>
+<span class="linenos"> 50</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">i_q_next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_q</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">dt_s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">v_q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">rs_ohm</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i_q</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">lq_h</span><span class="p">);</span>
+<span class="linenos"> 51</span><span class="w">        </span><span class="n">i_alpha_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i_d_next</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">i_q_next</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+<span class="linenos"> 52</span><span class="w">        </span><span class="n">i_beta_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i_d_next</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">i_q_next</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+<span class="linenos"> 53</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 54</span><span class="p">};</span>
+<span class="linenos"> 55</span>
+<span class="linenos"> 56</span><span class="k">struct</span><span class="w"> </span><span class="nc">RunResult</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 57</span><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">configured</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="linenos"> 58</span><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">locked_at_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="linenos"> 59</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">final_angle_error_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">final_hf_current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos"> 61</span><span class="p">};</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos"> 64</span>
+<span class="linenos"> 65</span><span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 66</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 67</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;--csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 68</span><span class="w">        </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="linenos"> 69</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 70</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usage: %s [--csv &lt;path&gt;]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="linenos"> 71</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 72</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="w">    </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 75</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv_path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 76</span><span class="w">        </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fopen</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+<span class="linenos"> 77</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 78</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fopen&quot;</span><span class="p">);</span>
+<span class="linenos"> 79</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos"> 80</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 81</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;kind,x,value,flag</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 83</span>
+<span class="linenos"> 84</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kInjectV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">12.0F</span><span class="p">;</span>
+<span class="linenos"> 85</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kInjectHz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2000.0F</span><span class="p">;</span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kControlHz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20000.0F</span><span class="p">;</span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kDt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">kControlHz</span><span class="p">;</span>
+<span class="linenos"> 88</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kSteps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20000</span><span class="p">;</span><span class="w"> </span><span class="c1">// one second</span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kLogEvery</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="c1">// 1 ms</span>
+<span class="linenos"> 90</span>
+<span class="linenos"> 91</span><span class="w">    </span><span class="c1">// Three runs that between them answer this example&#39;s question. The first is a</span>
+<span class="linenos"> 92</span><span class="w">    </span><span class="c1">// surface-mount rotor, the second an interior one, and the third is an interior</span>
+<span class="linenos"> 93</span><span class="w">    </span><span class="c1">// rotor observed by a controller that cannot resolve the carrier.</span>
+<span class="linenos"> 94</span><span class="w">    </span><span class="c1">// 三次运行合起来回答本示例的问题。第一次是表贴式转子，第二次是内置式，第三次是内置式</span>
+<span class="linenos"> 95</span><span class="w">    </span><span class="c1">// 转子，但控制器分辨不了这个载波。</span>
+<span class="linenos"> 96</span><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">Case</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 97</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<span class="linenos"> 98</span><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">lq_ratio</span><span class="p">;</span>
+<span class="linenos"> 99</span><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">dt_s</span><span class="p">;</span>
+<span class="linenos">100</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">colour</span><span class="p">;</span><span class="w"> </span><span class="c1">// for the reader, not for the program</span>
+<span class="linenos">101</span><span class="w">    </span><span class="p">};</span>
+<span class="linenos">102</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">Case</span><span class="w"> </span><span class="n">cases</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">103</span><span class="w">        </span><span class="p">{</span><span class="s">&quot;spm&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">,</span><span class="w"> </span><span class="n">kDt</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;never locks&quot;</span><span class="p">},</span>
+<span class="linenos">104</span><span class="w">        </span><span class="p">{</span><span class="s">&quot;ipm&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.4F</span><span class="p">,</span><span class="w"> </span><span class="n">kDt</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;locks&quot;</span><span class="p">},</span>
+<span class="linenos">105</span><span class="w">        </span><span class="p">{</span><span class="s">&quot;slow-control&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.4F</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0F</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">3000.0F</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;refused&quot;</span><span class="p">},</span>
+<span class="linenos">106</span><span class="w">    </span><span class="p">};</span>
+<span class="linenos">107</span>
+<span class="linenos">108</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;HFI at %.0f V / %.0f Hz, control %.0f Hz; max carrier this rate resolves: %.0f Hz</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">109</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kInjectV</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kInjectHz</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kControlHz</span><span class="p">),</span>
+<span class="linenos">110</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">HfiObserver</span><span class="o">::</span><span class="n">max_inject_hz</span><span class="p">(</span><span class="n">kControlHz</span><span class="p">)));</span>
+<span class="linenos">111</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%-14s %8s %10s %10s %8s %8s %6s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;case&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Lq/Ld&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gain (A)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;locks&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;err (rad)&quot;</span><span class="p">,</span>
+<span class="linenos">112</span><span class="w">                </span><span class="s">&quot;|dtheta|&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;status&quot;</span><span class="p">);</span>
+<span class="linenos">113</span>
+<span class="linenos">114</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">surface_mount_error_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">115</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Case</span><span class="w"> </span><span class="o">&amp;</span><span class="n">test</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">cases</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">116</span><span class="w">        </span><span class="n">SalientPlant</span><span class="w"> </span><span class="n">plant</span><span class="p">;</span>
+<span class="linenos">117</span><span class="w">        </span><span class="n">plant</span><span class="p">.</span><span class="n">lq_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plant</span><span class="p">.</span><span class="n">ld_h</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="n">lq_ratio</span><span class="p">;</span>
+<span class="linenos">118</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">gain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">HfiObserver</span><span class="o">::</span><span class="n">predicted_gain_a</span><span class="p">(</span><span class="n">kInjectV</span><span class="p">,</span><span class="w"> </span><span class="n">kInjectHz</span><span class="p">,</span><span class="w"> </span><span class="n">plant</span><span class="p">.</span><span class="n">ld_h</span><span class="p">,</span><span class="w"> </span><span class="n">plant</span><span class="p">.</span><span class="n">lq_h</span><span class="p">);</span>
+<span class="linenos">119</span><span class="w">        </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">HfiObserver</span><span class="w"> </span><span class="nf">observer</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">HfiObserver</span><span class="o">::</span><span class="n">Config</span><span class="p">{</span><span class="n">kInjectV</span><span class="p">,</span><span class="w"> </span><span class="n">kInjectHz</span><span class="p">,</span><span class="w"> </span><span class="mf">100.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">200.0F</span><span class="p">,</span>
+<span class="linenos">120</span><span class="w">                                                                      </span><span class="mf">20.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.9F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="n">gain</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001F</span><span class="p">});</span>
+<span class="linenos">121</span><span class="w">        </span><span class="n">RunResult</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="linenos">122</span><span class="w">        </span><span class="n">result</span><span class="p">.</span><span class="n">configured</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">observer</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">;</span>
+<span class="linenos">123</span>
+<span class="linenos">124</span><span class="w">        </span><span class="c1">// The estimate is what `update()` publishes; the truth is where the rotor</span>
+<span class="linenos">125</span><span class="w">        </span><span class="c1">// is. Keeping both is the whole point -- the observer&#39;s own `error()` is not</span>
+<span class="linenos">126</span><span class="w">        </span><span class="c1">// the angle error, it is the demodulator&#39;s residual.</span>
+<span class="linenos">127</span><span class="w">        </span><span class="c1">// 估计是 `update()` 发布的东西；真值是转子实际所在。两个都留着才是要点——观测器自己的</span>
+<span class="linenos">128</span><span class="w">        </span><span class="c1">// `error()` 不是角度误差，而是解调器的残差。</span>
+<span class="linenos">129</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kSteps</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">step</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">130</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">injection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">observer</span><span class="p">.</span><span class="n">injection_ab</span><span class="p">();</span>
+<span class="linenos">131</span><span class="w">            </span><span class="n">plant</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">injection</span><span class="p">,</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="n">dt_s</span><span class="p">);</span>
+<span class="linenos">132</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ObsState</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">133</span><span class="w">                </span><span class="n">observer</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">injection</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">{</span><span class="n">plant</span><span class="p">.</span><span class="n">i_alpha_a</span><span class="p">,</span><span class="w"> </span><span class="n">plant</span><span class="p">.</span><span class="n">i_beta_a</span><span class="p">},</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="n">dt_s</span><span class="p">);</span>
+<span class="linenos">134</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">angle_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fabs</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">remainder</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="n">theta_e</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">plant</span><span class="p">.</span><span class="n">theta_rad</span><span class="p">,</span><span class="w"> </span><span class="n">kTwoPi</span><span class="p">));</span>
+<span class="linenos">135</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">step</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">kLogEvery</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">136</span><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%s,%.4f,%.6f,%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="mf">1000.0F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">step</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="n">dt_s</span><span class="p">,</span>
+<span class="linenos">137</span><span class="w">                             </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">angle_error</span><span class="p">),</span><span class="w"> </span><span class="n">observer</span><span class="p">.</span><span class="n">locked</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos">138</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">139</span><span class="w">            </span><span class="n">result</span><span class="p">.</span><span class="n">final_angle_error_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">angle_error</span><span class="p">;</span>
+<span class="linenos">140</span><span class="w">            </span><span class="n">result</span><span class="p">.</span><span class="n">final_hf_current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">observer</span><span class="p">.</span><span class="n">hf_current_a</span><span class="p">();</span>
+<span class="linenos">141</span><span class="w">            </span><span class="n">result</span><span class="p">.</span><span class="n">locked_at_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">observer</span><span class="p">.</span><span class="n">locked</span><span class="p">();</span>
+<span class="linenos">142</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">143</span>
+<span class="linenos">144</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%-14s %8.2f %10.5f %10d %10.5f %8.5f %6d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">test</span><span class="p">.</span><span class="n">lq_ratio</span><span class="p">),</span>
+<span class="linenos">145</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">gain</span><span class="p">),</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">locked_at_end</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="linenos">146</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">observer</span><span class="p">.</span><span class="n">error</span><span class="p">()),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">final_angle_error_rad</span><span class="p">),</span>
+<span class="linenos">147</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">observer</span><span class="p">.</span><span class="n">status</span><span class="p">()));</span>
+<span class="linenos">148</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">test</span><span class="p">.</span><span class="n">lq_ratio</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">149</span><span class="w">            </span><span class="n">surface_mount_error_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">final_angle_error_rad</span><span class="p">;</span>
+<span class="linenos">150</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">151</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">152</span>
+<span class="linenos">153</span><span class="w">    </span><span class="c1">// The sensitivity itself, over the whole range: it is zero at ratio one, and a</span>
+<span class="linenos">154</span><span class="w">    </span><span class="c1">// zero is not a small number to be tuned around -- it is the statement that</span>
+<span class="linenos">155</span><span class="w">    </span><span class="c1">// this method has nothing to measure.</span>
+<span class="linenos">156</span><span class="w">    </span><span class="c1">// 灵敏度在整段上的取值：比值等于一时它是零，而零不是一个可以调参绕过的小数——它说的是</span>
+<span class="linenos">157</span><span class="w">    </span><span class="c1">// 这个方法没有东西可测。</span>
+<span class="linenos">158</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">40</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">step</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">159</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mf">0.025F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">step</span><span class="p">));</span>
+<span class="linenos">160</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">gain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">HfiObserver</span><span class="o">::</span><span class="n">predicted_gain_a</span><span class="p">(</span><span class="n">kInjectV</span><span class="p">,</span><span class="w"> </span><span class="n">kInjectHz</span><span class="p">,</span><span class="w"> </span><span class="mf">0.010F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.010F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ratio</span><span class="p">);</span>
+<span class="linenos">161</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">162</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gain,%.4f,%.6f,0</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ratio</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">gain</span><span class="p">));</span>
+<span class="linenos">163</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">step</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">164</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  Lq/Ld %.3f -&gt; sensitivity %+.5f A</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ratio</span><span class="p">),</span>
+<span class="linenos">165</span><span class="w">                        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">gain</span><span class="p">));</span>
+<span class="linenos">166</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">167</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">168</span>
+<span class="linenos">169</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">170</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fclose</span><span class="p">(</span><span class="n">csv</span><span class="p">);</span>
+<span class="linenos">171</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;wrote %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">csv_path</span><span class="p">);</span>
+<span class="linenos">172</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">173</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">174</span>
+<span class="linenos">175</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">the surface-mount run ends %.3f rad away from the truth and reports locked=0, error=0:</span><span class="se">\n</span><span class="s">&quot;</span>
+<span class="linenos">176</span><span class="w">                </span><span class="s">&quot;a zero error signal is what a perfect lock looks like *and* what no signal at all looks like</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">177</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">surface_mount_error_rad</span><span class="p">));</span>
+<span class="linenos">178</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">179</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="where-the-numbers-come-from">
+<h2><span class="section-number">1.1.3.3. </span>Where the numbers come from<a class="headerlink" href="#where-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>The demodulation sensitivity</strong> is not a tuning knob: <code class="docutils literal notranslate"><span class="pre">predicted_gain_a()</span></code>
+computes it from the injection amplitude, the carrier frequency and the
+machine's two inductances. Taking it from the machine is what turns &quot;HFI does
+not work here&quot; into a number that is zero for a reason.</p></li>
+<li><p><strong>The carrier frequency</strong> is bounded above by the control rate -- the
+library's <code class="docutils literal notranslate"><span class="pre">max_inject_hz()</span></code> is the bound, and it is a ratio of samples per
+carrier rather than a frequency, so it moves with your ISR period.</p></li>
+<li><p><strong>The injection amplitude</strong> is a trade with a formula: a carrier that another
+observer cannot distinguish from back EMF leaves a flux residue of
+<code class="docutils literal notranslate"><span class="pre">inject_v</span> <span class="pre">/</span> <span class="pre">(2*pi*inject_hz)</span></code> behind, because an integrator has no reset.</p></li>
+<li><p><strong>The current high-pass</strong> is set above the highest electrical frequency HFI is
+meant to work at and well below the carrier, because the demodulator multiplies
+by the carrier and anything DC in the current leaks straight through it.</p></li>
+</ul>
+</section>
+<section id="how-it-goes-wrong">
+<h2><span class="section-number">1.1.3.4. </span>How it goes wrong<a class="headerlink" href="#how-it-goes-wrong" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>A surface-mount rotor attempted anyway.</strong> The sensitivity is exactly zero,
+so there is nothing to demodulate; the configuration is refused rather than
+run. The figure's left panel is what &quot;attempted anyway&quot; looks like: the
+estimate never moves, and it never moves for the whole window rather than
+converging late.</p></li>
+<li><p><strong>The error output read as the angle error.</strong> <code class="docutils literal notranslate"><span class="pre">error()</span></code> is the demodulator's residual, and
+it is zero both when the lock is perfect and when there is no signal at all --
+the two cases a start-up most needs to tell apart. <code class="docutils literal notranslate"><span class="pre">locked()</span></code> is the answer;
+the example prints both next to the true angle error so the difference is
+visible rather than described.</p></li>
+<li><p><strong>A carrier the control rate cannot resolve.</strong> Past the boundary the amplitude
+collapses, the lock drops out, the angle freezes and the speed reads zero: a
+loop closing on that runs away with nothing reported as a fault. <code class="docutils literal notranslate"><span class="pre">update()</span></code>
+refuses the configuration instead, which is why the example's third run
+reports a status rather than a wrong answer.</p></li>
+<li><p><strong>A load step at standstill.</strong> The dc content it puts into the current reaches
+the demodulator and becomes a standing bias in the error signal -- enough, at
+the wrong amplitude, to push a start-up across the half-turn boundary and lock
+the estimate to the mirror image of the rotor.</p></li>
+<li><p><strong>A second observer left running alongside.</strong> A back-EMF flux integrator cannot
+tell the carrier from real back EMF, and it has no reset: whatever the carrier
+deposits stays. The residue is computable from the carrier alone, so the
+amplitude is chosen against it before the run, not after.</p></li>
+</ol>
+</section>
+<section id="evidence">
+<h2><span class="section-number">1.1.3.5. </span>Evidence<a class="headerlink" href="#evidence" title="链接到此标题。"></a></h2>
+<p>Two claim rows cover this page -- <code class="docutils literal notranslate"><span class="pre">foc/core/observer/hfi_observer.hpp</span></code> and
+<code class="docutils literal notranslate"><span class="pre">foc/core/observer/dual_inductance_observer.hpp</span></code> -- and the level this page may
+state is the minimum of those two. Every measured number this page would
+otherwise want to quote -- the angle bias the residue leaves, the carrier ratio
+at which the lock fails, the bias a load step injects, the speed a runaway loop
+settles at -- lives in the header's own measured notes and in those claim rows.</p>
+<p>What this page does not claim: that injection is a way to observe a machine that
+has no saliency, that a carrier above what the control rate can resolve is
+recoverable by lowering the amplitude, or anything about the angle <em>between</em>
+Hall edges -- that last one is the Hall tracker's claim, not an injection claim.</p>
+</section>
+<section id="figure">
+<h2><span class="section-number">1.1.3.6. </span>Figure<a class="headerlink" href="#figure" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-low-speed-injection">
+<a class="reference internal image-reference" href="../_images/ALL_low_speed_injection.png"><img alt="../_images/ALL_low_speed_injection.png" src="../_images/ALL_low_speed_injection.png" width="760" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.3 </span><span class="caption-text">left: the angle error against time for the three runs, on a log axis because
+the decay is over inside the first division; right: the library's own
+sensitivity function, zero at a saliency ratio of one</span><a class="headerlink" href="#figure-low-speed-injection" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>Both panels come from this page's example, and the right one is the library's
+function rather than a fitted curve. What the figure does not show is the
+hardware: the plant is two ideal axes with no noise, no saturation and no
+cross-coupling, so the decay it shows is the observer's own settling and not a
+prediction for a real machine. The costs that decide whether HFI is usable on
+<em>your</em> machine -- angle bias, injected current, and what the carrier does to the
+observer running beside it -- are the header's measured notes, and they are not
+visible here.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="observers.html" class="btn btn-neutral float-left" title="1.1.2. Choosing an angle observer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="torque-reference.html" class="btn btn-neutral float-right" title="1.1.4. Torque below base speed" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.6. High speed and modulation &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.7. Consuming the library from outside C++" href="c-and-cpp-callers.html" />
+    <link rel="prev" title="1.1.5. Above base speed" href="high-speed-field-weakening.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.6. High speed and modulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-need">1.1.6.1. What you need</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-minimal-program">1.1.6.2. A minimal program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-numbers-come-from">1.1.6.3. Where the numbers come from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-goes-wrong">1.1.6.4. How it goes wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evidence">1.1.6.5. Evidence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#figure">1.1.6.6. Figure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.6. </span>High speed and modulation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/modulation-limits.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.6. </span><span class="target" id="high-speed-and-modulation">High speed and modulation</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: turn the current loop's voltage request into three duties, know how much
+voltage the bridge can actually deliver, and stop lying about what it delivered
+when the pulses get short.</p>
+<section id="what-you-need">
+<h2><span class="section-number">1.1.6.1. </span>What you need<a class="headerlink" href="#what-you-need" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/svpwm.hpp</span></code> -- the space-vector modulator. One request in, three
+duties and a <cite>saturated</cite> flag out.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/min_pulse.hpp</span></code> -- what a real gate driver does to a pulse it cannot
+transmit, and the volt-seconds that costs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/six_step.hpp</span></code> -- the block-commutation alternative, from a hall code
+with a rate limit on the table.</p></li>
+</ul>
+</section>
+<section id="a-minimal-program">
+<h2><span class="section-number">1.1.6.2. </span>A minimal program<a class="headerlink" href="#a-minimal-program" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/modulation-limits.cxx</span></code> sweeps a requested amplitude at
+two electrical angles, shapes a narrow pulse, and walks the six-step table twice.
+The same file produces this page's figure.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Modulation -- high speed and modulation: turn a voltage vector into duties, see</span>
+<span class="linenos">  2</span><span class="c1">// where the linear range ends, and see what a real gate driver does to a pulse</span>
+<span class="linenos">  3</span><span class="c1">// that is too short to transmit.</span>
+<span class="linenos">  4</span><span class="c1">//</span>
+<span class="linenos">  5</span><span class="c1">// Build it the way the `demo` gate does -- the example calls into the library, so the</span>
+<span class="linenos">  6</span><span class="c1">// sources are part of the command, and `-Iinclude` alone fails at the link. A renamed</span>
+<span class="linenos">  7</span><span class="c1">// source turns that gate red instead of leaving a stale instruction here:</span>
+<span class="linenos">  8</span><span class="c1">//   g++ -std=c++17 -fno-exceptions -fno-rtti -Wall -Wextra -Werror -Iinclude</span>
+<span class="linenos">  9</span><span class="c1">//   docs/doxygen/dox/demos/modulation-limits.cxx src/core/*.cpp</span>
+<span class="linenos"> 10</span><span class="c1">//   src/core/observer/*.cpp src/motor/*.cpp src/driver/*.cpp src/api/foc_api.c</span>
+<span class="linenos"> 11</span><span class="c1">//   src/api/bridge.cpp src/version.c</span>
+<span class="linenos"> 12</span><span class="c1">//   -o /tmp/modulation-limits</span>
+<span class="linenos"> 13</span><span class="c1">//</span>
+<span class="linenos"> 14</span><span class="c1">// With `--csv &lt;path&gt;` it writes the sweep as rows; `docs/demos/make_figures.py`</span>
+<span class="linenos"> 15</span><span class="c1">// draws this example&#39;s figure from that file.</span>
+<span class="linenos"> 16</span><span class="c1">//</span>
+<span class="linenos"> 17</span><span class="c1">// 调制 —— 高速与调制：把一个电压矢量变成占空比、看清线性区的边界，以及真实驱动对</span>
+<span class="linenos"> 18</span><span class="c1">// &quot;短到送不出去&quot;的脉冲做了什么。</span>
+<span class="linenos"> 19</span><span class="c1">// 带 `--csv &lt;path&gt;` 时把扫描写成行；`docs/demos/make_figures.py` 用它画本片的图。</span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="linenos"> 22</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="linenos"> 23</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstring&gt;</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/min_pulse.hpp&gt;</span>
+<span class="linenos"> 26</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/six_step.hpp&gt;</span>
+<span class="linenos"> 27</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/svpwm.hpp&gt;</span>
+<span class="linenos"> 28</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/types.hpp&gt;</span>
+<span class="linenos"> 29</span>
+<span class="linenos"> 30</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kVBusV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">24.0F</span><span class="p">;</span>
+<span class="linenos"> 33</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kSwitchingPeriodS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">50.0e-6F</span><span class="p">;</span><span class="w"> </span><span class="c1">// 20 kHz</span>
+<span class="linenos"> 34</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kMinPulseS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">500.0e-9F</span><span class="p">;</span><span class="w">       </span><span class="c1">// what the driver can actually send</span>
+<span class="linenos"> 35</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">6.28318530718F</span><span class="p">;</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="k">auto</span><span class="w"> </span><span class="n">span</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Uvw</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">duty</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 38</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmax</span><span class="p">(</span><span class="n">duty</span><span class="p">.</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmax</span><span class="p">(</span><span class="n">duty</span><span class="p">.</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">duty</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+<span class="linenos"> 39</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmin</span><span class="p">(</span><span class="n">duty</span><span class="p">.</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmin</span><span class="p">(</span><span class="n">duty</span><span class="p">.</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">duty</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+<span class="linenos"> 40</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">low</span><span class="p">;</span>
+<span class="linenos"> 41</span><span class="p">}</span>
+<span class="linenos"> 42</span>
+<span class="linenos"> 43</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span><span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 46</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 47</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;--csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 48</span><span class="w">        </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="linenos"> 49</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 50</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usage: %s [--csv &lt;path&gt;]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="linenos"> 51</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 52</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 53</span>
+<span class="linenos"> 54</span><span class="w">    </span><span class="kt">FILE</span><span class="o">*</span><span class="w"> </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 55</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv_path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 56</span><span class="w">        </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fopen</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+<span class="linenos"> 57</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 58</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fopen&quot;</span><span class="p">);</span>
+<span class="linenos"> 59</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos"> 60</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 61</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;angle_deg,v_pu,duty_span,saturated</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos"> 62</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 63</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;v_bus = %.1f V, switching period %.1f us</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kVBusV</span><span class="p">),</span>
+<span class="linenos"> 64</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1.0e6F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kSwitchingPeriodS</span><span class="p">));</span>
+<span class="linenos"> 65</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%6s %8s %10s %10s %12s %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;angle&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;|v| (V)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;|v|/v_bus&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;duty span&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;saturated&quot;</span><span class="p">,</span>
+<span class="linenos"> 66</span><span class="w">                    </span><span class="s">&quot;duty u / v / w&quot;</span><span class="p">);</span>
+<span class="linenos"> 67</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span><span class="w">    </span><span class="c1">// Sweep the commanded voltage at two angles. The modulator&#39;s limit is **not</span>
+<span class="linenos"> 70</span><span class="w">    </span><span class="c1">// a circle**: at a sector face the reachable amplitude is the inscribed</span>
+<span class="linenos"> 71</span><span class="w">    </span><span class="c1">// circle, at a sector centre it is larger. So the same sweep at 0 and at 30</span>
+<span class="linenos"> 72</span><span class="w">    </span><span class="c1">// electrical degrees clamps at two different amplitudes, and a reader who</span>
+<span class="linenos"> 73</span><span class="w">    </span><span class="c1">// assumes one radius for the whole rotation will be wrong at half of it.</span>
+<span class="linenos"> 74</span><span class="w">    </span><span class="c1">// 在两个角度上扫指令电压。调制器的边界**不是一个圆**：扇区边（面）上能达到的幅值是内切圆，</span>
+<span class="linenos"> 75</span><span class="w">    </span><span class="c1">// 扇区中心更大。所以同样一条扫描在 0 度与 30 电角度上会在两个不同幅值处钳位；把整个旋转</span>
+<span class="linenos"> 76</span><span class="w">    </span><span class="c1">// 当成一个半径的读者会在一半的位置上算错。</span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">angles</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">30.0F</span><span class="p">};</span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">angle_deg</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">angles</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 79</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">angle_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">angle_deg</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">360.0F</span><span class="p">;</span>
+<span class="linenos"> 80</span><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">previous_saturated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="linenos"> 81</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">90</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">step</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 82</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">v_pu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">step</span><span class="p">);</span>
+<span class="linenos"> 83</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">v_mag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v_pu</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kVBusV</span><span class="p">;</span>
+<span class="linenos"> 84</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Ab</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">request</span><span class="p">{</span><span class="n">v_mag</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">std::cos</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">),</span><span class="w"> </span><span class="n">v_mag</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">sin</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">)};</span>
+<span class="linenos"> 85</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SvpwmResult</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Svpwm</span><span class="o">::</span><span class="n">modulate</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">kVBusV</span><span class="p">);</span>
+<span class="linenos"> 86</span><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">saturated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">saturated</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 87</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 88</span><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%.1f,%.4f,%.6f,%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">angle_deg</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_pu</span><span class="p">),</span>
+<span class="linenos"> 89</span><span class="w">                             </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">span</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">duty</span><span class="p">)),</span><span class="w"> </span><span class="n">saturated</span><span class="p">);</span>
+<span class="linenos"> 90</span><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">saturated</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">previous_saturated</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">step</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 91</span><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%6.0f %8.2f %10.3f %10.4f %12s %7.4f %7.4f %7.4f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">angle_deg</span><span class="p">),</span>
+<span class="linenos"> 92</span><span class="w">                            </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_mag</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_pu</span><span class="p">),</span>
+<span class="linenos"> 93</span><span class="w">                            </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">span</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">duty</span><span class="p">)),</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">saturated</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;yes&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;no&quot;</span><span class="p">,</span>
+<span class="linenos"> 94</span><span class="w">                            </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">duty</span><span class="p">.</span><span class="n">u</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">duty</span><span class="p">.</span><span class="n">v</span><span class="p">),</span>
+<span class="linenos"> 95</span><span class="w">                            </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">duty</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+<span class="linenos"> 96</span><span class="w">                </span><span class="n">previous_saturated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">saturated</span><span class="p">;</span>
+<span class="linenos"> 97</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos"> 98</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 99</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">100</span>
+<span class="linenos">101</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">102</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fclose</span><span class="p">(</span><span class="n">csv</span><span class="p">);</span>
+<span class="linenos">103</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;wrote %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">csv_path</span><span class="p">);</span>
+<span class="linenos">104</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">105</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">106</span>
+<span class="linenos">107</span><span class="w">    </span><span class="c1">// What the driver does to a narrow pulse. `lost_vs` is the volt-seconds the</span>
+<span class="linenos">108</span><span class="w">    </span><span class="c1">// bridge will not deliver this period: positive means the phase gets less</span>
+<span class="linenos">109</span><span class="w">    </span><span class="c1">// than it was asked for. A loop that does not know this number integrates an</span>
+<span class="linenos">110</span><span class="w">    </span><span class="c1">// error its own feedback cannot see, because the bridge is inside the loop</span>
+<span class="linenos">111</span><span class="w">    </span><span class="c1">// and the phase voltage is not measured.</span>
+<span class="linenos">112</span><span class="w">    </span><span class="c1">// 驱动对窄脉冲做了什么。`lost_vs` 是本周期桥臂**不会**交付的伏秒：正数表示那一相拿到的</span>
+<span class="linenos">113</span><span class="w">    </span><span class="c1">// 比要求少。不知道这个数的环路会积分一项它自己的反馈看不见的误差，因为桥臂在环内、相电压</span>
+<span class="linenos">114</span><span class="w">    </span><span class="c1">// 又没有被测。</span>
+<span class="linenos">115</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MinPulse</span><span class="w"> </span><span class="n">min_pulse</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MinPulseConfig</span><span class="p">{</span><span class="n">kMinPulseS</span><span class="p">,</span><span class="w"> </span><span class="n">kSwitchingPeriodS</span><span class="p">});</span>
+<span class="linenos">116</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Uvw</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">request</span><span class="p">{</span><span class="mf">0.001F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.999F</span><span class="p">};</span>
+<span class="linenos">117</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">min pulse %.0f ns of a %.1f us period; asking for one phase at 0.1 %% duty</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">118</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1.0e9F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kMinPulseS</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1.0e6F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kSwitchingPeriodS</span><span class="p">));</span>
+<span class="linenos">119</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MinPulseOutput</span><span class="w"> </span><span class="n">shaped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min_pulse</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">kVBusV</span><span class="p">);</span>
+<span class="linenos">120</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  status=%d narrowed=%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shaped</span><span class="p">.</span><span class="n">status</span><span class="p">),</span><span class="w"> </span><span class="n">shaped</span><span class="p">.</span><span class="n">narrowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;false&quot;</span><span class="p">);</span>
+<span class="linenos">121</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  requested duty %.4f %.4f %.4f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.999</span><span class="p">);</span>
+<span class="linenos">122</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  applied   duty %.4f %.4f %.4f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shaped</span><span class="p">.</span><span class="n">duty</span><span class="p">.</span><span class="n">u</span><span class="p">),</span>
+<span class="linenos">123</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shaped</span><span class="p">.</span><span class="n">duty</span><span class="p">.</span><span class="n">v</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shaped</span><span class="p">.</span><span class="n">duty</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+<span class="linenos">124</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  lost          %.6f %.6f %.6f  V*s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shaped</span><span class="p">.</span><span class="n">lost_vs</span><span class="p">.</span><span class="n">u</span><span class="p">),</span>
+<span class="linenos">125</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shaped</span><span class="p">.</span><span class="n">lost_vs</span><span class="p">.</span><span class="n">v</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shaped</span><span class="p">.</span><span class="n">lost_vs</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+<span class="linenos">126</span>
+<span class="linenos">127</span><span class="w">    </span><span class="c1">// Six-step: the same modulator question with the answer taken from a table.</span>
+<span class="linenos">128</span><span class="w">    </span><span class="c1">// One hall code in, three duties out, and a rate limit on how fast the table</span>
+<span class="linenos">129</span><span class="w">    </span><span class="c1">// may be walked -- a single false edge must not jump the vector by 120</span>
+<span class="linenos">130</span><span class="w">    </span><span class="c1">// electrical degrees.</span>
+<span class="linenos">131</span><span class="w">    </span><span class="c1">// 六步：同一个调制问题，答案来自一张表。一个霍尔码进、三个占空比出，并对&quot;表能被走多快&quot;</span>
+<span class="linenos">132</span><span class="w">    </span><span class="c1">// 有速率限制——一个假的边沿不许把矢量一次跳过 120 电角度。</span>
+<span class="linenos">133</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SixStepConfig</span><span class="w"> </span><span class="n">six_config</span><span class="p">{};</span>
+<span class="linenos">134</span><span class="w">    </span><span class="n">six_config</span><span class="p">.</span><span class="n">amplitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="linenos">135</span><span class="w">    </span><span class="n">six_config</span><span class="p">.</span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">HallDirection</span><span class="o">::</span><span class="n">Forward</span><span class="p">;</span>
+<span class="linenos">136</span><span class="w">    </span><span class="n">six_config</span><span class="p">.</span><span class="n">max_step_sectors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1U</span><span class="p">;</span>
+<span class="linenos">137</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SixStepCommutation</span><span class="w"> </span><span class="nf">six_step</span><span class="p">(</span><span class="n">six_config</span><span class="p">);</span>
+<span class="linenos">138</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">six-step, code 0b101 (sector 5):</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">139</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">140</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SixStepOutput</span><span class="w"> </span><span class="n">commuted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">six_step</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="mb">0b101U</span><span class="p">);</span>
+<span class="linenos">141</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  tick %d: sector %u duty %.4f %.4f %.4f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span><span class="p">(</span><span class="n">commuted</span><span class="p">.</span><span class="n">sector</span><span class="p">),</span>
+<span class="linenos">142</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">commuted</span><span class="p">.</span><span class="n">duty</span><span class="p">.</span><span class="n">u</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">commuted</span><span class="p">.</span><span class="n">duty</span><span class="p">.</span><span class="n">v</span><span class="p">),</span>
+<span class="linenos">143</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">commuted</span><span class="p">.</span><span class="n">duty</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+<span class="linenos">144</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">145</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  rejected=%u illegal=%u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span><span class="p">(</span><span class="n">six_step</span><span class="p">.</span><span class="n">rejected</span><span class="p">()),</span>
+<span class="linenos">146</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span><span class="p">(</span><span class="n">six_step</span><span class="p">.</span><span class="n">illegal</span><span class="p">()));</span>
+<span class="linenos">147</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">148</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="where-the-numbers-come-from">
+<h2><span class="section-number">1.1.6.3. </span>Where the numbers come from<a class="headerlink" href="#where-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>The DC link voltage</strong> sets everything. The modulator divides by it, so a
+sagging bus is a scaling error in every duty -- and the modulator answers
+<cite>Param</cite> with 50 % duties rather than producing NaNs when the bus is not
+positive.</p></li>
+<li><p><strong>The switching period</strong> and the driver's <strong>minimum pulse</strong> come from the gate
+driver's datasheet, not from the controller. They are the two numbers that make
+&quot;commanded voltage&quot; and &quot;delivered voltage&quot; differ at low duty.</p></li>
+<li><p><strong>The dead time</strong> belongs to the same datasheet and is the reason the
+modulator's input struct carries the measured currents at all: a dead-time
+term has the sign of the phase current, so a modulator that cannot see the
+current cannot compensate it.</p></li>
+</ul>
+</section>
+<section id="how-it-goes-wrong">
+<h2><span class="section-number">1.1.6.4. </span>How it goes wrong<a class="headerlink" href="#how-it-goes-wrong" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>One radius assumed for the whole rotation.</strong> The reachable set is a
+hexagon. A request that fits at a sector centre does not fit at a sector face,
+so an amplitude chosen from the best case clips once per revolution -- and the
+clipped region arrives as a sixth-order torque ripple rather than as a fault.</p></li>
+<li><p><strong>The clamp attributed to the controller.</strong> When the modulator clamps, the
+current loop keeps integrating against a voltage it did not get. Anti-windup
+belongs where the request is actually reduced, which is inside the modulator's
+caller, not in the PI's own limit.</p></li>
+<li><p><strong>Short pulses ignored.</strong> Below the driver's minimum pulse a phase either
+fires for the full period or not at all; the average voltage the loop believes
+it applied is then simply wrong. <cite>MinPulse</cite> reports the difference per phase,
+signed, so a caller can compensate or at least know.</p></li>
+<li><p><strong>An unrate-limited six-step table.</strong> A single false hall edge moves the vector
+120 electrical degrees. <cite>max_step_sectors</cite> turns that into a refused step, and
+the rejections are counted where a telemetry channel can see them.</p></li>
+</ol>
+</section>
+<section id="evidence">
+<h2><span class="section-number">1.1.6.5. </span>Evidence<a class="headerlink" href="#evidence" title="链接到此标题。"></a></h2>
+<p>Three claim rows cover this page -- <code class="docutils literal notranslate"><span class="pre">foc/core/svpwm.hpp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc/core/min_pulse.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">foc/core/six_step.hpp</span></code> -- and the level this
+page may state is the minimum of those three. The numbers behind the two clamp
+amplitudes live in those rows and in <code class="docutils literal notranslate"><span class="pre">test_svpwm.cpp</span></code>, not on this page.</p>
+<p>What this page does not claim: mode II or vertex holding, and therefore not the
+last few percent of the fundamental; that a dropped minimum pulse can be
+separated from the dead-time window it takes with it, because the two do not
+separate by subtraction; or that six-step is competitive with field-oriented
+control, whose comparison that row measures and does not win.</p>
+</section>
+<section id="figure">
+<h2><span class="section-number">1.1.6.6. </span>Figure<a class="headerlink" href="#figure" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-modulation-limits">
+<a class="reference internal image-reference" href="../_images/ALL_modulation_limits.png"><img alt="../_images/ALL_modulation_limits.png" src="../_images/ALL_modulation_limits.png" width="720" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.6 </span><span class="caption-text">the same amplitude sweep at 0 and at 30 electrical degrees: both grow linearly
+with the request, and they clamp at two different amplitudes</span><a class="headerlink" href="#figure-modulation-limits" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>The figure is produced by <code class="docutils literal notranslate"><span class="pre">docs/demos/make_figures.py</span></code> from this page's own
+example, and the clamp points are read from the run rather than printed from a
+constant. What it does not show is the overmodulated fundamental: past the clamp
+the modulator projects the request onto the hexagon, and what that does to the
+<em>output</em> voltage needs a spectrum, which is what the claim row's cases measure.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="high-speed-field-weakening.html" class="btn btn-neutral float-left" title="1.1.5. Above base speed" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="c-and-cpp-callers.html" class="btn btn-neutral float-right" title="1.1.7. Consuming the library from outside C++" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

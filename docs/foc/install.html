@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Installing and toolchains &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="1. Guides by task" href="guides/index.html" />
+    <link rel="prev" title="1. Quick start" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Installing and toolchains</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-the-build-needs">2.1. What the build needs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#three-ways-to-consume-it">2.2. Three ways to consume it</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-c-consumer-s-link-failure">2.3. The C consumer's link failure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-failures-and-what-each-one-means">2.4. Common failures, and what each one means</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-ci-actually-builds">2.5. What CI actually builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#platforms">2.6. Platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cross-builds">2.7. Cross builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-dependency">2.8. Adding a dependency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-downstream-contract">2.9. The downstream contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next">2.10. Next</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2. </span>Installing and toolchains</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/install.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">2. </span><span class="target" id="installing-and-toolchains">Installing and toolchains</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p><a class="reference internal" href="quickstart.html"><span class="doc">Quick start</span></a> is the short path: four steps to a running loop. This page is the reference
+behind step 1 and step 2 — the matrix, the three ways to consume the package, and the link
+errors that mean you have it almost right.</p>
+<p>Nothing on this page needs Sphinx or Doxygen: those build <strong>this documentation</strong>, not the
+library.</p>
+<section id="what-the-build-needs">
+<h2><span class="section-number">2.1. </span>What the build needs<a class="headerlink" href="#what-the-build-needs" title="链接到此标题。"></a></h2>
+<p>The floors are in <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>, not in this page — the table repeats them so that a reader
+can see the whole picture at once, and <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> stays the one place they are declared:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26.0%" />
+<col style="width: 20.0%" />
+<col style="width: 54.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Tool</p></th>
+<th class="head"><p>Floor</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Conan</p></td>
+<td><p>2.x</p></td>
+<td><p>the package is built and consumed through Conan; <code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">--version</span></code> is the check</p></td>
+</tr>
+<tr class="row-odd"><td><p>CMake</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> → <code class="docutils literal notranslate"><span class="pre">cmake_version</span></code></p></td>
+<td><p>a consumer's own CMake may be older; the floor applies to building the package</p></td>
+</tr>
+<tr class="row-even"><td><p>C++ compiler</p></td>
+<td><p>C++17</p></td>
+<td><p>GCC, Clang or MSVC. The library builds with <code class="docutils literal notranslate"><span class="pre">-fno-exceptions</span> <span class="pre">-fno-rtti</span></code> — a compiler
+that cannot do that cannot build it</p></td>
+</tr>
+<tr class="row-odd"><td><p>C compiler</p></td>
+<td><p>C11</p></td>
+<td><p>only for the C ABI consumer; the implementation is still C++</p></td>
+</tr>
+<tr class="row-even"><td><p>Cross toolchain</p></td>
+<td><p>any</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">benchmark/profiles/cortex-a7.profile</span></code> is the worked example: a Cortex-A Linux target,
+no Python bindings, no tests in the target graph</p></td>
+</tr>
+</tbody>
+</table>
+<p>Library dependencies come in three buckets, and only one of them reaches a device build:</p>
+<ul class="simple">
+<li><p><strong>core</strong> — <code class="docutils literal notranslate"><span class="pre">etl</span></code> (fixed-capacity containers, header-only). This is the only dependency on
+the bare-metal whitelist.</p></li>
+<li><p><strong>test</strong> — <code class="docutils literal notranslate"><span class="pre">GTest</span></code>. Host only.</p></li>
+<li><p><strong>bindings</strong> — <code class="docutils literal notranslate"><span class="pre">pybind11</span></code>. Host only, and skipped automatically on a cross build.</p></li>
+</ul>
+</section>
+<section id="three-ways-to-consume-it">
+<h2><span class="section-number">2.2. </span>Three ways to consume it<a class="headerlink" href="#three-ways-to-consume-it" title="链接到此标题。"></a></h2>
+<p>Two of them end at the same link line, which is the point: one aggregate target carries both
+component targets and the package metadata guarantees their order.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 40.0%" />
+<col style="width: 38.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>You have</p></th>
+<th class="head"><p>Do</p></th>
+<th class="head"><p>Then</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Conan</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">self.requires(&quot;foc/0.1.0&quot;)</span></code> in <code class="docutils literal notranslate"><span class="pre">requirements()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">find_package(foc</span> <span class="pre">REQUIRED)</span></code> + <code class="docutils literal notranslate"><span class="pre">target_link_libraries(app</span> <span class="pre">PRIVATE</span> <span class="pre">foc::foc)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>A prebuilt or locally installed package</p></td>
+<td><p>put the Conan generator folder (or the install prefix) on <code class="docutils literal notranslate"><span class="pre">CMAKE_PREFIX_PATH</span></code></p></td>
+<td><p>the same <code class="docutils literal notranslate"><span class="pre">find_package</span></code> and the same <code class="docutils literal notranslate"><span class="pre">foc::foc</span></code> target</p></td>
+</tr>
+<tr class="row-even"><td><p>The repository itself</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">add_subdirectory(foc)</span></code></p></td>
+<td><p>the in-tree targets are <code class="docutils literal notranslate"><span class="pre">foc_c</span></code>, <code class="docutils literal notranslate"><span class="pre">foc_cpp</span></code> and the aggregate <code class="docutils literal notranslate"><span class="pre">foc</span></code>. The <code class="docutils literal notranslate"><span class="pre">foc::</span></code>
+namespace is added by the <strong>exported</strong> package config, so it does not exist in this case</p></td>
+</tr>
+</tbody>
+</table>
+<p>Link the aggregate target and not <code class="docutils literal notranslate"><span class="pre">foc_c</span></code> alone unless you know why: the aggregate is what
+the package's own tests use, and it is the only one whose ordering is guaranteed.</p>
+</section>
+<section id="the-c-consumer-s-link-failure">
+<h2><span class="section-number">2.3. </span>The C consumer's link failure<a class="headerlink" href="#the-c-consumer-s-link-failure" title="链接到此标题。"></a></h2>
+<p>A C program can use the C ABI and still has to link the C++ runtime:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">add_executable</span><span class="p">(</span><span class="s">app</span><span class="w"> </span><span class="s">main.c</span><span class="p">)</span>
+<span class="nb">set_target_properties</span><span class="p">(</span><span class="s">app</span><span class="w"> </span><span class="s">PROPERTIES</span><span class="w"> </span><span class="s">LINKER_LANGUAGE</span><span class="w"> </span><span class="s">CXX</span><span class="p">)</span><span class="w">   </span><span class="c"># without this: __cxa_*</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">app</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">foc::foc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Without <code class="docutils literal notranslate"><span class="pre">LINKER_LANGUAGE</span> <span class="pre">CXX</span></code> (or one empty <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> in the target) the link fails with
+symbols named <code class="docutils literal notranslate"><span class="pre">__cxa_</span></code> — the C++ runtime's own entry points. That is not a packaging accident: the ABI is C, the
+implementation is C++, and the library says so instead of hiding a C++ runtime behind a C
+header. <a class="reference internal" href="index.html#honest-limits"><span class="std std-ref">The pure-C row in honest limits</span></a> is the stronger version of the same
+statement — a C consumer <em>without</em> the C++ runtime is explicitly not supported.</p>
+</section>
+<section id="common-failures-and-what-each-one-means">
+<h2><span class="section-number">2.4. </span>Common failures, and what each one means<a class="headerlink" href="#common-failures-and-what-each-one-means" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symptom</p></th>
+<th class="head"><p>What it is</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>a link error naming <code class="docutils literal notranslate"><span class="pre">__cxa_</span></code> symbols</p></td>
+<td><p>the C target is being linked as C; set <code class="docutils literal notranslate"><span class="pre">LINKER_LANGUAGE</span> <span class="pre">CXX</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">foc::foc</span> <span class="pre">target</span> <span class="pre">not</span> <span class="pre">found</span></code></p></td>
+<td><p>the Conan generator folder is not on <code class="docutils literal notranslate"><span class="pre">CMAKE_PREFIX_PATH</span></code>, or <code class="docutils literal notranslate"><span class="pre">find_package</span></code> was
+called before <code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">install</span></code> ran</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">foc_python</span></code> fails</p></td>
+<td><p>the bindings are host-only and off on cross builds; check
+<code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> → <code class="docutils literal notranslate"><span class="pre">enable_python_bindings</span></code>, and put the built module's directory on
+<code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>the library compiles but a policy does not</p></td>
+<td><p>the motor is policy-composed: an observer or modulator that does not model the required
+concept fails at instantiation, with the concept name in the error</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-Werror</span></code> fails inside the library headers</p></td>
+<td><p>the headers are built with the project's own warning set; a consumer's stricter set can
+differ. Open an issue rather than silencing it — the headers are meant to be clean</p></td>
+</tr>
+<tr class="row-odd"><td><p>the doc build fails on <code class="docutils literal notranslate"><span class="pre">doxygen</span></code></p></td>
+<td><p>documentation tooling is separate from the library; the site needs a loadable
+<code class="docutils literal notranslate"><span class="pre">doxygen</span></code> and <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> but a consumer never does</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="what-ci-actually-builds">
+<h2><span class="section-number">2.5. </span>What CI actually builds<a class="headerlink" href="#what-ci-actually-builds" title="链接到此标题。"></a></h2>
+<p>The table states what CI <strong>builds and runs</strong>, not what the language permits. The runner labels live in
+<code class="docutils literal notranslate"><span class="pre">.github/workflows/</span></code>; the standards and the build type come from <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>MSVC — <code class="docutils literal notranslate"><span class="pre">windows-latest</span></code></p></th>
+<th class="head"><p>Apple-Clang — <code class="docutils literal notranslate"><span class="pre">macos-latest</span></code></p></th>
+<th class="head"><p>GCC — <code class="docutils literal notranslate"><span class="pre">ubuntu-latest</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>build, link and run the suite</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>the C11 ABI, consumed from C</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>the exported package, consumed by <code class="docutils literal notranslate"><span class="pre">find_package</span></code></p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+</tr>
+</tbody>
+</table>
+<p>Two qualifications, both of them about what a check mark does not mean:</p>
+<p><strong>C++20 and C++23 build, but they are not separate legs.</strong> The standard is a <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> field
+and the whole suite is compiled at it, so a language mode never arrives untested -- but the three
+legs above are the ones whose runtime behaviour is exercised on each platform.</p>
+<p><strong>C++ Modules are experimental and no leg compiles one.</strong> <code class="docutils literal notranslate"><span class="pre">generate_modules_inplace</span></code> is <code class="docutils literal notranslate"><span class="pre">false</span></code>,
+so module generation is an unexercised code path: treat it as unverified until a leg covers it rather
+than as a feature the table above implies.</p>
+</section>
+<section id="platforms">
+<h2><span class="section-number">2.6. </span>Platforms<a class="headerlink" href="#platforms" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<th class="head"><p>What is actually covered</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Desktop</strong> -- Windows, Linux, macOS</p></td>
+<td><p>each is a build-and-run leg, which is what the table above records</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Cortex-A Linux</strong> -- <code class="docutils literal notranslate"><span class="pre">arm-linux-a53</span></code></p></td>
+<td><p>a cross build with the Python bindings skipped, and the <code class="docutils literal notranslate"><span class="pre">pil</span></code> gate replaying one scenario on
+the target ISA under qemu</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Cortex-M bare metal</strong> -- <code class="docutils literal notranslate"><span class="pre">mcu-m4</span></code>, <code class="docutils literal notranslate"><span class="pre">arm-none-eabi</span></code></p></td>
+<td><p>a cross build and a link; no execution, because nothing in CI has a board attached</p></td>
+</tr>
+<tr class="row-odd"><td><p>anything else</p></td>
+<td><p>works through a generated Conan profile, and is <strong>not covered by CI</strong> until a leg is added
+for it</p></td>
+</tr>
+</tbody>
+</table>
+<p>The numeric domain belongs to the platform rather than being an implementation detail: the library
+computes in single precision and assumes a single-precision FPU instead of emulating one. On a part
+without an FPU the same code runs through software floating point and none of the timing figures in
+this repository apply to it. <code class="docutils literal notranslate"><span class="pre">double</span></code> appears only where a value is cheaper to keep exact than to
+re-derive -- the trajectory's position accumulator converts at its exit -- so it is not a second
+numeric domain, and the <code class="docutils literal notranslate"><span class="pre">_f64</span></code> C entry points avoid a narrowing at the <em>call site</em> only. Q31 fixed
+point is deliberately not implemented; <a class="reference internal" href="boundaries.html"><span class="doc">What this library does not do</span></a> says where that decision comes from.</p>
+</section>
+<section id="cross-builds">
+<h2><span class="section-number">2.7. </span>Cross builds<a class="headerlink" href="#cross-builds" title="链接到此标题。"></a></h2>
+<p>Two things change on a cross build, and both are by design:</p>
+<ul class="simple">
+<li><p><strong>the Python bindings are not built</strong> — a target with no Python cannot load them, and
+pretending otherwise produces a module nobody can import;</p></li>
+<li><p><strong>the tests are not run on the target</strong> — they are host tests over the same sources. What
+cannot be verified without hardware is listed under <a class="reference internal" href="index.html#honest-limits"><span class="std std-ref">honest limits</span></a>.</p></li>
+</ul>
+<p>The worked example is <code class="docutils literal notranslate"><span class="pre">benchmark/profiles/cortex-a7.profile</span></code>; the same two switches are what
+a Cortex-M bare-metal profile sets, with <code class="docutils literal notranslate"><span class="pre">etl</span></code> as the only dependency left in the graph.</p>
+</section>
+<section id="adding-a-dependency">
+<h2><span class="section-number">2.8. </span>Adding a dependency<a class="headerlink" href="#adding-a-dependency" title="链接到此标题。"></a></h2>
+<p>Two files, and neither of them is a <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>: the graph is computed from
+<code class="docutils literal notranslate"><span class="pre">conandata.yml</span></code> and the package names and targets to link come from the <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> field of
+<code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>. The requirement can be a package archived on <a class="reference external" href="https://conan.io/center">Conan Center</a> or one you built
+yourself -- for the second, you also need a Conan remote that serves it, because a build with no
+source for a requirement is a build that resolves differently on somebody else's machine.</p>
+</section>
+<section id="the-downstream-contract">
+<h2><span class="section-number">2.9. </span>The downstream contract<a class="headerlink" href="#the-downstream-contract" title="链接到此标题。"></a></h2>
+<p>This template is also built by the <strong>HeT DevTools</strong> VS Code extension in a <em>managed lane</em>: it creates
+its own private venv and <code class="docutils literal notranslate"><span class="pre">CONAN_HOME</span></code> and a <strong>generated</strong> Conan profile instead of probing the user's
+machine. The interfaces below are backward compatible; by default the behaviour is byte for byte the
+CI one.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24.0%" />
+<col style="width: 22.0%" />
+<col style="width: 14.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Interface</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HET_CMAKE_MIN</span></code></p></td>
+<td><p>version string (e.g. <code class="docutils literal notranslate"><span class="pre">3.15</span></code>)</p></td>
+<td><p>unset</p></td>
+<td><p>Overrides the <code class="docutils literal notranslate"><span class="pre">cmake_minimum_required</span></code> floor (the CI baseline is 3.28)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HET_CMAKE_BUILD_REQUIRE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">none</span></code> or a version</p></td>
+<td><p>unset</p></td>
+<td><p>Skips or replaces the ConanCenter <code class="docutils literal notranslate"><span class="pre">cmake/&lt;metadata.cmake_version&gt;</span></code>; read by <strong>both</strong> recipes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metadata.graphviz_bin</span></code></p></td>
+<td><p>directory path</p></td>
+<td><p><strong>absent</strong></p></td>
+<td><p>Absent means use <code class="docutils literal notranslate"><span class="pre">dot</span></code> from <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. This is a <strong>machine-specific</strong> field and normally should
+not be committed</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">conancenter</span></code> remote name</p></td>
+<td><p>keep the standard name</p></td>
+<td><p>--</p></td>
+<td><p>A downstream private <code class="docutils literal notranslate"><span class="pre">CONAN_HOME</span></code> may point it at a corporate mirror, so never assume its URL</p></td>
+</tr>
+<tr class="row-even"><td><p>Coverage artifact</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">test_package/test/export/coverage/coverage_summary.json</span></code></p></td>
+<td><p>--</p></td>
+<td><p><strong>Parse the JSON, not the HTML.</strong> The <code class="docutils literal notranslate"><span class="pre">coverage_report/index.html</span></code> path stays a stable
+artifact, but its layout belongs to genhtml and may be restyled at any release</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">user.het:run_tests</span></code></p></td>
+<td><p>conan conf (<code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">user.het:run_tests=False</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Narrows <code class="docutils literal notranslate"><span class="pre">metadata.trigger_tests</span></code> for one run and leaves the library uninstrumented, which is
+what the build-only CI legs do. Namespaced to the template rather than the package</p></td>
+</tr>
+</tbody>
+</table>
+<p>The implementations live in <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">conanfile.py</span></code>, <code class="docutils literal notranslate"><span class="pre">test_package/conanfile.py</span></code> and
+<code class="docutils literal notranslate"><span class="pre">docs/build.py</span></code>.</p>
+</section>
+<section id="next">
+<h2><span class="section-number">2.10. </span>Next<a class="headerlink" href="#next" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the four-step path: <a class="reference internal" href="quickstart.html"><span class="doc">Quick start</span></a></p></li>
+<li><p>what &quot;predictable&quot; costs, and what it does not cover: <a class="reference internal" href="cost-model.html"><span class="doc">What &quot;predictable&quot; costs</span></a></p></li>
+<li><p>the API, one page per group: <a class="reference internal" href="reference/index.html"><span class="doc">Using the API</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="1. Quick start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="guides/index.html" class="btn btn-neutral float-right" title="1. Guides by task" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

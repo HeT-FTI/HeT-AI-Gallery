@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>driver &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="comm" href="comm.html" />
+    <link rel="prev" title="hal" href="hal.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using the API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-promised-here-and-what-is-not">What is promised here, and what is not</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-six-groups">The six groups</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core.html">core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="motor.html">motor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hal.html">hal</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">driver</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#callback-hal">Callback HAL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-stubs">The stubs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-a-stub-is-allowed-to-do-that-a-hal-is-not">What a stub is allowed to do that a HAL is not</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related">Related</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="comm.html">comm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-api.html">c-api</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#three-faces-one-implementation">Three faces, one implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-to-find-something">How to find something</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#naming-rules-worth-knowing-before-you-read-any-page">Naming rules worth knowing before you read any page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-this-section-will-not-do">What this section will not do</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Using the API</a></li>
+      <li class="breadcrumb-item active">driver</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/driver.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="driver">driver</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>Implementations of <a class="reference internal" href="hal.html"><span class="doc">hal</span></a> that are not boards. Two families: the <strong>callback HAL</strong>, which
+turns plain C functions into a policy so a host can implement the interface without writing C++,
+and the <strong>stubs</strong>, which record instead of driving and let a test state what the loop saw.</p>
+<section id="callback-hal">
+<h2>Callback HAL<a class="headerlink" href="#callback-hal" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">callback_hal.hpp</span></code> — the five HAL operations a host supplies as plain C calls, and the policy
+that turns them into the interfaces the loop wants.</p></li>
+</ul>
+<p>Use it when: the integration is C, or the code that reads the ADC lives in a vendor SDK whose
+headers are C. The policy holds the callback table and the <code class="docutils literal notranslate"><span class="pre">user</span></code> pointer, so the loop's
+indirect calls happen inside the HAL — one place, stated — rather than distributed through the
+control code.</p>
+</section>
+<section id="the-stubs">
+<h2>The stubs<a class="headerlink" href="#the-stubs" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 66.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Header</p></th>
+<th class="head"><p>What it does, and what a test uses it for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stub_hal.hpp</span></code></p></td>
+<td><p>a complete HAL built from the rest: the one to instantiate when you want the loop to run
+and want to be able to lie to it</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stub_pwm.hpp</span></code></p></td>
+<td><p>records the duty instead of driving gates; the recording is the assertion</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scripted_current.hpp</span></code></p></td>
+<td><p>replays a scripted current sequence, so a test can say exactly what the sensor saw</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sim_position.hpp</span></code></p></td>
+<td><p>a position sensor the SIL plant writes into, so the loop reads an angle it did not invent</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stub_dc_link.hpp</span></code></p></td>
+<td><p>a bus voltage settable from the outside — a sag is a test, not a fault</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stub_fault_input.hpp</span></code></p></td>
+<td><p>reports exactly what it was told, and nothing else</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stub_hall.hpp</span></code></p></td>
+<td><p>a hall code settable from the outside, including the illegal ones</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stub_brake_switch.hpp</span></code></p></td>
+<td><p>records the brake duty instead of switching a resistor</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stub_temperature.hpp</span></code></p></td>
+<td><p>a temperature source a test sets, <strong>including the state where the sensor is gone</strong> — the
+invalid reading is the case a derating path has to survive, so it is one assignment away</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stub_mechanical_brake.hpp</span></code></p></td>
+<td><p>a holding brake a test drives, including the states where a call fails — a swallowed
+refusal is the failure this one exists to make reachable</p></td>
+</tr>
+</tbody>
+</table>
+<p>The difference between <code class="docutils literal notranslate"><span class="pre">scripted_current</span></code> and <code class="docutils literal notranslate"><span class="pre">sim_position</span></code> is the difference between an
+open and a closed loop, and it decides what a test can claim:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 34.0%" />
+<col style="width: 36.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>You are testing</p></th>
+<th class="head"><p>Use</p></th>
+<th class="head"><p>Because</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>the modulator, the regulators, the policies</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">scripted_current</span></code></p></td>
+<td><p>the input is stated, so the output is a function of the code under test</p></td>
+</tr>
+<tr class="row-odd"><td><p>the closed loop</p></td>
+<td><p>the SIL plant (<code class="docutils literal notranslate"><span class="pre">test_package/test/unit/sil_bench.hpp</span></code>)</p></td>
+<td><p>the current has to <em>respond</em>; a script cannot be wrong in the way a plant can</p></td>
+</tr>
+</tbody>
+</table>
+<p>The Python module and the C API run on the stub HAL. That is why they cannot produce a closed
+loop on their own — the figures on <a class="reference internal" href="../demos/index.html"><span class="doc">Measured responses</span></a> come from the C++ path with the plant,
+and the page says so rather than showing a flat line.</p>
+</section>
+<section id="what-a-stub-is-allowed-to-do-that-a-hal-is-not">
+<h2>What a stub is allowed to do that a HAL is not<a class="headerlink" href="#what-a-stub-is-allowed-to-do-that-a-hal-is-not" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>Lie deterministically.</strong> A stub may return a value nobody measured; that is the point. The
+interfaces forbid it only because a real board has nothing to gain from it.</p></li>
+<li><p><strong>Be inspected.</strong> Every stub exposes what it recorded. A policy never does: the loop's output
+is the trace, not the internals.</p></li>
+</ul>
+</section>
+<section id="related">
+<h2>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the interface these implement: <a class="reference internal" href="hal.html"><span class="doc">hal</span></a></p></li>
+<li><p>the plant a closed-loop test needs: <a class="reference internal" href="../guides/torque-reference.html"><span class="doc">Torque below base speed</span></a></p></li>
+<li><p>the C face that runs on stubs: <a class="reference internal" href="c-api.html"><span class="doc">c-api</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="hal.html" class="btn btn-neutral float-left" title="hal" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="comm.html" class="btn btn-neutral float-right" title="comm" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

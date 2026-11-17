@@ -1,0 +1,416 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.8. Positioning an axis &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.9. Sampling and the power stage" href="current-sampling.html" />
+    <link rel="prev" title="1.1.7. Consuming the library from outside C++" href="c-and-cpp-callers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.8. Positioning an axis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-need">1.1.8.1. What you need</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-minimal-program">1.1.8.2. A minimal program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-numbers-come-from">1.1.8.3. Where the numbers come from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-goes-wrong">1.1.8.4. How it goes wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evidence">1.1.8.5. Evidence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#figure">1.1.8.6. Figure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.8. </span>Positioning an axis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/positioning.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.8. </span><span class="target" id="positioning-an-axis">Positioning an axis</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: move a joint to a position, inside a window it must never leave, fast
+enough to be useful and gently enough not to excite the mechanics.</p>
+<section id="what-you-need">
+<h2><span class="section-number">1.1.8.1. </span>What you need<a class="headerlink" href="#what-you-need" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/soft_limit.hpp</span></code> -- admit or refuse a target. Refusing is the whole
+point: a limit that clamps instead hands the loop a position it was never
+asked for.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/motion_profile.hpp</span></code> -- shape a velocity command for the remaining
+error, under a velocity and an acceleration ceiling.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/position.hpp</span></code> -- the P law that turns a position error into a
+velocity or torque command.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/position_reference.hpp</span></code> -- unwraps the encoder and defines the
+origin; the first sample is the origin, which is why an axis without homing has
+an arbitrary one.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/homing.hpp</span></code> -- finds a real origin, so the numbers mean something
+after a power cycle.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/gear_ratio.hpp</span></code> -- one master angle in, a slave target and a slave
+velocity reference out.</p></li>
+</ul>
+</section>
+<section id="a-minimal-program">
+<h2><span class="section-number">1.1.8.2. </span>A minimal program<a class="headerlink" href="#a-minimal-program" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/positioning.cxx</span></code> shows the two refusals, one
+gear sample and one shaped move. The same file produces this page's figure.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Positioning -- positioning: admit a target, shape a velocity for it, and know</span>
+<span class="linenos">  2</span><span class="c1">// where the axis may go. No plant: the &quot;axis&quot; below is a bare integrator, so what</span>
+<span class="linenos">  3</span><span class="c1">// you are looking at is the profile&#39;s shape and the limit&#39;s refusals, not a motor.</span>
+<span class="linenos">  4</span><span class="c1">//</span>
+<span class="linenos">  5</span><span class="c1">// Build it the way the `demo` gate does -- the example calls into the library, so the</span>
+<span class="linenos">  6</span><span class="c1">// sources are part of the command, and `-Iinclude` alone fails at the link. A renamed</span>
+<span class="linenos">  7</span><span class="c1">// source turns that gate red instead of leaving a stale instruction here:</span>
+<span class="linenos">  8</span><span class="c1">//   g++ -std=c++17 -fno-exceptions -fno-rtti -Wall -Wextra -Werror -Iinclude</span>
+<span class="linenos">  9</span><span class="c1">//   docs/doxygen/dox/demos/positioning.cxx src/core/*.cpp</span>
+<span class="linenos"> 10</span><span class="c1">//   src/core/observer/*.cpp src/motor/*.cpp src/driver/*.cpp src/api/foc_api.c</span>
+<span class="linenos"> 11</span><span class="c1">//   src/api/bridge.cpp src/version.c</span>
+<span class="linenos"> 12</span><span class="c1">//   -o /tmp/positioning</span>
+<span class="linenos"> 13</span><span class="c1">//</span>
+<span class="linenos"> 14</span><span class="c1">// With `--csv &lt;path&gt;` it writes the same run as rows; that is how</span>
+<span class="linenos"> 15</span><span class="c1">// `docs/demos/make_figures.py` draws this example&#39;s figure.</span>
+<span class="linenos"> 16</span><span class="c1">//</span>
+<span class="linenos"> 17</span><span class="c1">// 定位 —— 定位：接纳一个目标、为它塑造一条速度、并知道轴能去哪。没有被控对象：下面的</span>
+<span class="linenos"> 18</span><span class="c1">// &quot;轴&quot;只是一个纯积分器，所以看到的是速度轮廓的形状与限位的拒绝，不是一台电机。</span>
+<span class="linenos"> 19</span><span class="c1">// 带 `--csv &lt;path&gt;` 时把同一次运行写成行；`docs/demos/make_figures.py` 正是这样画本片的图。</span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="linenos"> 22</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="linenos"> 23</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstring&gt;</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/gear_ratio.hpp&gt;</span>
+<span class="linenos"> 26</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/motion_profile.hpp&gt;</span>
+<span class="linenos"> 27</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/soft_limit.hpp&gt;</span>
+<span class="linenos"> 28</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/types.hpp&gt;</span>
+<span class="linenos"> 29</span>
+<span class="linenos"> 30</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kDtS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0e-5F</span><span class="p">;</span><span class="w"> </span><span class="c1">// 20 kHz, the loop this profile is shaped for</span>
+<span class="linenos"> 33</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kWallLowRad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-1.0F</span><span class="p">;</span>
+<span class="linenos"> 34</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kWallHighRad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span><span class="c1">/// The shaping law&#39;s three numbers, named once. `shaping_gain` is velocity per</span>
+<span class="linenos"> 37</span><span class="c1">/// radian of error (1/s), which is why it has the dimension of a bandwidth: the</span>
+<span class="linenos"> 38</span><span class="c1">/// axis closes about that fast to a small error.</span>
+<span class="linenos"> 39</span><span class="c1">/// 塑造律的三个数只写一次。`shaping_gain` 是&quot;每弧度误差对应的速度&quot;（1/s），所以它的量纲</span>
+<span class="linenos"> 40</span><span class="c1">/// 就是带宽：轴以大约那个速度收敛到小误差。</span>
+<span class="linenos"> 41</span><span class="k">auto</span><span class="w"> </span><span class="n">shaping</span><span class="p">()</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MotionProfile</span><span class="o">::</span><span class="n">Config</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 42</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MotionProfile</span><span class="o">::</span><span class="n">Config</span><span class="w"> </span><span class="n">config</span><span class="p">{};</span>
+<span class="linenos"> 43</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">shaping_gain_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">8.0F</span><span class="p">;</span>
+<span class="linenos"> 44</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">velocity_limit_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0F</span><span class="p">;</span>
+<span class="linenos"> 45</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">accel_limit_rad_s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0F</span><span class="p">;</span>
+<span class="linenos"> 46</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">config</span><span class="p">;</span>
+<span class="linenos"> 47</span><span class="p">}</span>
+<span class="linenos"> 48</span>
+<span class="linenos"> 49</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 52</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 53</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;--csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 54</span><span class="w">        </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="linenos"> 55</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 56</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usage: %s [--csv &lt;path&gt;]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="linenos"> 57</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 58</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimit</span><span class="w"> </span><span class="n">limit</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimitConfig</span><span class="p">{</span><span class="n">kWallLowRad</span><span class="p">,</span><span class="w"> </span><span class="n">kWallHighRad</span><span class="p">});</span>
+<span class="linenos"> 61</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MotionProfile</span><span class="w"> </span><span class="nf">profile</span><span class="p">(</span><span class="n">shaping</span><span class="p">());</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span><span class="w">    </span><span class="c1">// Two refusals first, because they are what the limit exists for. An</span>
+<span class="linenos"> 64</span><span class="w">    </span><span class="c1">// out-of-range target comes back as the *previous* target with `Param`, so</span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="c1">// nothing downstream ever sees a position it would drive into a wall.</span>
+<span class="linenos"> 66</span><span class="w">    </span><span class="c1">// 先看两处拒绝，因为限位存在的意义就在这里。越界目标回来的是**上一个**目标并带</span>
+<span class="linenos"> 67</span><span class="w">    </span><span class="c1">// `Param`，因此下游任何东西都不会看到一个会把它驱进墙里的位置。</span>
+<span class="linenos"> 68</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimitOutput</span><span class="w"> </span><span class="n">inside</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="mf">0.5F</span><span class="p">);</span>
+<span class="linenos"> 69</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimitOutput</span><span class="w"> </span><span class="n">outside</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="mf">1.5F</span><span class="p">);</span>
+<span class="linenos"> 70</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimitOutput</span><span class="w"> </span><span class="n">on_wall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">kWallHighRad</span><span class="p">);</span>
+<span class="linenos"> 71</span>
+<span class="linenos"> 72</span><span class="w">    </span><span class="c1">// The gear: one master angle in, the slave&#39;s target and its velocity</span>
+<span class="linenos"> 73</span><span class="w">    </span><span class="c1">// reference out. The velocity output is not a convenience -- a position loop</span>
+<span class="linenos"> 74</span><span class="w">    </span><span class="c1">// told only where to be lags a moving target, and this is the term that</span>
+<span class="linenos"> 75</span><span class="w">    </span><span class="c1">// cancels the lag.</span>
+<span class="linenos"> 76</span><span class="w">    </span><span class="c1">// 齿轮：一个主轴角度进，从轴目标与它的速度参考出。速度输出不是便利项——只被告知</span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="c1">// &quot;该在哪&quot;的位置环跟随移动目标会滞后，而这一项正是抵消滞后的那个。</span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="c1">// Two samples on purpose: the first one *defines* the origin, so its</span>
+<span class="linenos"> 79</span><span class="w">    </span><span class="c1">// velocity is zero by construction. Printing only that one would make a</span>
+<span class="linenos"> 80</span><span class="w">    </span><span class="c1">// working gear look broken.</span>
+<span class="linenos"> 81</span><span class="w">    </span><span class="c1">// 故意喂两个采样：第一个**定义**原点，所以它的速度按构造就是零。只打印它会让一个</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="c1">// 正常的齿轮看起来是坏的。</span>
+<span class="linenos"> 83</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ElectronicGear</span><span class="w"> </span><span class="nf">gear</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">GearConfig</span><span class="p">{</span><span class="mf">2.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1F</span><span class="p">});</span>
+<span class="linenos"> 84</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">GearOutput</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gear</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="mf">0.25F</span><span class="p">,</span><span class="w"> </span><span class="n">kDtS</span><span class="p">);</span>
+<span class="linenos"> 85</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">GearOutput</span><span class="w"> </span><span class="n">geared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gear</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="mf">0.2505F</span><span class="p">,</span><span class="w"> </span><span class="n">kDtS</span><span class="p">);</span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">origin</span><span class="p">;</span>
+<span class="linenos"> 87</span>
+<span class="linenos"> 88</span><span class="w">    </span><span class="kt">FILE</span><span class="o">*</span><span class="w"> </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">t_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">theta_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos"> 91</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 92</span>
+<span class="linenos"> 93</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv_path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 94</span><span class="w">        </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fopen</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+<span class="linenos"> 95</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 96</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fopen&quot;</span><span class="p">);</span>
+<span class="linenos"> 97</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos"> 98</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 99</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;t_s,target_rad,velocity_rad_s,position_rad</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">100</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">101</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;soft limit [%.1f, %.1f] rad</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kWallLowRad</span><span class="p">),</span>
+<span class="linenos">102</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kWallHighRad</span><span class="p">));</span>
+<span class="linenos">103</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  apply( 0.5) -&gt; status %2d  target %+.3f rad</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">inside</span><span class="p">.</span><span class="n">status</span><span class="p">),</span>
+<span class="linenos">104</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">inside</span><span class="p">.</span><span class="n">target_rad</span><span class="p">));</span>
+<span class="linenos">105</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  apply( 1.5) -&gt; status %2d  target %+.3f rad  (refused, previous target returned)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">106</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">outside</span><span class="p">.</span><span class="n">status</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">outside</span><span class="p">.</span><span class="n">target_rad</span><span class="p">));</span>
+<span class="linenos">107</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  apply( 1.0) -&gt; status %2d  target %+.3f rad  at_wall=%s</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">on_wall</span><span class="p">.</span><span class="n">status</span><span class="p">),</span>
+<span class="linenos">108</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">on_wall</span><span class="p">.</span><span class="n">target_rad</span><span class="p">),</span><span class="w"> </span><span class="n">on_wall</span><span class="p">.</span><span class="n">at_wall</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;false&quot;</span><span class="p">);</span>
+<span class="linenos">109</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;gear 2:1, offset 0.1: master 10 rad/s (0.5 mrad per period) -&gt; slave %+.4f rad, &quot;</span>
+<span class="linenos">110</span><span class="w">                    </span><span class="s">&quot;velocity %+.4f rad/s</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">111</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">geared</span><span class="p">.</span><span class="n">slave_rad</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">geared</span><span class="p">.</span><span class="n">slave_velocity_rad_s</span><span class="p">));</span>
+<span class="linenos">112</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%8s %10s %12s %12s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;t (ms)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;target&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v cmd (rad/s)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;position (rad)&quot;</span><span class="p">);</span>
+<span class="linenos">113</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">114</span>
+<span class="linenos">115</span><span class="w">    </span><span class="c1">// One move: ask for 0.5 rad and let the profile shape the approach. The</span>
+<span class="linenos">116</span><span class="w">    </span><span class="c1">// integrator below is the whole &quot;plant&quot; -- it is a kinematic identity, not a</span>
+<span class="linenos">117</span><span class="w">    </span><span class="c1">// motor model, which is why the figure shows a shape and not a dynamic.</span>
+<span class="linenos">118</span><span class="w">    </span><span class="c1">// 一次运动：要 0.5 rad，让轮廓塑造整个接近过程。下面的积分器就是全部&quot;被控对象&quot;——</span>
+<span class="linenos">119</span><span class="w">    </span><span class="c1">// 它是运动学恒等式，不是电机模型，所以图上看到的是形状而不是动态。</span>
+<span class="linenos">120</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">target_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inside</span><span class="p">.</span><span class="n">target_rad</span><span class="p">;</span>
+<span class="linenos">121</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">t_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.5F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">122</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">velocity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">profile</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">target_rad</span><span class="p">,</span><span class="w"> </span><span class="n">theta_rad</span><span class="p">,</span><span class="w"> </span><span class="n">kDtS</span><span class="p">);</span>
+<span class="linenos">123</span><span class="w">        </span><span class="n">theta_rad</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">velocity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kDtS</span><span class="p">;</span>
+<span class="linenos">124</span><span class="w">        </span><span class="n">t_s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kDtS</span><span class="p">;</span>
+<span class="linenos">125</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">126</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%.6f,%.6f,%.6f,%.6f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t_s</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">target_rad</span><span class="p">),</span>
+<span class="linenos">127</span><span class="w">                         </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">velocity</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">theta_rad</span><span class="p">));</span>
+<span class="linenos">128</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">rows</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">400</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">129</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%8.2f %10.3f %12.4f %12.5f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1000.0F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t_s</span><span class="p">),</span>
+<span class="linenos">130</span><span class="w">                        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">target_rad</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">velocity</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">theta_rad</span><span class="p">));</span>
+<span class="linenos">131</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">132</span><span class="w">        </span><span class="o">++</span><span class="n">rows</span><span class="p">;</span>
+<span class="linenos">133</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">134</span>
+<span class="linenos">135</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">136</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fclose</span><span class="p">(</span><span class="n">csv</span><span class="p">);</span>
+<span class="linenos">137</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;wrote %s (%d rows)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">);</span>
+<span class="linenos">138</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">139</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">140</span>
+<span class="linenos">141</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">final position %.5f rad after %.2f s, residual %.5f rad</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">theta_rad</span><span class="p">),</span>
+<span class="linenos">142</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t_s</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">target_rad</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">theta_rad</span><span class="p">));</span>
+<span class="linenos">143</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">fabs</span><span class="p">(</span><span class="n">target_rad</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">theta_rad</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.0e-3F</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">144</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The output to read first is the refusal: a target of <code class="docutils literal notranslate"><span class="pre">1.5</span></code> rad against a window
+of <code class="docutils literal notranslate"><span class="pre">[-1.0,</span> <span class="pre">1.0]</span></code> comes back as <code class="docutils literal notranslate"><span class="pre">Param</span></code> <strong>and</strong> as the previous target. A
+caller that ignores the status goes on commanding the old position, and the axis
+holding still looks exactly like an axis that arrived.</p>
+</section>
+<section id="where-the-numbers-come-from">
+<h2><span class="section-number">1.1.8.3. </span>Where the numbers come from<a class="headerlink" href="#where-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>The window</strong> comes from the mechanics, not from the controller: where the
+axis physically may go. The walls are inclusive, so &quot;move to the limit&quot; is a
+command the limit can accept.</p></li>
+<li><p><strong>The acceleration ceiling</strong> is what the mechanics and the current limit allow.
+<strong>The velocity ceiling</strong> is usually the same number times a time constant; it
+exists so a large error cannot ask for a speed the loop cannot stop from.</p></li>
+<li><p><strong>The shaping gain</strong> has the dimension of a bandwidth (velocity per radian of
+error, 1/s), and it is the one number here that a user tunes. It is not the
+same knob as the position loop's gain: the profile shapes the command, the loop
+follows it.</p></li>
+<li><p><strong>The gear ratio and offset</strong> come from the mechanics; the offset is the slave
+position at master zero, so it is a measurement, not a preference.</p></li>
+</ul>
+</section>
+<section id="how-it-goes-wrong">
+<h2><span class="section-number">1.1.8.4. </span>How it goes wrong<a class="headerlink" href="#how-it-goes-wrong" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>The refusal is ignored.</strong> <code class="docutils literal notranslate"><span class="pre">Param</span></code> plus the previous target is a safe
+answer only if the caller reads the status; otherwise the axis parks and the
+application believes it is moving. Check the status on every call, not the
+target value.</p></li>
+<li><p><strong>A gear without the velocity reference.</strong> A position loop told only where to
+be lags a moving target by <code class="docutils literal notranslate"><span class="pre">v</span> <span class="pre">*</span> <span class="pre">kd</span> <span class="pre">/</span> <span class="pre">kp</span></code>; on a geared pair that lag is a
+synchronisation error that no gain increase fixes without also raising the
+noise. Feed the slave velocity forward.</p></li>
+<li><p><strong>An origin nobody defined.</strong> <code class="docutils literal notranslate"><span class="pre">position_reference</span></code> defines the origin from
+the first sample, so an axis that never homed has a legal but arbitrary zero.
+Everything downstream -- soft limits included -- is then measured from the
+wrong place.</p></li>
+<li><p><strong>Shaping treated as the loop.</strong> The profile limits how fast the <em>command</em>
+moves; it says nothing about the axis. A profile tuned to the acceleration
+limit with a loop that cannot track it produces a shaped command and an
+unshaped motion.</p></li>
+</ol>
+</section>
+<section id="evidence">
+<h2><span class="section-number">1.1.8.5. </span>Evidence<a class="headerlink" href="#evidence" title="链接到此标题。"></a></h2>
+<p>Six claim rows cover this page -- <code class="docutils literal notranslate"><span class="pre">soft_limit</span></code>, <code class="docutils literal notranslate"><span class="pre">motion_profile</span></code>,
+<code class="docutils literal notranslate"><span class="pre">position</span></code>, <code class="docutils literal notranslate"><span class="pre">position_reference</span></code>, <code class="docutils literal notranslate"><span class="pre">homing</span></code> and <code class="docutils literal notranslate"><span class="pre">gear_ratio</span></code> -- and the
+level this page may state is the minimum of those six. The levels themselves are
+read from the claim table in the project <code class="docutils literal notranslate"><span class="pre">README.md</span></code>.</p>
+<p>What this page does not claim: an absolute position before the first index mark,
+which does not exist; protection for an axis already past a wall, or for a window
+that moves inward around an axis already inside the new margin; or a
+following-error law against a trajectory this library does not generate.</p>
+</section>
+<section id="figure">
+<h2><span class="section-number">1.1.8.6. </span>Figure<a class="headerlink" href="#figure" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-positioning">
+<a class="reference internal image-reference" href="../_images/ALL_positioning.png"><img alt="../_images/ALL_positioning.png" src="../_images/ALL_positioning.png" width="720" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.8 </span><span class="caption-text">one move shaped by an acceleration limit: the velocity command ramps up at the
+ceiling, then decays as the error shrinks, and the position converges to the
+target without overshoot</span><a class="headerlink" href="#figure-positioning" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>The figure is produced by <code class="docutils literal notranslate"><span class="pre">docs/demos/make_figures.py</span></code> from this page's own
+example. The axis behind it is an integrator, so the curve shows the <strong>shape</strong> of
+the command and the settling of a first-order approach -- not the dynamics of a
+motor, which the SIL demos carry.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="c-and-cpp-callers.html" class="btn btn-neutral float-left" title="1.1.7. Consuming the library from outside C++" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="current-sampling.html" class="btn btn-neutral float-right" title="1.1.9. Sampling and the power stage" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

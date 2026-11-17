@@ -1,0 +1,125 @@
+_`Runtime Usage and Validation`
+===============================
+
+_`Scope`
+--------
+
+This page describes how to initialize NNSeg, run inference with C++ or C interfaces, and consume
+segmentation outputs safely in production code.
+
+_`Supported Model Family`
+-------------------------
+
+The current runtime supports YOLO segmentation variants identified as yolov5, yolov8, and yolov11
+(including compact aliases such as yolo11).
+
+_`Input Contract`
+-----------------
+
+NNSeg accepts tightly packed RGB888 or BGR888 frames.
+
+- Width and height must be positive.
+- The data pointer must be valid.
+- Channels must match the pixel format.
+- Non-tight stride or unsupported formats return a runtime error.
+
+_`C++ API Workflow`
+-------------------
+
+.. code-block:: cpp
+   :caption: C++ inference example
+
+   #include "nnseg.hpp"
+   #include <vector>
+
+   int main() {
+     nnseg::NNSegEngine engine;
+     std::string error;
+
+     if (!engine.Init("./resources/nnseg.cfg", &error)) {
+       return 1;
+     }
+
+     std::vector<unsigned char> rgb(320 * 256 * 3, 0);
+     nnseg::ImageFrameView frame{rgb.data(), 320, 256, 3, 0, nnseg::PixelFormat::kRGB888};
+     nnseg::SegmentationResult result = engine.Predict(frame);
+     if (!result.ok) {
+       return 2;
+     }
+
+     return 0;
+   }
+
+_`C API Workflow`
+-----------------
+
+.. code-block:: c
+   :caption: C inference example
+
+   #include "nnseg_c.h"
+
+   int main(void) {
+     nnseg_engine_t *engine = nnseg_create();
+     if (!engine) return 1;
+
+     if (nnseg_init_from_file(engine, "./resources/nnseg.cfg") != NNSEG_STATUS_OK) {
+       nnseg_destroy(engine);
+       return 2;
+     }
+
+     unsigned char image[320 * 256 * 3] = {0};
+     nnseg_image_frame_t frame = {image, 320, 256, 3, 0, NNSEG_PIXEL_FORMAT_RGB888};
+     nnseg_segmentation_result_t result = {0};
+
+     int status = nnseg_predict(engine, &frame, &result);
+     nnseg_result_release(&result);
+     nnseg_destroy(engine);
+     return status == NNSEG_STATUS_OK ? 0 : 3;
+   }
+
+_`Configuration File`
+---------------------
+
+The packaged nnseg.cfg supports model path, model type, input size, threshold settings, and tracker parameters.
+Relative model_path values are resolved relative to the configuration file location.
+
+_`Output Structure`
+-------------------
+
+Each successful inference returns:
+
+- ok flag and schema version.
+- Instance list with track_id, class_id, confidence, bounding box, and optional mask.
+- Error text when inference fails.
+
+In the C API, dynamically allocated output buffers must be released with nnseg_result_release and
+nnseg_model_info_release.
+
+_`Applied Result Visualization`
+-------------------------------
+
+The following visualization demonstrates a practical food-scene inference result. The pipeline performs instance-level
+foreground extraction and overlays detection windows for each candidate object, which is useful for region-level
+analytics and quality control in downstream tasks.
+
+.. figure:: ../../images/OUT_food_instance_segmentation.png
+   :name: food instance segmentation visualization
+   :width: 700
+   :align: center
+
+   Instance segmentation and region proposal overlay in a food scene
+
+As shown in :numref:`Figure %s <food instance segmentation visualization>`, segmented foreground masks and object
+windows can be consumed by post-processing modules to compute contour statistics, area ratios, and per-object
+classification inputs.
+
+_`Validation Coverage`
+----------------------
+
+The test_package suite validates:
+
+- Initialization failure paths and error mapping.
+- Predict behavior before and after initialization.
+- RGB/BGR success paths and unsupported pixel format rejection.
+- C API memory release behavior and null-argument safety.
+- Model info retrieval and schema consistency.

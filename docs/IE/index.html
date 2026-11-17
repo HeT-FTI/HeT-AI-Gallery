@@ -1,0 +1,200 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IE Project Documentation &mdash; fcpp 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=1f3f84dc" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.jpg"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=34088549"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            fcpp
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">IE Project Documentation</a><ul>
+<li><a class="reference internal" href="#id2">Introduction</a></li>
+<li><a class="reference internal" href="#id3">Main Features</a></li>
+<li><a class="reference internal" href="#id4">Application</a></li>
+<li><a class="reference internal" href="#id5">License</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">fcpp</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">IE Project Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="ie-project-documentation">IE Project Documentation</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<section id="id2">
+<h2><span class="target" id="introduction">Introduction</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>IE (Inference Engine) is a deep learning inference framework designed specifically for the embedded field based on the ANSC C99 standard.</p>
+</section>
+<section id="id3">
+<h2><span class="target" id="main-features">Main Features</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>Rapid development</strong>: The trained model (currently only supports <code class="docutils literal notranslate"><span class="pre">.flite</span></code>) can be directly converted into a code file or <code class="docutils literal notranslate"><span class="pre">.bin</span></code> file through tools, and quickly deployed in the project</p></li>
+<li><p><strong>Supports complex structures</strong>: Supports multiple input and multi branch network structures</p></li>
+<li><p><strong>Lightweight</strong>: Adopting time-division multiplexing for data structure design to ensure minimal resource consumption and facilitate integration into MCU</p></li>
+<li><p><strong>Single dependency</strong>: pure C development, minimum support for C99 standard, relying only on a single <strong>SMT</strong> library, no other third-party library dependencies, easy cross platform porting</p></li>
+<li><p><strong>High performance</strong>: can effectively utilize the acceleration capabilities of hardware platforms such as multi-core computing and SIMD parallelism</p></li>
+<li><p><strong>Trimmable</strong>: Supports operators to freely crop according to actual applications</p></li>
+<li><p><strong>Multi backend architecture</strong>: Reserved CPU/GPU/NPU backend interfaces, currently implemented CPU backend, supports custom memory allocation and operator registration</p></li>
+</ul>
+</section>
+<section id="id4">
+<h2><span class="target" id="application">Application</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p><strong>Classification Applications</strong></p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><figure class="align-default">
+<a class="reference external image-reference" href="components/mnist.rst"><img alt="MNIST" src="_images/mnist.png" width="200" />
+</a>
+</figure>
+<p>MNIST Digit Recognition</p>
+</td>
+<td><figure class="align-default">
+<a class="reference external image-reference" href="components/vegetable_fruit.rst"><img alt="Vegetable &amp; Fruit" src="_images/vegetable_fruit.png" width="200" />
+</a>
+</figure>
+<p>Vegetable&amp;Fruit Classification</p>
+</td>
+<td><figure class="align-default">
+<a class="reference external image-reference" href="components/coffee_bean.rst"><img alt="Coffee Bean" src="_images/coffee_bean.png" width="200" />
+</a>
+</figure>
+<p>Coffee Bean Classification</p>
+</td>
+<td><figure class="align-default">
+<a class="reference internal image-reference" href="../../images/none.png"><img alt="Stay tuned for updates" src="../../images/none.png" width="200" />
+</a>
+</figure>
+</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<p><strong>Object Detection Applications</strong></p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><figure class="align-default">
+<a class="reference external image-reference" href="components/food.rst"><img alt="Food" src="_images/food.png" width="200" />
+</a>
+</figure>
+<p>Food Detection</p>
+</td>
+<td><figure class="align-default">
+<a class="reference internal image-reference" href="../../images/none.png"><img alt="Stay tuned for updates" src="../../images/none.png" width="200" />
+</a>
+</figure>
+</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<p><strong>Control Applications</strong></p>
+<p><em>Coming Soon</em></p>
+<hr class="docutils" />
+<p><strong>Measurement Applications</strong></p>
+<p><em>Coming Soon</em></p>
+</section>
+<section id="id5">
+<h2><span class="target" id="license">License</span><a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
+<p>This project is licensed under the Apache-2.0 License. See the LICENSE file for details.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

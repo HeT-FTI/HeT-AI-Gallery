@@ -1,0 +1,279 @@
+_`What this library does not do`
+======================================
+
+Every row below is a limit that will cost somebody a day if they meet it in the field instead of here. The point of the
+page is not humility: a control library whose boundaries are unstated gets used outside them, and the failure then looks
+like a bug in the library rather than a fact about the domain.
+
+This page is about what the *library* cannot do. It is a different list from :ref:`honest limits <honest-limits>`, which
+is about what software verification cannot reach and is deferred to hardware -- dead-time, ADC timing, EMI, ISR worst
+case. Both are needed: one is a property of the method, the other of the evidence.
+
+Each row names the case that **pins** it, and the `boundaries` gate checks that every named case still exists. A
+statement whose case was renamed or deleted therefore fails the build rather than quietly becoming folklore. That is the
+only reason this page can be trusted after the person who wrote it has moved on.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 40 30
+
+   * - What it cannot do
+     - What that means for you
+     - Pinned by
+   * - **Resolve the magnet polarity.**
+     - The injection observer converges to `dtheta = pi` as happily as to zero: the d axis is right and the magnet is
+       backwards, so the torque sign is inverted. Telling them apart needs a separate pulse or saturation test, which is
+       `MagnetPolarityTest` applied once at commissioning -- not something the observer does for you.
+     - ``SilHfi.OutsideTheHalfTurnWindowItLocksToTheMirror``
+   * - **Survive a wrong saliency sign.**
+     - A machine with `Ld > Lq` needs `demod_gain_a` positive; the wrong sign does not give a worse estimate, it drives
+       the estimate to the unstable equilibrium at `+-pi/2` and leaves it there.
+     - ``SilHfi.AWrongSaliencyDirectionRunsAwayInsteadOfLocking``
+   * - **Say "I do not know" through `ObsState`.**
+     - The angle has no validity channel. An observer that is not measuring holds its last angle and reports zero
+       speed -- indistinguishable from a stopped machine by those two numbers alone. Use `locked()` (or
+       `status()["observer_locked"]` from Python) to tell them apart.
+     - ``SwitchableObserver.TheSelectedObserversLockVerdictIsReachableThroughTheSlot``
+   * - **Run an injection carrier the control rate cannot resolve.**
+     - Past `hfi_max_inject_hz(control_hz)` the observer stops: the demodulated amplitude collapses, the lock drops out,
+       the angle freezes, the speed reads zero, and a loop closing on it runs away (measured: -19.5 rad/s of speed
+       bias). The request is refused at setup, and by `update()` for the paths that do not go through the bridge.
+     - ``HfiObserver.ACarrierThisControlRateCannotResolveIsRefusedNotFrozen``
+   * - **Use one carrier frequency at every control rate.**
+     - The ceiling is a sampling fact, not a machine fact: 9200 Hz is refused at 20 kHz and accepted at 40 kHz. Sizing a
+       carrier for one rate and reusing it at another is the mistake this row exists to prevent.
+     - ``HfiObserver.TheCarrierCeilingScalesWithTheControlRate``
+   * - **Run the injection observer on a surface machine.**
+     - `predicted_gain_a()` is proportional to `(lq - ld)`, so with `lq == ld` the demodulated signal is identically
+       zero and no follower can lock. The mode is refused rather than admitted and left to fail later.
+     - ``ApiObserverSelector.TheHfiModeRefusesWithoutACarrierOrWithoutSaliency``
+   * - **Acquire a rotor that is already turning.**
+     - The loop pulls the angle only inside `+-pi/2` and has no way to pull a frequency it has never seen. A rotor handed
+       to it mid-spin either gets caught or lands on the mirror, and which one is a property of the speed. A hand-over
+       must seed it (`seed_angle`), which is what the blending observer does while the carrier is wound down.
+     - ``SilHfiEnvelope.AcquiringARotorAlreadyRunningNeedsASeed``
+   * - **Reduce the low-speed servo's residual ripple by improving the angle.**
+     - The steady bias at 20 rad/s is 0.0039 rad/s (0.02 %); what remains is a ripple at the carrier frequency, and it is
+       the injected current cross-coupling into torque on a turning machine -- linear in `inject_v` and in speed,
+       indifferent to the saliency. Improving the angle by 13x does not move it. `inject_v` is the knob.
+     - ``SilSpeedRipple.TheFigureSurvivesSubstepResolution``
+   * - **Reconstruct what the hardware actually did from a trace.**
+     - The trace records what the loop *believed*: the currents the PI acted on and the voltages it applied before
+       modulation. A trace that looks perfect is therefore entirely consistent with a miscalibrated current sensor -- the
+       loop is faithful to a wrong measurement. Use it to explain the loop's decisions, not to measure the phases.
+     - ``Trace.TheRecordAgreesWithTheScalarReadBitForBit``
+   * - **Start a load the drive cannot move.**
+     - The sequence ramps to its limit, holds, and after its grace period reports `Failed` with zero torque: measured
+       0.200 N*m at 0.5 N*m/s reached at 400 ms, then a 200 ms grace. It cannot conjure torque -- the only honest
+       answers are "released" and "cannot start", and from outside a silent axis is indistinguishable from a working
+       one, which is why the failure is a state rather than an absence.
+     - ``StallStart.AStuckAxisSaysFailedInsteadOfRampingForever``
+   * - **See a fault code while the drive is derating.**
+     - A hot machine below the trip temperature reports `fault = None` and `active_mask = 0` while its current limit is
+       already falling -- measured: 3.00 A at 45 C, 1.80 A at 80 C, both with output allowed, then 0 A and no output at
+       105 C. `output_allowed` is defined as `active_mask == 0`, so a fault means "authority removed" and derating is
+       not one: read `i_limit_a` against the `i_max_a` you configured if you want to know the machine is hot. A
+       commissioning tool that shows only the fault code will report a derating drive as healthy.
+     - ``Protection.TheTemperatureLadderIsGradedRatherThanACliff``
+   * - **Estimate a torque that accounts for iron loss or magnet temperature.**
+     - `torque_estimate()` is `kt*iq + 1.5*pp*(ld-lq)*id*iq`, and `kt` is a nameplate number: it does not know that the
+       magnet weakens as it heats, that iron loss subtracts torque at speed, or that the inverter adds no torque. The
+       5 % agreement it reports is against the same model the plant integrates, so it is an agreement about the
+       *model*, not a claim about a hot machine.
+     - ``TorqueMap.TheEstimateMatchesTheMechanicsOfTheSilBench``
+   * - **Improve a sensored axis's angle by adding the carrier.**
+     - The sensor owns the commutation angle, so the injection observer now runs for its own demodulation only: the
+       carrier does reach the inverter (measured swing 0.45--0.67 across eight rate/PWM combinations), but the sensor
+       keeps the angle and the published speed. `status()["observer"]` naming `HFI` therefore does *not* mean the loop
+       is commutating on the injected estimate -- compare the two explicitly if that is what you need.
+     - ``MotorInjection.ASensoredAxisInjectsWithoutSurrenderingTheAngle``
+   * - **Get a quiet speed estimate out of the injection observer for free.**
+     - `omega_e = omega_int + kp*error`, and `error` carries the carrier, so the published speed holds 0.4180 rad/s at
+       2000 Hz in a 20 rad/s servo unless `speed_lpf_hz` is set. The library's own path sets it (200 Hz); a caller that
+       constructs the observer directly gets the raw value.
+     - ``SilSpeedRipple.ThePublishedSpeedCanBeCleanedAndTheRotorDoesNotCare``
+   * - **Close a servo on a ten-millisecond-old speed.**
+     - Differencing the angle is quieter than the PLL and worse in a loop: at a 200 rad/s speed-loop bandwidth the window
+       is transport delay in the feedback path, and no window length from 500 us to 10 ms wins on both settled accuracy
+       and peak. The route is closed by measurement, not by taste.
+     - ``SilSpeedFromAngleClosedLoop.AWindowShortEnoughToBeOnTimeIsTheOnlyWayThisRouteWins``
+   * - **Get a rotor angle out of three Hall sensors alone.**
+     - The code carries 60 degrees of information per edge and *nothing* inside a sector: two angles 59.96 degrees
+       apart read the same code, so a decoder that sees only the code is wrong by up to 30 degrees -- worst case, half a
+       sector, and no cleverness improves it. Ten degrees of mounting error on one sensor widens the bound to 35 and
+       narrows the other sectors to 25 without ever producing an illegal code, so misplacement is invisible to the
+       wiring. Everything finer than 60 degrees has to come from edge *timing*, which is the decoder's work, not the
+       sensor's.
+     - ``HallPhysics.InsideOneSectorTheCodeCarriesNoAngleInformation``
+   * - **See a dead Hall sensor all the time.**
+     - A stuck sensor freezes its bit: one sixth of a revolution reads as the illegal code 0 or 7 (that is the entire
+       visible fault) and the other five sixths read as perfectly legal codes at 120-degree resolution, with the edge
+       interval doubled. Worse, every surviving transition still flips exactly one bit, so the adjacency check that most
+       decoders carry never fires -- measured, not assumed, and the first version of that case asserted the opposite.
+       Anything built on Halls must watch the illegal window *and* the edge timing; either alone has a blind spot.
+     - ``HallPhysics.ADeadSensorIsSilentForFiveSixthsOfTheRevolutionAndKeepsEveryRemainingCodeLegal``
+   * - **Declare a dead Hall sensor over the whole revolution.**
+     - Both channels together still leave **8.4 % of a revolution reading `Ok` while wrong by up to 59 degrees**
+       (13.7 % and 120 degrees with the sensor stuck high): the illegal window is 15.5 % and the interval check another
+       53.9 %, so roughly a third of every revolution is undeclared. A drive built on Halls needs a second opinion --
+       current or torque sanity, an index, anything independent of the codes -- rather than a cleverer check on the
+       codes. This is the number that decides how the fault has to be handled, and it is asserted so it cannot quietly
+       become "the fault is caught".
+     - ``HallTracker.AStuckSensorIsCoveredByTwoChannelsAndNeitherAloneIsEnough``
+   * - **Cancel friction you have not measured.**
+     - The compensation is a torque of its own, so an estimate above the machine's breakaway moves the rotor even when
+       the reference is held still -- measured, **5.625 mrad of travel with no command at all** from a `(0.030, 0.030)`
+       estimate on a machine whose breakaway is 0.020. Below the breakaway it is safe but it takes the residual with it:
+       `(static - coulomb)/kp` follows the estimate wherever it goes, 2.021 mrad at the true value and 1.007 at a 50 %
+       over-estimate. There is nothing in the code stream that can tell you the estimate is wrong -- it has to come from a
+       measurement, and the boundary of "good enough" is the breakaway.
+     - ``FrictionComp.AnEstimateAboveTheBreakawayWalksTheAxisWithNoCommandAtAll``
+   * - **Tell a stalled axis from a friction estimate that is too low.**
+     - Both read as "at rest while the loop asks for more than the estimate", which is exactly what `stalled` reports, so
+       the flag is honest about being one fact and not a diagnosis. Distinguishing them needs a second signal -- a torque
+       measurement, an encoder that is not moving, or a command that would obviously move a healthy axis.
+     - ``FrictionComp.TheStallFlagNeedsBothStillnessAndADemandAboveTheBreakaway``
+   * - **Stop an axis at a wall without knowing the drive's delay.**
+     - The velocity ceiling is `v^2 <= 2*a*(d - v*dt)` and `dt` is the drive's own latency, not the control period: on the
+       SIL axis it is about 1 ms (one period plus the 0.8 ms current rise). Assuming it is zero -- the natural reading of
+       "it can decelerate at `a`" -- crosses the wall by **19 mm at 20 rad/s**, which is exactly `v*dt`; with it the axis
+       stops **1.04 mm short**. It cannot be derived from anything in the library, so it has to come from a commissioning
+       run or a datasheet, and the number passed in should be the conservative one.
+     - ``SoftLimit.TheDelayTermIsTheDifferenceBetweenNineteenMillimetresPastAndOneShort``
+   * - **Synchronise two axes with a position-only gear.**
+     - A perfectly geared pair still shows a standing error of `v*kd/kp` -- **25.6 mrad** at 10 rad/s with `kd` 0.02 and
+       `kp` 8 -- because a position loop following a moving reference always lags it. It scales with the rate and
+       inversely with the gain, so raising `kp` buys accuracy at the price of stability, and the only term that removes it
+       is the gear's velocity output fed forward as `+kd*v_ref`. A gear that emits only a position is a lag generator with
+       a ratio.
+     - ``ElectronicGear.TheSyncErrorIsTheRampLagInBothOfItsTerms``
+   * - **Trust `v_max / psi_f` for the top speed.**
+     - It over-promises by about 4 %: the d-axis drop `we*Lq*iq` is part of the bus too. At 24 V and this nameplate the
+       naive ceiling is **2910 rad/s electrical** and the machine's own steady state reaches **2794**, and weakening by
+       `id = -2 A` lifts it to **3320** -- a factor of **1.188**, not the 1.202 the flux ratio promises, because the
+       weakening current's own d-axis voltage eats part of the margin it buys. Both numbers come from bisecting the voltage
+       that holds the operating point, not from a datasheet.
+     - ``HighSpeed.TheVoltageCeilingIsFourPercentBelowTheNaiveRatioAndWeakeningLiftsIt``
+   * - **Read the open-loop flux observer's angle at speed without knowing its bias.**
+     - Seeded and fed correctly it still carries a **0.12 rad mean error at 200 rad/s electrical and 0.08 at 600** -- a bias,
+       not a sampling effect, which is why it is not speed-proportional and why the number has to be measured for the
+       machine in front of you rather than assumed small. What *is* speed-independent at a fixed samples-per-cycle ratio and
+       degrades 4.7x when the ratio drops from 40 to 8 is the sampling error on top of it.
+     - ``HighSpeed.TheErrorFollowsSamplesPerCycleRatherThanTheSpeed``
+
+   * - **Compute in double when the caller passes a double.**
+     - The `_f64` entry points exist so a call site does not lose a value to an *implicit* narrowing; the library
+       still computes in `float32` throughout, and there is no wider range behind them. `1e40` is the value that
+       says so: it is a finite `double` and an `inf` in `float`, and it is **refused** rather than accepted -- the
+       check that decides is on the narrowed value, where it enters the loop, because judging the argument that
+       arrived would let an infinity through. A caller sizing anything against a `double` range is sizing against a
+       range the library does not have.
+     - ``ApiC.AFiniteDoubleThatOverflowsFloatIsRefusedInsteadOfReachingTheLoopAsInfinity``
+
+_`Deferred to your hardware, not to us`
+-----------------------------------------
+
+Four conclusions cannot be reached from this repository at all -- not "not yet", but "not by this
+tree", because no board has executed it here (:ref:`what has actually been run <platform-evidence>`).
+They are listed here so that meeting them in the field reads as a known limit rather than as a
+defect, and
+``docs/sphinx/source/guides/on-machine-acceptance.rst`` is the procedure that reaches the rest:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 40 30
+
+   * - Not reachable here
+     - Why
+     - What it means for you
+   * - Any conclusion above roughly 800 rad/s electrical
+     - The small motors this was designed around cannot get there
+     - The high-speed statements stay at their present level until a machine that reaches it is
+       measured
+   * - Intermittent failures, such as a start-up hand-over that fails one time in n
+     - They need hours to days of reproduction, which a person who has not seen the failure cannot
+       arrange
+     - A field report of one is a lead, not yet a diagnosis
+   * - Thermal, EMC and long-term ageing behaviour
+     - No chamber, no instruments, no years
+     - Anything said here about heat, emissions or wear is a model, not a measurement
+   * - The absolute parameters of one particular industrial motor
+     - The bench gives the *shape* of saturation, which transfers between machines; the numbers do
+       not
+     - Use the shape to choose a model; measure your own machine to fill it in
+
+_`Claims this project does not make`
+------------------------------------
+
+The rows above are limits of the *method*: things the library cannot do. The rows below are a
+different kind of statement -- capabilities somebody reasonably expects from a field-oriented control
+library, and that this project deliberately does not claim. They are listed so that meeting one in
+the field reads as a decision rather than as an omission.
+
+They carry no "pinned by" column, and that is not an oversight. A limit is pinned by the case that
+measures it; a claim that is **not** made is pinned by the absence of that measurement, which is what
+the level in the claim row already says. The claim table in the project README carries the number and
+the case; this page carries the sentence that may not be said.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Not claimed
+     - Why
+   * - **"Efficient"**, or any efficiency figure.
+     - Nothing here measures input power against shaft power. A modulator and a control loop set the
+       *shape* of the voltages; efficiency lives in the switching devices, the winding and the
+       modulation index, none of which this project models or measures.
+   * - **Thermal protection** in the sense of knowing the winding temperature.
+     - ``protection`` integrates a copper-loss budget with one time constant. That is not a
+       temperature, and the derating thresholds are numbers the caller supplies. Without a thermistor
+       or a thermal observer it cannot tell you how hot the motor is -- and it says so instead of
+       reporting a plausible degree count.
+   * - **"Works down to a few milliamps."**
+     - The current-loop evidence starts at 0.1 A. Below that the resolution of the *model* is the
+       limit rather than the ADC, and a model says nothing about a real sensor's noise, offset drift
+       or amplifier settling.
+   * - **A sensorless low-speed servo as good as a sensored one.**
+     - Measured, and the answer is no. The gap is a property of the speed estimate rather than of the
+       loop, and improving the angle does not close it -- the claim row carries both numbers, and the
+       direction is what matters here.
+   * - **A sensorless procedure that names its own minimum speed.**
+     - Measured to be impossible from this evidence: the settled-window error is not monotone in
+       speed, so "the smallest speed at which an angle may be claimed" is not an interval and no
+       procedure can hand one out. The closed form the claim row derives is a lower bound.
+   * - **MTPA paired with a single-inductance observer.**
+     - MTPA is defined by a d-axis current, and those observers carry a constant flux target, so the
+       angle error grows with d current at low speed. The pairing is refused by configuration rather
+       than left to the reader: ``DualInductanceObserver`` is the member that makes MTPA reachable,
+       and the refusal applies to the single-``L`` observers, not to MTPA itself.
+   * - **"The speed loop is validated past base speed."**
+     - Not established. Field weakening engages end to end through ``Motor``, but at that operating
+       point the q-axis current settles with a sign the PI's own contract says cannot happen. That is
+       an open measurement rather than a resolved one, and it is recorded as open.
+   * - **Anything about a specific motor.**
+     - Every number here is a property of the simulation plant and a stated nameplate.
+       ``BoardSelfTest`` and ``check_board()`` exist to tell you how far your hardware is from that
+       model -- and they are themselves unverified on metal, which is what the level in their claim
+       row says.
+
+_`Not a safety component`
+-------------------------
+
+This library is not certified, not redundant and not fail-safe. ``protection`` is a *supervisory*
+layer that assumes the MCU, the gate driver and the sensing are already working: it cannot protect
+against a failed current sensor, a shorted bridge or a lost PWM. Do not use it in any application
+where a wrong torque command can injure somebody.
+
+The latching behaviour exists to make a fault **inspectable** -- a fault that stays until somebody
+clears it is one a person can read after the fact -- not to make the drive safe. A latch is a
+diagnostic, and a diagnostic is not a safeguard. Where the supervisory layer does have teeth is
+:doc:`compliance/index`, which states the sentences this project may and may not say about it.
+
+What is *not* on this page, because it is enforced by a gate rather than by a test case: no exceptions, no RTTI, no
+`new`/`delete`, no `std::vector`/`std::string`, C++17 and C11 only (`strict`), every installed header carrying a README
+claim row (`claims`), and every number in the documentation matching an artefact the build produced (`docs`).
+
+This page says what the library does not do. What it *may* say — the sentences that are allowed,
+the tiers behind them, and the answer each industry gets — is :doc:`compliance/index`; the
+equivalent for a single capability is :doc:`capabilities`.

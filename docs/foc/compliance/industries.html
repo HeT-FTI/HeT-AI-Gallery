@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.1.2. By industry &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="3.1.3. Language compliance" href="language.html" />
+    <link rel="prev" title="3.1.1. Claim tiers" href="tier.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. What may be claimed, and to whom</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#four-readers-four-pages">3.1. Four readers, four pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tier.html">3.1.1. Claim tiers</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">3.1.2. By industry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#automotive-iso-26262-seooc-shape">3.1.2.1. Automotive — ISO 26262 (SEooC shape)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#industrial-iec-61508-3-2010">3.1.2.2. Industrial — IEC 61508-3:2010</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#appliance-iec-60730-1-2022-annex-h-class-b">3.1.2.3. Appliance — IEC 60730-1:2022, Annex H (Class B)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#machinery-iso-13849-1-2023">3.1.2.4. Machinery — ISO 13849-1:2023</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#robotics-iso-10218-1-2025-2-2025">3.1.2.5. Robotics — ISO 10218-1:2025 / -2:2025</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rail-en-50716-2023">3.1.2.6. Rail — EN 50716:2023</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#medical-iec-62304-2006-a1-2015">3.1.2.7. Medical — IEC 62304:2006+A1:2015</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aerospace-do-178c-not-pursued">3.1.2.8. Aerospace — DO-178C — <strong>not pursued</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#three-gaps-that-money-cannot-close">3.1.2.9. Three gaps that money cannot close</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related">3.1.2.10. Related</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="language.html">3.1.3. Language compliance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-four-sentences-this-project-never-says">3.2. The four sentences this project never says</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#where-the-evidence-is">3.3. Where the evidence is</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#related">3.4. Related</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>What may be claimed, and to whom</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.1.2. </span>By industry</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/compliance/industries.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">3.1.2. </span><span class="target" id="by-industry">By industry</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>Eight industries, eight cards, the same six questions in the same order: what the customer asks,
+what they actually read, what can be given today, what is missing, what may be said, and what may
+not. The order is the order the questions arrive in, which is why the answer to &quot;can you do my
+industry&quot; is on the fifth line and not the first.</p>
+<p>The standard numbers below carry the edition that was checked against an official catalogue. Where
+an edition is named, it is the current one at the time of writing and the previous edition is
+named where it matters — a superseded number quoted with a straight face is the fastest way to
+lose a technical audience.</p>
+<section id="automotive-iso-26262-seooc-shape">
+<h2><span class="section-number">3.1.2.1. </span>Automotive — ISO 26262 (SEooC shape)<a class="headerlink" href="#automotive-iso-26262-seooc-shape" title="链接到此标题。"></a></h2>
+<p><strong>Asked:</strong> &quot;Do you conform to MISRA C++, and at which ASIL?&quot;</p>
+<p><strong>They read:</strong> the four counts of the rule table (implemented / not applicable / deviated / open),
+the deviation permits, a compliance summary, and the SEooC delivery package.</p>
+<p><strong>Today:</strong> the language baseline is enforced per public header; the rule table and the permits
+exist and are gated; the SEooC <em>shape</em> is what the delivery package follows.</p>
+<p><strong>Missing:</strong> the mapping from a tool check to a rule number, so the three counts that a reader
+actually looks for cannot be filled in yet. Until then the sentences exist and the numbers do not.</p>
+<p><strong>May say:</strong> &quot;organised by MISRA C++:2023 rule numbers, deviations submitted as permits with a
+compliance summary; delivered in SEooC shape.&quot;</p>
+<p><strong>May not say:</strong> &quot;conforms to ISO 26262&quot;; any ASIL.</p>
+</section>
+<section id="industrial-iec-61508-3-2010">
+<h2><span class="section-number">3.1.2.2. </span>Industrial — IEC 61508-3:2010<a class="headerlink" href="#industrial-iec-61508-3-2010" title="链接到此标题。"></a></h2>
+<p><strong>Asked:</strong> &quot;Which SIL, and how is the technique table filled in?&quot;</p>
+<p><strong>They read:</strong> the HR / R / NR ratings in the technique tables, and structural coverage evidence.</p>
+<p><strong>Today:</strong> the annexes that define those ratings are in hand (the technique tables and the
+explanatory layer that says what each technique name actually demands), and this repository
+produces the two evidence shapes those rows ask for: a per-decision coverage gate and a mutation
+baseline.</p>
+<p><strong>Missing:</strong> the row-by-row mapping from those tables to this repository's gates.</p>
+<p><strong>May say:</strong> &quot;organised by the IEC 61508-3 technique tables (no SIL claimed); the safety manual is
+organised per the normative safety-manual annex.&quot;</p>
+<p><strong>May not say:</strong> any SIL 1–3; &quot;conforms to IEC 61508&quot;.</p>
+</section>
+<section id="appliance-iec-60730-1-2022-annex-h-class-b">
+<h2><span class="section-number">3.1.2.3. </span>Appliance — IEC 60730-1:2022, Annex H (Class B)<a class="headerlink" href="#appliance-iec-60730-1-2022-annex-h-class-b" title="链接到此标题。"></a></h2>
+<p><strong>Asked:</strong> &quot;Which Class B self-tests are implemented?&quot;</p>
+<p><strong>They read:</strong> the Annex H self-test list — CPU registers, program counter, ROM and RAM integrity,
+clock — and where the periodic self-test is called from.</p>
+<p><strong>Today:</strong> a board check that answers a different question: did this drive get wired and sensed
+correctly. Eight items, with a diagnosis that names one cause.</p>
+<p><strong>Missing:</strong> <strong>this is a real gap, not a boundary.</strong> Annex H asks whether <em>this MCU</em> is still
+healthy; the board check asks whether <em>this drive</em> is connected correctly. Nothing in this library
+tests the CPU, ROM, RAM or clock — those belong to the MCU startup code, and integrators usually
+have them. What this library can do is state the boundary; it cannot present its eight items as
+Annex H evidence.</p>
+<p><strong>May say:</strong> &quot;the drive-level self-check covers wiring, sensing and parameters; MCU-level CPU,
+ROM, RAM and clock self-tests are outside this library and are expected from the integrator's
+startup code.&quot;</p>
+<p><strong>May not say:</strong> &quot;supports Class B&quot;; anything that presents the board check as Annex H evidence.</p>
+</section>
+<section id="machinery-iso-13849-1-2023">
+<h2><span class="section-number">3.1.2.4. </span>Machinery — ISO 13849-1:2023<a class="headerlink" href="#machinery-iso-13849-1-2023" title="链接到此标题。"></a></h2>
+<p><strong>Asked:</strong> &quot;Can you reach PL d?&quot;</p>
+<p><strong>They read:</strong> the architecture category, MTTFd, diagnostic coverage, common-cause failure — and
+the calculation that combines them.</p>
+<p><strong>Today:</strong> nothing, and that is the answer. This library has no gate authority, no safety input
+and no two-channel architecture, so every input the performance-level argument needs lives with
+somebody else.</p>
+<p><strong>Missing:</strong> nothing. A PL argument for the machine is the integrator's safety function.</p>
+<p><strong>May say:</strong> &quot;the safety function of the machine belongs to the integrator; this library supplies
+the control law and its own evidence, and takes no part in the PL calculation.&quot;</p>
+<p><strong>May not say:</strong> any performance level or category.</p>
+<p>Note the edition: ISO 13849-1:2015 was withdrawn when the 2023 edition was published. A proposal
+quoting 2015 is quoting a superseded document.</p>
+</section>
+<section id="robotics-iso-10218-1-2025-2-2025">
+<h2><span class="section-number">3.1.2.5. </span>Robotics — ISO 10218-1:2025 / -2:2025<a class="headerlink" href="#robotics-iso-10218-1-2025-2-2025" title="链接到此标题。"></a></h2>
+<p><strong>Asked:</strong> &quot;Which standard does a joint module fall under?&quot;</p>
+<p><strong>They read:</strong> the same machinery answer (ultimately ISO 13849 or IEC 62061), plus the
+collaborative-operation requirements.</p>
+<p><strong>Today:</strong> nothing beyond the machinery answer — and one thing worth having: the current numbers
+and editions, so that a conversation starts from <cite>ISO 10218-1:2025</cite> rather than from a remembered
+year.</p>
+<p><strong>Missing:</strong> nothing that belongs here. The value of this row is that the numbers are right, not
+that a claim can be made.</p>
+<p><strong>May say:</strong> &quot;the safety function belongs to the machine; where it lands is the integrator's
+choice — commonly ISO 13849-1, IEC 62061 or ISO 10218-1.&quot;</p>
+<p><strong>May not say:</strong> any safety level.</p>
+<p>Two edition facts a reader should know before quoting this industry: the 2011 editions of
+ISO 10218-1 and -2 were replaced by the 2025 editions, and most of ISO/TS 15066:2016 (collaborative
+robots — the biomechanical limits and the four operating methods) moved into ISO 10218-2:2025.</p>
+</section>
+<section id="rail-en-50716-2023">
+<h2><span class="section-number">3.1.2.6. </span>Rail — EN 50716:2023<a class="headerlink" href="#rail-en-50716-2023" title="链接到此标题。"></a></h2>
+<p><strong>Asked:</strong> &quot;Which EN 50128 integrity level?&quot;</p>
+<p><strong>They read:</strong> software integrity levels, the required independence of verification and
+validation, and tool qualification.</p>
+<p><strong>Today:</strong> reproducibility, and only reproducibility. A third party who clones the repository can
+re-run every gate, recompute every sha256 and replay every case, and get the same numbers.</p>
+<p><strong>Missing:</strong> <strong>independence.</strong> Reproducibility is a property of an artefact; independence is a
+property of the relationship between two organisations. SIL 1 and above want independent
+verification and validation, which one author with tooling cannot supply at any price. This is one
+of the three gaps that money cannot close.</p>
+<p><strong>May say:</strong> &quot;the evidence is reproducible; independent verification has not been performed and
+must be supplied by the purchaser or a third party.&quot;</p>
+<p><strong>May not say:</strong> any rail integrity level; or &quot;independently verified&quot; as a rendering of
+&quot;reproducible&quot;.</p>
+<p>One number matters here and it changed recently: <strong>EN 50716:2023</strong> supersedes EN 50128:2011 (with
+its amendments) and EN 50657:2017 for railway software. A customer who opens with &quot;EN 50128&quot; is
+using the former name, and answering in that name without saying so is the wrong kind of
+agreement.</p>
+</section>
+<section id="medical-iec-62304-2006-a1-2015">
+<h2><span class="section-number">3.1.2.7. </span>Medical — IEC 62304:2006+A1:2015<a class="headerlink" href="#medical-iec-62304-2006-a1-2015" title="链接到此标题。"></a></h2>
+<p><strong>Asked:</strong> &quot;Which 62304 safety class?&quot;</p>
+<p><strong>They read:</strong> the material that justifies the class, and the device maker's own risk file under
+ISO 14971:2019.</p>
+<p><strong>Today:</strong> the same rule table and the same gates as the automotive and industrial rows — they are
+not industry-specific.</p>
+<p><strong>Missing:</strong> the class and the risk file. Class A/B/C follows from what the software can do to a
+patient, which is a property of the device; ISO 14971 risk management belongs to the device maker.</p>
+<p><strong>May say:</strong> &quot;the software item is organised by the shared rule table; safety classification and
+risk management belong to the device manufacturer.&quot;</p>
+<p><strong>May not say:</strong> any 62304 class; or anything that implies a risk file exists here.</p>
+</section>
+<section id="aerospace-do-178c-not-pursued">
+<h2><span class="section-number">3.1.2.8. </span>Aerospace — DO-178C — <strong>not pursued</strong><a class="headerlink" href="#aerospace-do-178c-not-pursued" title="链接到此标题。"></a></h2>
+<p><strong>Asked:</strong> &quot;Which DAL?&quot;</p>
+<p><strong>They read:</strong> the DAL allocation, MC/DC for DAL A, and a complete lifecycle data package.</p>
+<p><strong>Today:</strong> nothing, and this is a decision rather than a queue.</p>
+<p><strong>Missing:</strong> it conflicts with this project's foundation. DO-178C constrains C++ use (typically a
+restricted subset plus object-code-to-source traceability), and a DAL argument wants hardware in
+the loop. Neither is available here, and adding them is not a purchase.</p>
+<p><strong>May say:</strong> nothing. This industry is out of scope, in writing.</p>
+<p><strong>May not say:</strong> any DAL; and no page here may use a coding standard from this world to imply that
+the path is being walked.</p>
+</section>
+<section id="three-gaps-that-money-cannot-close">
+<h2><span class="section-number">3.1.2.9. </span>Three gaps that money cannot close<a class="headerlink" href="#three-gaps-that-money-cannot-close" title="链接到此标题。"></a></h2>
+<p>These belong in a delivery note rather than in a brochure, and none of them is &quot;we have not bought
+it yet&quot;.</p>
+<p><strong>Independent verification and validation.</strong> One author plus tooling can produce reproducibility.
+It cannot produce independence. Say the first, never the second.</p>
+<p><strong>Tool confidence.</strong> Compilers, linters, coverage tools and mutation tools here are not formally
+qualified, and buying a qualification package would not help: what is missing is the argument.
+Three free evidence shapes exist — a self-test per gate (each new gate must prove it goes red when
+its evidence is removed), a differential build of the same header with two compilers, and a
+known-defect list per tool. Together they are the skeleton of a tool-confidence argument; they are
+not a certificate.</p>
+<p><strong>Hardware evidence.</strong> There is no board in the loop, so the bottom layer of any safety argument is
+missing, and compliance paperwork cannot fill it. Only a bench can.</p>
+</section>
+<section id="related">
+<h2><span class="section-number">3.1.2.10. </span>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the tiers these answers are graded by: <a class="reference internal" href="tier.html"><span class="doc">Claim tiers</span></a></p></li>
+<li><p>the four sentences no industry changes: <a class="reference internal" href="index.html"><span class="doc">What may be claimed, and to whom</span></a></p></li>
+<li><p>what the library does not do at all: <a class="reference internal" href="../boundaries.html"><span class="doc">What this library does not do</span></a></p></li>
+<li><p>what each capability owes: <a class="reference internal" href="../capabilities.html"><span class="doc">What each capability offers, and what it costs</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="tier.html" class="btn btn-neutral float-left" title="3.1.1. Claim tiers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="language.html" class="btn btn-neutral float-right" title="3.1.3. Language compliance" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+_`Metadata Reference`
+=====================
+
+_`Role of metadata.json`
+------------------------
+
+metadata.json is the project control plane. It drives package identity, compiler standards, dependency composition,
+documentation language/version filters, and CI workflow triggers.
+
+_`Core Identity Fields`
+-----------------------
+
+- name, version, license, description
+- authors, maintainers, url, homepage
+- topics
+
+These values are consumed by Conan package metadata and published artifacts.
+
+_`Build and Runtime Control`
+----------------------------
+
+- build_cppstd and build_cstd define language levels for CMake targets.
+- is_shared and is_header control packaging mode.
+- activate_code_coverage toggles instrumentation flags in both library and tests.
+- enable_python_bindings gates pybind11 and Python module output.
+
+_`Dependency Mapping`
+---------------------
+
+The dependencies section is grouped by usage domain:
+
+- common: shared by C and C++ layers.
+- c: C-facing linkage additions.
+- cpp: C++ runtime additions.
+- infra: test/build-time integration dependencies.
+
+This grouping is merged by conanfile.py into final CMake link tuples.
+
+_`Documentation Controls`
+-------------------------
+
+- doc_languages: enabled language set (currently en and zh).
+- doc_versions: version channels used by Doxygen filtering.
+- doc_doxygen_folders and doc_doxygen_suffix: source scan scope.
+
+The docs pipeline reads these fields when generating Doxygen and Sphinx outputs.
+
+_`Workflow Triggers`
+--------------------
+
+workflow_triggers contains boolean switches for build, tests, release, docs, and security_scan.
+These switches are consumed by CI orchestration to determine which workflows are active.

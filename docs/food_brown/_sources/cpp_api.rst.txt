@@ -1,0 +1,64 @@
+_`C++ API Guide`
+================
+
+_`nnseg Core Types`
+-------------------
+
+Defined in `include/nnseg.hpp` and `include/nnseg_types.hpp`.
+
+- `nnseg::NNSegEngine`
+- `nnseg::SegConfig`
+- `nnseg::ImageFrameView`
+- `nnseg::SegmentationResult`
+
+.. code-block:: cpp
+
+   #include "nnseg.hpp"
+   #include "nnseg_types.hpp"
+
+   nnseg::NNSegEngine engine;
+   nnseg::SegConfig cfg;
+   cfg.model_path = "model.onnx";
+   cfg.model_type = "yolov11";
+
+   std::string err;
+   if (!engine.Init(cfg, &err)) {
+       // handle init error
+   }
+
+   nnseg::ImageFrameView frame;
+   auto seg = engine.Predict(frame);
+
+_`food_browning Core Types`
+---------------------------
+
+Defined in `include/food_browning.hpp`.
+
+- `food_browning::FoodBrowningEngine`
+- `food_browning::BrowningConfig`
+- `food_browning::BrowningResult`
+
+.. code-block:: cpp
+
+   #include "food_browning.hpp"
+
+   food_browning::FoodBrowningEngine browning;
+   food_browning::BrowningConfig bcfg;
+
+   std::string err;
+   if (!browning.Init(bcfg, &err)) {
+       // handle init error
+   }
+
+   auto result = browning.Analyze(frame, seg);
+   if (!result.ok) {
+       // handle runtime error
+   }
+
+_`Logging`
+----------
+
+Defined in `include/fb_logger.hpp`.
+
+- `food_browning::Logger::Instance().SetDebug(true)`
+- `FB_LOG_DEBUG / FB_LOG_INFO / FB_LOG_WARN / FB_LOG_ERROR`

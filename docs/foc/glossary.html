@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glossary &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="c-api" href="reference/c-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#machines-and-frames">Machines and frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#control">Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#power-stage">Power stage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#motion-and-safety">Motion and safety</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tools-and-artefacts">Tools and artefacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next">Next</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Glossary</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/glossary.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="glossary">Glossary</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>Thirty-four words this documentation uses without re-defining them, in the order a reader meets them.
+Every entry says where it is used <em>in this library</em>, because the same word means slightly
+different things in different drives — and a symbol, once it is used in an equation, must be
+the one on <a class="reference internal" href="symbols.html"><span class="doc">Symbols and units</span></a>.</p>
+<section id="machines-and-frames">
+<h2>Machines and frames<a class="headerlink" href="#machines-and-frames" title="链接到此标题。"></a></h2>
+<dl class="simple glossary">
+<dt id="term-PMSM">PMSM<a class="headerlink" href="#term-PMSM" title="链接到此术语。"></a></dt><dd><p>Permanent-magnet synchronous machine. Surface-mount (<code class="docutils literal notranslate"><span class="pre">Ld</span> <span class="pre">≈</span> <span class="pre">Lq</span></code>) or interior
+(<code class="docutils literal notranslate"><span class="pre">Lq</span> <span class="pre">&gt;</span> <span class="pre">Ld</span></code>). The difference decides whether injection and reluctance torque exist at
+all; the nameplate's <code class="docutils literal notranslate"><span class="pre">Ld</span></code>/<code class="docutils literal notranslate"><span class="pre">Lq</span></code> is where this page's claims start.</p>
+</dd>
+<dt id="term-pole-pairs">pole pairs<a class="headerlink" href="#term-pole-pairs" title="链接到此术语。"></a></dt><dd><p>Electrical revolutions per mechanical revolution. Every &quot;electrical&quot; number in this
+documentation is a mechanical number times this count — hand-over speeds, base speed and
+observer bandwidths included. Halving or doubling it silently moves every one of them.</p>
+</dd>
+<dt id="term-dq-frame">dq frame<a class="headerlink" href="#term-dq-frame" title="链接到此术语。"></a></dt><dd><p>The rotor-aligned frame: <code class="docutils literal notranslate"><span class="pre">d</span></code> along the magnet flux, <code class="docutils literal notranslate"><span class="pre">q</span></code> in quadrature. A quantity
+that is not in this frame is ambiguous in this library, so the frame is part of the
+symbol, not of the context.</p>
+</dd>
+<dt id="term-Clarke-Park">Clarke / Park<a class="headerlink" href="#term-Clarke-Park" title="链接到此术语。"></a></dt><dd><p>Frame changes: Clarke takes the three phase currents to a stationary two-axis frame (αβ),
+Park rotates that into the rotor frame (dq). Built as <code class="docutils literal notranslate"><span class="pre">clarke</span></code>/<code class="docutils literal notranslate"><span class="pre">park</span></code> and their
+inverses in <code class="docutils literal notranslate"><span class="pre">include/foc/core/transforms.hpp</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="control">
+<h2>Control<a class="headerlink" href="#control" title="链接到此标题。"></a></h2>
+<dl class="simple glossary">
+<dt id="term-FOC">FOC<a class="headerlink" href="#term-FOC" title="链接到此术语。"></a></dt><dd><p>Field-oriented control: control current in the rotor frame so torque and flux become
+separate, one-dimensional problems.</p>
+</dd>
+<dt id="term-MTPA">MTPA<a class="headerlink" href="#term-MTPA" title="链接到此术语。"></a></dt><dd><p>Maximum torque per ampere: the <code class="docutils literal notranslate"><span class="pre">(id,</span> <span class="pre">iq)</span></code> combination that produces the most torque
+inside a current ceiling. On a surface-mount machine it collapses to <code class="docutils literal notranslate"><span class="pre">id</span> <span class="pre">=</span> <span class="pre">0</span></code>, which is
+why the default reference policy refuses <code class="docutils literal notranslate"><span class="pre">id</span></code> until the caller says otherwise.</p>
+</dd>
+<dt id="term-MTPV">MTPV<a class="headerlink" href="#term-MTPV" title="链接到此术语。"></a></dt><dd><p>Maximum torque per volt: above base speed the voltage ellipse, not the current ceiling,
+is what binds, and the best use of the remaining voltage is a curve, not a point.</p>
+</dd>
+<dt id="term-field-weakening">field weakening<a class="headerlink" href="#term-field-weakening" title="链接到此术语。"></a></dt><dd><p>Deliberately commanding negative <code class="docutils literal notranslate"><span class="pre">id</span></code> to reduce the flux the inverter has to overcome,
+trading torque per amp for speed. The quantity that decides whether it is possible at all
+is the direction of <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">=</span> <span class="pre">Ld</span> <span class="pre">*</span> <span class="pre">i_max</span> <span class="pre">/</span> <span class="pre">psi_f</span></code>: above 1 there is headroom, below 1
+there is not.</p>
+</dd>
+<dt id="term-base-speed">base speed<a class="headerlink" href="#term-base-speed" title="链接到此术语。"></a></dt><dd><p>The speed at which the machine can no longer hold its MTPA point within the voltage
+ceiling. Computed from the flux <strong>at</strong> the MTPA point, not from <code class="docutils literal notranslate"><span class="pre">psi_f</span></code> alone.</p>
+</dd>
+<dt id="term-characteristic-current">characteristic current<a class="headerlink" href="#term-characteristic-current" title="链接到此术语。"></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">psi_f</span> <span class="pre">/</span> <span class="pre">Ld</span></code>: the current that would cancel the magnet flux entirely. It is the
+asymptote field weakening runs towards, and the ceiling that decides whether it is worth
+running towards at all.</p>
+</dd>
+<dt id="term-HFI">HFI<a class="headerlink" href="#term-HFI" title="链接到此术语。"></a></dt><dd><p>High-frequency injection: an observer that injects a small carrier and reads the machine's
+saliency to learn the angle at standstill, where a back-EMF observer has nothing to work
+with. A surface-mount machine gives it no signal — that is a property of the machine, not
+of the observer.</p>
+</dd>
+<dt id="term-back-EMF-observer">back-EMF observer<a class="headerlink" href="#term-back-EMF-observer" title="链接到此术语。"></a></dt><dd><p>Estimates the angle and the speed from the voltage equation's back-EMF term. Needs speed:
+it has nothing to observe at zero speed, which is what makes the hand-over speed a floor.</p>
+</dd>
+<dt id="term-anti-windup">anti-windup<a class="headerlink" href="#term-anti-windup" title="链接到此术语。"></a></dt><dd><p>What stops a PI integrator from accumulating while its output is saturated. Without it a
+current step comes back with an overshoot that looks like a tuning problem.</p>
+</dd>
+<dt id="term-feed-forward-decoupling">feed-forward / decoupling<a class="headerlink" href="#term-feed-forward-decoupling" title="链接到此术语。"></a></dt><dd><p>Terms added to the voltage so the two current axes stop disturbing each other:
+<code class="docutils literal notranslate"><span class="pre">omega</span> <span class="pre">*</span> <span class="pre">Lq</span> <span class="pre">*</span> <span class="pre">iq</span></code> on the d axis and <code class="docutils literal notranslate"><span class="pre">omega</span> <span class="pre">*</span> <span class="pre">(Ld</span> <span class="pre">*</span> <span class="pre">id</span> <span class="pre">+</span> <span class="pre">psi_f)</span></code> on the q axis.</p>
+</dd>
+<dt id="term-dead-time">dead time<a class="headerlink" href="#term-dead-time" title="链接到此术语。"></a></dt><dd><p>The interval both switches of a half-bridge are off, so a leg never shorts the bus.
+Necessary, and it corrupts the commanded voltage near zero current — the corruption is a
+function of current <em>sign</em>, which is why a compensation that ignores the sign can make
+things worse than none.</p>
+</dd>
+<dt id="term-single-shunt">single shunt<a class="headerlink" href="#term-single-shunt" title="链接到此术语。"></a></dt><dd><p>Sensing the bus current through one shunt and reconstructing three phase currents from the
+switching state. Some modulation states leave the window too short to sample, and the
+library <strong>refuses</strong> those samples rather than returning a plausible number.</p>
+</dd>
+</dl>
+</section>
+<section id="power-stage">
+<h2>Power stage<a class="headerlink" href="#power-stage" title="链接到此标题。"></a></h2>
+<dl class="simple glossary">
+<dt id="term-SVPWM">SVPWM<a class="headerlink" href="#term-SVPWM" title="链接到此术语。"></a></dt><dd><p>Space-vector pulse-width modulation: chooses the two adjacent active vectors and the zero
+vectors so the average voltage vector matches the request.</p>
+</dd>
+<dt id="term-overmodulation">overmodulation<a class="headerlink" href="#term-overmodulation" title="链接到此术语。"></a></dt><dd><p>Asking for a vector outside the inscribed circle. The library clamps at a stated
+amplitude rather than silently scaling, and the region between the inscribed and the
+circumscribed circle is where linear modulation ends.</p>
+</dd>
+<dt id="term-six-step">six-step<a class="headerlink" href="#term-six-step" title="链接到此术语。"></a></dt><dd><p>The limit of overmodulation: the inverter is switched as a six-step commutator and the
+amplitude is no longer controllable. <code class="docutils literal notranslate"><span class="pre">include/foc/core/six_step.hpp</span></code> is the policy that
+walks it.</p>
+</dd>
+<dt id="term-minimum-pulse">minimum pulse<a class="headerlink" href="#term-minimum-pulse" title="链接到此术语。"></a></dt><dd><p>A pulse narrower than the gate driver can reproduce is not a pulse: it is either dropped
+or widened. Widening changes the volt-seconds, so the choice is a policy and it is
+documented.</p>
+</dd>
+<dt id="term-i2t">i2t<a class="headerlink" href="#term-i2t" title="链接到此术语。"></a></dt><dd><p>The overload budget: <code class="docutils literal notranslate"><span class="pre">current^2</span></code> integrated over time, against a budget the continuous
+rating implies. Below the hard trip the question it answers is &quot;how long&quot;, not &quot;whether&quot;.</p>
+</dd>
+<dt id="term-derating">derating<a class="headerlink" href="#term-derating" title="链接到此术语。"></a></dt><dd><p>The continuous current allowed as a function of temperature. A curve, not a threshold —
+and deliberately not the same number as the trip threshold.</p>
+</dd>
+<dt id="term-brake-chopper">brake chopper<a class="headerlink" href="#term-brake-chopper" title="链接到此术语。"></a></dt><dd><p>A switch and a resistor that burn off energy the bus cannot absorb during regeneration.</p>
+</dd>
+</dl>
+</section>
+<section id="motion-and-safety">
+<h2>Motion and safety<a class="headerlink" href="#motion-and-safety" title="链接到此标题。"></a></h2>
+<dl class="simple glossary">
+<dt id="term-soft-limit">soft limit<a class="headerlink" href="#term-soft-limit" title="链接到此术语。"></a></dt><dd><p>A software wall that refuses an out-of-range target by returning the <strong>previous</strong> target
+with a status. Downstream never sees a position it would drive into the wall.</p>
+</dd>
+<dt id="term-homing">homing<a class="headerlink" href="#term-homing" title="链接到此术语。"></a></dt><dd><p>Establishing the mechanical zero: a defined search, not an assumption about where the
+axis was at power-up.</p>
+</dd>
+<dt id="term-electronic-gear">electronic gear<a class="headerlink" href="#term-electronic-gear" title="链接到此术语。"></a></dt><dd><p>A ratio between a master angle and a slave's position target, with the velocity the ratio
+implies. The velocity output is not a convenience: a position loop told only where to be
+lags a moving master.</p>
+</dd>
+<dt id="term-motion-profile">motion profile<a class="headerlink" href="#term-motion-profile" title="链接到此术语。"></a></dt><dd><p>The shaping between a target and a velocity command: a gain, a velocity limit and an
+acceleration limit. It owns where the axis <em>should</em> be, not whether it is there.</p>
+</dd>
+<dt id="term-watchdog">watchdog<a class="headerlink" href="#term-watchdog" title="链接到此术语。"></a></dt><dd><p>An external check that the loop is still running, with a window — early is as wrong as
+late, because the first means the loop is running at the wrong rate.</p>
+</dd>
+<dt id="term-latch">latch<a class="headerlink" href="#term-latch" title="链接到此术语。"></a></dt><dd><p>A fault that does not clear because the cause went away. It clears on an operator action,
+and the thermal memory survives even that: the winding is still hot.</p>
+</dd>
+</dl>
+</section>
+<section id="tools-and-artefacts">
+<h2>Tools and artefacts<a class="headerlink" href="#tools-and-artefacts" title="链接到此标题。"></a></h2>
+<dl class="simple glossary">
+<dt id="term-claim-row">claim row<a class="headerlink" href="#term-claim-row" title="链接到此术语。"></a></dt><dd><p>One line of the table in the project <code class="docutils literal notranslate"><span class="pre">README.md</span></code>: what is claimed, at which evidence
+level, and which test case measures it. A capability without a claim row is not a claim.</p>
+</dd>
+<dt id="term-evidence-level">evidence level<a class="headerlink" href="#term-evidence-level" title="链接到此术语。"></a></dt><dd><p>How a statement is supported (measured on the SIL plant, asserted by a test, verified by a
+gate, or deferred to hardware). The four levels, side by side, are
+<a class="reference internal" href="capabilities.html#evidence-levels"><span class="std std-ref">on the capability page</span></a>. Pages may state <strong>the minimum of the levels
+they depend on</strong>, and no more.</p>
+</dd>
+<dt id="term-SIL">SIL<a class="headerlink" href="#term-SIL" title="链接到此术语。"></a></dt><dd><p>Software-in-the-loop: the library's control loop running against a plant <em>model</em> on the
+host. What it can show is in <a class="reference internal" href="demos/index.html"><span class="doc">Measured responses</span></a>; what it cannot is
+<a class="reference internal" href="index.html#honest-limits"><span class="std std-ref">what is deferred to hardware</span></a>.</p>
+</dd>
+<dt id="term-task-page">task page<a class="headerlink" href="#term-task-page" title="链接到此术语。"></a></dt><dd><p>One page per task, in <a class="reference internal" href="guides/index.html"><span class="doc">Guides by task</span></a>. Not per header: a task page is what a reader
+is trying to do, and the headers are listed inside it.</p>
+</dd>
+<dt id="term-gate">gate<a class="headerlink" href="#term-gate" title="链接到此术语。"></a></dt><dd><p>A check that fails a build: formatting, layering, standalone headers, negative
+compilation, coverage floors, documentation shape. A rule that only lives in prose is not
+a gate.</p>
+</dd>
+</dl>
+</section>
+<section id="next">
+<h2>Next<a class="headerlink" href="#next" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the symbol table an equation may use: <a class="reference internal" href="symbols.html"><span class="doc">Symbols and units</span></a></p></li>
+<li><p>the API per group: <a class="reference internal" href="reference/index.html"><span class="doc">Using the API</span></a></p></li>
+<li><p>where each term is <em>used</em> rather than defined: <a class="reference internal" href="quickstart.html"><span class="doc">Quick start</span></a> and <a class="reference internal" href="guides/index.html"><span class="doc">Guides by task</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="reference/c-api.html" class="btn btn-neutral float-left" title="c-api" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

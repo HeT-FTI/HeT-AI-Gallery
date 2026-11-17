@@ -1,0 +1,88 @@
+_`IE Project Documentation`
+=============================
+
+_`Introduction`
+---------------
+
+IE (Inference Engine) is a deep learning inference framework designed specifically for the embedded field based on the ANSC C99 standard.
+
+_`Main Features`
+----------------
+
+- **Rapid development**: The trained model (currently only supports ``.flite``) can be directly converted into a code file or ``.bin`` file through tools, and quickly deployed in the project
+- **Supports complex structures**: Supports multiple input and multi branch network structures
+- **Lightweight**: Adopting time-division multiplexing for data structure design to ensure minimal resource consumption and facilitate integration into MCU
+- **Single dependency**: pure C development, minimum support for C99 standard, relying only on a single **SMT** library, no other third-party library dependencies, easy cross platform porting
+- **High performance**: can effectively utilize the acceleration capabilities of hardware platforms such as multi-core computing and SIMD parallelism
+- **Trimmable**: Supports operators to freely crop according to actual applications
+- **Multi backend architecture**: Reserved CPU/GPU/NPU backend interfaces, currently implemented CPU backend, supports custom memory allocation and operator registration
+
+_`Application`
+--------------
+
+**Classification Applications**
+
+.. list-table::
+   :align: center
+   :widths: 1 1 1 1
+
+   * - .. figure:: ../../images/mnist.png
+          :width: 200
+          :target: components/mnist.rst
+          :alt: MNIST
+
+       MNIST Digit Recognition
+
+     - .. figure:: ../../images/vegetable_fruit.png
+          :width: 200
+          :target: components/vegetable_fruit.rst
+          :alt: Vegetable & Fruit
+
+       Vegetable&Fruit Classification
+
+     - .. figure:: ../../images/coffee_bean.png
+          :width: 200
+          :target: components/coffee_bean.rst
+          :alt: Coffee Bean
+
+       Coffee Bean Classification
+
+     - .. figure:: ../../images/none.png
+          :width: 200
+          :alt: Stay tuned for updates
+
+----
+
+**Object Detection Applications**
+
+.. list-table::
+   :align: center
+   :widths: 1 1
+
+   * - .. figure:: ../../images/food.png
+          :width: 200
+          :target: components/food.rst
+          :alt: Food
+
+       Food Detection
+
+     - .. figure:: ../../images/none.png
+          :width: 200
+          :alt: Stay tuned for updates
+
+----
+
+**Control Applications**
+
+*Coming Soon*
+
+----
+
+**Measurement Applications**
+
+*Coming Soon*
+
+_`License`
+----------
+
+This project is licensed under the Apache-2.0 License. See the LICENSE file for details.

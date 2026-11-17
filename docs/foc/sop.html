@@ -1,0 +1,310 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. Outer-loop self-tuning &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="1. Architecture" href="architecture.html" />
+    <link rel="prev" title="3. Measured responses" href="demos/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Outer-loop self-tuning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why-a-procedure-rather-than-an-instance">4.1. Why a procedure rather than an instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#four-phases-in-one-order">4.2. Four phases, in one order</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-three-criteria-and-what-each-one-can-falsify">4.3. The three criteria, and what each one can falsify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-the-acceptance-band-comes-from">4.4. Where the acceptance band comes from</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-second-cut-search-process-parameters-only">4.5. The second cut: search process parameters only</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-this-procedure-does-not-claim">4.6. What this procedure does not claim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reproduce-it">4.7. Reproduce it</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">4. </span>Outer-loop self-tuning</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sop.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">4. </span><span class="target" id="outer-loop-self-tuning">Outer-loop self-tuning</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>This page is the standard operating procedure for one process-shaped capability:
+tuning a speed loop on a machine the library has never seen. It is not a tutorial
+on how to tune a motor. It is the answer to two other questions -- <strong>what makes
+this procedure valid on the next machine</strong>, and <strong>when it must refuse to hand back
+a number</strong> -- and it is written down because a procedure that exists only in
+someone's habits cannot be replayed, reviewed, or contradicted.</p>
+<p>The executable form of everything below is
+<code class="docutils literal notranslate"><span class="pre">test_package/test/unit/test_sop_outer_loop.cpp</span></code>, with the shared measurement
+bench in <code class="docutils literal notranslate"><span class="pre">sil_sop_bench.hpp</span></code>. Where this page and that driver disagree, the
+driver is right and the page is a bug.</p>
+<section id="why-a-procedure-rather-than-an-instance">
+<h2><span class="section-number">4.1. </span>Why a procedure rather than an instance<a class="headerlink" href="#why-a-procedure-rather-than-an-instance" title="链接到此标题。"></a></h2>
+<p>The library cannot ship gains for your machine, and shipping a table of gains for
+<em>one</em> machine would be worse than shipping none: it would look like coverage.
+What it can ship is a sequence of steps in which every number comes from the
+machine in front of you, plus the refusal semantics for the case where the data
+does not describe that machine at all.</p>
+</section>
+<section id="four-phases-in-one-order">
+<h2><span class="section-number">4.2. </span>Four phases, in one order<a class="headerlink" href="#four-phases-in-one-order" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14.0%" />
+<col style="width: 46.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Phase</p></th>
+<th class="head"><p>What happens</p></th>
+<th class="head"><p>Library entry point</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>identify</strong></p></td>
+<td><p>Run a current staircase on <em>this</em> machine and feed the drive's own
+<code class="docutils literal notranslate"><span class="pre">(dt,</span> <span class="pre">iq,</span> <span class="pre">omega)</span></code> into an accumulator; identify the two ratios the
+speed loop needs -- torque constant over inertia, and damping over inertia.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SpeedTuner::accumulate()</span></code>, <code class="docutils literal notranslate"><span class="pre">SpeedTuner::finish()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>propose</strong></p></td>
+<td><p>Turn the ratios into gains with the same law the shipped configuration
+uses, so a tuned loop and a configured loop are the same kind of object.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SpeedTuneResult::kp_a_per_rad_s</span></code>, <code class="docutils literal notranslate"><span class="pre">ki_a_per_rad_s2</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>measure</strong></p></td>
+<td><p>Under those gains, <em>measure</em> the closed-loop -3 dB point (sine injection
+plus bisection) and report the delivered ratio: measured over requested.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sil_sop_bench.hpp::minus3db_over_requested()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>accept or refuse</strong></p></td>
+<td><p>Accept when the delivered ratio lands inside the band; report
+<code class="docutils literal notranslate"><span class="pre">valid</span> <span class="pre">==</span> <span class="pre">false</span></code> with a reason and <strong>no usable gains</strong> otherwise.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SpeedTuneResult::valid</span></code>, <code class="docutils literal notranslate"><span class="pre">.reason</span></code>, <code class="docutils literal notranslate"><span class="pre">.tolerance</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The order is not a style choice.</strong> Proposing before measuring is accepting your
+own model with your own model; measuring before proposing lets the criterion drift
+with the measurement. What makes the sequence legitimate is that the proposal uses
+only this machine's data while the acceptance test is applied where the machine is
+not the one that produced the gains -- see the replay criterion below.</p>
+</section>
+<section id="the-three-criteria-and-what-each-one-can-falsify">
+<h2><span class="section-number">4.3. </span>The three criteria, and what each one can falsify<a class="headerlink" href="#the-three-criteria-and-what-each-one-can-falsify" title="链接到此标题。"></a></h2>
+<p><strong>1. The procedure replays on a second machine, and the criterion moves with it.</strong>
+Tune on machine A, apply to machine B, and the delivered ratio leaves the band;
+tune on B and apply to B and it is back inside. The gains themselves scale with
+the machine's own ratio, which is the check that the procedure read the machine
+rather than memorising a number. The falsifying run: replace B with a copy of A and
+both the strict inequality and the gain ratio go red at once. A criterion that
+cannot be made red is a criterion that is not testing anything.</p>
+<p><strong>2. Data that does not describe this machine yields no number.</strong> On a machine far
+outside the plausible range the result is <code class="docutils literal notranslate"><span class="pre">valid</span> <span class="pre">==</span> <span class="pre">false</span></code> with a non-empty
+reason, and the gains handed back are <em>bit for bit</em> the nameplate ones the caller
+would have used anyway -- so a caller that applies whatever it is given changes
+nothing. The measured ratio is still reported, and it is reported as a statement
+<strong>about the measurement</strong>, not as a gain.</p>
+<p><strong>3. The objective is distance to failure, not smallness of error.</strong> The search
+maximises the margin between the identified ratio and the edge of the acceptance
+band, and that margin crosses zero exactly where the library's own refusal starts.
+An objective written as &quot;smaller residual&quot; would be a different quantity with a
+different winner: on the outer loop's own grid the smallest residual and the best
+held-out margin are not achieved by the same setting, and the residual wins on the
+wrong side. That is the argument for the margin, and it is measurable rather than
+aesthetic.</p>
+</section>
+<section id="where-the-acceptance-band-comes-from">
+<h2><span class="section-number">4.4. </span>Where the acceptance band comes from<a class="headerlink" href="#where-the-acceptance-band-comes-from" title="链接到此标题。"></a></h2>
+<p>The band's upper edge is the geometric mean of two measured quantities, and
+neither of them is chosen by taste:</p>
+<ul class="simple">
+<li><p>the largest residual the gain law itself leaves across a decade of bandwidth
+(measured in the motor configuration's own cases), because a band narrower than
+the law's own spread would fail a correctly identified loop;</p></li>
+<li><p>the smallest nameplate error this repository already treats as operational
+(the inertia tolerance), because a band wider than that would pass a machine
+nobody has described.</p></li>
+</ul>
+<p>Both factors and their product live in the claim row for <code class="docutils literal notranslate"><span class="pre">core/auto_tune.hpp</span></code>.
+<strong>The tolerance is the caller's number</strong>, not a measured bound: <code class="docutils literal notranslate"><span class="pre">valid</span></code>
+is judged against whatever the caller passed, so a caller who widens it owns the
+consequence. And the delivered bandwidth is <strong>not</strong> 1.0 by construction -- the
+band accepts <em>this law</em>, not &quot;unity&quot;.</p>
+</section>
+<section id="the-second-cut-search-process-parameters-only">
+<h2><span class="section-number">4.5. </span>The second cut: search process parameters only<a class="headerlink" href="#the-second-cut-search-process-parameters-only" title="链接到此标题。"></a></h2>
+<p>A hyper-parameter search over this procedure is only meaningful if the things
+being searched actually move the result, and that has to be checked before it is
+searched, not after. Two facts from that check:</p>
+<ul class="simple">
+<li><p><strong>The window length is a real parameter, and residual and margin disagree about
+it.</strong> The best residual is not the best held-out margin; the two orderings
+differ, which is the whole reason criterion 3 exists. The difference is small on
+a clean two-parameter plant and the point is the ordering, not the magnitude.</p></li>
+<li><p><strong>The injection amplitude is not a parameter at all.</strong> Scaling it leaves the
+identified ratio unchanged, because the fit is scale invariant. Searching it
+walks a flat objective, and a flat objective makes any sampler look patient.</p></li>
+</ul>
+<p>A deterministic grid is used deliberately. The criterion is a margin on a held-out
+set; a grid makes the ranking reversal reproducible and CI-able, and swapping in a
+sampler that draws from a distribution would not change a single conclusion.</p>
+</section>
+<section id="what-this-procedure-does-not-claim">
+<h2><span class="section-number">4.6. </span>What this procedure does not claim<a class="headerlink" href="#what-this-procedure-does-not-claim" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>Only the outer loop.</strong> The current loop is assumed fast and is not identified.</p></li>
+<li><p><strong>The tolerance is not a measured bound.</strong> It is the caller's acceptance number
+(see above).</p></li>
+<li><p><strong>The delivered bandwidth is not unity.</strong> The law is what the band accepts.</p></li>
+<li><p><strong>Not the sensorless low-speed case.</strong> That capability's replay needs a bench
+that can be moved to a second machine (changing flux linkage or dead time moves
+its floor with them), and until that bench exists the low-speed side has a
+<strong>falsification</strong> rather than a procedure: an early estimate of its speed floor
+as a ratio of dead-time volts to flux linkage was measured to be a lower bound,
+and a magnet change predicted to lower it made the measured error worse at every
+speed. No page in this documentation may present that number as a boundary.</p></li>
+<li><p><strong>Not an optimiser.</strong> The search is a grid over process parameters, and its
+output is a setting, not a model of your machine.</p></li>
+</ul>
+</section>
+<section id="reproduce-it">
+<h2><span class="section-number">4.7. </span>Reproduce it<a class="headerlink" href="#reproduce-it" title="链接到此标题。"></a></h2>
+<p>The driver builds against the conan-cached gtest and runs standalone:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">G=$(ls -d ~/.conan2/p/gtest*/p/include | head -1)</span>
+<span class="go">L=$(ls -d ~/.conan2/p/gtest*/p/lib | head -1)</span>
+<span class="go">g++ -std=c++17 -O1 -fno-exceptions -fno-rtti -I include -I &quot;$G&quot; -I test_package/test/unit \</span>
+<span class="go">    test_package/test/unit/test_sop_outer_loop.cpp $(ls src/*/*.cpp src/*/*/*.cpp) \</span>
+<span class="go">    -x c++ src/version.c -x none &quot;$L/libgtest.a&quot; &quot;$L/libgtest_main.a&quot; -lpthread -o /tmp/sop</span>
+<span class="go">/tmp/sop</span>
+</pre></div>
+</div>
+<p>It runs as part of <code class="docutils literal notranslate"><span class="pre">ctest</span></code> as well; the case count is in
+<code class="docutils literal notranslate"><span class="pre">.github/project/verification-numbers.json</span></code> so this page does not have to carry it.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="demos/index.html" class="btn btn-neutral float-left" title="3. Measured responses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="1. Architecture" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+_`CMake Build Configuration`
+============================
+
+_`Purpose`
+----------
+
+The root CMake configuration defines how NNSeg is compiled, linked, and exported for package consumers.
+It is metadata-driven: project name, standards, coverage mode, and feature switches are read from metadata.json.
+
+_`Target Topology`
+------------------
+
+The build creates three targets in the non-header-only mode:
+
+- nnseg_c: C implementation archive (from source files that match C patterns).
+- nnseg_cpp: C++ implementation archive (runtime engine, model wrappers, and bridge code).
+- nnseg: interface target that links nnseg_c and nnseg_cpp as a single consumer entry.
+
+This split keeps ABI-facing C code isolated while preserving idiomatic C++ internals.
+
+_`Dependency Wiring`
+--------------------
+
+CMake receives dependency-link information from Conan through C_DEPS and CPP_DEPS variables.
+The build script parses each package@target tuple, calls find_package, and links the resolved targets
+to the correct internal library.
+
+_`Build Features`
+-----------------
+
+- C and C++ standards are applied from metadata fields build_cstd and build_cppstd.
+- Coverage flags are injected when activate_code_coverage is enabled.
+- Optional Python bindings are built from api/python_bindings.cpp only when enable_python_bindings is true.
+- C++ module support is enabled only when build_cppstd >= 23.
+
+_`Installation and Consumer Behavior`
+-------------------------------------
+
+Consumers link against the unified nnseg target through Conan-generated CMake package files.
+Internal split targets remain an implementation detail and are not required in downstream CMakeLists.

@@ -1,0 +1,572 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.7. Consuming the library from outside C++ &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.8. Positioning an axis" href="positioning.html" />
+    <link rel="prev" title="1.1.6. High speed and modulation" href="modulation-limits.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.7. Consuming the library from outside C++</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-need">1.1.7.1. What you need</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-minimal-program">1.1.7.2. A minimal program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-numbers-come-from">1.1.7.3. Where the numbers come from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-goes-wrong">1.1.7.4. How it goes wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evidence">1.1.7.5. Evidence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#figure">1.1.7.6. Figure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.7. </span>Consuming the library from outside C++</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/c-and-cpp-callers.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.7. </span><span class="target" id="consuming-the-library-from-outside-c">Consuming the library from outside C++</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: the control law is chosen, the board is built, and the application is
+not C++. Get the loop running from C, from Python, or from a simulation master
+without reimplementing any of the earlier pages.</p>
+<section id="what-you-need">
+<h2><span class="section-number">1.1.7.1. </span>What you need<a class="headerlink" href="#what-you-need" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/api/foc_api.h</span></code> and <code class="docutils literal notranslate"><span class="pre">foc/api/foc_types.h</span></code> -- the frozen C11 surface.
+Opaque handles, no C++ in the include graph, every return code checkable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc_hal_callbacks_t</span></code> -- the host's side of the contract: five required
+function pointers and a <cite>user</cite> pointer handed back unchanged.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/comm/frame.hpp</span></code> -- the wire format, for anything that talks to this
+library over a link rather than through a function call.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/comm/register_map.hpp</span></code> -- the register table, for hosts that speak
+addresses rather than structs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/comm/encoder_stream.hpp</span></code> -- serial encoder framing (BiSS-C and its
+CRC-6), for the position source.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">api/python_bindings.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">api/fmu/</span></code> -- the two other delivery shapes,
+both thin: the Python module binds the C ABI, and the FMU is the same control
+loop behind FMI.</p></li>
+</ul>
+</section>
+<section id="a-minimal-program">
+<h2><span class="section-number">1.1.7.2. </span>A minimal program<a class="headerlink" href="#a-minimal-program" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/c-and-cpp-callers.cxx</span></code> is the whole sequence:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Callers -- consuming the library from C: five function pointers in, a handle</span>
+<span class="linenos">  2</span><span class="c1">// out, and every call after that is a plain `foc_*` function.</span>
+<span class="linenos">  3</span><span class="c1">//</span>
+<span class="linenos">  4</span><span class="c1">// ABI lives in (the repository links `src/**/*.cpp` and `src/**/*.c`; a product</span>
+<span class="linenos">  5</span><span class="c1">// links the aggregate target `foc::foc`):</span>
+<span class="linenos">  6</span><span class="c1">// Build it the way the `demo` gate does -- the example calls into the library, so the</span>
+<span class="linenos">  7</span><span class="c1">// sources are part of the command, and `-Iinclude` alone fails at the link. A renamed</span>
+<span class="linenos">  8</span><span class="c1">// source turns that gate red instead of leaving a stale instruction here:</span>
+<span class="linenos">  9</span><span class="c1">//   g++ -std=c++17 -fno-exceptions -fno-rtti -Wall -Wextra -Werror -Iinclude</span>
+<span class="linenos"> 10</span><span class="c1">//   docs/doxygen/dox/demos/c-and-cpp-callers.cxx src/core/*.cpp</span>
+<span class="linenos"> 11</span><span class="c1">//   src/core/observer/*.cpp src/motor/*.cpp src/driver/*.cpp src/api/foc_api.c</span>
+<span class="linenos"> 12</span><span class="c1">//   src/api/bridge.cpp src/version.c</span>
+<span class="linenos"> 13</span><span class="c1">//   -o /tmp/c-and-cpp-callers</span>
+<span class="linenos"> 14</span><span class="c1">//</span>
+<span class="linenos"> 15</span><span class="c1">// With `--csv &lt;path&gt;` it writes the run as rows; `docs/demos/make_figures.py`</span>
+<span class="linenos"> 16</span><span class="c1">// draws this example&#39;s figure from that file.</span>
+<span class="linenos"> 17</span><span class="c1">//</span>
+<span class="linenos"> 18</span><span class="c1">// 调用方 —— 从 C 侧使用本库：五个函数指针进去、一个句柄出来，之后每一次调用都是普通的</span>
+<span class="linenos"> 19</span><span class="c1">// `foc_*` 函数。带 `--csv &lt;path&gt;` 时把这次运行写成行，供绘图脚本使用。</span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="linenos"> 22</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
+<span class="linenos"> 23</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="linenos"> 24</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstring&gt;</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;array&gt;</span>
+<span class="linenos"> 27</span>
+<span class="linenos"> 28</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/api/foc_api.h&gt;</span>
+<span class="linenos"> 29</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/observer/back_emf_observer.hpp&gt;</span>
+<span class="linenos"> 30</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/pi.hpp&gt;</span>
+<span class="linenos"> 31</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/svpwm.hpp&gt;</span>
+<span class="linenos"> 32</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/driver/callback_hal.hpp&gt;</span>
+<span class="linenos"> 33</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/motor/motor.hpp&gt;</span>
+<span class="linenos"> 34</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/motor/motor_config.hpp&gt;</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 37</span>
+<span class="linenos"> 38</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kDtS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0e-5F</span><span class="p">;</span><span class="w"> </span><span class="c1">// the loop the host ticks at</span>
+<span class="linenos"> 39</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kTicks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1200</span><span class="p">;</span><span class="w">    </span><span class="c1">// 60 ms: two current steps, the same for both paths</span>
+<span class="linenos"> 40</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kStepAtS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.03F</span><span class="p">;</span>
+<span class="linenos"> 41</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">6.28318530718F</span><span class="p">;</span>
+<span class="linenos"> 42</span><span class="k">constexpr</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">kPolePairs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7U</span><span class="p">;</span>
+<span class="linenos"> 43</span>
+<span class="linenos"> 44</span><span class="cm">/**</span>
+<span class="linenos"> 45</span><span class="cm"> * @brief [en] The integrator&#39;s board, as plain C callbacks see it.</span>
+<span class="linenos"> 46</span><span class="cm"> *</span>
+<span class="linenos"> 47</span><span class="cm"> *     This is a **stand-in**, not a motor model: Ohm&#39;s law across the winding</span>
+<span class="linenos"> 48</span><span class="cm"> *     plus the winding&#39;s own `L/R`, so the current loop has something to regulate</span>
+<span class="linenos"> 49</span><span class="cm"> *     and the figure has something to show. What the example is actually</span>
+<span class="linenos"> 50</span><span class="cm"> *     demonstrating is the ABI -- five function pointers in, a handle out, and the</span>
+<span class="linenos"> 51</span><span class="cm"> *     same `foc_*` calls a pure C consumer would make.</span>
+<span class="linenos"> 52</span><span class="cm"> *</span>
+<span class="linenos"> 53</span><span class="cm"> * @brief [zh] 集成方的板子，按普通 C 回调看到的样子。</span>
+<span class="linenos"> 54</span><span class="cm"> *</span>
+<span class="linenos"> 55</span><span class="cm"> *     这是一个**替身**，不是电机模型：绕组上的欧姆定律加上绕组自身的 `L/R`，好让电流环有</span>
+<span class="linenos"> 56</span><span class="cm"> *     东西可调、图上有东西可看。例子真正演示的是 ABI——五个函数指针进去、一个句柄出来，以及</span>
+<span class="linenos"> 57</span><span class="cm"> *     一个纯 C 消费者会做的同一批 `foc_*` 调用。</span>
+<span class="linenos"> 58</span><span class="cm"> */</span>
+<span class="linenos"> 59</span><span class="k">struct</span><span class="w"> </span><span class="nc">Board</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">duty</span><span class="p">[</span><span class="mi">3</span><span class="p">]{</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">};</span>
+<span class="linenos"> 61</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">current_a</span><span class="p">[</span><span class="mi">3</span><span class="p">]{</span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">};</span>
+<span class="linenos"> 62</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">v_bus_v</span><span class="p">{</span><span class="mf">24.0F</span><span class="p">};</span>
+<span class="linenos"> 63</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">angle_mech_rad</span><span class="p">{</span><span class="mf">0.0F</span><span class="p">};</span>
+<span class="linenos"> 64</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">speed_mech_rad_s</span><span class="p">{</span><span class="mf">0.0F</span><span class="p">};</span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">rs</span><span class="p">{</span><span class="mf">0.5F</span><span class="p">};</span><span class="w">       </span><span class="c1">// the winding&#39;s resistance, from the same nameplate</span>
+<span class="linenos"> 66</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">tau_s</span><span class="p">{</span><span class="mf">0.8e-3F</span><span class="p">};</span><span class="w"> </span><span class="c1">// L/R of that winding: 0.4 mH over 0.5 ohm</span>
+<span class="linenos"> 67</span><span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">faults</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="linenos"> 68</span><span class="p">};</span>
+<span class="linenos"> 69</span>
+<span class="linenos"> 70</span><span class="kt">void</span><span class="w"> </span><span class="nf">write_duty</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">duty_uvw</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 71</span><span class="w">    </span><span class="k">auto</span><span class="o">*</span><span class="w"> </span><span class="n">board</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Board</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="linenos"> 72</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">memcpy</span><span class="p">(</span><span class="n">board</span><span class="o">-&gt;</span><span class="n">duty</span><span class="p">,</span><span class="w"> </span><span class="n">duty_uvw</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">board</span><span class="o">-&gt;</span><span class="n">duty</span><span class="p">));</span>
+<span class="linenos"> 73</span><span class="p">}</span>
+<span class="linenos"> 74</span>
+<span class="linenos"> 75</span><span class="kt">void</span><span class="w"> </span><span class="nf">read_current</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">uvw_a</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 76</span><span class="w">    </span><span class="k">auto</span><span class="o">*</span><span class="w"> </span><span class="n">board</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Board</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="c1">// Ohm&#39;s law across the winding, with the star point floating: the common mode</span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="c1">// of the duties drives nothing, so it is removed first. Then one first-order</span>
+<span class="linenos"> 79</span><span class="w">    </span><span class="c1">// lag with the winding&#39;s own `L/R`. Both are identities, not a controller --</span>
+<span class="linenos"> 80</span><span class="w">    </span><span class="c1">// this stand-in exists so the current loop has something to regulate, and the</span>
+<span class="linenos"> 81</span><span class="w">    </span><span class="c1">// page says so.</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="c1">// 绕组上的欧姆定律，星点浮空：占空比的共模不驱动任何东西，所以先去掉。再给它一个</span>
+<span class="linenos"> 83</span><span class="w">    </span><span class="c1">// 绕组自身的 `L/R` 一阶滞后。两者都是恒等式而不是控制器——这个替身存在的意义是让</span>
+<span class="linenos"> 84</span><span class="w">    </span><span class="c1">// 电流环有东西可调，页面会把这一点写明。</span>
+<span class="linenos"> 85</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">board</span><span class="o">-&gt;</span><span class="n">duty</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">board</span><span class="o">-&gt;</span><span class="n">duty</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">board</span><span class="o">-&gt;</span><span class="n">duty</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">3.0F</span><span class="p">;</span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">phase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">phase</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">phase</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 87</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">board</span><span class="o">-&gt;</span><span class="n">duty</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">board</span><span class="o">-&gt;</span><span class="n">v_bus_v</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">board</span><span class="o">-&gt;</span><span class="n">rs</span><span class="p">;</span>
+<span class="linenos"> 88</span><span class="w">        </span><span class="n">board</span><span class="o">-&gt;</span><span class="n">current_a</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">board</span><span class="o">-&gt;</span><span class="n">current_a</span><span class="p">[</span><span class="n">phase</span><span class="p">])</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">kDtS</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">board</span><span class="o">-&gt;</span><span class="n">tau_s</span><span class="p">);</span>
+<span class="linenos"> 89</span><span class="w">        </span><span class="n">uvw_a</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">board</span><span class="o">-&gt;</span><span class="n">current_a</span><span class="p">[</span><span class="n">phase</span><span class="p">];</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 91</span><span class="p">}</span>
+<span class="linenos"> 92</span>
+<span class="linenos"> 93</span><span class="k">auto</span><span class="w"> </span><span class="n">read_angle</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Board</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">angle_mech_rad</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos"> 94</span>
+<span class="linenos"> 95</span><span class="k">auto</span><span class="w"> </span><span class="n">read_v_bus</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Board</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">v_bus_v</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos"> 96</span>
+<span class="linenos"> 97</span><span class="k">auto</span><span class="w"> </span><span class="n">read_fault</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">user</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Board</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">faults</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos"> 98</span>
+<span class="linenos"> 99</span><span class="cm">/**</span>
+<span class="linenos">100</span><span class="cm"> * @brief [en] The same experiment through the C++ API: the class, not the handle.</span>
+<span class="linenos">101</span><span class="cm"> *</span>
+<span class="linenos">102</span><span class="cm"> *     It shares the callbacks, the plant and the tick count with the C path above -- only the</span>
+<span class="linenos">103</span><span class="cm"> *     entry surface differs, which is the whole point of putting the two in one file.</span>
+<span class="linenos">104</span><span class="cm"> * @brief [zh] 同一个实验，走 C++ 接口：用类，而不是句柄。</span>
+<span class="linenos">105</span><span class="cm"> *</span>
+<span class="linenos">106</span><span class="cm"> *     回调、台架与拍数和上面的 C 路径共用，区别只在入口表面——把两条路放进一个文件，正是</span>
+<span class="linenos">107</span><span class="cm"> *     为了说明这一点。</span>
+<span class="linenos">108</span><span class="cm"> */</span>
+<span class="linenos">109</span><span class="k">auto</span><span class="w"> </span><span class="n">run_cpp_path</span><span class="p">(</span><span class="n">Board</span><span class="o">&amp;</span><span class="w"> </span><span class="n">board</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">kTicks</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">span_out</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">110</span><span class="w">    </span><span class="c1">// The same four operations, wired to the same functions the C path hands over. `CallbackHal`</span>
+<span class="linenos">111</span><span class="w">    </span><span class="c1">// is the C++-side struct; the C struct is its spelling across the ABI.</span>
+<span class="linenos">112</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">driver</span><span class="o">::</span><span class="n">HalCallbacks</span><span class="w"> </span><span class="n">callbacks</span><span class="p">{};</span>
+<span class="linenos">113</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">board</span><span class="p">;</span>
+<span class="linenos">114</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">pwm_write_duty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">write_duty</span><span class="p">;</span>
+<span class="linenos">115</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">read_current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_current</span><span class="p">;</span>
+<span class="linenos">116</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">read_angle_mech_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_angle</span><span class="p">;</span>
+<span class="linenos">117</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">read_voltage_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_v_bus</span><span class="p">;</span>
+<span class="linenos">118</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">pwm_fault</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_fault</span><span class="p">;</span>
+<span class="linenos">119</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">read_drive_fault</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_fault</span><span class="p">;</span>
+<span class="linenos">120</span><span class="w">    </span><span class="c1">// The numbers the C constructor resolves to with a null setup, written out: same nameplate,</span>
+<span class="linenos">121</span><span class="w">    </span><span class="c1">// same limits, same two gain helpers. Anything else would compare two different controllers.</span>
+<span class="linenos">122</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">motor</span><span class="o">::</span><span class="n">MotorConfig</span><span class="w"> </span><span class="n">config</span><span class="p">{</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01F</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="n">kPolePairs</span><span class="p">,</span>
+<span class="linenos">123</span><span class="w">                                         </span><span class="mf">5.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">20000.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">500.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">};</span>
+<span class="linenos">124</span><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">CppMotor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">motor</span><span class="o">::</span><span class="n">Motor</span><span class="o">&lt;</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BackEmfObserver</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Svpwm</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="p">,</span>
+<span class="linenos">125</span><span class="w">                                       </span><span class="n">foc</span><span class="o">::</span><span class="n">driver</span><span class="o">::</span><span class="n">CallbackHal</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="linenos">126</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">driver</span><span class="o">::</span><span class="n">CallbackHal</span><span class="w"> </span><span class="n">hal</span><span class="p">{</span><span class="n">callbacks</span><span class="p">};</span>
+<span class="linenos">127</span><span class="w">    </span><span class="n">CppMotor</span><span class="w"> </span><span class="nf">motor</span><span class="p">(</span><span class="n">config</span><span class="p">,</span>
+<span class="linenos">128</span><span class="w">                   </span><span class="n">CppMotor</span><span class="o">::</span><span class="n">Policies</span><span class="p">{</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BackEmfObserver</span><span class="p">({</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0e-4F</span><span class="p">}),</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Svpwm</span><span class="p">{},</span>
+<span class="linenos">129</span><span class="w">                                      </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="p">{</span><span class="n">foc</span><span class="o">::</span><span class="n">current_pi_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="mf">2000.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">24.0F</span><span class="p">)},</span>
+<span class="linenos">130</span><span class="w">                                      </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="p">{</span><span class="n">foc</span><span class="o">::</span><span class="n">current_pi_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="mf">2000.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">24.0F</span><span class="p">)},</span>
+<span class="linenos">131</span><span class="w">                                      </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="p">{</span><span class="n">foc</span><span class="o">::</span><span class="n">speed_pi_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="mf">200.0F</span><span class="p">)}},</span>
+<span class="linenos">132</span><span class="w">                   </span><span class="n">hal</span><span class="p">);</span>
+<span class="linenos">133</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">motor</span><span class="p">.</span><span class="n">init</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">motor</span><span class="p">.</span><span class="n">start</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">134</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="linenos">135</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">136</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kTicks</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">137</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">iq_command_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kDtS</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kStepAtS</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mf">1.5F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">-1.5F</span><span class="p">;</span>
+<span class="linenos">138</span><span class="w">        </span><span class="n">motor</span><span class="p">.</span><span class="n">set_torque</span><span class="p">(</span><span class="n">iq_command_a</span><span class="p">);</span>
+<span class="linenos">139</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">motor</span><span class="p">.</span><span class="n">tick</span><span class="p">(</span><span class="n">kDtS</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">140</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="linenos">141</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">142</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmax</span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmax</span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">2</span><span class="p">]));</span>
+<span class="linenos">143</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmin</span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmin</span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">2</span><span class="p">]));</span>
+<span class="linenos">144</span><span class="w">        </span><span class="n">span_out</span><span class="p">[</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">low</span><span class="p">;</span>
+<span class="linenos">145</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">146</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="linenos">147</span><span class="p">}</span>
+<span class="linenos">148</span>
+<span class="linenos">149</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos">150</span>
+<span class="linenos">151</span><span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">152</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos">153</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;--csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">154</span><span class="w">        </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="linenos">155</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">156</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usage: %s [--csv &lt;path&gt;]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="linenos">157</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos">158</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">159</span>
+<span class="linenos">160</span><span class="w">    </span><span class="n">Board</span><span class="w"> </span><span class="n">board</span><span class="p">{};</span>
+<span class="linenos">161</span><span class="w">    </span><span class="n">foc_hal_callbacks_t</span><span class="w"> </span><span class="n">callbacks</span><span class="p">{};</span>
+<span class="linenos">162</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">struct_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">foc_hal_callbacks_t</span><span class="p">);</span>
+<span class="linenos">163</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">board</span><span class="p">;</span>
+<span class="linenos">164</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">pwm_write_duty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">write_duty</span><span class="p">;</span>
+<span class="linenos">165</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">read_current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_current</span><span class="p">;</span>
+<span class="linenos">166</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">read_angle_mech_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_angle</span><span class="p">;</span>
+<span class="linenos">167</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">read_voltage_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_v_bus</span><span class="p">;</span>
+<span class="linenos">168</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">pwm_fault</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_fault</span><span class="p">;</span>
+<span class="linenos">169</span><span class="w">    </span><span class="c1">// The appended field, and the one whose absence has its own answer: without</span>
+<span class="linenos">170</span><span class="w">    </span><span class="c1">// it `create_host()` returns FOC_ERR_NOT_IMPL rather than FOC_ERR_PARAM,</span>
+<span class="linenos">171</span><span class="w">    </span><span class="c1">// because &quot;we never asked&quot; and &quot;nothing is wrong&quot; would otherwise look the</span>
+<span class="linenos">172</span><span class="w">    </span><span class="c1">// same. `struct_size` is what makes the field visible at all.</span>
+<span class="linenos">173</span><span class="w">    </span><span class="c1">// 追加的那个字段，也是&quot;缺失时单独回答&quot;的那个：没有它，`create_host()` 返回</span>
+<span class="linenos">174</span><span class="w">    </span><span class="c1">// FOC_ERR_NOT_IMPL 而不是 FOC_ERR_PARAM，否则&quot;我们没问&quot;与&quot;什么都没坏&quot;就长成一个</span>
+<span class="linenos">175</span><span class="w">    </span><span class="c1">// 样子。`struct_size` 才让这个字段可见。</span>
+<span class="linenos">176</span><span class="w">    </span><span class="n">callbacks</span><span class="p">.</span><span class="n">read_drive_fault</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">read_fault</span><span class="p">;</span>
+<span class="linenos">177</span>
+<span class="linenos">178</span><span class="w">    </span><span class="c1">// Nameplate as plain data. The order is the struct&#39;s, which is why the C</span>
+<span class="linenos">179</span><span class="w">    </span><span class="c1">// header says it in the docstring rather than leaving it to the reader.</span>
+<span class="linenos">180</span><span class="w">    </span><span class="c1">// 铭牌就是普通数据。顺序就是结构体的顺序——这也是 C 头在文档里把它写出来的原因。</span>
+<span class="linenos">181</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc_motor_params_t</span><span class="w"> </span><span class="n">params</span><span class="p">{</span>
+<span class="linenos">182</span><span class="w">        </span><span class="mf">0.5F</span><span class="p">,</span><span class="w">    </span><span class="c1">// rs</span>
+<span class="linenos">183</span><span class="w">        </span><span class="mf">4.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="c1">// ld</span>
+<span class="linenos">184</span><span class="w">        </span><span class="mf">8.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="c1">// lq -- salient, so the observer and MTPA have something to do</span>
+<span class="linenos">185</span><span class="w">        </span><span class="mf">0.01F</span><span class="p">,</span><span class="w">   </span><span class="c1">// psi_f</span>
+<span class="linenos">186</span><span class="w">        </span><span class="mf">1.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="c1">// j</span>
+<span class="linenos">187</span><span class="w">        </span><span class="mf">1.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="c1">// b</span>
+<span class="linenos">188</span><span class="w">        </span><span class="n">kPolePairs</span><span class="p">,</span>
+<span class="linenos">189</span><span class="w">    </span><span class="p">};</span>
+<span class="linenos">190</span>
+<span class="linenos">191</span><span class="w">    </span><span class="n">foc_motor_t</span><span class="w"> </span><span class="n">motor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos">192</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">foc_motor_create_host</span><span class="p">(</span><span class="o">&amp;</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">callbacks</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">motor</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">FOC_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">193</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;foc_motor_create_host refused</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">194</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">195</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">196</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">foc_motor_enable</span><span class="p">(</span><span class="n">motor</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">FOC_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">197</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;foc_motor_enable refused</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">198</span><span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">(</span><span class="n">foc_motor_destroy</span><span class="p">(</span><span class="n">motor</span><span class="p">));</span>
+<span class="linenos">199</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">200</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">201</span>
+<span class="linenos">202</span><span class="w">    </span><span class="kt">FILE</span><span class="o">*</span><span class="w"> </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos">203</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv_path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">204</span><span class="w">        </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fopen</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+<span class="linenos">205</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">206</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fopen&quot;</span><span class="p">);</span>
+<span class="linenos">207</span><span class="w">            </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">(</span><span class="n">foc_motor_destroy</span><span class="p">(</span><span class="n">motor</span><span class="p">));</span>
+<span class="linenos">208</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">209</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">210</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;t_s,iq_command_a,iq_measured_a,duty_span</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">211</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">212</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;five callbacks in, handle out: create_host -&gt; enable -&gt; set_speed -&gt; tick</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">213</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%8s %10s %10s %8s %8s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;t (ms)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iq cmd (A)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iq (A)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id (A)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;span&quot;</span><span class="p">);</span>
+<span class="linenos">214</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">215</span>
+<span class="linenos">216</span><span class="w">    </span><span class="c1">// Torque mode on purpose: this page is about what crosses the ABI, and a</span>
+<span class="linenos">217</span><span class="w">    </span><span class="c1">// speed loop would put a mechanical model in the way of that question. The</span>
+<span class="linenos">218</span><span class="w">    </span><span class="c1">// command is a current, the loop regulates it against the host&#39;s windings,</span>
+<span class="linenos">219</span><span class="w">    </span><span class="c1">// and what comes back out is the duty the host has to apply.</span>
+<span class="linenos">220</span><span class="w">    </span><span class="c1">// 故意用转矩模式：本页讲的是&quot;什么东西穿过 ABI&quot;，而速度环会把一个机械模型摆在那个问题</span>
+<span class="linenos">221</span><span class="w">    </span><span class="c1">// 前面。指令是电流，环路对着宿主的绕组把它调住，出来的是宿主必须施加的占空比。</span>
+<span class="linenos">222</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">kTicks</span><span class="o">&gt;</span><span class="w"> </span><span class="n">span_c</span><span class="p">{};</span>
+<span class="linenos">223</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">224</span>
+<span class="linenos">225</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kTicks</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">226</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">t_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kDtS</span><span class="p">;</span>
+<span class="linenos">227</span><span class="w">        </span><span class="c1">// Two steps, so the picture has a shape: a duty trace from a constant</span>
+<span class="linenos">228</span><span class="w">        </span><span class="c1">// current would be a flat line, and a flat line teaches nothing about</span>
+<span class="linenos">229</span><span class="w">        </span><span class="c1">// what crosses the boundary.</span>
+<span class="linenos">230</span><span class="w">        </span><span class="c1">// 两个阶跃，图才有形状：恒定电流的占空比会是一条直线，而直线教不会你边界上过去了什么。</span>
+<span class="linenos">231</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">iq_command_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">t_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kStepAtS</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mf">1.5F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">-1.5F</span><span class="p">;</span>
+<span class="linenos">232</span><span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">(</span><span class="n">foc_set_torque</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span><span class="w"> </span><span class="n">iq_command_a</span><span class="p">));</span>
+<span class="linenos">233</span><span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">(</span><span class="n">foc_tick</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span><span class="w"> </span><span class="n">kDtS</span><span class="p">));</span>
+<span class="linenos">234</span>
+<span class="linenos">235</span><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">speed_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">236</span><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">id_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">237</span><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">iq_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">238</span><span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">(</span><span class="n">foc_get_state</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">speed_rad_s</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">id_a</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">iq_a</span><span class="p">));</span>
+<span class="linenos">239</span>
+<span class="linenos">240</span><span class="w">        </span><span class="c1">// The **span** rather than one phase: at some electrical angles a given</span>
+<span class="linenos">241</span><span class="w">        </span><span class="c1">// phase sits at exactly 0.5 whatever the loop is doing, and a column that</span>
+<span class="linenos">242</span><span class="w">        </span><span class="c1">// happens to be constant looks like a loop that is not working.</span>
+<span class="linenos">243</span><span class="w">        </span><span class="c1">// 记**跨度**而不是某一相：在有些电角度上，某一相无论环路在做什么都正好是 0.5，而一列</span>
+<span class="linenos">244</span><span class="w">        </span><span class="c1">// 恰好恒定的数看起来像环路没在工作。</span>
+<span class="linenos">245</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmax</span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmax</span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">2</span><span class="p">]));</span>
+<span class="linenos">246</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmin</span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmin</span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="n">duty</span><span class="p">[</span><span class="mi">2</span><span class="p">]));</span>
+<span class="linenos">247</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">duty_span</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">low</span><span class="p">;</span>
+<span class="linenos">248</span><span class="w">        </span><span class="n">span_c</span><span class="p">[</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">duty_span</span><span class="p">;</span>
+<span class="linenos">249</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">250</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%.6f,%.4f,%.4f,%.4f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t_s</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">iq_command_a</span><span class="p">),</span>
+<span class="linenos">251</span><span class="w">                         </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">iq_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">duty_span</span><span class="p">));</span>
+<span class="linenos">252</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">rows</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">253</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%8.2f %10.3f %10.3f %8.3f %8.3f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1000.0F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t_s</span><span class="p">),</span>
+<span class="linenos">254</span><span class="w">                        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">iq_command_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">iq_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">id_a</span><span class="p">),</span>
+<span class="linenos">255</span><span class="w">                        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">duty_span</span><span class="p">));</span>
+<span class="linenos">256</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">257</span><span class="w">        </span><span class="o">++</span><span class="n">rows</span><span class="p">;</span>
+<span class="linenos">258</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">259</span>
+<span class="linenos">260</span><span class="w">    </span><span class="n">foc_motor_status_t</span><span class="w"> </span><span class="n">status</span><span class="p">{};</span>
+<span class="linenos">261</span><span class="w">    </span><span class="n">status</span><span class="p">.</span><span class="n">struct_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">foc_motor_status_t</span><span class="p">);</span>
+<span class="linenos">262</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc_err_t</span><span class="w"> </span><span class="n">status_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc_motor_get_status</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">status</span><span class="p">);</span>
+<span class="linenos">263</span>
+<span class="linenos">264</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">265</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fclose</span><span class="p">(</span><span class="n">csv</span><span class="p">);</span>
+<span class="linenos">266</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;wrote %s (%d rows)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">);</span>
+<span class="linenos">267</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">268</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">foc_motor_get_status -&gt; %d (0 = FOC_OK)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">status_result</span><span class="p">));</span>
+<span class="linenos">269</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  mode_state=%d error=%d observer=%d locked=%d worst tick=%u us</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">270</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">mode_state</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">error</span><span class="p">),</span>
+<span class="linenos">271</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">observer</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">observer_locked</span><span class="p">),</span>
+<span class="linenos">272</span><span class="w">                    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span><span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">max_period_us</span><span class="p">));</span>
+<span class="linenos">273</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">274</span>
+<span class="linenos">275</span><span class="w">    </span><span class="c1">// The equivalence check: the same experiment through the C++ class, against a fresh copy of</span>
+<span class="linenos">276</span><span class="w">    </span><span class="c1">// the same plant. One number decides whether the two entry surfaces are one implementation.</span>
+<span class="linenos">277</span><span class="w">    </span><span class="c1">// 等效性检查：同一个实验改走 C++ 类，台架重新取一份拷贝。一个数就足以判断两个入口是不是</span>
+<span class="linenos">278</span><span class="w">    </span><span class="c1">// 同一份实现。</span>
+<span class="linenos">279</span><span class="w">    </span><span class="n">Board</span><span class="w"> </span><span class="n">board_cpp</span><span class="p">{};</span>
+<span class="linenos">280</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">kTicks</span><span class="o">&gt;</span><span class="w"> </span><span class="n">span_cpp</span><span class="p">{};</span>
+<span class="linenos">281</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">cpp_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run_cpp_path</span><span class="p">(</span><span class="n">board_cpp</span><span class="p">,</span><span class="w"> </span><span class="n">span_cpp</span><span class="p">);</span>
+<span class="linenos">282</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">worst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">283</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cpp_ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">284</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kTicks</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">285</span><span class="w">            </span><span class="n">worst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fmax</span><span class="p">(</span><span class="n">worst</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fabs</span><span class="p">(</span><span class="n">span_cpp</span><span class="p">[</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="w"> </span><span class="o">-</span>
+<span class="linenos">286</span><span class="w">                                               </span><span class="n">span_c</span><span class="p">[</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)]));</span>
+<span class="linenos">287</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">288</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">289</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">cpp path: %s, worst |duty span difference| over %d ticks = %.3e</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">290</span><span class="w">                </span><span class="n">cpp_ok</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;ran&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;refused&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">kTicks</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">worst</span><span class="p">));</span>
+<span class="linenos">291</span>
+<span class="linenos">292</span><span class="w">    </span><span class="c1">// The handle owns a pool slot until it is destroyed: a program that leaks one</span>
+<span class="linenos">293</span><span class="w">    </span><span class="c1">// leaks the ability to create another motor.</span>
+<span class="linenos">294</span><span class="w">    </span><span class="c1">// 句柄在被销毁前占着一个池槽：泄漏一个，就泄漏&quot;再创建一台电机&quot;的能力。</span>
+<span class="linenos">295</span><span class="w">    </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">(</span><span class="n">foc_motor_destroy</span><span class="p">(</span><span class="n">motor</span><span class="p">));</span>
+<span class="linenos">296</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">297</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Two details in it are the ones that cost integrators a day:</p>
+<ul class="simple">
+<li><p><strong>`foc_motor_create_host()` answers `FOC_ERR_NOT_IMPL`, not `FOC_ERR_PARAM`,
+when `read_drive_fault` is missing.</strong> That field is appended to the callback
+struct, so a caller built against an older header passes NULL through no fault
+of its own. The two answers mean different things: &quot;this host cannot tell you
+about faults&quot; is not &quot;you passed a bad argument&quot;, and the library refuses to
+let the first read like the second.</p></li>
+<li><p><strong>`struct_size` is what makes the appended fields visible at all.</strong> The library
+reads only what the caller's <cite>struct_size</cite> covers, which is why an older caller
+keeps working and a newer field is simply not read rather than read out of
+somebody's stack.</p></li>
+</ul>
+</section>
+<section id="where-the-numbers-come-from">
+<h2><span class="section-number">1.1.7.3. </span>Where the numbers come from<a class="headerlink" href="#where-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>The nameplate</strong> is passed as plain data, in struct order. Nothing is derived
+from it that the caller does not state.</p></li>
+<li><p><strong>Zero means the library default</strong> for every field of <cite>foc_motor_setup_t</cite>, and
+<cite>foc_motor_get_setup()</cite> reports what was actually applied -- so a caller never
+has to guess which defaults it got.</p></li>
+<li><p><strong>The callbacks are the board</strong>: current sense scaling, dead time and the DC
+link voltage are the integrator's measurements, not the library's. <cite>MinPulse</cite>
+and <a class="reference internal" href="modulation-limits.html"><span class="doc">High speed and modulation</span></a> are where the numbers those measurements
+imply are used.</p></li>
+</ul>
+</section>
+<section id="how-it-goes-wrong">
+<h2><span class="section-number">1.1.7.4. </span>How it goes wrong<a class="headerlink" href="#how-it-goes-wrong" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>A dropped return code.</strong> Every <cite>foc_*</cite> function is marked
+<cite>FOC_WARN_UNUSED</cite>, so ignoring one is a build failure -- and <cite>(void)</cite> does
+<strong>not</strong> silence it on GCC. Binding first (<cite>foc_err_t e = ...; (void)e;</cite>) is the
+escape, and it is deliberately the more typing.</p></li>
+<li><p><strong>A leaked handle.</strong> The pool is static and small; a handle owns a slot until
+<cite>foc_motor_destroy()</cite>. A program that creates motors in a loop and forgets one
+path eventually gets <cite>FOC_ERR_NO_RESOURCE</cite> from a place that looks unrelated.</p></li>
+<li><p><strong>A stale handle after destroy.</strong> Handles carry a generation counter, so a
+stale one answers <cite>FOC_ERR_PARAM</cite> rather than reaching a freed slot -- but it
+does answer an error, and code that treats &quot;not OK&quot; as &quot;retry&quot; will spin.</p></li>
+<li><p><strong>A hand-rolled wire format.</strong> <cite>frame</cite> exists because a CRC and a length field
+are two places to get it wrong, and its parameter set is one of the claim rows.</p></li>
+</ol>
+</section>
+<section id="evidence">
+<h2><span class="section-number">1.1.7.5. </span>Evidence<a class="headerlink" href="#evidence" title="链接到此标题。"></a></h2>
+<p>The C ABI's own claim rows cover this page (<code class="docutils literal notranslate"><span class="pre">foc/api/foc_api.h</span></code> and
+<code class="docutils literal notranslate"><span class="pre">foc/api/foc_types.h</span></code>), together with the three wire headers. The level this
+page may state is the minimum of those rows, read from the claim table in the
+project <code class="docutils literal notranslate"><span class="pre">README.md</span></code>; the C surface is graded lower than the C++ one on purpose,
+because its anchors are closed-form identifications rather than the full model.</p>
+<p>What this page does not claim: any bit-error-rate model or burst-length
+guarantee, and no detection of a <em>shifted</em> frame -- a one-bit shift of the
+encoder frame passes its CRC, because a shift is not a single-bit error or a
+burst. The sweep behind those rows is exhaustive over single-byte corruption on
+one frame, which is a fact about that frame rather than a probability.</p>
+</section>
+<section id="figure">
+<h2><span class="section-number">1.1.7.6. </span>Figure<a class="headerlink" href="#figure" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-c-and-cpp-callers">
+<a class="reference internal image-reference" href="../_images/ALL_callers.png"><img alt="../_images/ALL_callers.png" src="../_images/ALL_callers.png" width="720" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.7 </span><span class="caption-text">a torque command through the C ABI: the measured current follows the command,
+and the duty span written back through the callback moves at each step</span><a class="headerlink" href="#figure-c-and-cpp-callers" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>The figure is produced by <code class="docutils literal notranslate"><span class="pre">docs/demos/make_figures.py</span></code> from this page's own
+example. Its host is a <strong>stand-in</strong> -- Ohm's law across the winding plus the
+winding's <cite>L/R</cite> -- so the curve shows that the loop regulates and that the values
+cross the ABI intact. It is not a control result; a real host feeds ADC samples,
+which is what the SIL demos do.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="modulation-limits.html" class="btn btn-neutral float-left" title="1.1.6. High speed and modulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="positioning.html" class="btn btn-neutral float-right" title="1.1.8. Positioning an axis" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

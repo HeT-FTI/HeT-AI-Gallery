@@ -1,0 +1,169 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. 元数据参考 &mdash; nnseg 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.jpg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="4. 运行时使用与验证" href="../export.html" />
+    <link rel="prev" title="2. Conan 配方配置" href="conan.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            nnseg
+              <img src="../_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cmake.html">1. CMake 构建系统</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conan.html">2. Conan 打包配方</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. 元数据参考</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.1. metadata.json 的角色</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">3.2. 核心身份字段</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3.3. 构建与运行时控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">3.4. 依赖映射</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">3.5. 文档控制项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">3.6. 工作流触发器</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../export.html">4. 运行时使用与验证</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">nnseg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3. </span>元数据参考</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/components/meta.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">3. </span>元数据参考<a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<section id="id2">
+<h2><span class="section-number">3.1. </span>metadata.json 的角色<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>metadata.json 是项目的控制平面。它驱动包身份、编译标准、依赖组合、文档语言与版本过滤以及 CI 工作流触发。</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">3.2. </span>核心身份字段<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>name、version、license、description</p></li>
+<li><p>authors、maintainers、url、homepage</p></li>
+<li><p>topics</p></li>
+</ul>
+<p>这些字段会被 Conan 包元数据与发布产物消费。</p>
+</section>
+<section id="id4">
+<h2><span class="section-number">3.3. </span>构建与运行时控制<a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>build_cppstd 与 build_cstd 定义 CMake 目标使用的语言标准。</p></li>
+<li><p>is_shared 与 is_header 控制打包模式。</p></li>
+<li><p>activate_code_coverage 控制库与测试中的覆盖率插桩标志。</p></li>
+<li><p>enable_python_bindings 控制 pybind11 及 Python 模块产出开关。</p></li>
+</ul>
+</section>
+<section id="id5">
+<h2><span class="section-number">3.4. </span>依赖映射<a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
+<p>dependencies 字段按使用域分组：</p>
+<ul class="simple">
+<li><p>common：由 C 与 C++ 层共享。</p></li>
+<li><p>c：面向 C 接口的补充链接依赖。</p></li>
+<li><p>cpp：C++ 运行时补充依赖。</p></li>
+<li><p>infra：测试与构建阶段的集成依赖。</p></li>
+</ul>
+<p>这些分组会在 conanfile.py 中合并为最终 CMake 链接元组。</p>
+</section>
+<section id="id6">
+<h2><span class="section-number">3.5. </span>文档控制项<a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>doc_languages：启用语言集合（当前为 en 和 zh）。</p></li>
+<li><p>doc_versions：Doxygen 过滤使用的版本通道。</p></li>
+<li><p>doc_doxygen_folders 与 doc_doxygen_suffix：源码扫描范围。</p></li>
+</ul>
+<p>文档流水线在生成 Doxygen 与 Sphinx 输出时会读取这些字段。</p>
+</section>
+<section id="id7">
+<h2><span class="section-number">3.6. </span>工作流触发器<a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<p>workflow_triggers 包含 build、tests、release、docs 与 security_scan 的布尔开关。CI 编排会消费这些开关以确定启用哪些工作流。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="conan.html" class="btn btn-neutral float-left" title="2. Conan 配方配置" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../export.html" class="btn btn-neutral float-right" title="4. 运行时使用与验证" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. What &#34;predictable&#34; costs &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="1. What this library does not do" href="boundaries.html" />
+    <link rel="prev" title="3. Convention alignment" href="conventions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. What &quot;predictable&quot; costs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-the-constraint-excludes">4.1. What the constraint excludes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-the-tick-is-made-of">4.2. What the tick is made of</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-measured-and-what-is-not">4.3. What is measured, and what is not</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-not-simply-measure-it">4.4. Why not simply measure it?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-this-shows-up-in-the-api">4.5. Where this shows up in the API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#related">4.6. Related</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">4. </span>What &quot;predictable&quot; costs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cost-model.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">4. </span><span class="target" id="what-predictable-costs">What &quot;predictable&quot; costs</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The library's first sentence is that the control loop must be predictable. This page says what
+that word buys, what it costs, and — more importantly — which parts of it are <strong>measured</strong> and
+which are simply <strong>not present</strong>.</p>
+<section id="what-the-constraint-excludes">
+<h2><span class="section-number">4.1. </span>What the constraint excludes<a class="headerlink" href="#what-the-constraint-excludes" title="链接到此标题。"></a></h2>
+<p>Four exclusions, and each one is a decision with a price:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 30.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Excluded</p></th>
+<th class="head"><p>Because</p></th>
+<th class="head"><p>What it costs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Heap allocation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">malloc</span></code> has a worst case nobody can bound on a target with a fragmented pool, and the
+tick runs 20 000 times a second</p></td>
+<td><p>fixed capacities everywhere: <code class="docutils literal notranslate"><span class="pre">etl</span></code> vectors with a compile-time size, and a motor
+handle pool that can be exhausted (the C API says so instead of growing)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Exceptions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">throw</span></code> in an ISR has no meaning, and the unwinder's cost is not a number the loop can
+carry; the library is built <code class="docutils literal notranslate"><span class="pre">-fno-exceptions</span></code></p></td>
+<td><p>every fallible function returns a status, and callers must check it. The C API makes
+ignoring one a build failure</p></td>
+</tr>
+<tr class="row-even"><td><p>RTTI</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-fno-rtti</span></code>; nothing in the loop asks &quot;what type is this&quot; at run time</p></td>
+<td><p>dispatch is a template parameter or an explicit function pointer, never a <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Virtual calls</p></td>
+<td><p>an indirect call's cost depends on cache state, and &quot;usually fast&quot; is not a bound</p></td>
+<td><p>the motor is policy-composed: observer, modulator, current controllers and the HAL are
+template parameters, and the whole loop inlines into one translation unit</p></td>
+</tr>
+</tbody>
+</table>
+<p>The last row is the reason the <em>shape</em> of the library looks unusual (<code class="docutils literal notranslate"><span class="pre">Motor&lt;Observer,</span>
+<span class="pre">Modulator,</span> <span class="pre">PI,</span> <span class="pre">Hal&gt;</span></code>): it is not a preference for templates, it is what remains once indirect
+calls are excluded.</p>
+</section>
+<section id="what-the-tick-is-made-of">
+<h2><span class="section-number">4.2. </span>What the tick is made of<a class="headerlink" href="#what-the-tick-is-made-of" title="链接到此标题。"></a></h2>
+<p>One control period, in order:</p>
+<ol class="arabic simple">
+<li><p>read the HAL's current sample and the electrical angle (the HAL owns the ADC and the timer);</p></li>
+<li><p>run the observer policy on those inputs;</p></li>
+<li><p>run the reference policy (<code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">0</span></code>, MTPA, MTPV or a caller-supplied one) and the limits;</p></li>
+<li><p>run the two current PI controllers plus the feed-forward and decoupling terms;</p></li>
+<li><p>run the modulator, which produces three duties;</p></li>
+<li><p>write the duties back through the HAL.</p></li>
+</ol>
+<p>Which of those steps is worst depends on the policies chosen, so the library does not publish a
+single cycle count: it publishes the property that makes a bound meaningful — <strong>no step in that
+list allocates, throws, or calls through a pointer it did not receive at construction</strong>.</p>
+</section>
+<section id="what-is-measured-and-what-is-not">
+<h2><span class="section-number">4.3. </span>What is measured, and what is not<a class="headerlink" href="#what-is-measured-and-what-is-not" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 44.0%" />
+<col style="width: 56.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Claim</p></th>
+<th class="head"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>the loop closes on a plant model, and the response is asserted per scenario</p></td>
+<td><p>measured, in the SIL suite and on <a class="reference internal" href="demos/index.html"><span class="doc">Measured responses</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>the same experiment through the C door and the C++ door differs by nothing</p></td>
+<td><p>measured, tick by tick, on <a class="reference internal" href="guides/c-and-cpp-callers.html"><span class="doc">Consuming the library from outside C++</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>no allocation in the control path</p></td>
+<td><p>verified by tools that report allocations, and by the fact that the control path calls
+no allocator</p></td>
+</tr>
+<tr class="row-odd"><td><p>worst-case execution time on <em>your</em> MCU</p></td>
+<td><p><strong>not measured</strong>: no target profile is shipped. <a class="reference internal" href="index.html#honest-limits"><span class="std std-ref">The ISR-cost row in honest limits</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>flash and RAM footprint against <em>your</em> budget</p></td>
+<td><p><strong>not measured</strong>: <a class="reference internal" href="index.html#honest-limits"><span class="std std-ref">the footprint row in honest limits</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>behaviour under an ISR that is itself interrupted</p></td>
+<td><p><strong>not measured</strong>: no target, no interrupt controller</p></td>
+</tr>
+</tbody>
+</table>
+<p>The pattern is worth naming: the properties that follow from the <em>code</em> are verified; the
+properties that require a <em>chip</em> are listed as limits. <code class="docutils literal notranslate"><span class="pre">telemetry()</span></code> reports
+<code class="docutils literal notranslate"><span class="pre">max_period_us</span></code> — the worst tick interval the target itself has seen — precisely because that
+number belongs to the target, not to this page.</p>
+</section>
+<section id="why-not-simply-measure-it">
+<h2><span class="section-number">4.4. </span>Why not simply measure it?<a class="headerlink" href="#why-not-simply-measure-it" title="链接到此标题。"></a></h2>
+<p>Because a number measured on one board is a claim about that board. The library ships no target
+profile, so a cycle count from the author's machine would be read as a property of the library
+and would be wrong on the next chip. What it ships instead is a shape in which the measurement
+is <em>possible</em>: one inlined translation unit per policy set, no indirect calls, no allocator.</p>
+</section>
+<section id="where-this-shows-up-in-the-api">
+<h2><span class="section-number">4.5. </span>Where this shows up in the API<a class="headerlink" href="#where-this-shows-up-in-the-api" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc_motor_create_*</span></code> returns a handle or an error — never throws, never allocates beyond the
+static pool.</p></li>
+<li><p>Every <code class="docutils literal notranslate"><span class="pre">foc_*</span></code> function that can fail is <code class="docutils literal notranslate"><span class="pre">FOC_WARN_UNUSED</span></code>; ignoring a status is a
+compiler warning turned into an error by the build.</p></li>
+<li><p>A stale handle is <strong>detected</strong> (generation counter), not dereferenced: the failure mode of a
+use-after-free is replaced by a return code.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Config</span></code> structs are aggregate-initialised, so a zeroed configuration is always a valid
+input, with documented meaning (&quot;zero means the library default&quot;).</p></li>
+</ul>
+</section>
+<section id="related">
+<h2><span class="section-number">4.6. </span>Related<a class="headerlink" href="#related" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the boundaries that are <em>not</em> deferred to hardware: <a class="reference internal" href="boundaries.html"><span class="doc">What this library does not do</span></a></p></li>
+<li><p>what each capability owes before it may be claimed: <a class="reference internal" href="capabilities.html"><span class="doc">What each capability offers, and what it costs</span></a></p></li>
+<li><p>the honest limits table: <a class="reference internal" href="index.html#honest-limits"><span class="std std-ref">honest limits</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="conventions.html" class="btn btn-neutral float-left" title="3. Convention alignment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="boundaries.html" class="btn btn-neutral float-right" title="1. What this library does not do" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

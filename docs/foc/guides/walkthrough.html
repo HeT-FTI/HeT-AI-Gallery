@@ -1,0 +1,666 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. One machine, one shift &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="3. Measured responses" href="../demos/index.html" />
+    <link rel="prev" title="1.1.12. Acceptance on your machine" href="on-machine-acceptance.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">1. Guides by task</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. One machine, one shift</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-machine">2.1. The machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#read-the-nameplate">2.2. 1. Read the nameplate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#check-the-board">2.3. 2. Check the board</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#align-pull-hand-over">2.4. 3. Align, pull, hand over</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#take-a-torque-step">2.5. 4. Take a torque step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-past-base-speed">2.6. 5. Run past base speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#position-the-axis">2.7. 6. Position the axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fail-safely">2.8. 7. Fail safely</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-one-run-prints">2.9. What one run prints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-this-page-is-not">2.10. What this page is not</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2. </span>One machine, one shift</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/walkthrough.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">2. </span><span class="target" id="one-machine-one-shift">One machine, one shift</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The nine task pages answer one question each. This page runs them <strong>in the order an axis
+meets them</strong>, on a single nameplate, from reading the plate to latching a trip — and each stage
+contributes one number to a single table.</p>
+<p>Every number on this page is printed by
+<code class="docutils literal notranslate"><span class="pre">docs/sphinx/scripts/walkthrough.cxx</span></code>, which this page includes rather than quotes: the
+listing is the program, and the program is what ran. If a line of the table and a line of the
+program ever disagree, the program is right and the page is stale.</p>
+<section id="the-machine">
+<h2><span class="section-number">2.1. </span>The machine<a class="headerlink" href="#the-machine" title="链接到此标题。"></a></h2>
+<p>One nameplate is used all the way through — the same one the other pages use, so a figure or a
+number from another page can be compared with this run without converting anything:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 18.0%" />
+<col style="width: 52.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Where it comes from</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Pole pairs</p></td>
+<td><p>7</p></td>
+<td><p>the machine, not the library: every electrical number on this page is divided by it</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bus voltage</p></td>
+<td><p>24 V</p></td>
+<td><p>the SIL bench default; the modulator's ceiling follows from it</p></td>
+</tr>
+<tr class="row-even"><td><p>Control period</p></td>
+<td><p>50 µs (20 kHz)</p></td>
+<td><p>the bench default, and the rate the task pages step their sequences at</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nameplate <code class="docutils literal notranslate"><span class="pre">Rs</span></code> / <code class="docutils literal notranslate"><span class="pre">Ld</span></code> / <code class="docutils literal notranslate"><span class="pre">Lq</span></code> / <code class="docutils literal notranslate"><span class="pre">psi_f</span></code></p></td>
+<td><p>0.5 Ω / 4 mH / 8 mH / 0.01 Wb</p></td>
+<td><p>a salient machine: <code class="docutils literal notranslate"><span class="pre">Lq</span></code> is twice <code class="docutils literal notranslate"><span class="pre">Ld</span></code>, which is what makes injection and MTPA mean
+anything at all</p></td>
+</tr>
+<tr class="row-even"><td><p>Current ceiling</p></td>
+<td><p>3 A</p></td>
+<td><p>the protection rating below is built on it</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="read-the-nameplate">
+<h2><span class="section-number">2.2. </span>1. Read the nameplate<a class="headerlink" href="#read-the-nameplate" title="链接到此标题。"></a></h2>
+<p>Nothing is derived from the machine here except the torque constant, and that one converts a
+flux into a torque per amp — it does not measure anything:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">stage_nameplate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MachineParams</span><span class="w"> </span><span class="n">nameplate</span><span class="p">{</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0e-3F</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0e-3F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01F</span><span class="p">};</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Rs&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">nameplate</span><span class="p">.</span><span class="n">rs</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;ohm&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ld&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">nameplate</span><span class="p">.</span><span class="n">ld</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;H&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Lq&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">nameplate</span><span class="p">.</span><span class="n">lq</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;H&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;psi_f&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">nameplate</span><span class="p">.</span><span class="n">psi_f</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Wb&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// `Kt = 1.5 * p * psi_f`: the one conversion this page performs, and the one</span>
+<span class="w">    </span><span class="c1">// place where a factor of 1.5 or a pole-pair count gets lost in the field.</span>
+<span class="w">    </span><span class="c1">// `Kt = 1.5 * p * psi_f`：本页唯一的换算，也是现场最容易丢掉 1.5 或极对数的地方。</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">kt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kPolePairs</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nameplate</span><span class="p">.</span><span class="n">psi_f</span><span class="p">;</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Kt = 1.5 * pole_pairs * psi_f&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">kt</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;N.m/A&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// The same nameplate as a file. A document without map rows carries only `rs`:</span>
+<span class="w">    </span><span class="c1">// the per-current parameters live in the rows, so a round trip that is worth</span>
+<span class="w">    </span><span class="c1">// anything has to include one.</span>
+<span class="w">    </span><span class="c1">// 同一份铭牌当作文件。没有映射行的文档只带 `rs`：逐电流的参数活在行里，所以有意义的往返</span>
+<span class="w">    </span><span class="c1">// 必须带一行。</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MachineDocument</span><span class="w"> </span><span class="n">document</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">document</span><span class="p">.</span><span class="n">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nameplate</span><span class="p">;</span>
+<span class="w">    </span><span class="n">document</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MachineMap</span><span class="o">::</span><span class="n">from_params</span><span class="p">(</span><span class="n">nameplate</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0F</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">text</span><span class="p">[</span><span class="mi">512</span><span class="p">]{};</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">written</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">write_document</span><span class="p">(</span><span class="n">document</span><span class="p">,</span><span class="w"> </span><span class="n">text</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">text</span><span class="p">));</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MachineDocument</span><span class="w"> </span><span class="n">readback</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">TextError</span><span class="w"> </span><span class="n">error</span><span class="p">{};</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">written</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0U</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">read_document</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="w"> </span><span class="n">written</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">readback</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;nameplate file: size&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">written</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;nameplate file: map rows&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">readback</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">count</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;rows&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">same_rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ok</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">readback</span><span class="p">.</span><span class="n">params</span><span class="p">.</span><span class="n">rs</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nameplate</span><span class="p">.</span><span class="n">rs</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">same_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readback</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">document</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;nameplate round trip&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">same_rs</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">same_rows</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;same&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;differs&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ---------------------------------------------------------------------------</span>
+</pre></div>
+</div>
+<p>Two things are worth noticing. <code class="docutils literal notranslate"><span class="pre">Kt</span> <span class="pre">=</span> <span class="pre">1.5</span> <span class="pre">*</span> <span class="pre">pole_pairs</span> <span class="pre">*</span> <span class="pre">psi_f</span></code> is the conversion the field
+loses most often (drop the 1.5, or use the electrical pole count); and the second half shows the
+same nameplate as a <strong>file</strong> that the library can read back, because a configuration typed into
+one program and re-typed into another is two machines. The round-trip verdict is <code class="docutils literal notranslate"><span class="pre">same</span></code> only
+when the reader accepted what the writer produced.</p>
+<p>Explained further in <a class="reference internal" href="../symbols.html"><span class="doc">Symbols and units</span></a>.</p>
+</section>
+<section id="check-the-board">
+<h2><span class="section-number">2.3. </span>2. Check the board<a class="headerlink" href="#check-the-board" title="链接到此标题。"></a></h2>
+<p>Before the board is allowed to make torque, twelve items are measured against limits, and the
+report is not a list of failures — it names <strong>one cause</strong>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">stage_board</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BoardMeasurements</span><span class="w"> </span><span class="n">measurements</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">sum_current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.004F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">offset_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.001F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">offset_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-0.002F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">offset_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.001F</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// A positive d-axis drive puts `+i` on u and `-i/2` on v and w, so health is a</span>
+<span class="w">    </span><span class="c1">// *pattern* of signs and not &quot;all positive&quot;. The inverted case below is the one</span>
+<span class="w">    </span><span class="c1">// a reader who only counts failures cannot tell from this one.</span>
+<span class="w">    </span><span class="c1">// 正 d 轴驱动在 u 上给 `+i`、在 v 与 w 上给 `−i/2`，所以健康是一组**符号模式**，不是</span>
+<span class="w">    </span><span class="c1">// “全为正”。下面那个反相案例，正是只数失败项的人分不出来的那一种。</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">response_sign</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">response_sign</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-1.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">response_sign</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-1.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">ripple_expected_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.10F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">ripple_measured_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.11F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">deadtime_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.30F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">deadtime_cmd_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.30F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">encoder_offset_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.003F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">rs_ohm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.02F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">rs_nameplate_ohm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.00F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">psi_f_wb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0101F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">psi_f_nameplate_wb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0100F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measurements</span><span class="p">.</span><span class="n">observer_error_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02F</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BoardLimits</span><span class="w"> </span><span class="n">limits</span><span class="p">{};</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BoardReport</span><span class="w"> </span><span class="n">good</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">check_board</span><span class="p">(</span><span class="n">measurements</span><span class="p">,</span><span class="w"> </span><span class="n">limits</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;board items checked&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">good</span><span class="p">.</span><span class="n">count</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;items&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;items failed (healthy board)&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">good</span><span class="p">.</span><span class="n">failures</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;items&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cause on a healthy board&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">board_cause_name</span><span class="p">(</span><span class="n">good</span><span class="p">.</span><span class="n">cause</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// One channel inverted: the failure that hides the others, because a flipped</span>
+<span class="w">    </span><span class="c1">// sign makes the ripple comparison meaningless. It is named first for a reason.</span>
+<span class="w">    </span><span class="c1">// 一个通道符号反了：这一项会遮住其余项，因为符号翻转之后纹波比较没有意义。它被第一个</span>
+<span class="w">    </span><span class="c1">// 报出来是有原因的。</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BoardMeasurements</span><span class="w"> </span><span class="n">inverted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">measurements</span><span class="p">;</span>
+<span class="w">    </span><span class="n">inverted</span><span class="p">.</span><span class="n">response_sign</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">inverted</span><span class="p">.</span><span class="n">response_sign</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BoardReport</span><span class="w"> </span><span class="n">bad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">check_board</span><span class="p">(</span><span class="n">inverted</span><span class="p">,</span><span class="w"> </span><span class="n">limits</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;items failed (one sign inverted)&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">bad</span><span class="p">.</span><span class="n">failures</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;items&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cause named&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">board_cause_name</span><span class="p">(</span><span class="n">bad</span><span class="p">.</span><span class="n">cause</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="c1">// ---------------------------------------------------------------------------</span>
+</pre></div>
+</div>
+<p>The trap this stage exists for: health is a <em>pattern</em> of signs, not &quot;all positive&quot;. A positive
+d-axis drive puts positive current on one phase and negative on the other two, so two of the
+three polarity items are expected to be negative. Invert them and the count of failures stays
+small while the report's cause changes — a reader who only counts failures sees a healthy board
+twice.</p>
+<p>Explained further in <a class="reference internal" href="current-sampling.html"><span class="doc">Sampling and the power stage</span></a>.</p>
+</section>
+<section id="align-pull-hand-over">
+<h2><span class="section-number">2.4. </span>3. Align, pull, hand over<a class="headerlink" href="#align-pull-hand-over" title="链接到此标题。"></a></h2>
+<p>The start-up routine decides an angle, a current and the moment to hand over. It is asked
+twice: once with a recipe that can never finish, once with the real one:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">stage_startup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupConfig</span><span class="w"> </span><span class="n">recipe</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">recipe</span><span class="p">.</span><span class="n">align_current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.5F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">recipe</span><span class="p">.</span><span class="n">align_hold_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">recipe</span><span class="p">.</span><span class="n">pull_current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">recipe</span><span class="p">.</span><span class="n">pull_accel_rad_s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">recipe</span><span class="p">.</span><span class="n">handover_speed_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">60.0F</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// The refusal first: a hand-over speed of zero is a recipe that can never end.</span>
+<span class="w">    </span><span class="c1">// 先看拒绝：交接转速为零等于一个永远不会结束的配方。</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupConfig</span><span class="w"> </span><span class="n">broken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recipe</span><span class="p">;</span>
+<span class="w">    </span><span class="n">broken</span><span class="p">.</span><span class="n">handover_speed_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupRoutine</span><span class="w"> </span><span class="n">refused_start</span><span class="p">{</span><span class="n">broken</span><span class="p">};</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">zero_handover_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">refused_start</span><span class="p">.</span><span class="n">validate</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">;</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;recipe with hand-over 0 rad/s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">zero_handover_ok</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;accepted&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;refused&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupRoutine</span><span class="w"> </span><span class="n">startup</span><span class="p">{</span><span class="n">recipe</span><span class="p">};</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">startup</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">kPolePairs</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">verdict</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;begin()&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;refused&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">t_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">AlignOutput</span><span class="w"> </span><span class="n">out</span><span class="p">{};</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">hold_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">t_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">3.0F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">startup</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">kDtS</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">);</span>
+<span class="w">        </span><span class="n">t_s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kDtS</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">startup</span><span class="p">.</span><span class="n">state</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupState</span><span class="o">::</span><span class="n">Align</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">hold_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_s</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">finished</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hold (align) lasts&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">hold_s</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pull + hold, to hand-over&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t_s</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hand-over speed (electrical)&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">handover_speed_e_rad_s</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;rad/s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hand-over speed (mechanical)&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">handover_speed_e_rad_s</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kPolePairs</span><span class="p">)),</span><span class="w"> </span><span class="s">&quot;rad/s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;commanded angle at hand-over&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">theta_e_rad</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;rad&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sequence finished&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">finished</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;yes&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;no&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ---------------------------------------------------------------------------</span>
+</pre></div>
+</div>
+<p>The refusal comes first on purpose. A hand-over speed of zero means &quot;no observer will ever take
+over&quot;, and the routine says so at validation rather than starting and stalling. What the table
+then reports is the routine's own arithmetic: the hold lasts the settling time it was given, and
+the pull takes as long as its acceleration needs to reach the hand-over speed. The
+<strong>mechanical</strong> hand-over speed is the electrical one divided by the pole pairs — the conversion
+that decides whether the observer is even in its working range.</p>
+<p>What this stage cannot show is whether the rotor came along. There is no plant in this part of
+the program, and the routine does not know: that judgement belongs to the hand-over check one
+window later.</p>
+<p>Explained further in <a class="reference internal" href="startup-sensorless.html"><span class="doc">Bringing a sensorless machine up</span></a>.</p>
+</section>
+<section id="take-a-torque-step">
+<h2><span class="section-number">2.5. </span>4. Take a torque step<a class="headerlink" href="#take-a-torque-step" title="链接到此标题。"></a></h2>
+<p>The first closed-loop stage, on the same SIL bench the test suite asserts on, with the same
+metric helpers the <code class="docutils literal notranslate"><span class="pre">Measured</span> <span class="pre">responses</span></code> page uses:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">stage_torque_step</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">Bench</span><span class="w"> </span><span class="n">bench</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">standard_bench_config</span><span class="p">());</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bench</span><span class="p">.</span><span class="n">init_and_start</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">verdict</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bench&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;refused to start&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">idle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">((</span><span class="mf">0.005F</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">kDtS</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">hold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">((</span><span class="mf">0.020F</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">kDtS</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">idle</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">bench</span><span class="p">.</span><span class="n">tick_once</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">Sample</span><span class="o">&gt;</span><span class="w"> </span><span class="n">step</span><span class="p">;</span>
+<span class="w">    </span><span class="n">step</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">hold</span><span class="p">));</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">hold</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">bench</span><span class="p">.</span><span class="n">motor</span><span class="p">().</span><span class="n">set_torque</span><span class="p">(</span><span class="mf">1.0F</span><span class="p">);</span>
+<span class="w">        </span><span class="n">bench</span><span class="p">.</span><span class="n">tick_once</span><span class="p">();</span>
+<span class="w">        </span><span class="n">step</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bench</span><span class="p">.</span><span class="n">sample</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">iq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">series_of</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">Sample</span><span class="o">::</span><span class="n">iq_a</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">settle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">settling_time_s</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">Sample</span><span class="o">::</span><span class="n">iq_a</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05F</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">overshoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">overshoot_fraction</span><span class="p">(</span><span class="n">iq</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iq step: settling to 5 %&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">settle</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iq step: overshoot&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">overshoot</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;%&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1.0F</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">tail_mean</span><span class="p">(</span><span class="n">iq</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2F</span><span class="p">));</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iq step: steady-state error&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ---------------------------------------------------------------------------</span>
+</pre></div>
+</div>
+<p>This is the page's internal consistency check: the settling time, overshoot and steady-state
+error printed here are the same three numbers as the <code class="docutils literal notranslate"><span class="pre">current</span> <span class="pre">step</span></code> metrics table on
+<a class="reference internal" href="../demos/index.html"><span class="doc">Measured responses</span></a>, because they are computed from the same run shape by the same functions.
+If those two ever disagree, one of them is measuring something else.</p>
+<p>Explained further in <a class="reference internal" href="torque-reference.html"><span class="doc">Torque below base speed</span></a>.</p>
+</section>
+<section id="run-past-base-speed">
+<h2><span class="section-number">2.6. </span>5. Run past base speed<a class="headerlink" href="#run-past-base-speed" title="链接到此标题。"></a></h2>
+<p>Above base speed the voltage ellipse, not the current ceiling, is what binds — and the speed at
+which that happens is not <code class="docutils literal notranslate"><span class="pre">psi_f</span></code> divided by anything:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">stage_high_speed</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MachineParams</span><span class="w"> </span><span class="n">machine</span><span class="p">{</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0e-3F</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0e-3F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01F</span><span class="p">};</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpvConfig</span><span class="w"> </span><span class="n">config</span><span class="p">{</span><span class="n">machine</span><span class="p">,</span><span class="w"> </span><span class="n">kVMaxV</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0F</span><span class="p">,</span><span class="w"> </span><span class="n">kPolePairs</span><span class="p">};</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Mtpv</span><span class="w"> </span><span class="n">solver</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">solver</span><span class="p">.</span><span class="n">validate</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">verdict</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;machine / ceiling&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;refused&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpvPoint</span><span class="w"> </span><span class="n">mtpa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solver</span><span class="p">.</span><span class="n">mtpa_point</span><span class="p">();</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solver</span><span class="p">.</span><span class="n">base_speed_rad_s</span><span class="p">();</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;base speed (electrical)&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">base</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;rad/s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;base speed (mechanical)&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">base</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kPolePairs</span><span class="p">)),</span><span class="w"> </span><span class="s">&quot;rad/s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MTPA id at the current ceiling&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">mtpa</span><span class="p">.</span><span class="n">id_a</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MTPA iq at the current ceiling&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">mtpa</span><span class="p">.</span><span class="n">iq_a</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Where the ellipse takes over: sweep and report the first speed that is</span>
+<span class="w">    </span><span class="c1">// voltage-limited, then say what the d axis had to give up to get there.</span>
+<span class="w">    </span><span class="c1">// 椭圆从哪里接管：扫一遍，报出第一个受电压约束的转速，再说为了到那里 d 轴付出了什么。</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">candidate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.05F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">solver</span><span class="p">.</span><span class="n">at_speed</span><span class="p">(</span><span class="n">candidate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">base</span><span class="p">).</span><span class="n">voltage_limited</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">candidate</span><span class="p">;</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;voltage binds first at&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ratio</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;x base&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpvPoint</span><span class="w"> </span><span class="n">at_twice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solver</span><span class="p">.</span><span class="n">at_speed</span><span class="p">(</span><span class="mf">2.0F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">base</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">mtpa_torque</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">mtpa</span><span class="p">.</span><span class="n">torque_nm</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">mtpa</span><span class="p">.</span><span class="n">torque_nm</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">torque_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">at_twice</span><span class="p">.</span><span class="n">torque_nm</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mtpa_torque</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id at 2x base&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">at_twice</span><span class="p">.</span><span class="n">id_a</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;torque at 2x base relative to MTPA&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">torque_ratio</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;past base speed&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;weakened&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ---------------------------------------------------------------------------</span>
+</pre></div>
+</div>
+<p>Two readings matter. The base speed here comes from the flux <strong>at the MTPA point</strong>, which on a
+salient machine is several times lower than <code class="docutils literal notranslate"><span class="pre">psi_f</span> <span class="pre">/</span> <span class="pre">v_max</span></code> would suggest — a drive sized on
+the second number finds the real ceiling when its current loop saturates. And the first speed
+that answers <code class="docutils literal notranslate"><span class="pre">voltage_limited</span></code> is not exactly base speed: it is the first grid point past it,
+which is why this stage prints the ratio it swept rather than claiming the crossing.</p>
+<p>Explained further in <a class="reference internal" href="high-speed-field-weakening.html"><span class="doc">Above base speed</span></a>.</p>
+</section>
+<section id="position-the-axis">
+<h2><span class="section-number">2.7. </span>6. Position the axis<a class="headerlink" href="#position-the-axis" title="链接到此标题。"></a></h2>
+<p>The move is shaped by the profile and closed by the library's speed loop on the plant; the soft
+limit is asked first, so a target behind a wall never becomes a reference:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">stage_position</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimit</span><span class="w"> </span><span class="n">limit</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimitConfig</span><span class="p">{</span><span class="mf">-1.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">});</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimitOutput</span><span class="w"> </span><span class="n">inside</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="mf">0.5F</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimitOutput</span><span class="w"> </span><span class="n">beyond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="mf">1.5F</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;target 0.5 accepted as&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">inside</span><span class="p">.</span><span class="n">target_rad</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;rad&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;target 1.5 rad against wall 1.0&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="p">(</span><span class="n">beyond</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;accepted&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;refused&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;previous target returned instead&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">beyond</span><span class="p">.</span><span class="n">target_rad</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;rad&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MotionProfile</span><span class="o">::</span><span class="n">Config</span><span class="w"> </span><span class="n">shaping</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">shaping</span><span class="p">.</span><span class="n">shaping_gain_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">8.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">shaping</span><span class="p">.</span><span class="n">velocity_limit_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">shaping</span><span class="p">.</span><span class="n">accel_limit_rad_s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MotionProfile</span><span class="w"> </span><span class="n">profile</span><span class="p">{</span><span class="n">shaping</span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">Bench</span><span class="w"> </span><span class="n">bench</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">sil</span><span class="o">::</span><span class="n">standard_bench_config</span><span class="p">());</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bench</span><span class="p">.</span><span class="n">init_and_start</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">verdict</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bench&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;refused to start&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="mf">0.8F</span><span class="p">).</span><span class="n">target_rad</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">t_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">worst_velocity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">t_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.5F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bench</span><span class="p">.</span><span class="n">plant</span><span class="p">().</span><span class="n">state</span><span class="p">().</span><span class="n">theta_mech</span><span class="p">;</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">velocity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">profile</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="w"> </span><span class="n">kDtS</span><span class="p">);</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">magnitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fabs</span><span class="p">(</span><span class="n">velocity</span><span class="p">);</span>
+<span class="w">        </span><span class="n">worst_velocity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">magnitude</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">worst_velocity</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">magnitude</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">worst_velocity</span><span class="p">;</span>
+<span class="w">        </span><span class="n">bench</span><span class="p">.</span><span class="n">motor</span><span class="p">().</span><span class="n">set_speed</span><span class="p">(</span><span class="n">velocity</span><span class="p">);</span>
+<span class="w">        </span><span class="n">bench</span><span class="p">.</span><span class="n">tick_once</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t_s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kDtS</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">landed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bench</span><span class="p">.</span><span class="n">plant</span><span class="p">().</span><span class="n">state</span><span class="p">().</span><span class="n">theta_mech</span><span class="p">;</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;peak velocity commanded&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">worst_velocity</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;rad/s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;move duration&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t_s</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;residual error at 1.5 s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fabs</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">landed</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;rad&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;landed at&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">landed</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rad&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ---------------------------------------------------------------------------</span>
+</pre></div>
+</div>
+<p>Note what the limit returns: not a clamped target but the <strong>previous</strong> target with <code class="docutils literal notranslate"><span class="pre">Param</span></code>.
+Nothing downstream ever sees a position it would drive into a wall, and a caller that ignores
+the status goes on commanding the old position — which looks exactly like an axis that arrived.
+The residual error at the end of the move is printed with enough digits to show that it is a
+plant tail, not a rounding artefact.</p>
+<p>Explained further in <a class="reference internal" href="positioning.html"><span class="doc">Positioning an axis</span></a>.</p>
+</section>
+<section id="fail-safely">
+<h2><span class="section-number">2.8. </span>7. Fail safely<a class="headerlink" href="#fail-safely" title="链接到此标题。"></a></h2>
+<p>Three questions in one stage: how long an overload may last, how much current the derating
+curve allows, and who may clear a trip:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">stage_protection</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionConfig</span><span class="w"> </span><span class="n">config</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">i_hard_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">i_max_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">i2t_a2s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.5F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">i2t_cooling_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">v_max_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">30.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">v_min_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">18.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">t_trip_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">t_derate_start_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">60.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">t_derate_end_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">110.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">stall_speed_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">stall_current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">stall_time_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">sync_error_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.25F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">hysteresis_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.05F</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">healthy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="kt">float</span><span class="w"> </span><span class="n">current_a</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature_c</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionInput</span><span class="w"> </span><span class="n">input</span><span class="p">{};</span>
+<span class="w">        </span><span class="n">input</span><span class="p">.</span><span class="n">i_magnitude_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_a</span><span class="p">;</span>
+<span class="w">        </span><span class="n">input</span><span class="p">.</span><span class="n">v_bus_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">24.0F</span><span class="p">;</span>
+<span class="w">        </span><span class="n">input</span><span class="p">.</span><span class="n">temperature_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temperature_c</span><span class="p">;</span>
+<span class="w">        </span><span class="n">input</span><span class="p">.</span><span class="n">omega_e_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0F</span><span class="p">;</span>
+<span class="w">        </span><span class="n">input</span><span class="p">.</span><span class="n">flux_error_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01F</span><span class="p">;</span>
+<span class="w">        </span><span class="n">input</span><span class="p">.</span><span class="n">flux_valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">input</span><span class="p">;</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// 3.4 A: above the continuous rating, below the hard trip. The budget is</span>
+<span class="w">    </span><span class="c1">// `i_cont^2 * tau`, so only the excess spends it -- the time is finite and</span>
+<span class="w">    </span><span class="c1">// it is long, which is exactly what makes an i2t limit different from a fuse.</span>
+<span class="w">    </span><span class="c1">// 3.4 A：高于连续额定、低于硬跳闸。预算是 `i_cont²·τ`，所以只有超出的部分花余量——</span>
+<span class="w">    </span><span class="c1">// 时间是有限的，而且很长，这正是 i2t 与保险丝的区别。</span>
+<span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kDt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0e-6F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Protector</span><span class="w"> </span><span class="n">overloaded</span><span class="p">{</span><span class="n">config</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">trip_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionOutput</span><span class="w"> </span><span class="n">output</span><span class="p">{};</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">trip_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">30.0F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">overloaded</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">healthy</span><span class="p">(</span><span class="mf">3.4F</span><span class="p">,</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">),</span><span class="w"> </span><span class="n">kDt</span><span class="p">);</span>
+<span class="w">        </span><span class="n">trip_s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kDt</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">fault</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">FaultCode</span><span class="o">::</span><span class="n">None</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;3.4 A continuous: trip after&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">trip_s</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;fault latched&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">.</span><span class="n">output_allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;no&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;yes&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">limit_80</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Protector</span><span class="p">(</span><span class="n">config</span><span class="p">).</span><span class="n">derated_limit</span><span class="p">(</span><span class="mf">80.0F</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">limit_105</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Protector</span><span class="p">(</span><span class="n">config</span><span class="p">).</span><span class="n">derated_limit</span><span class="p">(</span><span class="mf">105.0F</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;derated limit at 80 C&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">limit_80</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">row</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;derated limit at 105 C&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">limit_105</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// The latch is the point of a trip: it does not clear because the current came</span>
+<span class="w">    </span><span class="c1">// back. `reset()` clears the latched faults and deliberately keeps the i2t</span>
+<span class="w">    </span><span class="c1">// memory -- the winding is still hot -- so the axis is *still* blocked. Only</span>
+<span class="w">    </span><span class="c1">// `reset_cold()` lets it run again, and that one is for a machine that has been</span>
+<span class="w">    </span><span class="c1">// off long enough to have cooled.</span>
+<span class="w">    </span><span class="c1">// 锁存才是跳闸的意义：电流回来了它也不清。 `reset()` 清掉锁存故障，却有意保留 i2t</span>
+<span class="w">    </span><span class="c1">// 记忆——绕组还热着——所以轴**依然**被拦住。只有 `reset_cold()` 能让它重新跑，而那个是</span>
+<span class="w">    </span><span class="c1">// 给已经断电够久、确实凉了的机器用的。</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionOutput</span><span class="w"> </span><span class="n">still_tripped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">overloaded</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">healthy</span><span class="p">(</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">),</span><span class="w"> </span><span class="n">kDt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;healthy input after the trip&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">still_tripped</span><span class="p">.</span><span class="n">output_allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;allowed&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;still blocked&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">overloaded</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionOutput</span><span class="w"> </span><span class="n">after_reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">overloaded</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">healthy</span><span class="p">(</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">),</span><span class="w"> </span><span class="n">kDt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;after reset()&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">after_reset</span><span class="p">.</span><span class="n">output_allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;allowed&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;still blocked&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">overloaded</span><span class="p">.</span><span class="n">reset_cold</span><span class="p">();</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ProtectionOutput</span><span class="w"> </span><span class="n">after_cold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">overloaded</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">healthy</span><span class="p">(</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">),</span><span class="w"> </span><span class="n">kDt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">verdict</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;after reset_cold()&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">after_cold</span><span class="p">.</span><span class="n">output_allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;allowed&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;still blocked&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The last three lines are the ones that get an installation into trouble. <code class="docutils literal notranslate"><span class="pre">reset()</span></code> clears the
+latched fault and <strong>deliberately keeps the i2t memory</strong> — the winding is still hot — so the axis
+stays blocked after a reset even though the current is healthy again. Only <code class="docutils literal notranslate"><span class="pre">reset_cold()</span></code> lets
+it run, and that one is for a machine that has been off long enough to have cooled. Two answers
+that look identical from the outside (&quot;still blocked&quot;) have two different meanings, and the
+table prints them on separate lines so that they cannot be confused.</p>
+<p>Explained further in <a class="reference internal" href="protection-and-derating.html"><span class="doc">Health and protection</span></a>.</p>
+</section>
+<section id="what-one-run-prints">
+<h2><span class="section-number">2.9. </span>What one run prints<a class="headerlink" href="#what-one-run-prints" title="链接到此标题。"></a></h2>
+<p>The complete output of the script, copied once — this block is the single source of every value
+this page mentions:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>one machine, one shift -- 7 pole pairs, 24 V bus, 20 kHz control loop
+
+ stage  quantity                                      value  unit
+   1  Rs                                              0.5  ohm
+   1  Ld                                            0.004  H
+   1  Lq                                            0.008  H
+   1  psi_f                                          0.01  Wb
+   1  Kt = 1.5 * pole_pairs * psi_f                 0.105  N.m/A
+   1  nameplate file: size                             64  B
+   1  nameplate file: map rows                          1  rows
+   1  nameplate round trip                           same  -
+   2  board items checked                              12  items
+   2  items failed (healthy board)                      0  items
+   2  cause on a healthy board                       none  -
+   2  items failed (one sign inverted)                  2  items
+   2  cause named                            current polarity  -
+   3  recipe with hand-over 0 rad/s               refused  -
+   3  hold (align) lasts                          0.01995  s
+   3  pull + hold, to hand-over                    1.5198  s
+   3  hand-over speed (electrical)                     60  rad/s
+   3  hand-over speed (mechanical)                 8.5714  rad/s
+   3  commanded angle at hand-over                 1.0337  rad
+   3  sequence finished                               yes  -
+   4  iq step: settling to 5 %                     0.0009  s
+   4  iq step: overshoot                                0  %
+   4  iq step: steady-state error                0.010139  A
+   5  base speed (electrical)                      579.86  rad/s
+   5  base speed (mechanical)                      82.837  rad/s
+   5  MTPA id at the current ceiling              -1.5865  A
+   5  MTPA iq at the current ceiling               2.5462  A
+   5  voltage binds first at                         1.05  x base
+   5  id at 2x base                               -2.7089  A
+   5  torque at 2x base relative to MTPA          0.64539  x
+   5  past base speed                            weakened  -
+   6  target 0.5 accepted as                          0.5  rad
+   6  target 1.5 rad against wall 1.0             refused  -
+   6  previous target returned instead                0.5  rad
+   6  peak velocity commanded                      3.7319  rad/s
+   6  move duration                                   1.5  s
+   6  residual error at 1.5 s                  9.1296e-06  rad
+   6  landed at                                   0.79999  rad
+   7  3.4 A continuous: trip after                0.75371  s
+   7  fault latched                                   yes  -
+   7  derated limit at 80 C                           1.8  A
+   7  derated limit at 105 C                          0.3  A
+   7  healthy input after the trip           still blocked  -
+   7  after reset()                          still blocked  -
+   7  after reset_cold()                          allowed  -
+</pre></div>
+</div>
+<p>It is checked rather than remembered: the file next to the script holds the output of the run
+the site was built from, and re-running the script and diffing against it is the whole test.</p>
+</section>
+<section id="what-this-page-is-not">
+<h2><span class="section-number">2.10. </span>What this page is not<a class="headerlink" href="#what-this-page-is-not" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>Not a tuning guide.</strong> Gains come from the library's own helpers; where they come from is on
+each task page, and how to re-tune the outer loop on a new machine is <a class="reference internal" href="../sop.html"><span class="doc">Outer-loop self-tuning</span></a>.</p></li>
+<li><p><strong>Not a hardware claim.</strong> Stages 4 and 6 run on the SIL plant, which is a model. What the
+plant cannot represent is listed item by item under <a class="reference internal" href="../index.html#honest-limits"><span class="std std-ref">honest limits</span></a>.</p></li>
+<li><p><strong>Not a substitute for the task pages.</strong> Each stage states one number and hands over; the failure
+modes that compile cleanly live on the page it links to.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="on-machine-acceptance.html" class="btn btn-neutral float-left" title="1.1.12. Acceptance on your machine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../demos/index.html" class="btn btn-neutral float-right" title="3. Measured responses" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

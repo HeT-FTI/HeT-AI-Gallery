@@ -1,0 +1,705 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. Usage and verification &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="5. Reproducing these numbers" href="reproducing.html" />
+    <link rel="prev" title="3.1.3. Language compliance" href="compliance/language.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Usage and verification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">4.1. C++ path (recommended for board-level work)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">4.2. C path (non-C++ projects, glue code)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">4.3. Python path (host-side scripts)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">4.4. The model behind the loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">4.5. Sizing the injection (HFI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">4.6. Verification: what is actually checked</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">4. </span>Usage and verification</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/usage.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">4. </span><span class="target" id="usage-and-verification">Usage and verification</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>This page is the part a user actually needs: the three faces of the library, the model behind
+them, and the evidence that they work.</p>
+<section id="id2">
+<h2><span class="section-number">4.1. </span><span class="target" id="c-path-recommended-for-board-level-work">C++ path (recommended for board-level work)</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>Every policy is a template parameter: the observer, the modulator, the controllers and the HAL.
+Nothing is virtual, and swapping a policy costs nothing at run time.</p>
+<div class="literal-block-wrapper docutils container" id="cpp-control-step">
+<div class="code-block-caption"><span class="caption-number">Code 4.1 </span><span class="caption-text">one motor, one control step</span><a class="headerlink" href="#cpp-control-step" title="链接到此段代码"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/observer/back_emf_observer.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/pi.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/svpwm.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/driver/stub_hal.hpp&gt;</span><span class="c1">      // swap for your own HalPolicy on real hardware</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/motor/motor.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/motor/motor_config.hpp&gt;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">Motor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">motor</span><span class="o">::</span><span class="n">Motor</span><span class="o">&lt;</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BackEmfObserver</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Svpwm</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">driver</span><span class="o">::</span><span class="n">StubHal</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="n">foc</span><span class="o">::</span><span class="n">driver</span><span class="o">::</span><span class="n">StubHal</span><span class="w"> </span><span class="n">hal</span><span class="p">;</span><span class="w">                       </span><span class="c1">// or your board&#39;s HAL</span>
+<span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">motor</span><span class="o">::</span><span class="n">MotorConfig</span><span class="w"> </span><span class="n">cfg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">motor</span><span class="o">::</span><span class="n">MotorConfig</span><span class="p">{</span>
+<span class="w">    </span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">4e-4F</span><span class="p">,</span><span class="w"> </span><span class="mf">4e-4F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05F</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-5F</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-6F</span><span class="p">,</span><span class="w"> </span><span class="mi">7U</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">20000.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">500.0F</span><span class="p">};</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">current_pi_config</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span><span class="w"> </span><span class="mf">2000.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">24.0F</span><span class="p">);</span>
+
+<span class="n">Motor</span><span class="w"> </span><span class="nf">motor</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span><span class="w"> </span><span class="n">Motor</span><span class="o">::</span><span class="n">Policies</span><span class="p">{</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BackEmfObserver</span><span class="p">({</span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="mf">4e-4F</span><span class="p">}),</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Svpwm</span><span class="p">{},</span>
+<span class="w">                                 </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="p">{</span><span class="n">current</span><span class="p">},</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="p">{</span><span class="n">current</span><span class="p">},</span>
+<span class="w">                                 </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="p">{</span><span class="n">foc</span><span class="o">::</span><span class="n">speed_pi_config</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span><span class="w"> </span><span class="mf">200.0F</span><span class="p">)}},</span>
+<span class="w">            </span><span class="n">hal</span><span class="p">);</span>
+
+<span class="n">motor</span><span class="p">.</span><span class="n">init</span><span class="p">();</span>
+<span class="n">motor</span><span class="p">.</span><span class="n">start</span><span class="p">();</span>
+<span class="n">motor</span><span class="p">.</span><span class="n">set_torque</span><span class="p">(</span><span class="mf">1.0F</span><span class="p">);</span><span class="w">                         </span><span class="c1">// q-axis current in A</span>
+<span class="n">motor</span><span class="p">.</span><span class="n">tick</span><span class="p">(</span><span class="mf">1e-4F</span><span class="p">);</span><span class="w">                              </span><span class="c1">// call this from your ISR</span>
+</pre></div>
+</div>
+</div>
+<p><code class="code docutils literal notranslate"><span class="pre">tick()</span></code> is noexcept, allocates nothing and does no I/O — it is the ISR entry point.
+The tuning helpers (<code class="code docutils literal notranslate"><span class="pre">current_pi_config</span></code>, <code class="code docutils literal notranslate"><span class="pre">speed_pi_config</span></code>) live in the library so
+the C path and the SIL bench use exactly the same numbers.</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">4.2. </span><span class="target" id="c-path-non-c-projects-glue-code">C path (non-C++ projects, glue code)</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<div class="literal-block-wrapper docutils container" id="c-control-step">
+<div class="code-block-caption"><span class="caption-number">Code 4.2 </span><span class="caption-text">the same motor through the frozen ABI</span><a class="headerlink" href="#c-control-step" title="链接到此段代码"></a></div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/api/foc_api.h&gt;</span>
+
+<span class="n">foc_motor_params_t</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{.</span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">ld</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4e-4F</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">lq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4e-4F</span><span class="p">,</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">kt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.05F</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-5F</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-6F</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">pole_pairs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">};</span>
+<span class="n">foc_motor_t</span><span class="w"> </span><span class="n">motor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">foc_motor_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">motor</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">FOC_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* pool exhausted */</span><span class="w"> </span><span class="p">}</span>
+
+<span class="n">foc_motor_enable</span><span class="p">(</span><span class="n">motor</span><span class="p">);</span>
+<span class="n">foc_set_torque_g</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span><span class="w">                   </span><span class="c1">// _Generic: float or double, your call</span>
+<span class="n">foc_tick</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-4F</span><span class="p">);</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="n">iq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="n">foc_get_state</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">speed</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">iq</span><span class="p">);</span>
+<span class="n">foc_motor_destroy</span><span class="p">(</span><span class="n">motor</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<p>Handles are opaque tokens carrying a generation counter: after <code class="code docutils literal notranslate"><span class="pre">foc_motor_destroy()</span></code> an
+old handle answers <code class="code docutils literal notranslate"><span class="pre">FOC_ERR_PARAM</span></code> instead of touching freed memory. The C path runs on
+the stub HAL with library defaults (20 kHz, 500 ns dead time, 5 A limit, 24 V bus); for real
+hardware use the C++ path.</p>
+</section>
+<section id="id4">
+<h2><span class="section-number">4.3. </span><span class="target" id="python-path-host-side-scripts">Python path (host-side scripts)</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<div class="literal-block-wrapper docutils container" id="python-control-step">
+<div class="code-block-caption"><span class="caption-number">Code 4.3 </span><span class="caption-text">the same motor from Python</span><a class="headerlink" href="#python-control-step" title="链接到此段代码"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">foc_python</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">foc</span>
+
+<span class="k">with</span> <span class="n">foc</span><span class="o">.</span><span class="n">Motor</span><span class="o">.</span><span class="n">from_parts</span><span class="p">()</span> <span class="k">as</span> <span class="n">motor</span><span class="p">:</span>          <span class="c1"># the C handle dies with the with-block</span>
+    <span class="n">motor</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+    <span class="n">motor</span><span class="o">.</span><span class="n">set_torque</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="n">motor</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mf">1e-4</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">motor</span><span class="o">.</span><span class="n">telemetry</span><span class="p">())</span>                   <span class="c1"># speed, id and iq of the last step</span>
+</pre></div>
+</div>
+</div>
+<p>The module binds the <strong>C API</strong>. Failures raise <code class="code docutils literal notranslate"><span class="pre">foc_python.FocError</span></code> whose
+<code class="code docutils literal notranslate"><span class="pre">code</span></code> attribute is the very <code class="code docutils literal notranslate"><span class="pre">ErrorCode</span></code> the C function returned — Python gets
+exceptions, you keep the raw code.</p>
+</section>
+<section id="id5">
+<h2><span class="section-number">4.4. </span><span class="target" id="the-model-behind-the-loop">The model behind the loop</span><a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
+<p>The controller sees a dq-frame PMSM. The plant used by the SIL tests integrates exactly this,
+with fixed-step RK4 at 10 µs against a 100 µs control step:</p>
+<div class="math notranslate nohighlight" id="equation-pmsm-dq-model">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-pmsm-dq-model" title="链接到此公式"></a></span>\[\begin{split}\begin{aligned}
+\frac{di_d}{dt} &amp;= \frac{v_d - R_s i_d + \omega_e L_q i_q}{L_d} \\
+\frac{di_q}{dt} &amp;= \frac{v_q - R_s i_q - \omega_e L_d i_d - \omega_e \psi_f}{L_q} \\
+\frac{d\omega_m}{dt} &amp;= \frac{T_e - B \omega_m - T_{load}}{J}, \qquad
+T_e = \tfrac{3}{2} p \left(\psi_f i_q + (L_d - L_q) i_d i_q\right)
+\end{aligned}\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(\psi_f = K_t / (1.5 p)\)</span> and <span class="math notranslate nohighlight">\(\omega_e = p\,\omega_m\)</span>. The torque constant is
+<em>knot</em> the back-EMF constant: conflating them is the classic way to be wrong by 1.5 p.</p>
+<p><strong>How that model earns its place.</strong> Everything else in this documentation is measured against it, so it is the one thing
+that cannot be taken on trust. Four checks, none of which is a comparison with itself:</p>
+<ul class="simple">
+<li><p><strong>The equations above are the equations the plant integrates</strong> -- same terms, same <cite>psi_f = Kt/(1.5p)</cite> substitution, and
+the header block states them next to the code that computes them.</p></li>
+<li><p><strong>An independent formulation agrees.</strong> <cite>sil_abc_plant.hpp</cite> integrates the three phase fluxes directly from
+<cite>v = Rs*i + d(lambda)/dt</cite> with <cite>lambda_p = (Ls - M)*i_p + lambda_m*cos(theta_p)</cite> and derives torque from co-energy,
+without Clarke, Park or <cite>psi_f</cite>. The two models agree on <cite>i_d</cite>/<cite>i_q</cite> to 2 % and on torque, and on the electrical time
+constant: two different formulations of the same physics is the strongest evidence available without a bench.</p></li>
+<li><p><strong>Analytic anchors.</strong> An <cite>RL</cite> step matches the closed-form solution; the mechanical steady state satisfies the torque
+balance; positive torque at positive speed delivers mechanical power; phase currents round-trip back to the dq frame;
+<cite>psi_f</cite> follows the torque constant.</p></li>
+<li><p><strong>A conservation law at the frequency it is used at.</strong> <cite>P_elec = P_copper + dW/dt + P_mech</cite>, with
+<cite>W = 1.5*(Ld*id^2/2 + Lq*iq^2/2 + psi_f*id)</cite>, run at <strong>900 rad/s electrical</strong>: 11313.95 J in, 11302.81 J out as copper
+plus mechanical work over 0.1 s (<strong>0.098 %</strong>), and the worst single period within <strong>0.37 %</strong>. One invariant catches a
+wrong factor of 1.5, a wrong <cite>psi_f</cite> and a cross-coupling sign at the same time.</p></li>
+</ul>
+<p>What none of the four do is say the <em>parameters</em> describe a real motor. Saturation, iron loss and winding temperature are
+modelled and <strong>off by default</strong>; the plant is exact for the machine it describes and says nothing about a specific one.
+That is why every claim in this library is of the form &quot;this algorithm does X on a machine described by these equations&quot;
+-- falsifiable, and true -- and none of them is of the form &quot;this will work on your motor&quot;, which would need a bench.</p>
+</section>
+<section id="id6">
+<h2><span class="section-number">4.5. </span><span class="target" id="sizing-the-injection-hfi">Sizing the injection (HFI)</span><a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<p>The injection observer buys an angle where back-EMF has nothing to say, and it is not free. Every number below was
+measured on the SIL envelope fixture — a loaded machine held at a given speed on a dyno, the observer as a passenger, so
+a cell is a property of the observer and not of a loop closing on it.</p>
+<p><strong>The carrier has a ceiling set by the control rate.</strong> Ask for it rather than guess:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">foc_python</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">foc</span>
+
+<span class="n">ceiling_hz</span> <span class="o">=</span> <span class="n">foc</span><span class="o">.</span><span class="n">hfi_max_inject_hz</span><span class="p">(</span><span class="mf">20000.0</span><span class="p">)</span>   <span class="c1"># 8000.0 Hz: 2.5 control periods per carrier period</span>
+<span class="k">assert</span> <span class="n">setup</span><span class="o">.</span><span class="n">inject_hz</span> <span class="o">&lt;=</span> <span class="n">ceiling_hz</span>
+</pre></div>
+</div>
+<p>The same question from C is <code class="code docutils literal notranslate"><span class="pre">foc_hfi_max_inject_hz(pwm_freq_hz)</span></code>. Past the ceiling the observer does not get
+noisy, it stops: the demodulated amplitude collapses, the lock detector drops out, the angle freezes and the speed reads
+zero, which a loop cannot tell from a stalled rotor — measured as a -19.5 rad/s speed bias before the failure was
+understood. <code class="code docutils literal notranslate"><span class="pre">foc_motor_create_ex()</span></code> refuses such a request, and the cases it cannot catch are reported by
+<code class="code docutils literal notranslate"><span class="pre">observer_locked</span></code>.</p>
+<p>The same admission test runs when the observer is changed on a running motor: <code class="code docutils literal notranslate"><span class="pre">Motor.set_observer()</span></code> --
+<code class="code docutils literal notranslate"><span class="pre">foc_motor_set_observer()</span></code> from C -- validates the request against the setup already in force, so a motor built
+without a carrier can run on back-EMF but cannot be handed over to HFI later. Outside the Run state it answers
+<code class="code docutils literal notranslate"><span class="pre">STATE</span></code> instead, because a hand-over carries an estimate and an observer that has not been stepped has none to
+carry. Both refusals arrive as <code class="code docutils literal notranslate"><span class="pre">FocError</span></code>, never as a silently unchanged <code class="code docutils literal notranslate"><span class="pre">status()[&quot;observer&quot;]</span></code>.</p>
+<p>Within the ceiling, higher is better on both axes at once, because the angle bias falls faster than the injected current:</p>
+<table class="docutils align-default" id="id8">
+<caption><span class="caption-number">表 4.1 </span><span class="caption-text">20 rad/s mechanical, 200 Hz demodulation, 12 V</span><a class="headerlink" href="#id8" title="链接到此表格。"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>carrier</p></th>
+<th class="head"><p>angle bias</p></th>
+<th class="head"><p>HF current</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2000 Hz</p></td>
+<td><p>0.0060 rad</p></td>
+<td><p>4.04 A</p></td>
+</tr>
+<tr class="row-odd"><td><p>4000 Hz</p></td>
+<td><p>0.0012 rad</p></td>
+<td><p>1.89 A</p></td>
+</tr>
+<tr class="row-even"><td><p>8000 Hz</p></td>
+<td><p>0.00018 rad</p></td>
+<td><p>0.38 A</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ask for the whole configuration, rather than assembling it.</strong> <code class="code docutils literal notranslate"><span class="pre">foc.hfi_size()</span></code> -- <code class="code docutils literal notranslate"><span class="pre">foc_hfi_size()</span></code> from C --
+takes the machine and the control rate and returns the carrier, the amplitude, and both cutoffs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sized</span> <span class="o">=</span> <span class="n">foc</span><span class="o">.</span><span class="n">hfi_size</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">pwm_freq_hz</span><span class="o">=</span><span class="mf">20000.0</span><span class="p">,</span> <span class="n">hf_current_a</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">observer</span><span class="p">,</span> <span class="n">setup</span><span class="o">.</span><span class="n">inject_v</span><span class="p">,</span> <span class="n">setup</span><span class="o">.</span><span class="n">inject_hz</span> <span class="o">=</span> <span class="n">foc</span><span class="o">.</span><span class="n">Observer</span><span class="o">.</span><span class="n">HFI</span><span class="p">,</span> <span class="n">sized</span><span class="p">[</span><span class="s2">&quot;inject_v&quot;</span><span class="p">],</span> <span class="n">sized</span><span class="p">[</span><span class="s2">&quot;inject_hz&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The amplitude is the volts that draw the HF current <em>you</em> budget ($V = I_{hf},omega_h L_d$), so the injection becomes a
+decision about current -- which is what sizes the torque ripple and the extra losses -- instead of a voltage copied from an
+example. And the result is a configuration the library accepts: that is what the tests assert, because a sizing tool that
+recommends something the library then refuses would be worse than no tool.</p>
+<p><strong>The demodulation window is a fixed choice, not a scheduled one.</strong> Across standstill to 50 rad/s mechanical it changes
+the angle error by under 0.5 %, and at standstill the <em>narrowest</em> window is best by 14x. What looked like &quot;a narrow
+window breaks at speed&quot; is a start-up transient, which is what the blanking time is for.</p>
+<p><strong>What is left at low speed is the injection's own price.</strong> In a closed servo at 20 rad/s the steady bias is
+0.0039 rad/s — 0.02 % — and the remainder is a ripple at the carrier frequency. It is not the estimator, the angle, the
+window, the rotor's inertia or the demodulator's clamp: it scales with the injected current (a third of the volts, 0.36
+of the tone) and with speed (4.0x the speed, 4.0x the tone), and it is indifferent to the saliency. It is the injected
+current cross-coupling into torque on a turning machine, and <code class="code docutils literal notranslate"><span class="pre">inject_v</span></code> is the knob that sizes it.</p>
+<p><strong>Watch it rather than assume it.</strong> <code class="code docutils literal notranslate"><span class="pre">status()</span></code> carries the observer's own verdict:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">motor</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">status</span><span class="p">[</span><span class="s2">&quot;observer_locked&quot;</span><span class="p">]:</span>
+    <span class="o">...</span>   <span class="c1"># the angle is a hold, not a measurement; speed reads zero</span>
+<span class="n">carrier_ripple_a</span> <span class="o">=</span> <span class="n">status</span><span class="p">[</span><span class="s2">&quot;observer_error&quot;</span><span class="p">]</span>   <span class="c1"># ~ -sin(2*angle_error) for HFI, 0 for the others</span>
+</pre></div>
+</div>
+<p><code class="code docutils literal notranslate"><span class="pre">observer_error</span></code> is exactly zero for observers that publish no error signal, so read it together with
+<code class="code docutils literal notranslate"><span class="pre">observer_locked</span></code> and <code class="code docutils literal notranslate"><span class="pre">observer</span></code>.</p>
+<p><strong>Record the window, rather than watching a scalar.</strong> A status report answers &quot;what is true now&quot;; a fault is usually a
+question about the last few milliseconds. The trace channel is a ninth policy on the motor, so it is chosen at compile
+time and costs nothing when it is not chosen:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Traced</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">motor</span><span class="o">::</span><span class="n">Motor</span><span class="o">&lt;</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">BackEmfObserver</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Svpwm</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="p">,</span>
+<span class="w">                                 </span><span class="n">MyHal</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">NullReferenceGenerator</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">NullFeedforward</span><span class="p">,</span>
+<span class="w">                                 </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">NullPositionControl</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">NullAlignment</span><span class="p">,</span>
+<span class="w">                                 </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">RingTrace</span><span class="o">&lt;</span><span class="mi">1024</span><span class="o">&gt;&gt;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 1024 periods = 36 KiB at 36 B/sample</span>
+
+<span class="n">Traced</span><span class="w"> </span><span class="nf">motor</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">policies</span><span class="p">,</span><span class="w"> </span><span class="n">hal</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">motor</span><span class="p">.</span><span class="n">trace</span><span class="p">().</span><span class="n">latest</span><span class="p">();</span><span class="w">       </span><span class="c1">// the period that just ran</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">dropped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">motor</span><span class="p">.</span><span class="n">trace</span><span class="p">().</span><span class="n">dropped</span><span class="p">();</span><span class="w">     </span><span class="c1">// 0 unless the ring wrapped</span>
+</pre></div>
+</div>
+<p>One sample per period, six numbers and two states: the measured currents the PI acted on, the currents it was asked for,
+the voltage it applied, the mechanical speed, and the mode and status the period ended in. With the default
+<code class="code docutils literal notranslate"><span class="pre">foc::core::NullTrace</span></code> the type is empty -- no member, no branch, no pointer check -- so &quot;off costs nothing&quot; is a
+property of the type system rather than a promise about the optimiser.</p>
+<p>A full ring keeps recording and counts what it overwrote, because forgetting with a counter is reversible and stopping is
+not: a trace that freezes when it fills loses exactly the window a fault is interesting in. Timestamps come from the
+platform clock, truncated to 32 bits (71.6 minutes); with no clock every <code class="code docutils literal notranslate"><span class="pre">t_us</span></code> is zero, which means &quot;no timestamp&quot;
+rather than &quot;everything happened at once&quot;.</p>
+<p>From C the same window is caller-owned storage and a run-time capacity, because the ABI is one type for every caller:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">foc_trace_sample_t</span><span class="w"> </span><span class="n">window</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+<span class="n">foc_motor_set_trace</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span><span class="w"> </span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="mi">1024U</span><span class="p">);</span><span class="w">   </span><span class="cm">/* NULL, 0 detaches */</span>
+<span class="p">...</span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc_motor_trace_size</span><span class="p">(</span><span class="n">motor</span><span class="p">);</span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">lost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc_motor_trace_dropped</span><span class="p">(</span><span class="n">motor</span><span class="p">);</span><span class="w">   </span><span class="cm">/* 0 unless the ring wrapped */</span>
+<span class="n">foc_trace_sample_t</span><span class="w"> </span><span class="n">sample</span><span class="p">;</span>
+<span class="n">foc_motor_trace_read</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1U</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sample</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>and from Python the storage belongs to the object, so there is nothing to keep alive by hand:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trace</span> <span class="o">=</span> <span class="n">foc</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="n">motor</span><span class="o">.</span><span class="n">set_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>                 <span class="c1"># or set_trace(None) to detach</span>
+<span class="o">...</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">samples</span><span class="p">(</span><span class="n">motor</span><span class="p">)</span>            <span class="c1"># oldest first, a list of dicts</span>
+<span class="n">rows</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;i_q&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">motor</span><span class="o">.</span><span class="n">telemetry</span><span class="p">()[</span><span class="s2">&quot;iq_a&quot;</span><span class="p">]</span>   <span class="c1"># exactly, not approximately</span>
+</pre></div>
+</div>
+<p>The C path pays one null check per period for that run-time capacity -- predictable, and nothing when detached. The
+compiled-in C++ path pays nothing because the capacity is the type. Measured cost of the whole feature where it lands: the
+Debug archive grew 8.6 KB (56.9 to 65.6 KB), of which the code is 1.5 KB and the ten new functions themselves about
+0.65 KB; the rest is DWARF for two new types, which a Release artifact does not carry. A Release ROM figure has <strong>not</strong>
+been measured, and is not claimed.</p>
+<p>Three things this channel is measured to do, and one it cannot. Measured: a sample agrees with
+<code class="code docutils literal notranslate"><span class="pre">telemetry()</span></code>/<code class="code docutils literal notranslate"><span class="pre">state()</span></code>/<code class="code docutils literal notranslate"><span class="pre">status()</span></code> <strong>bit for bit</strong> in the same period; the null channel adds no storage
+and no branch (host, best of three rounds: 158.0 ns/period off against 161.9 on over 20 000 periods -- the +3.9 ns difference is at the resolution of that measurement, and one round of it reported recording as <em>faster</em>, which is how a noise figure announces itself); and a sample survives a <code class="code docutils literal notranslate"><span class="pre">%.9g</span></code> text
+round trip bit for bit, so a trace written to a file is still the same numbers when it is read back. What it cannot do is
+tell you what the <em>hardware</em> did -- it records what the loop believed, so a perfect-looking trace is entirely consistent
+with a miscalibrated current sensor. Per-period cost on a target is also unmeasured here: the host figure above says
+nothing about a 100 MHz core, and a budget for that is a claim somebody would have to take with a scope.</p>
+<p><strong>Compare a window instead of remembering a number.</strong> A status report answers &quot;what is true now&quot; and a trace answers &quot;what
+the loop did&quot;; neither answers &quot;did this change&quot;. Three recorded windows do, and they are compared on demand:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 benchmark/script/golden.py --record   # (re)write the three baselines from this tree</span>
+<span class="go">python3 benchmark/script/golden.py --check    # compare now against them; prints, exits 0</span>
+</pre></div>
+</div>
+<p>Each window is plain text: a header naming the scenario and the module hash it came from, then one line per sample. It is
+readable in a diff, which is the only reason a stored number can be reviewed instead of trusted. The report names the
+<strong>trace</strong>, the <strong>quantity</strong> and the <strong>difference</strong>, and classifies it:</p>
+<table class="docutils align-default" id="id9">
+<caption><span class="caption-number">表 4.2 </span><span class="caption-text">what a difference means</span><a class="headerlink" href="#id9" title="链接到此表格。"></a></caption>
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 78.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>band</p></th>
+<th class="head"><p>reading</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">1e-5</span></code></p></td>
+<td><p>same -- arithmetic noise between builds, not a behaviour change</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">30</span> <span class="pre">%</span></code></p></td>
+<td><p>drift -- worth a look, not evidence of anything by itself</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">1.3x</span> <span class="pre">..</span> <span class="pre">2.0x</span></code></p></td>
+<td><p><strong>attribute</strong> -- the signature of a missing term rather than of noise; this is where the cross-axis
+investigation landed (0.1356 predicted against 0.0900 measured, 1.51x) and the term that explained it was real</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">2.0x</span></code> or a sign flip</p></td>
+<td><p>changed -- expected after an algorithm change, a surprise otherwise</p></td>
+</tr>
+</tbody>
+</table>
+<p>The ledger <strong>reports and does not block</strong>, deliberately: a ledger that gates a build gets its tolerance widened the first
+time it is inconvenient, and then the reference value means nothing. <code class="docutils literal notranslate"><span class="pre">--strict</span></code> exists for a release gate, where a human
+has already decided that this build and this baseline are comparable.</p>
+<p>A golden is a recording from one machine and one build, not a specification: a different compiler produces different
+floats in the last digits. The header carries the module hash so the report can say when a baseline came from another
+build, and the bands above are what keep that honest -- a foreign baseline shows up as drift, not as a silent pass.</p>
+<p><strong>Measure the loop instead of eyeballing the plot.</strong> A window tells you what happened; <cite>foc/core/step_metrics.hpp</cite>
+turns it into the numbers a tuning decision rests on. The library's own speed loop is designed as a first-order closed
+loop with time constant <cite>1 / wb</cite> (<cite>speed_pi_config()</cite> cancels the mechanical pole <cite>B/J</cite> and leaves <cite>wb / s</cite>), so the
+bandwidth it reports can be checked against the bandwidth that was <em>asked for</em> -- a measurement of the gain law, not of
+the fit.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// y: the recorded window, oldest first, starting at or before the step.</span>
+<span class="c1">// y：录制窗口，最早的在前，从阶跃前或阶跃处开始。</span>
+<span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StepMetrics</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">step_metrics</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">dt_s</span><span class="p">,</span><span class="w"> </span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="n">band</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">ErrorCode</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">use</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">bandwidth_rad_s</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">settling_s</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The same metric, and the same window, from the other side of the C ABI.</span>
+<span class="c1"># 同一个指标、同一个窗口，从 C ABI 的另一侧。</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">analyze</span><span class="o">,</span><span class="w"> </span><span class="nn">foc_python</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">foc</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">foc</span><span class="o">.</span><span class="n">step_metrics</span><span class="p">(</span><span class="n">speed</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">band</span><span class="p">)</span>          <span class="c1"># C++</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">analyze</span><span class="o">.</span><span class="n">step_metrics</span><span class="p">(</span><span class="n">speed</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">band</span><span class="p">)</span>      <span class="c1"># numpy</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">bandwidth_rad_s</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;bandwidth_rad_s&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;bandwidth_rad_s&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">0.01</span>
+</pre></div>
+</div>
+<p>Three criteria, each of which was watched going red before it was believed:</p>
+<ul class="simple">
+<li><p><strong>fitted vs analytic, &lt;= 10 %.</strong> A 10 rad/s step on the SIL bench fits to <strong>243.57 rad/s against the 250 rad/s
+requested (-2.57 %)</strong> through the Python plant, and <strong>+9.15 %</strong> through the C++ bench. This band is weak and the
+weakness is measured: a 20 % error in the gain law moves the reading only to -9.88 %, still inside it, because the
+estimator's bias is the same size as the defect. The companion criterion -- request 125 and 250 rad/s and demand the
+measurements move by the same factor (134.66 and 272.87 rad/s, ratio 2.026) -- is what notices a loop that ignores
+the request it was given. Attribution, one knob at a
+time: raising that bench's inner current bandwidth 2000 to 4000 rad/s moves the number from +9.4 % to +5.8 %, halving
+the control period moves it 0.07 points, and giving the window its pre-step sample moves it 0.30. The inner loop is
+the story; the rest is a first-order model applied to a cascade.</p></li>
+<li><p><strong>C++ vs Python on the same samples, &lt;= 1 %.</strong> Two implementations of one definition, compared in one process --
+measured agreement is 0.003 % at 400 rad/s, so the band is a tripwire for drift rather than a tolerance.</p></li>
+<li><p><strong>replay, error 0.</strong> The settling time is an <em>index</em> decision, not a fitted number, so both sides must pick the same
+sample: the analysis layer recomputes it from the window and the comparison is on the index, exactly.</p></li>
+</ul>
+<p>A sweep closes the gap the band above leaves open. Drive the reference with <cite>A*cos(w t)</cite>, fit both the command and the
+response at that frequency (<cite>foc/core/sinusoid_fit.hpp</cite>), divide: the -3 dB point needs no model and moves <em>with</em> an
+error instead of carrying a bias of its own. Measured: <strong>234.91 rad/s against 250 requested (-6.04 %)</strong> on the C++
+bench, <strong>236.18 rad/s (-5.53 %)</strong> through the Python plant, two independent machines agreeing to 0.5 %. The same 20 %
+gain error that the step band could not see moves this crossing to <strong>210.79 rad/s (-15.68 %)</strong>, outside the band.</p>
+<table class="docutils align-default" id="id10">
+<caption><span class="caption-number">表 4.3 </span><span class="caption-text">the same defect, two instruments</span><a class="headerlink" href="#id10" title="链接到此表格。"></a></caption>
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 22.0%" />
+<col style="width: 22.0%" />
+<col style="width: 22.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>criterion</p></th>
+<th class="head"><p>no defect</p></th>
+<th class="head"><p>gain law x0.8</p></th>
+<th class="head"><p>verdict</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>step fit vs analytic, 10 % band</p></td>
+<td><p>+9.15 %</p></td>
+<td><p>-9.88 %</p></td>
+<td><p>blind: passes either way</p></td>
+</tr>
+<tr class="row-odd"><td><p>step fit ratio 125 / 250</p></td>
+<td><p>2.026</p></td>
+<td><p>2.026</p></td>
+<td><p>blind: a ratio cannot see a scale error</p></td>
+</tr>
+<tr class="row-even"><td><p>sweep -3 dB, 10 % band</p></td>
+<td><p>-6.04 %</p></td>
+<td><p><strong>-15.68 %</strong></p></td>
+<td><p>fails, as it should</p></td>
+</tr>
+</tbody>
+</table>
+<p>The analysis layer also carries a spectrum and a THD (<cite>analyze.spectrum</cite>, <cite>analyze.thd</cite>), checked against a signal whose
+answer is arithmetic rather than a modelling opinion: a unit tone reads 1.000 under a Hann window with the usual 2/sum
+correction, and a known 11.2 % distortion made of a 10 % third harmonic and a 5 % fifth reads 0.1118 with each harmonic
+in its own bin. Neither has a C-side counterpart, and neither needs one: they measure the window, not the loop.</p>
+<p><strong>Break a stuck axis loose on purpose.</strong> A speed PI does eventually break a stuck axis free -- its integral ramps the
+current until the torque passes the breakaway point -- and that is the problem: by then the integral has stored the
+whole windup, so the moment the rotor lets go the stored torque drives it past the setpoint. <cite>core/stall_start.hpp</cite>
+does the same thing deliberately: a known torque ramp, a report the instant the rotor moves, and the torque it moved on
+as the handover value.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StallStart</span><span class="w"> </span><span class="nf">sequence</span><span class="p">(</span><span class="n">recipe</span><span class="p">);</span><span class="w">   </span><span class="c1">// breakaway 0.030 N*m, limit 0.200, ramp 0.5 N*m/s</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sequence</span><span class="p">.</span><span class="n">begin</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sequence</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">dt_s</span><span class="p">,</span><span class="w"> </span><span class="n">speed_mech</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">phase</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StallStartPhase</span><span class="o">::</span><span class="n">Released</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* take over from out.torque_nm */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">phase</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StallStartPhase</span><span class="o">::</span><span class="n">Failed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* this load cannot be started here */</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Measured: 0.030 N*m of breakaway at 0.5 N*m/s is reached and released at <strong>60.1 ms</strong>; against a real stuck plant
+(stiction 0.020 N*m, load 0.010 N*m) the sequence releases at <strong>0.0307 N*m after 61.3 ms</strong>, and a 0.9x torque -- a
+sequence asking for less than it believes -- moves that to 68.0 ms and the case fails. A jam at the limit reports
+<cite>Failed</cite> with zero torque after 400 ms of ramp plus a 200 ms grace.</p>
+<p><strong>Turn a standing error into arithmetic.</strong> A proportional position loop on a machine with friction has a <em>dead band</em>, not
+a residual: below a certain error the torque it can still ask for is under the breakaway and the axis does not move at
+all. <cite>core/friction_comp.hpp</cite> adds the Coulomb term that moves that wall, and refuses the estimates that would turn it
+into a motor.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">FrictionComp</span><span class="w"> </span><span class="nf">friction</span><span class="p">(</span><span class="n">recipe</span><span class="p">);</span><span class="w">   </span><span class="c1">// coulomb 0.010 N*m, static 0.020, viscous 1e-3, band 0.05 rad/s</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">friction</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">speed_ref</span><span class="p">,</span><span class="w"> </span><span class="n">speed_meas</span><span class="p">,</span><span class="w"> </span><span class="n">demand_torque</span><span class="p">);</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">torque</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">demand_torque</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">torque_nm</span><span class="p">;</span><span class="w">   </span><span class="c1">// and check out.stalled before trusting either</span>
+</pre></div>
+</div>
+<p>The numbers are the capability. The band is <cite>static / kp</cite> -- <strong>4.003 mrad measured against 4.0 predicted</strong> at
+<cite>kp = 5 N*m/rad</cite> -- and with the compensation it is <cite>(static - coulomb) / kp</cite>, <strong>2.021 against 2.0</strong>. It follows the
+estimate, which is why the estimate has to come from a measurement: 1.007 mrad with a 50 % over-estimate, and above the
+breakaway there is no band at all -- a <cite>(0.030, 0.030)</cite> estimate walks the axis <strong>5.625 mrad with the reference held at
+zero and no command at all</strong>.</p>
+<p>The latch is not decoration. At rest the measured speed is zero-mean noise, so a Coulomb term on <cite>sign(speed)</cite> is a
+square wave of amplitude twice the term: measured with +-0.01 rad/s of encoder noise, the naive law ripples <strong>20.03
+mN*m</strong> peak to peak and the latched one <strong>0.036</strong>, 550 times quieter, while both park the axis in the same place.</p>
+<p><strong>Keep an axis out of a wall, and gear two axes together.</strong> Two small stages for the shapes an AGV or a winder needs.
+<cite>core/soft_limit.hpp</cite> refuses a target outside the window (status, not a clamp -- a clamp makes a programming fault look
+plausible) and caps the velocity on the way in:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimit</span><span class="w"> </span><span class="nf">limit</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">SoftLimitConfig</span><span class="p">{</span><span class="n">min_rad</span><span class="p">,</span><span class="w"> </span><span class="n">max_rad</span><span class="p">});</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">admitted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">target_rad</span><span class="p">);</span><span class="w">          </span><span class="c1">// Param when refused, previous target comes back</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">velocity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="p">.</span><span class="n">shape</span><span class="p">(</span><span class="n">v_cmd</span><span class="p">,</span><span class="w"> </span><span class="n">position_rad</span><span class="p">,</span><span class="w"> </span><span class="n">a_decel</span><span class="p">,</span><span class="w"> </span><span class="n">drive_delay_s</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The ceiling is <cite>v^2 &lt;= 2*a*(d - v*dt)</cite>, and the <cite>v*dt</cite> term is what makes it work: at 20 rad/s toward a wall the axis
+crosses by <strong>19 mm</strong> without it and stops <strong>1.04 mm short</strong> with it, where 19 mm is exactly the 1 ms this drive takes to
+deliver a braking current. <cite>core/gear_ratio.hpp</cite> is the other half of an AGV:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ElectronicGear</span><span class="w"> </span><span class="nf">gear</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">GearConfig</span><span class="p">{</span><span class="cm">/*ratio*/</span><span class="w"> </span><span class="mf">2.0F</span><span class="p">,</span><span class="w"> </span><span class="cm">/*offset*/</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">});</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gear</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">master_wrapped_rad</span><span class="p">,</span><span class="w"> </span><span class="n">dt_s</span><span class="p">);</span>
+<span class="n">slave_target_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">slave_rad</span><span class="p">;</span><span class="w">      </span><span class="c1">// the unwrap is the whole difficulty</span>
+<span class="n">slave_velocity_ff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">slave_velocity_rad_s</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The unwrap is not a detail: three wrapped revolutions become 18.85 rad of continuous reference instead of two 6.28 rad
+jumps. And the synchronisation error of a <em>perfectly geared</em> pair is <cite>v*kd/kp</cite> -- <strong>25.6 mrad measured against 25.0
+predicted</strong>, linear in the rate and inverse in the gain -- which the velocity output removes (1.3 mrad). A gear that emits
+only a position is a lag generator with a ratio.</p>
+<p><strong>Run a motor from three Hall sensors.</strong> <cite>core/hall.hpp</cite> carries the two things a Hall drive needs and nothing else:
+the six-step table, and an electrical angle interpolated from edge timing.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">HallTracker</span><span class="w"> </span><span class="n">tracker</span><span class="p">;</span>
+<span class="c1">// every control period, with the three GPIOs as a code:</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tracker</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">now_s</span><span class="p">,</span><span class="w"> </span><span class="n">hall_code</span><span class="p">);</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">theta_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tracker</span><span class="p">.</span><span class="n">angle_elec_rad</span><span class="p">(</span><span class="n">now_s</span><span class="p">);</span><span class="w">   </span><span class="c1">// use only when status == Ok</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">duty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">six_step_duty</span><span class="p">(</span><span class="n">hall_code</span><span class="p">,</span><span class="w"> </span><span class="n">amplitude</span><span class="p">,</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">HallDirection</span><span class="o">::</span><span class="n">Forward</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The numbers that decide whether that is enough. Held at one commutation state, the torque is the cosine of where the
+rotor sits in the sector: maximum at the centre, <strong>0.866 at both edges, never negative</strong> -- a 14.0 % peak-to-peak ripple
+that six-step cannot avoid, and the argument for interpolating an angle at all. Interpolating buys a factor of <strong>52 at
+120 rad/s electrical</strong> (0.338 degrees RMS against the sector centre's 17.52), and the factor shrinks to 7.5 at 900 rad/s
+because what is left is one <em>sampling period</em> of rotation (2.30 degrees at 62.5 us) rather than the 60-degree sector.</p>
+<p>What it cannot do is in the same header: with a sensor stuck, <cite>Fault</cite> covers 15.5 % of a revolution and <cite>State</cite> another
+53.9 %, and <strong>8.4 % still reads `Ok` while wrong by up to 59 degrees</strong>. The status is the whole admission story -- an
+estimate that is not being measured says so rather than reporting a sector centre as if it were a measurement.</p>
+<p><strong>A fault is not a temperature.</strong> Protection is graded -- derate, then trip -- and the two decisions are separate
+fields rather than one code: <cite>output_allowed</cite> is defined as <cite>active_mask == 0</cite>, so a <strong>fault means authority was
+removed</strong>, while a <strong>derating</strong> drive is still running and says so through <cite>i_limit_a</cite> falling below the <cite>i_max_a</cite> the
+caller configured. Measured on the ladder case: 3.00 A at 45 C, <strong>1.80 A at 80 C with output still allowed and no
+fault</strong>, then 0 A and no output at 105 C. When two faults are active at once the lower-ranked one is reported and both
+bits stay visible in <cite>active_mask</cite> (0x006 for current plus voltage, 0x018 for voltage plus heat).</p>
+<p><strong>Command a torque, not an amperage.</strong> <cite>set_torque()</cite> takes amps and leaves the N*m conversion to the caller -- the
+same arithmetic, with the same sign convention and the same limit, in every product. <cite>foc/motor/torque_map.hpp</cite> is that
+arithmetic once:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">TorqueMap</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">torque_map</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="cm">/*min_nm=*/</span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="cm">/*max_nm=*/</span><span class="mf">1.0F</span><span class="p">);</span><span class="w">   </span><span class="c1">// one-way</span>
+<span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">TorqueCommand</span><span class="w"> </span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">torque_command</span><span class="p">(</span><span class="n">map</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2F</span><span class="p">,</span><span class="w"> </span><span class="cm">/*id_a=*/</span><span class="mf">0.0F</span><span class="p">);</span>
+<span class="n">motor</span><span class="p">.</span><span class="n">set_torque</span><span class="p">(</span><span class="n">cmd</span><span class="p">.</span><span class="n">iq_a</span><span class="p">);</span><span class="w">          </span><span class="c1">// 0.2 N*m -&gt; 4 A at kt = 0.05 N*m/A</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cmd</span><span class="p">.</span><span class="n">limited</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* the request was clipped, and someone should know */</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The estimate is <cite>kt*iq + 1.5*pp*(ld-lq)*id*iq</cite>, which is the expression the plant integrates -- so it is checked against
+something that shares no line with it: the mechanical torque <cite>J*dw/dt + B*w</cite> from the recorded speed. The two agree to
+<strong>+0.006 % at 2 A</strong> and <strong>+0.007 % at 20 A</strong>, where the loop is saturated; the plan's 5 % band is three orders of
+magnitude wider than the measured residual, which is the forward-difference error in <cite>dw/dt</cite>. Scaling the map's gain by
+10 % moves the same measurement to <strong>-9.994 %</strong>, so the band is a gate rather than decoration.</p>
+<p><strong>Ask what a wrong nameplate costs.</strong> Every gain here is derived from the nameplate, so the design question is how wrong
+it can be before the claim stops holding. <cite>benchmark/script/montecarlo.py</cite> draws machines, runs the loop on each and
+reports the spread:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 benchmark/script/montecarlo.py --trials 40 --sigma 0.10           # nameplate error, machine nominal</span>
+<span class="go">python3 benchmark/script/montecarlo.py --trials 40 --sigma 0.10 --matched # each machine correctly described</span>
+</pre></div>
+</div>
+<p>With a 10 % standard deviation on six nameplate parameters, a <strong>matched</strong> family -- every drawn machine described
+correctly by its own nameplate -- spreads <strong>2.92 %</strong> in bandwidth and 97.5 % of it stays inside the 10 % band, while the
+<strong>mismatched</strong> family spreads <strong>19.18 %</strong> and 42.5 % of it does. At 20 % the same pair reads 6.21 % against 29.74 %
+(yields 92.5 % and 12.5 %). That factor of about six and a half is what deriving every gain from the nameplate buys, and
+it is the only number on this page that states it as a quantity rather than a design intention. All four figures are
+<cite>--trials 40 --seed 11</cite>, the seed the suite uses.</p>
+<p>A single parameter moves predictably, which is the arithmetic behind <cite>kp = wb*J/Kt</cite>: a nameplate <cite>J</cite> 10 % high raises
+the bandwidth 8.46 % (the 1.40 % shortfall is the mechanical pole <cite>B/J</cite> only partly cancelled, since <cite>ki = wb*B/Kt</cite> does
+not move with <cite>J</cite>), and a nameplate <cite>kt</cite> 10 % high lowers it 9.28 % (prediction 9.09 %, within 0.2 %).</p>
+<p>Read back through the CLI, the ledger's own <cite>speed_step_100</cite> window measures <strong>197.59 rad/s</strong> against the 200 rad/s the
+library defaults to (-1.2 %) -- on a window decimated to one sample per millisecond against a four-millisecond time
+constant. That is the analysis layer replaying a stored file rather than the object that produced it.</p>
+<p>What it cannot do: a first-order fit on a response that is not first-order reports the first-order <em>equivalent</em>, which
+is a real number and not the system's bandwidth -- which is why the band above is 10 % and is attributed rather than
+assumed.</p>
+</section>
+<section id="id7">
+<h2><span class="section-number">4.6. </span><span class="target" id="verification-what-is-actually-checked">Verification: what is actually checked</span><a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<p>Every number below is produced by the commands in the same column, on the same commit.</p>
+<p>The rightmost column is the <strong>evidence level</strong>: L1 is enforced by
+construction, L2 is measured against the model in this repository with the criterion written first,
+L3 adds a measured sensitivity to the model being wrong, L4 would be measured on real hardware --
+<a class="reference internal" href="capabilities.html#evidence-levels"><span class="std std-ref">the four levels side by side</span></a>.
+<strong>There are no L4 claims</strong> -- no motor has been attached to any of this. Read every number below as
+&quot;true of the documented model&quot;, and use <code class="code docutils literal notranslate"><span class="pre">BoardSelfTest</span></code> / <code class="code docutils literal notranslate"><span class="pre">check_board()</span></code> to find out
+whether your hardware matches that model.</p>
+<table class="docutils align-default" id="id11">
+<caption><span class="caption-number">表 4.4 </span><span class="caption-text">evidence, not adjectives</span><a class="headerlink" href="#id11" title="链接到此表格。"></a></caption>
+<colgroup>
+<col style="width: 26.0%" />
+<col style="width: 34.0%" />
+<col style="width: 26.0%" />
+<col style="width: 14.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>What</p></th>
+<th class="head"><p>How</p></th>
+<th class="head"><p>Result</p></th>
+<th class="head"><p>Level</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Unit, SIL and stress cases</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">conan</span> <span class="pre">create</span> <span class="pre">.</span> <span class="pre">-s</span> <span class="pre">build_type=Debug</span> <span class="pre">--build=missing</span></code></p></td>
+<td><p>961 cases, 0 failed</p></td>
+<td><p>L1/L2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Line coverage</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/coverage_gate.py</span></code></p></td>
+<td><p>95.07 % overall, 96.75 % in <code class="code docutils literal notranslate"><span class="pre">core/</span></code></p></td>
+<td><p>L1</p></td>
+</tr>
+<tr class="row-even"><td><p>Layering and standalone headers</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">gates.py</span> <span class="pre">guard</span></code> / <code class="code docutils literal notranslate"><span class="pre">gates.py</span> <span class="pre">strict</span></code></p></td>
+<td><p>0 violations</p></td>
+<td><p>L1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Negative compilation (fake HAL must not compile)</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">python3</span> <span class="pre">.github/project/negative_compile.py</span></code></p></td>
+<td><p>28 / 28 cases behave as specified</p></td>
+<td><p>L1</p></td>
+</tr>
+<tr class="row-even"><td><p>The dq model itself</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">test_abc_plant.cpp</span></code> -- an independently derived phase-variable plant</p></td>
+<td><p>6 operating points agree on <span class="math notranslate nohighlight">\((i_d, i_q)\)</span> within 0.02 A, torque within 0.3 %</p></td>
+<td><p>L3</p></td>
+</tr>
+<tr class="row-odd"><td><p>Unmodelled effects (q-axis saturation, iron loss, sensor gain/offset)</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">test_sil_sensitivity.cpp</span></code></p></td>
+<td><p>8 rows; the worst single effect doubles the angle error, all stay inside the ceiling</p></td>
+<td><p>L3</p></td>
+</tr>
+<tr class="row-even"><td><p>Three hosts and two cross targets</p></td>
+<td><p>CI (ubuntu / macOS / Windows; arm-linux-a53, mcu-m4)</p></td>
+<td><p>17 / 17 jobs green</p></td>
+<td><p>L1</p></td>
+</tr>
+</tbody>
+</table>
+<p>Two things this table deliberately does <em>not</em> say. First, &quot;0 failed&quot; is a statement about the
+scenarios someone wrote, not a proof of correctness. Second, the SIL bench's own validity rests on
+the phase-variable cross-check above -- which is why that cross-check exists: with no motor expert
+to review the derivation, a second derivation is the only thing that can disagree.</p>
+<p>The SIL bench is layered on purpose: an analytic reference (L1), an independent offline
+arbiter (L2), and the scenario tests (current step, speed step, sine tracking, saturation
+limit, parameter perturbation). The SguanFOC project is a <em>third</em> reference, not the judge.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="compliance/language.html" class="btn btn-neutral float-left" title="3.1.3. Language compliance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="reproducing.html" class="btn btn-neutral float-right" title="5. Reproducing these numbers" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. Convention alignment &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="4. What &#34;predictable&#34; costs" href="cost-model.html" />
+    <link rel="prev" title="2. Symbols and units" href="symbols.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Convention alignment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.1. 1. What this library fixes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">3.2. 2. Gains: one word, four meanings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3.3. 3. Scaling names, and what a zero means</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">3.4. 4. Timing: what the library does not decide for you</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">3.5. 5. The four traps that actually bite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">3.6. 6. Extra checks before comparing with a third party</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">3.7. 7. Status of the SguanFOC reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">3.8. 8. Change rule</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3. </span>Convention alignment</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/conventions.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">3. </span><span class="target" id="convention-alignment">Convention alignment</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>This page is the <strong>precondition</strong> for comparing anything against an external reference — another
+FOC implementation, a bench measurement, or an offline model. Angle frames, rotation direction,
+units and clamping style must agree <em>before</em> any RMSE or overshoot number is computed; otherwise
+the comparison measures the conventions, not the algorithm.</p>
+<p>The conventions below are not a preference: they are whatever <code class="code docutils literal notranslate"><span class="pre">include/foc/</span></code> already
+implements. Any reference has to align to them, never the other way round.</p>
+<section id="id2">
+<h2><span class="section-number">3.1. </span><span class="target" id="what-this-library-fixes">1. What this library fixes</span><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18.0%" />
+<col style="width: 46.0%" />
+<col style="width: 36.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Item</p></th>
+<th class="head"><p>Convention</p></th>
+<th class="head"><p>Evidence (the code is the spec)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Angle unit</p></td>
+<td><p>radians</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">hal::PositionSensor::angle_mech_rad()</span></code> returns rad</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mechanical zero</p></td>
+<td><p>zero when the rotor d-axis coincides with phase A; the sensor must remove its own mounting
+offset</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">hal::PositionSensor</span></code> contract comment</p></td>
+</tr>
+<tr class="row-even"><td><p>Electrical angle</p></td>
+<td><p><span class="math notranslate nohighlight">\(\theta_e = p\,\theta_m\)</span>, <strong>not normalised</strong> (<code class="code docutils literal notranslate"><span class="pre">park</span></code> / <code class="code docutils literal notranslate"><span class="pre">inv_park</span></code> use
+<span class="math notranslate nohighlight">\(\cos/\sin\)</span>, so periodicity is automatic)</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">motor::Motor::tick()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Rotation sense</p></td>
+<td><p><strong>counter-clockwise is positive</strong>: <code class="code docutils literal notranslate"><span class="pre">park(v,</span> <span class="pre">θ)</span></code> and <code class="code docutils literal notranslate"><span class="pre">inv_park(v,</span> <span class="pre">θ)</span></code> are exact
+inverses, and increasing θ rotates the vector forward</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">core::park</span></code> / <code class="code docutils literal notranslate"><span class="pre">core::inv_park</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Clarke transform</p></td>
+<td><p><strong>amplitude invariant</strong>: <span class="math notranslate nohighlight">\(\alpha = (2a-b-c)/3\)</span>, <span class="math notranslate nohighlight">\(\beta = (b-c)/\sqrt{3}\)</span>; a
+three-phase sine of peak <span class="math notranslate nohighlight">\(I\)</span> gives <span class="math notranslate nohighlight">\(|i_{\alpha\beta}| = I\)</span></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">core::clarke</span></code>, case <code class="code docutils literal notranslate"><span class="pre">Transforms.ClarkeIsAmplitudeInvariant</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>dq convention</p></td>
+<td><p><strong>motor convention</strong>: <span class="math notranslate nohighlight">\(i_q &gt; 0\)</span> produces positive electromagnetic torque; the d-axis
+is aligned with the rotor flux</p></td>
+<td><p>the torque equation in <code class="code docutils literal notranslate"><span class="pre">sil_pmsm_plant.hpp</span></code> and the sign of <code class="code docutils literal notranslate"><span class="pre">iq_ref</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Torque constant</p></td>
+<td><p><span class="math notranslate nohighlight">\(K_t\)</span> [N·m/A] and flux <span class="math notranslate nohighlight">\(\psi_f\)</span> [Wb] are related by
+<span class="math notranslate nohighlight">\(\psi_f = K_t / (1.5\,p)\)</span></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">foc::psi_f_wb()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Units</p></td>
+<td><p><strong>SI throughout</strong>, no per-unit: V, A, mechanical rad/s, N·m, H, kg·m²</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">motor::MotorConfig</span></code> field comments</p></td>
+</tr>
+<tr class="row-even"><td><p>Current direction</p></td>
+<td><p>positive means current flowing into the motor</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">hal::CurrentSense::read_uvw()</span></code> contract</p></td>
+</tr>
+<tr class="row-odd"><td><p>SVPWM</p></td>
+<td><p>symmetric seven-segment with mid-point (min-max) injection;
+<code class="code docutils literal notranslate"><span class="pre">duty</span> <span class="pre">=</span> <span class="pre">clamp(0.5</span> <span class="pre">+</span> <span class="pre">(v_phase</span> <span class="pre">−</span> <span class="pre">v_mid)/v_bus,</span> <span class="pre">0,</span> <span class="pre">1)</span></code>; the linear-modulation limit is
+<span class="math notranslate nohighlight">\(|v_{\alpha\beta}| = v_{bus}/\sqrt{3}\)</span></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">core::Svpwm::modulate()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>DC link</p></td>
+<td><p>read once per control period via <code class="code docutils literal notranslate"><span class="pre">hal::DcLink::voltage_v()</span></code>; SVPWM normalises with it,
+and <code class="code docutils literal notranslate"><span class="pre">v_bus</span> <span class="pre">&lt;=</span> <span class="pre">0</span></code> yields 50 % duty with <code class="code docutils literal notranslate"><span class="pre">Param</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">core::Svpwm::modulate()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>PI form</p></td>
+<td><p>positional (parallel): <code class="code docutils literal notranslate"><span class="pre">I</span> <span class="pre">+=</span> <span class="pre">ki·e·dt</span></code> (forward Euler) → clamp the integral →
+<code class="code docutils literal notranslate"><span class="pre">out</span> <span class="pre">=</span> <span class="pre">clamp(kp·e</span> <span class="pre">+</span> <span class="pre">I)</span></code>; <strong>anti-windup is static integral clamping only</strong>, no
+back-calculation</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">core::Pi::step()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Loop rates</p></td>
+<td><p>current loop at the carrier frequency (SIL bench: 20 kHz / 50 µs); the speed loop runs at the
+same rate</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">sil_bench.hpp:standard_bench_config()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Plant integrator (SIL)</p></td>
+<td><p>C++ side: hand-written RK4, four sub-steps per control period, voltage vector held
+zero-order in the <strong>stationary</strong> frame; arbiter side: scipy <code class="code docutils literal notranslate"><span class="pre">solve_ivp</span></code> (RK45,
+rtol 1e-9) — the two paths are deliberately not the same code</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">sil_plant_hal.hpp</span></code>, <code class="code docutils literal notranslate"><span class="pre">offline_arbiter.py</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Compared quantities</p></td>
+<td><p>mechanical speed (rad/s), <span class="math notranslate nohighlight">\(i_d\)</span> / <span class="math notranslate nohighlight">\(i_q\)</span> (A), time measured from the step
+instant; samples aligned to the control period (the L2 reference keeps every fifth row)</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">test_sil_l2_reference.cpp</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id3">
+<h2><span class="section-number">3.2. </span><span class="target" id="gains-one-word-four-meanings">2. Gains: one word, four meanings</span><a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>A vendor's <code class="code docutils literal notranslate"><span class="pre">kp</span></code> and ours are not the same object, even when they are the same digits. What
+the gain multiplies decides its unit, and the unit decides whether the two numbers can be compared
+at all.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 34.0%" />
+<col style="width: 14.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Loop</p></th>
+<th class="head"><p>What the gain multiplies</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>In this library</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Current</p></td>
+<td><p>current error</p></td>
+<td><p>V/A</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">core::Pi::Config::kp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Speed</p></td>
+<td><p>speed error</p></td>
+<td><p>A/(rad/s)</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">speed_pi_config()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Position</p></td>
+<td><p>position error, and the output is a <strong>velocity</strong> command</p></td>
+<td><p>1/s</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">PositionP::Config::gain_1_s</span></code>, <code class="code docutils literal notranslate"><span class="pre">position_p_config()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Vendor &quot;position gain&quot;</p></td>
+<td><p>often torque per radian, commanding torque directly</p></td>
+<td><p>N·m/rad</p></td>
+<td><p>not used here: this library puts the speed loop between position and torque</p></td>
+</tr>
+</tbody>
+</table>
+<p>Our position gain closes a <strong>first-order</strong> position loop <em>through</em> the speed loop. A vendor whose
+position gain commands torque directly has a different loop, so <code class="code docutils literal notranslate"><span class="pre">kp</span> <span class="pre">=</span> <span class="pre">20</span></code> in their header and
+<code class="code docutils literal notranslate"><span class="pre">20</span> <span class="pre">1/s</span></code> here are two different claims about two different plants.</p>
+</section>
+<section id="id4">
+<h2><span class="section-number">3.3. </span><span class="target" id="scaling-names-and-what-a-zero-means">3. Scaling names, and what a zero means</span><a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>The per-call scales are named after the vendor's spelling on purpose, so a ported configuration can
+be compared field by field:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24.0%" />
+<col style="width: 36.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field here</p></th>
+<th class="head"><p>Scales</p></th>
+<th class="head"><p>Vendor equivalent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">kp_scale</span></code></p></td>
+<td><p>position-loop gain</p></td>
+<td><p>moteus <code class="code docutils literal notranslate"><span class="pre">kp_scale</span></code>, same meaning</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">kd_scale</span></code></p></td>
+<td><p>speed-loop proportional gain, i.e. the damping</p></td>
+<td><p>moteus <code class="code docutils literal notranslate"><span class="pre">kd_scale</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">ilimit_scale</span></code></p></td>
+<td><p>speed-loop integral limit</p></td>
+<td><p>moteus <code class="code docutils literal notranslate"><span class="pre">ilimit_scale</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="code docutils literal notranslate"><span class="pre">0</span></code> in all three means <strong>no override, use the configured value</strong>, not &quot;zero gain&quot;. That is a
+project-wide rule: zero is only ever a default where zero is not a legal value. The cases are
+<code class="code docutils literal notranslate"><span class="pre">Pi.AZeroIntegralScaleMeansNoOverrideRatherThanAnEmptyWindow</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">Pi.APerCallGainScaleMultipliesTheProportionalTermWithoutTouchingTheConfig</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">MotionProfile.TheStiffnessScaleSlowsTheApproachWithoutChangingTheLimits</span></code>.</p>
+</section>
+<section id="id5">
+<h2><span class="section-number">3.4. </span><span class="target" id="timing-what-the-library-does-not-decide-for-you">4. Timing: what the library does not decide for you</span><a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26.0%" />
+<col style="width: 74.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Item</p></th>
+<th class="head"><p>What is fixed, and where</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Control period</p></td>
+<td><p><strong>given by the caller</strong> (<code class="code docutils literal notranslate"><span class="pre">tick(dt_s)</span></code>); the library never invents a time base of its own</p></td>
+</tr>
+<tr class="row-odd"><td><p>Decimation</p></td>
+<td><p>by <strong>elapsed time</strong> (<code class="code docutils literal notranslate"><span class="pre">speed_loop_period_s</span></code>, <code class="code docutils literal notranslate"><span class="pre">position_loop_period_s</span></code>), not by a
+tick count, so a change of control frequency keeps the physical period</p></td>
+</tr>
+<tr class="row-even"><td><p>Overrun</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">Telemetry::max_period_us</span></code>, and only when the HAL policy exposes a clock. It is an
+indicator and never a scheduling input</p></td>
+</tr>
+<tr class="row-odd"><td><p>Comparing bandwidths</p></td>
+<td><p>do not compare a control-loop bandwidth across implementations at different rates without
+normalising: fielded firmwares run their loops anywhere from tens of hertz to tens of
+kilohertz, and the same gain means different things at each</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id6">
+<h2><span class="section-number">3.5. </span><span class="target" id="the-four-traps-that-actually-bite">5. The four traps that actually bite</span><a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Mechanical vs electrical angle.</strong> A missing <code class="code docutils literal notranslate"><span class="pre">pole_pairs</span></code> makes the whole dq frame rotate
+at <span class="math notranslate nohighlight">\(1/p\)</span> of the right speed; the symptom is &quot;the current loop never catches up&quot;.
+<code class="code docutils literal notranslate"><span class="pre">PlantHal::advance()</span></code> and <code class="code docutils literal notranslate"><span class="pre">PlantPosition</span></code> must use one conversion, not two.</p></li>
+<li><p><strong>Amplitude-invariant vs power-invariant Clarke.</strong> A power-invariant Clarke (with
+<span class="math notranslate nohighlight">\(\sqrt{2/3}\)</span>) scales <span class="math notranslate nohighlight">\(|i_{\alpha\beta}|\)</span> by <span class="math notranslate nohighlight">\(\sqrt{3/2}\)</span> — &quot;1 A commanded,
+1.22 A delivered&quot;. A closed loop hides this: the integrator quietly absorbs the gain error, so
+only an open-loop comparison exposes it.</p></li>
+<li><p><strong>Stationary vs rotating zero-order hold.</strong> A real inverter pins the voltage vector in the
+<em>stationary</em> frame for the whole PWM period. Holding it in the dq frame (re-parking every
+sub-step) adds a spurious zero-order-hold error at speed. Both the C++ plant and the arbiter
+use the stationary frame.</p></li>
+<li><p><strong>The ramp trap in steady-state error.</strong> On a speed ramp the current loop always lags by
+<span class="math notranslate nohighlight">\(e = \dot{E}MF / k_i\)</span> (about 1 % here). That is not a defect: before judging
+&quot;steady-state error&quot;, confirm the run is on a constant-speed segment.</p></li>
+</ol>
+</section>
+<section id="id7">
+<h2><span class="section-number">3.6. </span><span class="target" id="extra-checks-before-comparing-with-a-third-party">6. Extra checks before comparing with a third party</span><a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26.0%" />
+<col style="width: 74.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Item</p></th>
+<th class="head"><p>What to confirm</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>dq convention</p></td>
+<td><p>motor convention or generator convention (<span class="math notranslate nohighlight">\(i_q\)</span> changes sign)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rotation sense</p></td>
+<td><p>clockwise or counter-clockwise positive (<span class="math notranslate nohighlight">\(\theta\)</span> changes sign)</p></td>
+</tr>
+<tr class="row-even"><td><p>Units</p></td>
+<td><p>per-unit or SI; if per-unit, what are <span class="math notranslate nohighlight">\(V_{base}\)</span>, <span class="math notranslate nohighlight">\(I_{base}\)</span>, <span class="math notranslate nohighlight">\(\omega_{base}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>PI anti-windup</p></td>
+<td><p>present or not, and how: clamping / back-calculation / conditional integration</p></td>
+</tr>
+<tr class="row-even"><td><p>SVPWM</p></td>
+<td><p>seven-segment or five-segment; over-modulation or not; per-phase or vector clamping</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sampling and delay</p></td>
+<td><p>one-period computation delay? mid-point sampling? loop rate versus PWM frequency?</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id8">
+<h2><span class="section-number">3.7. </span><span class="target" id="status-of-the-sguanfoc-reference">7. Status of the SguanFOC reference</span><a class="headerlink" href="#id8" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>Not vendored, not built, not in any CI path.</strong></p></li>
+<li><p>Upstream is a single-maintainer project whose licence and long-term maintenance were never
+audited.</p></li>
+<li><p>Vendoring a snapshot (pinned commit) means putting third-party code into this repository —
+licence, size and maintenance are all affected, so it is an architecture-level decision that
+belongs to the repository owner. Until such a decision exists, sections 1 and 3 above are the
+only valid reference.</p></li>
+<li><p>Even if it were vendored, it would only be <strong>read</strong> for specific ideas (LADRC, HFI). It produces
+no comparison data and enters no test. When it disagrees with this page, the default is to
+distrust SguanFOC.</p></li>
+</ul>
+</section>
+<section id="id9">
+<h2><span class="section-number">3.8. </span><span class="target" id="change-rule">8. Change rule</span><a class="headerlink" href="#id9" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p>Any change to a convention above (introducing per-unit, switching to generator convention,
+adding back-calculation to the PI) must change <strong>this page first</strong>, then the code, then the L2
+reference traces (regenerated with <code class="code docutils literal notranslate"><span class="pre">offline_arbiter.py</span></code>) — and only then may it be
+committed. Reversing that order yields gates that are green while the convention is wrong.</p></li>
+<li><p>A new comparison scenario appends a row to the <em>compared quantities</em> table in section 1 and says
+on that row why it compares what it compares.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="symbols.html" class="btn btn-neutral float-left" title="2. Symbols and units" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="cost-model.html" class="btn btn-neutral float-right" title="4. What &#34;predictable&#34; costs" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

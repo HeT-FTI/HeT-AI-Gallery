@@ -1,0 +1,29 @@
+_`Configuration`
+================
+
+_`Segmentation Config: SegConfig`
+---------------------------------
+
+Fields are defined in `include/nnseg_types.hpp::SegConfig`.
+
+- `model_path`: path to the model file.
+- `model_type`: model family name, default is `yolov11`.
+- `model_input_width` / `model_input_height`: model input size.
+- `conf_threshold` / `iou_threshold`: confidence and NMS thresholds.
+- `max_tracking_distance` / `max_disappeared_frames`: tracking behavior parameters.
+
+_`Browning Config: BrowningConfig`
+----------------------------------
+
+Fields are defined in `include/food_browning.hpp::BrowningConfig`.
+
+- `default_profile`: fallback profile for unmatched classes.
+- `profiles_by_class_id`: per-class profile overrides.
+- `debug`: debug logging switch.
+
+_`Tuning Recommendations`
+-------------------------
+
+- Lock model type and input size first, then tune thresholds.
+- Maintain a dedicated `FoodProfile` per food category.
+- Keep `debug` off in production and enable it only for troubleshooting.

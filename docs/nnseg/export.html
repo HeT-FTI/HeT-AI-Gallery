@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. 运行时使用与验证 &mdash; nnseg 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.jpg"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=34088549"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="prev" title="3. 元数据参考" href="components/meta.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            nnseg
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="components/cmake.html">1. CMake 构建系统</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/conan.html">2. Conan 打包配方</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/meta.html">3. 元数据参考</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. 运行时使用与验证</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">4.1. 范围</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">4.2. 支持的模型族</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">4.3. 输入约束</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">4.4. C++ API 工作流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">4.5. C API 工作流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">4.6. 配置文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">4.7. 输出结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">4.8. 结果可视化示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">4.9. 验证覆盖范围</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nnseg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">4. </span>运行时使用与验证</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/export.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">4. </span>运行时使用与验证<a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<section id="id2">
+<h2><span class="section-number">4.1. </span>范围<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>本页面说明如何初始化 NNSeg、通过 C++ 或 C 接口执行推理，以及在生产代码中安全消费分割输出。</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">4.2. </span>支持的模型族<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>当前运行时支持 yolov5、yolov8、yolov11 等 YOLO 分割变体（包含 yolo11 等简写别名）。</p>
+</section>
+<section id="id4">
+<h2><span class="section-number">4.3. </span>输入约束<a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>NNSeg 接收紧密存储的 RGB888 或 BGR888 帧。</p>
+<ul class="simple">
+<li><p>宽度与高度必须为正。</p></li>
+<li><p>数据指针必须有效。</p></li>
+<li><p>通道数必须与像素格式匹配。</p></li>
+<li><p>非紧密步长或不支持的格式会返回运行时错误。</p></li>
+</ul>
+</section>
+<section id="id5">
+<h2><span class="section-number">4.4. </span>C++ API 工作流<a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-number">Code 4.1 </span><span class="caption-text">C++ 推理示例</span><a class="headerlink" href="#id12" title="链接到此段代码"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;nnseg.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">nnseg</span><span class="o">::</span><span class="n">NNSegEngine</span><span class="w"> </span><span class="n">engine</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">engine</span><span class="p">.</span><span class="n">Init</span><span class="p">(</span><span class="s">&quot;./resources/nnseg.cfg&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rgb</span><span class="p">(</span><span class="mi">320</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">256</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">nnseg</span><span class="o">::</span><span class="n">ImageFrameView</span><span class="w"> </span><span class="n">frame</span><span class="p">{</span><span class="n">rgb</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="mi">320</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">nnseg</span><span class="o">::</span><span class="n">PixelFormat</span><span class="o">::</span><span class="n">kRGB888</span><span class="p">};</span>
+<span class="w">  </span><span class="n">nnseg</span><span class="o">::</span><span class="n">SegmentationResult</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">engine</span><span class="p">.</span><span class="n">Predict</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">result</span><span class="p">.</span><span class="n">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h2><span class="section-number">4.5. </span>C API 工作流<a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-number">Code 4.2 </span><span class="caption-text">C 推理示例</span><a class="headerlink" href="#id13" title="链接到此段代码"></a></div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;nnseg_c.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">nnseg_engine_t</span><span class="w"> </span><span class="o">*</span><span class="n">engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nnseg_create</span><span class="p">();</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">engine</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nnseg_init_from_file</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;./resources/nnseg.cfg&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">NNSEG_STATUS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">nnseg_destroy</span><span class="p">(</span><span class="n">engine</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">image</span><span class="p">[</span><span class="mi">320</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">256</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="w">  </span><span class="n">nnseg_image_frame_t</span><span class="w"> </span><span class="n">frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">image</span><span class="p">,</span><span class="w"> </span><span class="mi">320</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">NNSEG_PIXEL_FORMAT_RGB888</span><span class="p">};</span>
+<span class="w">  </span><span class="n">nnseg_segmentation_result_t</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nnseg_predict</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">frame</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">result</span><span class="p">);</span>
+<span class="w">  </span><span class="n">nnseg_result_release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">result</span><span class="p">);</span>
+<span class="w">  </span><span class="n">nnseg_destroy</span><span class="p">(</span><span class="n">engine</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">NNSEG_STATUS_OK</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h2><span class="section-number">4.6. </span>配置文件<a class="headerlink" href="#id8" title="链接到此标题。"></a></h2>
+<p>打包提供的 nnseg.cfg 支持模型路径、模型类型、输入尺寸、阈值与跟踪参数。相对 model_path 会按配置文件所在目录解析。</p>
+</section>
+<section id="id9">
+<h2><span class="section-number">4.7. </span>输出结构<a class="headerlink" href="#id9" title="链接到此标题。"></a></h2>
+<p>每次成功推理会返回：</p>
+<ul class="simple">
+<li><p>ok 标志与 schema 版本。</p></li>
+<li><p>包含 track_id、class_id、confidence、边界框与可选 mask 的实例列表。</p></li>
+<li><p>推理失败时的错误文本。</p></li>
+</ul>
+<p>在 C API 中，动态分配的输出缓冲区必须通过 nnseg_result_release 与 nnseg_model_info_release 释放。</p>
+</section>
+<section id="id10">
+<h2><span class="section-number">4.8. </span>结果可视化示例<a class="headerlink" href="#id10" title="链接到此标题。"></a></h2>
+<p>下图展示了一个实际食材场景的推理结果。流水线执行实例级前景提取，并为候选目标叠加检测框，可用于下游区域级分析与质量控制。</p>
+<figure class="align-center" id="food-instance-segmentation-visualization">
+<a class="reference internal image-reference" href="_images/OUT_food_instance_segmentation.png"><img alt="_images/OUT_food_instance_segmentation.png" src="_images/OUT_food_instance_segmentation.png" width="700" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 4.1 </span><span class="caption-text">食材场景中的实例分割与候选区域叠加</span><a class="headerlink" href="#food-instance-segmentation-visualization" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>如 <a class="reference internal" href="#food-instance-segmentation-visualization"><span class="std std-numref">Figure 4.1</span></a> 所示，分割得到的前景掩码与目标窗口可被后处理模块消费，用于计算轮廓统计、面积占比与逐目标分类输入。</p>
+</section>
+<section id="id11">
+<h2><span class="section-number">4.9. </span>验证覆盖范围<a class="headerlink" href="#id11" title="链接到此标题。"></a></h2>
+<p>test_package 测试集覆盖以下内容：</p>
+<ul class="simple">
+<li><p>初始化失败路径与错误码映射。</p></li>
+<li><p>初始化前后的 Predict 行为。</p></li>
+<li><p>RGB/BGR 成功路径与不支持像素格式的拒绝行为。</p></li>
+<li><p>C API 内存释放行为与空参数安全性。</p></li>
+<li><p>模型信息获取与 schema 一致性。</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="components/meta.html" class="btn btn-neutral float-left" title="3. 元数据参考" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

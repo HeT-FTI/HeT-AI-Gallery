@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="1. Foundation corrections" href="foundation-log.html" />
+    <link rel="prev" title="Glossary" href="glossary.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#linking-and-building">Linking and building</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#current-and-torque">Current and torque</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#observer-and-speed">Observer and speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#power-stage-and-sampling">Power stage and sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#protection">Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-and-tooling">Python and tooling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#still-stuck">Still stuck?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">FAQ</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/faq.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="target" id="faq">FAQ</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>Eighteen questions that come back often, each answered with where the answer comes from. The
+answers are short on purpose; the page that owns the topic is linked.</p>
+<section id="linking-and-building">
+<h2>Linking and building<a class="headerlink" href="#linking-and-building" title="链接到此标题。"></a></h2>
+<p><strong>A C program fails to link, with an undefined C++ ABI symbol.</strong></p>
+<p>The error names <code class="docutils literal notranslate"><span class="pre">__cxa_</span></code> symbols. The ABI is C, the implementation is C++: set
+<code class="docutils literal notranslate"><span class="pre">LINKER_LANGUAGE</span> <span class="pre">CXX</span></code> on the target (or add one empty <code class="docutils literal notranslate"><span class="pre">.cpp</span></code>). This is documented rather
+than worked around — see <a class="reference internal" href="index.html#honest-limits"><span class="std std-ref">the pure-C row in honest limits</span></a> and <a class="reference internal" href="install.html"><span class="doc">Installing and toolchains</span></a>.</p>
+<p><strong>Which target should I link?</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">foc::foc</span></code>. It carries both components, and the package metadata guarantees their order, so
+<code class="docutils literal notranslate"><span class="pre">foc::foc_c</span></code> on its own leaves the C++ symbols unresolved.</p>
+<p><strong>The library will not compile with my warning set.</strong></p>
+<p>The headers are built with the project's own <code class="docutils literal notranslate"><span class="pre">-Wall</span> <span class="pre">-Wextra</span> <span class="pre">-Werror</span></code> and there is a gate that
+compiles each header standalone. If a stricter set of yours fails inside a header, that is worth
+an issue: silencing it locally hides a real fragility.</p>
+<p><strong>Why can't I use exceptions or RTTI in my policy?</strong></p>
+<p>Because the whole translation unit is built <code class="docutils literal notranslate"><span class="pre">-fno-exceptions</span> <span class="pre">-fno-rtti</span></code> — the control path
+must not unwind or <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code>. The reasons, and what it costs, are in
+<a class="reference internal" href="cost-model.html"><span class="doc">What &quot;predictable&quot; costs</span></a>.</p>
+</section>
+<section id="current-and-torque">
+<h2>Current and torque<a class="headerlink" href="#current-and-torque" title="链接到此标题。"></a></h2>
+<p><strong>The q-axis current overshoots on a step, and the integral term looks huge.</strong></p>
+<p>Check anti-windup before the gains: while the modulator is saturated the integrator must stop
+accumulating. The measured step on <a class="reference internal" href="demos/index.html"><span class="doc">Measured responses</span></a> has no overshoot at all, so an overshoot
+is a difference from a known answer, not a matter of taste.</p>
+<p><strong>The d-axis current is not zero even when I ask for zero torque.</strong></p>
+<p>Two candidates, and they are different problems: the decoupling term
+(<code class="docutils literal notranslate"><span class="pre">omega</span> <span class="pre">*</span> <span class="pre">Lq</span> <span class="pre">*</span> <span class="pre">iq</span></code>) is not being applied, or the angle is wrong so real d-axis current is
+appearing in the q-axis reading. Torque at standstill with a wrong angle gives a characteristic
+picture: torque, but less than commanded.</p>
+<p><strong>Why does the default reference policy refuse to command a d-axis current?</strong></p>
+<p>Because a d-axis current is only safe once somebody has stated how the angle is measured. On a
+surface-mount machine the best use of the current ceiling <em>is</em> <code class="docutils literal notranslate"><span class="pre">id</span> <span class="pre">=</span> <span class="pre">0</span></code>, so the aggressive
+choice is the one that needs an explicit opt-in.</p>
+<p><strong>My torque request above the current ceiling comes back slightly low.</strong></p>
+<p>That is the reference policy walking <em>down the MTPA curve</em> instead of scaling both components.
+Scaling both would leave the curve and lose more torque than necessary. The behaviour is
+asserted; see <a class="reference internal" href="guides/torque-reference.html"><span class="doc">Torque below base speed</span></a>.</p>
+</section>
+<section id="observer-and-speed">
+<h2>Observer and speed<a class="headerlink" href="#observer-and-speed" title="链接到此标题。"></a></h2>
+<p><strong>The observer never locks at low speed.</strong></p>
+<p>A back-EMF observer has nothing to observe when there is no back EMF. Below its working range the
+options are: bring the machine up with <a class="reference internal" href="guides/startup-sensorless.html"><span class="doc">Bringing a sensorless machine up</span></a>, use injection on a
+salient machine (<a class="reference internal" href="guides/low-speed-injection.html"><span class="doc">Zero and low speed</span></a>), or fit a position sensor. The library
+does not pretend the first two work on a surface-mount machine at standstill.</p>
+<p><strong>The hand-over looks fine but the axis stalls immediately after it.</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">finished</span></code> means the sequence ran, not that the rotor came with the vector. Seed the observer
+with the angle <strong>and</strong> the speed the sequence ended at, and treat the hand-over speed as a floor.</p>
+<p><strong>Why is my base speed lower than the flux over the voltage predicts?</strong></p>
+<p>Because base speed is computed from the flux <strong>at the MTPA point</strong>, which on a salient machine is
+several times lower than <code class="docutils literal notranslate"><span class="pre">psi_f</span></code> alone suggests. A drive sized on the second number discovers
+the real ceiling when its current loop saturates.</p>
+</section>
+<section id="power-stage-and-sampling">
+<h2>Power stage and sampling<a class="headerlink" href="#power-stage-and-sampling" title="链接到此标题。"></a></h2>
+<p><strong>Overmodulation clamps at an amplitude I did not expect.</strong></p>
+<p>The clamp is at the inscribed circle of the hexagon, at a stated amplitude, and the region
+between the inscribed and the circumscribed circle is the overmodulation region. If you asked for
+more than the circle allows, the answer is a clamp, not a scale — <a class="reference internal" href="guides/modulation-limits.html"><span class="doc">High speed and modulation</span></a>
+shows the two clamp points.</p>
+<p><strong>One-shunt sampling refuses some samples. What do I do with a refusal?</strong></p>
+<p>Treat it as &quot;the current is unknown this cycle&quot; — hold the previous command or fall back to a
+modulation state with a long enough window. What you must not do is use the number: a refused
+sample is the library telling you it does not know.</p>
+<p><strong>The measured ripple is much larger than the switching period predicts.</strong></p>
+<p>The sample is landing off-centre of the zero vector. That is what the board check's
+sampling-instant item measures, and <a class="reference internal" href="guides/current-sampling.html"><span class="doc">Sampling and the power stage</span></a> walks through it.</p>
+</section>
+<section id="protection">
+<h2>Protection<a class="headerlink" href="#protection" title="链接到此标题。"></a></h2>
+<p><strong>The drive trips, I clear the fault, and it trips again immediately.</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">reset()</span></code> clears the latched fault and keeps the i2t memory, because the winding is still hot.
+Use <code class="docutils literal notranslate"><span class="pre">reset_cold()</span></code> only for a machine that has been off long enough to have cooled. The three
+&quot;blocked&quot; answers and their meanings are printed side by side at the end of
+<a class="reference internal" href="guides/walkthrough.html"><span class="doc">One machine, one shift</span></a>.</p>
+<p><strong>The derating curve allows current at the trip temperature — is the curve wrong?</strong></p>
+<p>No: the curve and the trip are two different decisions. A controller that only reads the curve
+never trips; one that only reads the trip runs at full current right up to it. You need both.</p>
+</section>
+<section id="python-and-tooling">
+<h2>Python and tooling<a class="headerlink" href="#python-and-tooling" title="链接到此标题。"></a></h2>
+<p><strong>Importing the Python module fails.</strong></p>
+<p>The bindings are host-only and skipped on cross builds. Check
+<code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> → <code class="docutils literal notranslate"><span class="pre">enable_python_bindings</span></code>, and put the directory containing the built module
+on <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>. The module binds the <strong>C API</strong>, so it can do everything the C door can — and
+nothing that needs the C++ templates.</p>
+<p><strong>The documentation build fails on doxygen.</strong></p>
+<p>Documentation tooling is separate from the library: it needs a loadable <code class="docutils literal notranslate"><span class="pre">doxygen</span></code>, <code class="docutils literal notranslate"><span class="pre">sphinx</span></code>
+and <code class="docutils literal notranslate"><span class="pre">graphviz</span></code>. A consumer never needs any of them.</p>
+</section>
+<section id="still-stuck">
+<h2>Still stuck?<a class="headerlink" href="#still-stuck" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>the API, per group: <a class="reference internal" href="reference/index.html"><span class="doc">Using the API</span></a></p></li>
+<li><p>what the library does not do, item by item: <a class="reference internal" href="boundaries.html"><span class="doc">What this library does not do</span></a></p></li>
+<li><p>where the numbers on any page come from: <a class="reference internal" href="capabilities.html"><span class="doc">What each capability offers, and what it costs</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="glossary.html" class="btn btn-neutral float-left" title="Glossary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="foundation-log.html" class="btn btn-neutral float-right" title="1. Foundation corrections" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

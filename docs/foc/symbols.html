@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Symbols and units &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="3. Convention alignment" href="conventions.html" />
+    <link rel="prev" title="1. Architecture" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2. </span>Symbols and units</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/symbols.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="symbols-and-units">
+<h1><span class="section-number">2. </span>Symbols and units<a class="headerlink" href="#symbols-and-units" title="链接到此标题。"></a></h1>
+<p>Every symbol this library's documentation is allowed to use, with the four things that make a symbol usable:
+what it means, its unit, the frame it lives in, and which direction is positive.</p>
+<p>The page is generated from <cite>.github/project/symbols.json</cite> by <cite>symbols_gate.py --render</cite>; a symbol that is not
+on it cannot appear in a docstring, because the gate reads the same file.</p>
+<dl class="simple">
+<dt>θ  <code class="docutils literal notranslate"><span class="pre">theta_e</span></code></dt><dd><p><strong>Meaning.</strong> electrical rotor angle: the rotor position in the rotating frame, i.e. the angle <cite>park</cite> is handed.
+<strong>Unit.</strong> rad  <strong>Frame.</strong> electrical rotor (the dq frame rotates with it)
+<strong>Positive.</strong> not fixed by this library: it is whatever the caller's angle source counts up as positive. <cite>park</cite> applies the angle it is given and never re-references it.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/transforms.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">park(Ab&lt;T&gt;</span> <span class="pre">ab,</span> <span class="pre">T</span> <span class="pre">theta_rad)</span></code>)</p>
+</dd>
+<dt>θ_mech  <code class="docutils literal notranslate"><span class="pre">theta_mech</span></code></dt><dd><p><strong>Meaning.</strong> mechanical rotor angle, the quantity a cogging harmonic is phased against.
+<strong>Unit.</strong> rad  <strong>Frame.</strong> mechanical rotor
+<strong>Positive.</strong> same direction as <cite>theta_e</cite>, divided by <cite>pole_pairs</cite>.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/cogging_comp.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">phase_rad;</span></code>)</p>
+</dd>
+<dt>ω_m  <code class="docutils literal notranslate"><span class="pre">omega_m</span></code></dt><dd><p><strong>Meaning.</strong> mechanical angular speed of the shaft.
+<strong>Unit.</strong> rad/s  <strong>Frame.</strong> mechanical rotor
+<strong>Positive.</strong> positive = the direction the angle source counts up; a speed loop that needs the other direction inverts at its own input, never here.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/motor/motor.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">speed_mech</span> <span class="pre">*</span> <span class="pre">static_cast&lt;float&gt;(config_.pole_pairs)</span></code>)</p>
+</dd>
+<dt>ω_e  <code class="docutils literal notranslate"><span class="pre">omega_e</span></code></dt><dd><p><strong>Meaning.</strong> electrical angular speed, <cite>omega_e = omega_m * pole_pairs</cite>. Entering this one where the mechanical one belongs is the whole class of error the table exists for.
+<strong>Unit.</strong> rad/s  <strong>Frame.</strong> electrical rotor
+<strong>Positive.</strong> same sign as <cite>omega_m</cite>.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/motor/motor.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">speed_mech</span> <span class="pre">*</span> <span class="pre">static_cast&lt;float&gt;(config_.pole_pairs)</span></code>)</p>
+</dd>
+<dt>p  <code class="docutils literal notranslate"><span class="pre">pole_pairs</span></code></dt><dd><p><strong>Meaning.</strong> number of pole pairs, <cite>&gt;= 1</cite>; the ratio between electrical and mechanical quantities.
+<strong>Unit.</strong> 1 (a count)  <strong>Frame.</strong> machine
+<strong>Positive.</strong> not applicable: it is a positive count.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/motor/motor_config.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">std::uint8_t</span> <span class="pre">pole_pairs;</span></code>)</p>
+</dd>
+<dt>ψf  <code class="docutils literal notranslate"><span class="pre">psi_f</span></code></dt><dd><p><strong>Meaning.</strong> rotor (permanent-magnet) flux linkage. Not the torque constant: <cite>psi_f = Kt / (1.5 * pole_pairs)</cite>.
+<strong>Unit.</strong> Wb  <strong>Frame.</strong> rotor
+<strong>Positive.</strong> positive along the rotor's north axis (the d axis).
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/machine_params.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">psi_f;</span></code>)</p>
+</dd>
+<dt>Kt  <code class="docutils literal notranslate"><span class="pre">kt</span></code></dt><dd><p><strong>Meaning.</strong> torque constant, the nameplate number, <cite>psi_f * 1.5 * pole_pairs</cite>.
+<strong>Unit.</strong> N*m/A  <strong>Frame.</strong> machine
+<strong>Positive.</strong> positive for positive q-axis current.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/motor/motor_config.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">kt;</span></code>)</p>
+</dd>
+<dt>Ld  <code class="docutils literal notranslate"><span class="pre">ld</span></code></dt><dd><p><strong>Meaning.</strong> d-axis (rotor flux axis) inductance.
+<strong>Unit.</strong> H  <strong>Frame.</strong> dq, d axis
+<strong>Positive.</strong> not applicable: an inductance.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/motor/motor_config.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">ld;</span></code>)</p>
+</dd>
+<dt>Lq  <code class="docutils literal notranslate"><span class="pre">lq</span></code></dt><dd><p><strong>Meaning.</strong> q-axis (torque axis) inductance. A surface machine has <cite>Lq == Ld</cite>.
+<strong>Unit.</strong> H  <strong>Frame.</strong> dq, q axis
+<strong>Positive.</strong> not applicable: an inductance.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/motor/motor_config.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">lq;</span></code>)</p>
+</dd>
+<dt>Rs  <code class="docutils literal notranslate"><span class="pre">rs</span></code></dt><dd><p><strong>Meaning.</strong> stator resistance, at whatever temperature the caller means -- the plant does not report temperature.
+<strong>Unit.</strong> ohm  <strong>Frame.</strong> stator
+<strong>Positive.</strong> not applicable: a resistance.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/motor/motor_config.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">rs;</span></code>)</p>
+</dd>
+<dt>i_d  <code class="docutils literal notranslate"><span class="pre">i_d</span></code></dt><dd><p><strong>Meaning.</strong> d-axis (flux-producing) current.
+<strong>Unit.</strong> A  <strong>Frame.</strong> dq, d axis
+<strong>Positive.</strong> positive into the machine, producing flux along the d axis; field weakening is the negative direction.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/types.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">d{};</span></code>)</p>
+</dd>
+<dt>i_q  <code class="docutils literal notranslate"><span class="pre">i_q</span></code></dt><dd><p><strong>Meaning.</strong> q-axis (torque-producing) current.
+<strong>Unit.</strong> A  <strong>Frame.</strong> dq, q axis
+<strong>Positive.</strong> positive = motoring in the direction <cite>omega_m</cite> is positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/types.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">q{};</span></code>)</p>
+</dd>
+<dt>v_bus  <code class="docutils literal notranslate"><span class="pre">v_bus</span></code></dt><dd><p><strong>Meaning.</strong> DC link voltage. The current loop's output clamp is <cite>+-v_bus/2</cite> per axis, which is not the ceiling the modulator enforces on the pair: that one is the inscribed circle, <cite>v_bus/sqrt(3)</cite>.
+<strong>Unit.</strong> V  <strong>Frame.</strong> DC link
+<strong>Positive.</strong> positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/motor/motor_config.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">bandwidth_rad_s,</span> <span class="pre">float</span> <span class="pre">v_bus</span></code>)</p>
+</dd>
+<dt>λ  <code class="docutils literal notranslate"><span class="pre">lambda</span></code></dt><dd><p><strong>Meaning.</strong> field-weakening closure ratio, <cite>lambda = Ld*i_max/psi_f = 1/ratio</cite>, i.e. the reciprocal of the <cite>ratio</cite> field the C API returns. Field weakening can hold the envelope only when <cite>lambda &gt;= 1</cite>, which is the same statement as <cite>i_char &lt;= i_max</cite>.
+<strong>Unit.</strong> 1 (dimensionless)  <strong>Frame.</strong> machine
+<strong>Positive.</strong> positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/field_weakening.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">i_char</span> <span class="pre">&lt;=</span> <span class="pre">i_max</span></code>)
+<strong>Note.</strong> Two spellings of one quantity live in the tree, and one of them is inverted. <cite>lambda</cite> (this table, <cite>domain.json</cite>) and <cite>ratio</cite> (<cite>foc_fw_verdict_t.ratio</cite>, <cite>psi_f/Ld / i_max</cite>) are reciprocals, so a threshold written as <cite>lambda &gt;= 1</cite> and one written as <cite>ratio &lt;= 1</cite> are the same rule -- but a reader who takes <cite>ratio</cite> for <cite>lambda</cite> reads the rule backwards. The table states the reciprocal relation rather than picking a winner, because both spellings are already in the public API.</p>
+</dd>
+<dt>i_char  <code class="docutils literal notranslate"><span class="pre">i_char</span></code></dt><dd><p><strong>Meaning.</strong> characteristic current, <cite>i_char = psi_f/Ld</cite>: the d-axis current that would null the rotor flux.
+<strong>Unit.</strong> A  <strong>Frame.</strong> dq, d axis
+<strong>Positive.</strong> reported as a positive magnitude; the current that achieves it is negative.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/api/foc_types.h</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">i_char_a;</span></code>)</p>
+</dd>
+<dt>δ  <code class="docutils literal notranslate"><span class="pre">delta</span></code> <em>(reserved -- defined for readers, not used by the code yet)</em></dt><dd><p><strong>Meaning.</strong> power angle (load angle) between the rotor flux and the stator flux linkage.
+<strong>Unit.</strong> rad  <strong>Frame.</strong> rotor vs stator flux
+<strong>Positive.</strong> positive when the stator flux leads the rotor flux.</p>
+</dd>
+<dt>α, β  <code class="docutils literal notranslate"><span class="pre">alpha_beta</span></code></dt><dd><p><strong>Meaning.</strong> the stationary two-phase frame: <cite>alpha</cite> is the phase-u axis, <cite>beta</cite> is 90 deg ahead of it.
+<strong>Unit.</strong> 1 (a frame label, not a quantity)  <strong>Frame.</strong> stationary (Clarke output)
+<strong>Positive.</strong> not applicable: these name axes.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/transforms.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">clarke(Uvw&lt;T&gt;</span> <span class="pre">uvw)</span></code>)</p>
+</dd>
+<dt>τ  <code class="docutils literal notranslate"><span class="pre">tau</span></code></dt><dd><p><strong>Meaning.</strong> a time constant, always the one named in the same sentence (observer pole, filter window, thermal lag).
+<strong>Unit.</strong> s  <strong>Frame.</strong> the subsystem that owns it
+<strong>Positive.</strong> positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/thermal_limit.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">τ</span> <span class="pre">=</span> <span class="pre">Rt·Ct</span></code>)</p>
+</dd>
+<dt>ω_h  <code class="docutils literal notranslate"><span class="pre">omega_h</span></code></dt><dd><p><strong>Meaning.</strong> HFI injection angular frequency: the carrier the high-frequency injection puts on the d axis. The reactance that sets the injected current is <cite>omega_h * Ld</cite>.
+<strong>Unit.</strong> rad/s  <strong>Frame.</strong> electrical
+<strong>Positive.</strong> positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">src/api/bridge.cpp</span></code> (<code class="docutils literal notranslate"><span class="pre">ω_h·Ld</span></code>)</p>
+</dd>
+<dt>φ_inj  <code class="docutils literal notranslate"><span class="pre">phi_inj</span></code></dt><dd><p><strong>Meaning.</strong> injection phase, the phase at which a cogging harmonic is injected into the current command.
+<strong>Unit.</strong> rad  <strong>Frame.</strong> the harmonic's own phase reference
+<strong>Positive.</strong> positive leads.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">src/core/cogging_learn.cpp</span></code> (<code class="docutils literal notranslate"><span class="pre">k·θ</span> <span class="pre">+</span> <span class="pre">φ_inj</span></code>)</p>
+</dd>
+<dt>θ_p  <code class="docutils literal notranslate"><span class="pre">theta_p</span></code></dt><dd><p><strong>Meaning.</strong> the angle of one phase current in the commissioning projection, <cite>i_p</cite> proportional to <cite>cos(theta_p - angle)</cite>.
+<strong>Unit.</strong> rad  <strong>Frame.</strong> phase (stationary)
+<strong>Positive.</strong> positive leads.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/commissioning.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">cos(θ_p</span> <span class="pre">−</span> <span class="pre">angle)</span></code>)</p>
+</dd>
+<dt>σ  <code class="docutils literal notranslate"><span class="pre">sigma</span></code></dt><dd><p><strong>Meaning.</strong> a standard deviation of a noise source, with the subscript naming which one: <cite>sigma_theta</cite> the angle, <cite>sigma_v</cite> the speed derived from it.
+<strong>Unit.</strong> the unit of the subscribed quantity  <strong>Frame.</strong> n/a
+<strong>Positive.</strong> non-negative.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/speed_from_angle.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">σ_v</span> <span class="pre">=</span> <span class="pre">σ_θ·√2/(window_ticks·dt)</span></code>)</p>
+</dd>
+<dt>η  <code class="docutils literal notranslate"><span class="pre">eta_flux</span></code></dt><dd><p><strong>Meaning.</strong> the nonlinear flux observer's correction vector: the part of the estimated linkage that is not the current's own flux.
+<strong>Unit.</strong> Wb  <strong>Frame.</strong> stationary (alpha-beta)
+<strong>Positive.</strong> a vector, no sign.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/observer/nonlinear_flux_observer.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">(ψf²</span> <span class="pre">−</span> <span class="pre">|η|²)·η</span></code>)</p>
+</dd>
+<dt>ωL  <code class="docutils literal notranslate"><span class="pre">omega_l</span></code></dt><dd><p><strong>Meaning.</strong> an impedance term, <cite>omega * L</cite>, written as one token where the reactance is what the sentence is about. Not a symbol of its own and not a frequency.
+<strong>Unit.</strong> ohm  <strong>Frame.</strong> depends on which L the sentence names
+<strong>Positive.</strong> positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/deadtime.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">`ωL`</span></code>)</p>
+</dd>
+<dt>ψ_ab  <code class="docutils literal notranslate"><span class="pre">psi_ab</span></code></dt><dd><p><strong>Meaning.</strong> stator flux linkage vector in the stationary frame -- the integrator state of a flux observer. Distinct from the rotor flux <cite>ψf</cite>, which is a constant of the machine.
+<strong>Unit.</strong> Wb  <strong>Frame.</strong> alpha-beta (stationary), as a vector
+<strong>Positive.</strong> positive along the winding's own flux direction; a vector, so it carries two components.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/observer/dual_inductance_observer.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">Ab&lt;float&gt;</span> <span class="pre">psi_;</span></code>)
+<strong>Note.</strong> Registered when the bare <cite>ψ</cite> in this observer's prose turned out to be the last unregistered glyph: the sentence was naming the stator estimate while the table only knew the rotor constant <cite>ψf</cite>.</p>
+</dd>
+<dt>T_w  <code class="docutils literal notranslate"><span class="pre">t_w</span></code></dt><dd><p><strong>Meaning.</strong> winding temperature: what the derating limit is derived from. A drive with no temperature channel reports it as absent rather than as a number.
+<strong>Unit.</strong> degC  <strong>Frame.</strong> machine
+<strong>Positive.</strong> positive above the ambient the record states.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/hal/temperature.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">celsius{0.0F};</span></code>)</p>
+</dd>
+<dt>B  <code class="docutils literal notranslate"><span class="pre">beta_ntc</span></code></dt><dd><p><strong>Meaning.</strong> the two-point model's exponent of an NTC, in kelvin: <cite>1/T = 1/T0 + (1/B) ln(R/R0)</cite>. Not a Steinhart-Hart coefficient set; the cost of that choice is stated on the header.
+<strong>Unit.</strong> K  <strong>Frame.</strong> sensor
+<strong>Positive.</strong> positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/thermistor.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">beta_k{3950.0F};</span></code>)</p>
+</dd>
+<dt>R_{ntc}  <code class="docutils literal notranslate"><span class="pre">r_ntc</span></code></dt><dd><p><strong>Meaning.</strong> the thermistor's own resistance in the divider at the temperature being read. The divider turns it into a code; a code at either rail means the sensor is gone, not that it is very hot or very cold.
+<strong>Unit.</strong> ohm  <strong>Frame.</strong> sensor
+<strong>Positive.</strong> positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/thermistor.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">resistance_ohm(float</span> <span class="pre">celsius)</span></code>)</p>
+</dd>
+<dt>omega_{ref}  <code class="docutils literal notranslate"><span class="pre">omega_ref</span></code></dt><dd><p><strong>Meaning.</strong> the velocity a move trajectory commands this tick, rad/s: a reference, never a measurement.
+<strong>Unit.</strong> rad/s  <strong>Frame.</strong> mechanical
+<strong>Positive.</strong> positive in the direction the move is going.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/move_trajectory.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">velocity_rad_s;</span></code>)</p>
+</dd>
+<dt>alpha_{ref}  <code class="docutils literal notranslate"><span class="pre">alpha_ref</span></code></dt><dd><p><strong>Meaning.</strong> how fast the commanded velocity may change, rad/s^2. It is the same number that appears inside the stopping-distance ceiling, which is why the ceiling is a quadratic root and not a ratio.
+<strong>Unit.</strong> rad/s^2  <strong>Frame.</strong> mechanical
+<strong>Positive.</strong> magnitude; the sign of the move is carried by the reference.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/move_trajectory.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">accel_rad_s2;</span></code>)</p>
+</dd>
+<dt>R_{th}  <code class="docutils literal notranslate"><span class="pre">rt_th</span></code></dt><dd><p><strong>Meaning.</strong> thermal resistance from the winding to the ambient, K/W: the number that decides how many watts a temperature rise costs.
+<strong>Unit.</strong> K/W  <strong>Frame.</strong> thermal
+<strong>Positive.</strong> positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/thermal_limit.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">rt_k_per_w{</span></code>)</p>
+</dd>
+<dt>alpha_{th}  <code class="docutils literal notranslate"><span class="pre">alpha_th</span></code></dt><dd><p><strong>Meaning.</strong> the copper's temperature coefficient of resistance, per kelvin. It is what makes the settle a rational function rather than a product, and what bounds where the settle exists at all.
+<strong>Unit.</strong> 1/K  <strong>Frame.</strong> thermal
+<strong>Positive.</strong> positive.
+<strong>Defined by.</strong> <code class="docutils literal notranslate"><span class="pre">include/foc/core/thermal_limit.hpp</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span> <span class="pre">alpha_per_k{3.93e-3F};</span></code>)</p>
+</dd>
+</dl>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="architecture.html" class="btn btn-neutral float-left" title="1. Architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="conventions.html" class="btn btn-neutral float-right" title="3. Convention alignment" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

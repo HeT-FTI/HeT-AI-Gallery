@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Architecture &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="2. Symbols and units" href="symbols.html" />
+    <link rel="prev" title="4. Outer-loop self-tuning" href="sop.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-position">1.1. The position</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-a-breadth-first-library-optimises-for-and-what-changes-here">1.2. What a breadth-first library optimises for, and what changes here</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#three-faces-one-core">1.3. Three faces, one core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-loop-composed-rather-than-inherited">1.4. The loop, composed rather than inherited</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-layering-and-what-may-depend-on-what">1.5. The layering, and what may depend on what</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-data-model">1.6. The data model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-failure-model">1.7. The failure model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-configuration-model">1.8. The configuration model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-memory-and-concurrency-models">1.9. The memory and concurrency models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-extension-model">1.10. The extension model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-compatibility-model">1.11. The compatibility model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-the-numbers-live">1.12. Where the numbers live</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-costs-and-who-pays-them">1.13. The costs, and who pays them</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-the-shape-was-arrived-at">1.14. How the shape was arrived at</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-review-the-architecture">1.15. How to review the architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#repository-layout">1.16. Repository layout</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/architecture.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1. </span><span class="target" id="architecture">Architecture</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>This page answers the question the reference documentation does not: <strong>why is the library
+shaped this way</strong>. It is written for three readers -- the architect deciding whether this
+belongs in a product, the reviewer deciding whether its shape holds, and the integrator
+deciding where they are expected to cut.</p>
+<section id="the-position">
+<h2><span class="section-number">1.1. </span>The position<a class="headerlink" href="#the-position" title="链接到此标题。"></a></h2>
+<p>Most motor-control software is one of four things, and each is right for somebody. A vendor
+SDK brings a working drive on one part family and the vendor's abstraction with it. A
+model-based toolchain generates code from a block diagram. A research library lives where
+iteration is cheap. A framework owns the application, including the loop and the memory.</p>
+<p>The position this library takes is the space those leave: <strong>a core that can be handed to a
+reviewer, whose cost is bounded by construction, whose numerical behaviour is argued rather
+than asserted, and which is the same code from C++, from C and from a script.</strong></p>
+<p>That position is a set of refusals, and each is a decision rather than a preference:</p>
+<ul class="simple">
+<li><p><strong>no heap in the loop</strong>, which forbids containers and buys a worst case that can be
+written down;</p></li>
+<li><p><strong>no exceptions and no RTTI</strong>, which buys an error path whose cost is a returned value;</p></li>
+<li><p><strong>no virtual dispatch on the periodic path</strong>, which buys inlining through the whole chain;</p></li>
+<li><p><strong>no defaults that could hide a fault</strong>, which buys a boot that fails loudly instead of a
+protection that was never enabled.</p></li>
+</ul>
+</section>
+<section id="what-a-breadth-first-library-optimises-for-and-what-changes-here">
+<h2><span class="section-number">1.2. </span>What a breadth-first library optimises for, and what changes here<a class="headerlink" href="#what-a-breadth-first-library-optimises-for-and-what-changes-here" title="链接到此标题。"></a></h2>
+<p>The architecture chapter of a large library is a map of a breadth-first system: the module
+graph, the data objects that flow through it, how to plug in a new algorithm, which backends
+are interchangeable. Those libraries are judged on coverage and on being a substrate for other
+people's work, so they are optimised for <strong>extension volume</strong>.</p>
+<p>A hard-real-time core is optimised for the opposite: a small number of seams, each of them
+compile-time, and a cost that does not depend on the input. The dimensions are the same and
+the answers are inverted.</p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-number">表 1.1 </span><span class="caption-text">The same dimensions, the opposite answers</span><a class="headerlink" href="#id2" title="链接到此表格。"></a></caption>
+<colgroup>
+<col style="width: 16.0%" />
+<col style="width: 37.0%" />
+<col style="width: 47.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Dimension</p></th>
+<th class="head"><p>A breadth-first library</p></th>
+<th class="head"><p>This one, and why</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Extensibility</p></td>
+<td><p>hundreds of algorithms behind one interface, discovered at run time</p></td>
+<td><p>four policy seams, fixed at compile time, because a run-time lookup is a cost the
+loop cannot audit</p></td>
+</tr>
+<tr class="row-odd"><td><p>Object model</p></td>
+<td><p>deep hierarchies, shared ownership, reference counting</p></td>
+<td><p>value types and composition; ownership stays with the caller, so there is nothing to
+count and nothing to leak</p></td>
+</tr>
+<tr class="row-even"><td><p>Data flow</p></td>
+<td><p>images and meshes through a pipeline of stages</p></td>
+<td><p>one request and three duties per period; the state is the controller's, not the
+library's</p></td>
+</tr>
+<tr class="row-odd"><td><p>Backends</p></td>
+<td><p>interchangeable, selected by configuration</p></td>
+<td><p>one HAL policy per build; the hardware is not a run-time detail</p></td>
+</tr>
+<tr class="row-even"><td><p>Error model</p></td>
+<td><p>exceptions or status trees, because failure is rare and deferred</p></td>
+<td><p>a closed set of returned codes, because failure must be decided in the same period</p></td>
+</tr>
+<tr class="row-odd"><td><p>Binary compatibility</p></td>
+<td><p>versioned libraries, plugins, symbol visibility</p></td>
+<td><p>a frozen C surface with size-tagged structs and generation-checked handles</p></td>
+</tr>
+<tr class="row-even"><td><p>Cost model</p></td>
+<td><p>measured per operation, optimised per backend</p></td>
+<td><p>bounded by construction: no allocation, no dispatch, no exception</p></td>
+</tr>
+</tbody>
+</table>
+<p>Two consequences surprise readers arriving from a breadth-first library. There is <strong>no plugin
+architecture</strong>, and that is not an omission: adding an observer is a template argument plus a
+case, and the compiler is the registration mechanism. And the <strong>C surface exists for the
+opposite reason a C API usually exists</strong> -- not to let other languages in, but to give the
+core a boundary that cannot grow accidentally, since every declaration there is a promise
+about the next decade.</p>
+</section>
+<section id="three-faces-one-core">
+<h2><span class="section-number">1.3. </span>Three faces, one core<a class="headerlink" href="#three-faces-one-core" title="链接到此标题。"></a></h2>
+<p>The core cannot be written in the language of any one consumer: it is value types and
+functions over them, and each face is a thin adaptation.</p>
+<figure class="align-center" id="figure-architecture-faces">
+<a class="reference internal image-reference" href="_images/OUT_arch_faces.png"><img alt="_images/OUT_arch_faces.png" src="_images/OUT_arch_faces.png" width="640" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.11 </span><span class="caption-text">Each arrow points inward. No face knows about another, and Python reaches the core only
+through the C surface.</span><a class="headerlink" href="#figure-architecture-faces" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>The dependency direction is not a style preference. If Python could reach the templates
+directly, the C surface would stop being a constraint on it and the two surfaces would drift,
+with the tests of one silently not covering the other.</p>
+</section>
+<section id="the-loop-composed-rather-than-inherited">
+<h2><span class="section-number">1.4. </span>The loop, composed rather than inherited<a class="headerlink" href="#the-loop-composed-rather-than-inherited" title="链接到此标题。"></a></h2>
+<p>The periodic path is a composition of policies fixed at compile time: the HAL is a template
+parameter, the modulator is a template parameter, the regulator is a template parameter, and
+the composition is a type.</p>
+<figure class="align-center" id="figure-architecture-loop">
+<a class="reference internal image-reference" href="_images/OUT_arch_loop.png"><img alt="_images/OUT_arch_loop.png" src="_images/OUT_arch_loop.png" width="430" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.12 </span><span class="caption-text">One PWM period: the reference, the regulators, the limits, the modulator, the minimum-pulse
+stage, the HAL, and the observer closing the loop through the angle.</span><a class="headerlink" href="#figure-architecture-loop" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>Two asymmetries in that picture are where this differs from a textbook cascade. The <strong>limits
+are inside the chain</strong> rather than at its output, so a regulator knows the ceiling it is
+working against rather than discovering it afterwards. And the <strong>minimum-pulse and dead-time
+stage sits between the modulator and the HAL</strong>, because those losses happen between
+arithmetic and copper and nothing downstream can infer them.</p>
+</section>
+<section id="the-layering-and-what-may-depend-on-what">
+<h2><span class="section-number">1.5. </span>The layering, and what may depend on what<a class="headerlink" href="#the-layering-and-what-may-depend-on-what" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-architecture-layers">
+<a class="reference internal image-reference" href="_images/OUT_arch_layers.png"><img alt="_images/OUT_arch_layers.png" src="_images/OUT_arch_layers.png" width="640" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.13 </span><span class="caption-text">Header layers. The value layer is the floor: everything may depend on it and it depends on
+nothing but the standard library. The HAL appears as a box with no arrows out, because it
+is a policy the caller implements rather than a module the library calls.</span><a class="headerlink" href="#figure-architecture-layers" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>Two rules hold the picture up. <strong>A third-party header may not reach a public header</strong>: the
+cost was measured to be multiples of the entire include face, so the answer is no rather than
+&quot;only a little&quot;, and the dependency gate is what says so. And <strong>the C face is a mirror, not a
+dependency</strong>: <code class="docutils literal notranslate"><span class="pre">foc_types.h</span></code> is written by hand against the value layer's semantics rather
+than generated from it, because a generated mirror breaks whenever the generator does -- and
+it breaks in the ABI.</p>
+</section>
+<section id="the-data-model">
+<h2><span class="section-number">1.6. </span>The data model<a class="headerlink" href="#the-data-model" title="链接到此标题。"></a></h2>
+<p>Everything that flows through the library is a small value type whose name says what it is: a
+phase triple, a stationary pair, a rotor-frame pair, a configuration struct, a result struct.
+They are trivially copyable, they have no invariants a constructor must defend, and the
+library never owns them.</p>
+<p>Three properties follow. <strong>No aliasing</strong>: a function that takes a value cannot be affected by
+another context mutating it, so &quot;who else holds this&quot; never arises in the loop. <strong>No hidden
+state</strong>: a result struct carries what the caller needs to decide what happened -- a saturation
+flag, a mask, a timestamp and a status -- so nobody has to ask the object what it meant.
+<strong>Units in the names</strong>: the symbol registry generates the symbol table, and a quantity without
+a registered unit fails the documentation's gates, which is a cheap way to make &quot;milliseconds
+where seconds were expected&quot; a visible mistake.</p>
+</section>
+<section id="the-failure-model">
+<h2><span class="section-number">1.7. </span>The failure model<a class="headerlink" href="#the-failure-model" title="链接到此标题。"></a></h2>
+<p>Failure is a value with a small closed set of meanings.</p>
+<figure class="align-center" id="figure-architecture-failure">
+<a class="reference internal image-reference" href="_images/OUT_arch_failure.png"><img alt="_images/OUT_arch_failure.png" src="_images/OUT_arch_failure.png" width="560" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.14 </span><span class="caption-text">What can go wrong and which code carries it. The distinction that matters operationally is
+between &quot;you asked wrong&quot; and &quot;this build cannot&quot;.</span><a class="headerlink" href="#figure-architecture-failure" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>That distinction is not pedantry. Some fields of the host setup structure are appended over
+time, and an absent one means the caller was compiled against an older header rather than that
+the value is zero. A call that needs an absent field answers <em>not implemented</em>, because
+otherwise &quot;we never asked&quot; reads like &quot;nothing is wrong&quot; -- and the caller's recovery differs:
+one is fixed by passing the value, the other by rebuilding.</p>
+<p>Two conventions complete the model. <strong>Refusals happen before work</strong>: a configuration that
+cannot be run is rejected at construction or at the first call that needs it. And
+<strong>diagnostics saturate rather than wrap</strong>: a loss counter that wraps to zero reports &quot;nothing
+lost&quot; at the moment everything was lost.</p>
+</section>
+<section id="the-configuration-model">
+<h2><span class="section-number">1.8. </span>The configuration model<a class="headerlink" href="#the-configuration-model" title="链接到此标题。"></a></h2>
+<p>Configuration is a struct passed at construction, readable but never partly written. That is
+stronger than it looks: there is no moment at which a running drive has a mixture of old and
+new settings, which is the failure mode of a setter-based interface in a system with a
+periodic interrupt.</p>
+<p>Values divide into two kinds, and the division is visible in the types. <strong>Boot-time</strong> values
+-- pole pairs, dead time, switching period, current limits -- describe the hardware and are
+fixed for the life of the object. <strong>Run-time</strong> values -- references, enables, mode -- are
+commands and are functions rather than fields. Mixing the two is the most common silent
+integration error after a wrong pole count, because a dead time copied onto a different bridge
+behaves exactly like a machine whose resistance is wrong.</p>
+<p>The refusal policy completes it: a value that is merely unhelpful is accepted, and a value
+that is <strong>inconsistent</strong> is refused. An injection amplitude of zero is not &quot;off&quot;; it is a
+request for an observer that cannot work.</p>
+</section>
+<section id="the-memory-and-concurrency-models">
+<h2><span class="section-number">1.9. </span>The memory and concurrency models<a class="headerlink" href="#the-memory-and-concurrency-models" title="链接到此标题。"></a></h2>
+<p>There is no allocation anywhere. Fixed-capacity rings, fixed-size observer state, configuration
+by value. Tracing is switched by changing a <strong>type</strong>, not a flag: the disabled channel is an
+empty type whose methods the optimiser deletes, so &quot;off costs nothing&quot; is structural and the
+size of the motor does not change with tracing enabled.</p>
+<p>There is one loop, one context and no locks. Every entry point is written for exactly one
+caller, and the library does not pretend to be thread-safe by adding mutexes a real-time path
+cannot afford to take. What it does instead is make the dangerous boundary explicit: the HAL
+is called from inside the period, so an implementation that blocks has broken the loop's
+premise -- the contract says so, and the porting checklist asks about it.</p>
+</section>
+<section id="the-extension-model">
+<h2><span class="section-number">1.10. </span>The extension model<a class="headerlink" href="#the-extension-model" title="链接到此标题。"></a></h2>
+<p>There are four seams, and they are one kind of seam: a template parameter whose required
+interface is a handful of member functions, checked at compile time.</p>
+<figure class="align-center" id="figure-architecture-extension">
+<a class="reference internal image-reference" href="_images/OUT_arch_extension.png"><img alt="_images/OUT_arch_extension.png" src="_images/OUT_arch_extension.png" width="560" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.15 </span><span class="caption-text">You write one of the boxes on the left; the library names what it needs and checks it when
+the composition is instantiated.</span><a class="headerlink" href="#figure-architecture-extension" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>Adding a capability is a compile-time act with three consequences. The cost of the new code is
+visible in the call graph, because it is inlined where it is used rather than dispatched. A
+configuration is a type, so two variants are two binaries rather than one binary with a flag --
+cheap to reason about, expensive in code size for a large variant matrix. And a wrong
+implementation fails to compile rather than failing at run time.</p>
+<p>The seams are deliberately few. A fifth would be a commitment to a fifth kind of variation,
+and this project would rather add one after seeing the variation twice.</p>
+</section>
+<section id="the-compatibility-model">
+<h2><span class="section-number">1.11. </span>The compatibility model<a class="headerlink" href="#the-compatibility-model" title="链接到此标题。"></a></h2>
+<p>The C surface is frozen in the way that matters: existing declarations do not change meaning,
+structures carry their own size so appending a field is compatible, and handles carry a
+generation counter so a stale one is detected rather than dereferenced. The C++ surface is not
+frozen the same way, and the asymmetry is deliberate: templates are recompiled, binaries are
+not.</p>
+<p>The practical rule is: depend on the C surface when the dependency must survive a rebuild you
+do not control, and on the templates when you want the inlining.</p>
+</section>
+<section id="where-the-numbers-live">
+<h2><span class="section-number">1.12. </span>Where the numbers live<a class="headerlink" href="#where-the-numbers-live" title="链接到此标题。"></a></h2>
+<p>A fact has one home, and the artefacts that repeat it are generated.</p>
+<figure class="align-center" id="figure-architecture-evidence">
+<a class="reference internal image-reference" href="_images/OUT_arch_evidence.png"><img alt="_images/OUT_arch_evidence.png" src="_images/OUT_arch_evidence.png" width="640" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.16 </span><span class="caption-text">The registries, the artefacts generated from them, and the gates that would notice a
+disagreement. The claim table is a registry like the others: its evidence column makes a
+claim checkable and its basis column makes a change's blast radius computable.</span><a class="headerlink" href="#figure-architecture-evidence" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>This is architecture rather than bookkeeping because it decides what a reviewer can ask.
+&quot;Where does this number come from&quot; has a file answer; &quot;what would invalidate this claim&quot; has a
+file answer; &quot;what prevents this from rotting&quot; has a gate answer.</p>
+</section>
+<section id="the-costs-and-who-pays-them">
+<h2><span class="section-number">1.13. </span>The costs, and who pays them<a class="headerlink" href="#the-costs-and-who-pays-them" title="链接到此标题。"></a></h2>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-number">表 1.2 </span><span class="caption-text">Four decisions and their price</span><a class="headerlink" href="#id3" title="链接到此表格。"></a></caption>
+<colgroup>
+<col style="width: 21.0%" />
+<col style="width: 23.0%" />
+<col style="width: 26.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Decision</p></th>
+<th class="head"><p>Alternative rejected</p></th>
+<th class="head"><p>What it would have bought</p></th>
+<th class="head"><p>What it costs, and who pays</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Composition at compile time</p></td>
+<td><p>a run-time interface per component</p></td>
+<td><p>deciding a variant at run time, one binary for many products</p></td>
+<td><p>a factory one level up in the product; the integrator pays</p></td>
+</tr>
+<tr class="row-odd"><td><p>No exceptions</p></td>
+<td><p>throwing from deep inside a nested call</p></td>
+<td><p>error paths that do not lengthen signatures</p></td>
+<td><p>every call that can fail returns a value; the author pays</p></td>
+</tr>
+<tr class="row-even"><td><p>No allocation</p></td>
+<td><p>strings, containers, logging in place</p></td>
+<td><p>convenience, and error messages built at the failure site</p></td>
+<td><p>fault reporting is a code plus a counter; commissioning pays</p></td>
+</tr>
+<tr class="row-odd"><td><p>Refusals instead of defaults</p></td>
+<td><p>a permissive configuration with sensible zeros</p></td>
+<td><p>a boot that never argues</p></td>
+<td><p>bring-up friction at least once per board; the integrator pays</p></td>
+</tr>
+<tr class="row-even"><td><p>Frozen C surface</p></td>
+<td><p>evolve the C API freely with the templates</p></td>
+<td><p>fewer, simpler declarations</p></td>
+<td><p>a size field in every struct crossing the boundary; the binding author pays</p></td>
+</tr>
+</tbody>
+</table>
+<p>None of these is a defect to be fixed later. Each is the other side of a stated constraint,
+and adopting the library is deciding whether those costs are cheaper than the alternative's.</p>
+</section>
+<section id="how-the-shape-was-arrived-at">
+<h2><span class="section-number">1.14. </span>How the shape was arrived at<a class="headerlink" href="#how-the-shape-was-arrived-at" title="链接到此标题。"></a></h2>
+<p>History. This section is a record rather than a specification, and the word above is what the
+documentation's voice gate looks for before it lets a paragraph talk about the past.</p>
+<p>The shape converged rather than being designed in one sitting, and the sequence is visible in
+the repository.</p>
+<p><strong>Refusals came first, and they came from failures.</strong> Each of the four prohibitions began as a
+defect in something built on top: a loop whose period occasionally overran, an observer that
+silently did nothing, a configuration that was accepted and produced a drive that merely looked
+configured. The rule that followed is mechanical -- when a failure is found, the fix is written
+as a refusal that fails loudly, because a default that keeps working a little is how the same
+defect returns twice.</p>
+<p><strong>The registries came from documentation drift.</strong> Documentation that carried numbers in prose
+stopped being true. The response was not to check harder but to give each fact a file and
+generate everything that repeats it, then add a gate that compares the documented copy with
+the artefact -- which is why the site and the manual both draw their numbers from registries.</p>
+<p><strong>The evidence model came from a claim nothing could contradict.</strong> A statement was found that
+had passed every check because no check was about it. The claim table, the case pointer in both
+directions, and the basis graph all date from that discovery, and the correction is recorded
+publicly in <a class="reference internal" href="foundation-log.html"><span class="doc">Foundation corrections</span></a>.</p>
+<p><strong>The C face came from a versioning problem, not from a portability wish.</strong> The binary boundary
+exists because consumers were recompiling the templates and the semantics were drifting between
+them. Freezing the C surface forced the semantics into declarations, and the other bindings then
+had something stable to bind to.</p>
+<p><strong>The infrastructure layer is byte-pinned on purpose.</strong> The build system and the formatting and
+linting configuration are not edited by hand; they are owned outside this library and checked
+byte for byte, because a project that lets its own build files drift cannot make claims about
+anybody else's builds.</p>
+<p>The practical lesson is the one worth carrying: each decision above is a response to something
+that had already gone wrong, each is cheap to describe and expensive to retrofit, and the shape
+is what survived.</p>
+</section>
+<section id="how-to-review-the-architecture">
+<h2><span class="section-number">1.15. </span>How to review the architecture<a class="headerlink" href="#how-to-review-the-architecture" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>Does the periodic path allocate, throw, or dispatch virtually? The build disables two of the
+three; the third is checked by reading the composition, which is a type.</p></li>
+<li><p>Can a consumer reach the core without going through a declared face? The layering picture is
+the claim; the include face is the check.</p></li>
+<li><p>Is every fact in one place, and is disagreement detectable? The registries and the gates
+answer it, and the answer is checkable by running them.</p></li>
+<li><p>What happens when a configuration is wrong? It is refused, with a code that separates &quot;you
+asked wrong&quot; from &quot;this build cannot&quot;.</p></li>
+<li><p>How does a new capability enter? Through one of four seams, at compile time, with its
+interface checked by the compiler and its behaviour checked by a case.</p></li>
+<li><p>What does the architecture refuse to do, and is that written down? This page and
+<a class="reference internal" href="boundaries.html"><span class="doc">What this library does not do</span></a>, in that order.</p></li>
+</ul>
+</section>
+<section id="repository-layout">
+<h2><span class="section-number">1.16. </span>Repository layout<a class="headerlink" href="#repository-layout" title="链接到此标题。"></a></h2>
+<p>The tree is the layering made visible: <code class="docutils literal notranslate"><span class="pre">core</span></code> depends on nothing, <code class="docutils literal notranslate"><span class="pre">hal</span></code> is the only place a
+board is named, <code class="docutils literal notranslate"><span class="pre">driver</span></code> is what a host injects, and <code class="docutils literal notranslate"><span class="pre">motor</span></code> is the only thing that composes
+them. <code class="docutils literal notranslate"><span class="pre">include/</span></code> and <code class="docutils literal notranslate"><span class="pre">src/</span></code> are pairwise -- every header has a source of the same stem -- and
+the suffix decides the language, which is what the <code class="docutils literal notranslate"><span class="pre">strict</span></code> gate compiles each file as.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>project-root/
+├── conanfile.py              # Conan recipe
+├── CMakeLists.txt            # CMake build framework
+├── metadata.json             # Project metadata configuration (single source of truth)
+├── conandata.yml             # Dependency specifications, Conan plugin support
+├── package.json              # Node-side tooling deps (commitlint / semantic-release / ajv)
+├── CHANGELOG.md              # Auto-generated by semantic-release (init tag required)
+├── build                     # One-liner local build script
+├── LICENSE                   # Apache v2 Project license
+├── NOTICE                    # Notice file of Apache v2
+├── .vscode/                  # Recommended editor config (extensions / settings / tasks)
+├── .agents/skills            # Default generated view (git-ignored) → .github/skills
+├── .claude/skills            # Optional generated view (git-ignored) → .github/skills
+├── .codex/skills             # Optional generated view (git-ignored) → .github/skills
+├── .devcontainer/            # Reproducible dev environment (Dockerfile)
+├── .github/                  # CI/CD + canonical agent skills
+│   ├── workflows/            # ci-orchestrator / metadata-controller / build / test / docs / release / security
+│   ├── skills/               # canonical: 15 task skills + het-agent + _shared + manifest.json
+│   │   └── _shared/skillkit/ # validate / sync / catalog tool
+│   ├── misc/                 # clang-format(-c/cpp) / clang-tidy / gitleaks / releaserc / commitlint /
+│   │                         # metadata.schema / mega-linter / pre-commit / labels / Codegen-Starter.txt
+│   ├── CODEOWNERS            # Required reviewers
+│   ├── CONTRIBUTING.md       # Contribution &amp; commit conventions
+│   ├── dependabot.yml        # Grouped monthly dependency updates
+│   └── PULL_REQUEST_TEMPLATE.md
+├── api/                      # Interface to advanced programming language
+│    └── python_bindings.cpp  # Python bindings interface
+├── include/                  # Public headers
+│   ├── *.h                   # C interface headers
+│   └── *.hpp                 # C++ interface headers
+├── src/                      # Implementation files
+│   ├── *.c                   # C sources
+│   ├── *.cpp                 # C++ sources
+│   └── *.ixx/*.cppm          # Auto-generated Module files (in experimental)
+├── benchmark/                # Cross-compile &amp; on-board benchmark framework (Cortex-M / Cortex-A)
+├── .hetai/                   # hetai package matrix (cross-compile targets)
+├── wokspace/                 # Agentic Coding work products (git-ignored)
+├── docs/                     # Documentations root
+│   ├── doxygen/              # Doxygen system main root
+│   │   ├── dox/              # Pure documentations&#39; folder (the only home of .dox/.cxx)
+│   │   │   ├── demos/        # Examples catalogue (hand-written, standalone)
+│   │   │   │   ├── *.dox     # Documenting docstring
+│   │   │   │   └── *.cxx     # Example codes
+│   │   │   └── *.dox         # Main pages and etc
+│   │   └── ...
+│   ├── sphinx/               # Sphinx system main root
+│   │   ├── source/           # Source files of sphinx system
+│   │   ├── locales/          # Pot files for internalization
+│   │   └── ...
+│   └── images/               # Static images for doxygen/sphinx system
+└── test_package/             # Test project
+    ├── export/               # Log for testing results
+    ├── resources/            # Test resources for test_package/ programs
+    ├── stress/
+    │   └── *.cpp             # Scripts for stress testing
+    ├── unit/
+    │   └── *.cpp             # Scripts for unit testing
+    ├── main.cpp              # Validation program for package
+    ├── conanfile.py          # Conan recipe for test_package
+    └── CMakeLists.txt        # CMake build workflow for test_package
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><strong>Suffix rule.</strong> <code class="docutils literal notranslate"><span class="pre">.dox</span></code> and <code class="docutils literal notranslate"><span class="pre">.cxx</span></code> are documentation-only. They live exclusively under
+<code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/</span></code> as hand-written standalone files (<code class="docutils literal notranslate"><span class="pre">mainpage.dox</span></code>, <code class="docutils literal notranslate"><span class="pre">demos/*.dox</span></code>,
+<code class="docutils literal notranslate"><span class="pre">demos/*.cxx</span></code>) and are never written as a docstring inside <code class="docutils literal notranslate"><span class="pre">include/</span></code> or <code class="docutils literal notranslate"><span class="pre">src/</span></code>, which carry
+<code class="docutils literal notranslate"><span class="pre">.h</span></code>/<code class="docutils literal notranslate"><span class="pre">.c</span></code>/<code class="docutils literal notranslate"><span class="pre">.hpp</span></code>/<code class="docutils literal notranslate"><span class="pre">.cpp</span></code> only. A complete doc set is a landing page plus a tutorial; example
+code is optional (0..N <code class="docutils literal notranslate"><span class="pre">.cxx</span></code> per <code class="docutils literal notranslate"><span class="pre">.dox</span></code>, no pairing) and <code class="docutils literal notranslate"><span class="pre">docs/build.py</span></code> fails the build when
+any of those properties breaks.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="sop.html" class="btn btn-neutral float-left" title="4. Outer-loop self-tuning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="symbols.html" class="btn btn-neutral float-right" title="2. Symbols and units" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

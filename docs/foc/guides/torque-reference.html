@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.4. Torque below base speed &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.5. Above base speed" href="high-speed-field-weakening.html" />
+    <link rel="prev" title="1.1.3. Zero and low speed" href="low-speed-injection.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="startup-sensorless.html">1.1.1. Bringing a sensorless machine up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.4. Torque below base speed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-need">1.1.4.1. What you need</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-minimal-program">1.1.4.2. A minimal program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-numbers-come-from">1.1.4.3. Where the numbers come from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-goes-wrong">1.1.4.4. How it goes wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evidence">1.1.4.5. Evidence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#figure">1.1.4.6. Figure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.4. </span>Torque below base speed</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/torque-reference.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.4. </span><span class="target" id="torque-below-base-speed">Torque below base speed</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: from a torque request, produce a dq current reference this machine can
+actually deliver, and drive both current axes to it inside the voltage the
+modulator has. This is the page every other page stands on -- the field
+weakening page, <a class="reference internal" href="high-speed-field-weakening.html"><span class="doc">Above base speed</span></a>, answers the same question above base speed, and the
+observer on the startup page, <a class="reference internal" href="startup-sensorless.html"><span class="doc">Bringing a sensorless machine up</span></a>, exists so that the angle this page assumes is
+available without a sensor.</p>
+<section id="what-you-need">
+<h2><span class="section-number">1.1.4.1. </span>What you need<a class="headerlink" href="#what-you-need" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/reference.hpp</span></code> -- the reference policy. <code class="docutils literal notranslate"><span class="pre">MtpaReference</span></code> for a
+salient machine; the default <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">0</span></code> generator for a surface one.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/pi.hpp</span></code> -- one controller per axis. Two instances, not one shared:
+the integral state is per axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/feedforward.hpp</span></code> -- the axis cross-coupling and back-EMF terms,
+added <strong>after</strong> the PI so the PI keeps its own-axis job.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/limits.hpp</span></code> -- <code class="docutils literal notranslate"><span class="pre">clamp</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/motor/motor_config.hpp</span></code> -- the two gain laws and the per-axis output
+clamp, derived from the nameplate by <code class="docutils literal notranslate"><span class="pre">current_pi_config()</span></code>. The ceiling the
+modulator cares about is a different object: it is the <strong>pair's</strong> inscribed
+circle, and <a class="reference internal" href="modulation-limits.html"><span class="doc">High speed and modulation</span></a> covers why it is not the rail.</p></li>
+</ul>
+</section>
+<section id="a-minimal-program">
+<h2><span class="section-number">1.1.4.2. </span>A minimal program<a class="headerlink" href="#a-minimal-program" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/torque-reference.cxx</span></code> is the whole of it, compiled with
+the flags this repository's <code class="docutils literal notranslate"><span class="pre">strict</span></code> gate uses. It names one salient machine
+once and asks two reference policies the same q command:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Torque -- torque below base speed: the reference policy, the two PIs, the</span>
+<span class="linenos">  2</span><span class="c1">// feedforward, and where the voltage ceiling belongs. No hardware, no plant:</span>
+<span class="linenos">  3</span><span class="c1">// the point of the example is the wiring a board shares with the SIL bench.</span>
+<span class="linenos">  4</span><span class="c1">//</span>
+<span class="linenos">  5</span><span class="c1">// Build it the way the `demo` gate does -- the example calls into the library, so the</span>
+<span class="linenos">  6</span><span class="c1">// sources are part of the command, and `-Iinclude` alone fails at the link. A renamed</span>
+<span class="linenos">  7</span><span class="c1">// source turns that gate red instead of leaving a stale instruction here:</span>
+<span class="linenos">  8</span><span class="c1">//   g++ -std=c++17 -fno-exceptions -fno-rtti -Wall -Wextra -Werror -Iinclude</span>
+<span class="linenos">  9</span><span class="c1">//   docs/doxygen/dox/demos/torque-reference.cxx src/core/*.cpp</span>
+<span class="linenos"> 10</span><span class="c1">//   src/core/observer/*.cpp src/motor/*.cpp src/driver/*.cpp src/api/foc_api.c</span>
+<span class="linenos"> 11</span><span class="c1">//   src/api/bridge.cpp src/version.c</span>
+<span class="linenos"> 12</span><span class="c1">//   -o /tmp/torque-reference</span>
+<span class="linenos"> 13</span><span class="c1">//</span>
+<span class="linenos"> 14</span><span class="c1">// 转矩 —— 基速以下转矩：参考策略、两个 PI、前馈，以及电压天花板该放在哪。</span>
+<span class="linenos"> 15</span><span class="c1">// 不需要硬件也不需要被控对象：这个例子要展示的是&quot;板子与 SIL</span>
+<span class="linenos"> 16</span><span class="c1">// 台架共用的那段接线&quot;。</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="linenos"> 19</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
+<span class="linenos"> 20</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="linenos"> 21</span>
+<span class="linenos"> 22</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/feedforward.hpp&gt;</span>
+<span class="linenos"> 23</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/limits.hpp&gt;</span>
+<span class="linenos"> 24</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/pi.hpp&gt;</span>
+<span class="linenos"> 25</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/reference.hpp&gt;</span>
+<span class="linenos"> 26</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/types.hpp&gt;</span>
+<span class="linenos"> 27</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/motor/motor_config.hpp&gt;</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 30</span>
+<span class="linenos"> 31</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">6.28318530718F</span><span class="p">;</span>
+<span class="linenos"> 32</span>
+<span class="linenos"> 33</span><span class="c1">// One salient machine, named once. `lq = 2 * ld` is the shape MTPA exists for:</span>
+<span class="linenos"> 34</span><span class="c1">// on a surface machine the d axis earns nothing and the two policies coincide.</span>
+<span class="linenos"> 35</span><span class="c1">// 一台凸极机，只在这里写一次。`lq = 2 * ld` 正是 MTPA 存在的形状：表贴机上 d 轴</span>
+<span class="linenos"> 36</span><span class="c1">// 没有额外收益，两种策略给出同一个答案。</span>
+<span class="linenos"> 37</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kLd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0e-4F</span><span class="p">;</span>
+<span class="linenos"> 38</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kLq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">8.0e-4F</span><span class="p">;</span>
+<span class="linenos"> 39</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kPsiF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01F</span><span class="p">;</span>
+<span class="linenos"> 40</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kIMaxA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.0F</span><span class="p">;</span>
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kRs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">;</span>
+<span class="linenos"> 43</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kVBusV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">24.0F</span><span class="p">;</span>
+<span class="linenos"> 44</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kDtS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0e-5F</span><span class="p">;</span><span class="w"> </span><span class="c1">// 20 kHz current loop</span>
+<span class="linenos"> 45</span>
+<span class="linenos"> 46</span><span class="c1">// The nameplate, once. Six of these fields never reach the current loop -- they</span>
+<span class="linenos"> 47</span><span class="c1">// are here because `current_pi_config()` takes the configuration a caller already</span>
+<span class="linenos"> 48</span><span class="c1">// has, instead of the two numbers it happens to read.</span>
+<span class="linenos"> 49</span><span class="c1">// 铭牌，只写一次。其中六个字段根本进不到电流环——它们在这里是因为</span>
+<span class="linenos"> 50</span><span class="c1">// `current_pi_config()` 要的是调用方本来就有的那份配置，而不是它恰好读的那两个数。</span>
+<span class="linenos"> 51</span><span class="k">constexpr</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">motor</span><span class="o">::</span><span class="n">MotorConfig</span><span class="w"> </span><span class="n">kMachine</span><span class="p">{</span>
+<span class="linenos"> 52</span><span class="w">    </span><span class="n">kRs</span><span class="p">,</span><span class="w"> </span><span class="n">kLd</span><span class="p">,</span><span class="w"> </span><span class="n">kLq</span><span class="p">,</span><span class="w"> </span><span class="mf">0.08F</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-4F</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">uint8_t</span><span class="p">{</span><span class="mi">4</span><span class="p">},</span><span class="w"> </span><span class="n">kIMaxA</span><span class="p">,</span><span class="w"> </span><span class="mf">20.0e3F</span><span class="p">,</span>
+<span class="linenos"> 53</span><span class="w">    </span><span class="mf">200.0F</span><span class="p">};</span>
+<span class="linenos"> 54</span>
+<span class="linenos"> 55</span><span class="c1">// A current loop closed at 1 kHz. The gains come from the library&#39;s own rule</span>
+<span class="linenos"> 56</span><span class="c1">// (`kp = 2*wb*Ld - Rs`, `ki = wb^2*Ld`), not retyped here: the equation table</span>
+<span class="linenos"> 57</span><span class="c1">// in the documentation carries that rule with a pointer to this function, and a</span>
+<span class="linenos"> 58</span><span class="c1">// second copy in an example is a second law that can drift from it.</span>
+<span class="linenos"> 59</span><span class="c1">// 1 kHz 闭环的电流环。增益来自库自己的规则（`kp = 2*wb*Ld - Rs`、`ki = wb^2*Ld`），</span>
+<span class="linenos"> 60</span><span class="c1">// 不在这里重抄：文档里的方程表带着指向这个函数的指针，而示例里的第二份就是一条</span>
+<span class="linenos"> 61</span><span class="c1">// 会与它走散的第二定律。</span>
+<span class="linenos"> 62</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kLoopOmega</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000.0F</span><span class="p">;</span>
+<span class="linenos"> 63</span>
+<span class="linenos"> 64</span><span class="c1">// The ceiling is a **vector** ceiling: `v_bus/sqrt(3)`, the inscribed circle of</span>
+<span class="linenos"> 65</span><span class="c1">// the hexagon, which is where `svpwm.hpp` reports `saturated`. It is not</span>
+<span class="linenos"> 66</span><span class="c1">// `v_bus/2` -- that is the per-axis clamp inside `Pi::Config`, a different</span>
+<span class="linenos"> 67</span><span class="c1">// object, and a pair of axes both sitting on it asks for `0.707*v_bus`, which</span>
+<span class="linenos"> 68</span><span class="c1">// the bridge cannot deliver linearly.</span>
+<span class="linenos"> 69</span><span class="c1">// 天花板是**矢量**天花板：`v_bus/sqrt(3)`，六边形的内切圆，也就是 `svpwm.hpp`</span>
+<span class="linenos"> 70</span><span class="c1">// 报 `saturated` 的位置。不是 `v_bus/2`——那是 `Pi::Config` 里的每轴钳位，是两个</span>
+<span class="linenos"> 71</span><span class="c1">// 不同的对象；两轴同时贴着它，合成矢量就是 `0.707*v_bus`，桥臂无法线性交付。</span>
+<span class="linenos"> 72</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kVCeilingV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kVBusV</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1.7320508F</span><span class="p">;</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="c1">/// One current-loop tick on one axis: PI plus that axis&#39;s feedforward term, with</span>
+<span class="linenos"> 75</span><span class="c1">/// no ceiling applied here -- the ceiling belongs to the pair, see</span>
+<span class="linenos"> 76</span><span class="c1">/// `limit_vector()`.</span>
+<span class="linenos"> 77</span><span class="c1">/// 一个电流环周期上的单轴：PI 加该轴的前馈项，**不**在这里钳位——天花板属于那对</span>
+<span class="linenos"> 78</span><span class="c1">/// 数，见 `limit_vector()`。</span>
+<span class="linenos"> 79</span><span class="k">auto</span><span class="w"> </span><span class="n">tick</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">reference</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">measured</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ff</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span>
+<span class="linenos"> 80</span><span class="w">    </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 81</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">pi</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span><span class="w"> </span><span class="n">measured</span><span class="p">,</span><span class="w"> </span><span class="n">kDtS</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ff</span><span class="p">;</span>
+<span class="linenos"> 82</span><span class="p">}</span>
+<span class="linenos"> 83</span>
+<span class="linenos"> 84</span><span class="c1">/// Limit the **pair**, not each axis. Clamping them separately keeps each inside</span>
+<span class="linenos"> 85</span><span class="c1">/// its own bound and still lets the vector out; scaling both keeps the angle the</span>
+<span class="linenos"> 86</span><span class="c1">/// loop asked for, which is the one thing the modulator cannot restore.</span>
+<span class="linenos"> 87</span><span class="c1">/// 限的是**那对数**，不是每个轴。分开钳位只能保证各自不越界，合成矢量仍然会出去；</span>
+<span class="linenos"> 88</span><span class="c1">/// 两边同比例缩，才不会改变环路要的角度——而角度是调制器无法恢复的东西。</span>
+<span class="linenos"> 89</span><span class="k">auto</span><span class="w"> </span><span class="n">limit_vector</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ceiling</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 91</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">magnitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">((</span><span class="n">v</span><span class="p">.</span><span class="n">d</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">q</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">q</span><span class="p">));</span>
+<span class="linenos"> 92</span><span class="w">  </span><span class="c1">// `ceiling` is a positive constant, so a zero vector takes the early return and</span>
+<span class="linenos"> 93</span><span class="w">  </span><span class="c1">// the division below never divides by zero.</span>
+<span class="linenos"> 94</span><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">magnitude</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">ceiling</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 95</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">v</span><span class="p">;</span>
+<span class="linenos"> 96</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 97</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ceiling</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">magnitude</span><span class="p">;</span>
+<span class="linenos"> 98</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">{</span><span class="n">v</span><span class="p">.</span><span class="n">d</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scale</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">q</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scale</span><span class="p">};</span>
+<span class="linenos"> 99</span><span class="p">}</span>
+<span class="linenos">100</span>
+<span class="linenos">101</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos">102</span>
+<span class="linenos">103</span><span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">104</span><span class="w">  </span><span class="c1">// Two instances of the same policy, and the difference between them is the</span>
+<span class="linenos">105</span><span class="w">  </span><span class="c1">// whole point of this example: `i_d_per_speed_a_s_per_rad` defaults to 0,</span>
+<span class="linenos">106</span><span class="w">  </span><span class="c1">// which *refuses* d-axis current outright, because a d-axis current is only</span>
+<span class="linenos">107</span><span class="w">  </span><span class="c1">// safe if somebody has said how the angle is measured. Left at 0, MTPA</span>
+<span class="linenos">108</span><span class="w">  </span><span class="c1">// answers exactly what the d=0 policy answers.</span>
+<span class="linenos">109</span><span class="w">  </span><span class="c1">// 同一个策略的两个实例，它们的差别就是本片的要点：`i_d_per_speed_a_s_per_rad`</span>
+<span class="linenos">110</span><span class="w">  </span><span class="c1">// 默认是 0，即**完全不施加** d 轴电流——因为只有在&quot;角度怎么测&quot;有交代之后，</span>
+<span class="linenos">111</span><span class="w">  </span><span class="c1">// d 轴电流才是安全的。留在 0，MTPA 给出的答案与 d=0 策略完全相同。</span>
+<span class="linenos">112</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpaReference</span><span class="o">::</span><span class="n">Config</span><span class="w"> </span><span class="n">shipped</span><span class="p">{</span><span class="n">kLd</span><span class="p">,</span><span class="w"> </span><span class="n">kLq</span><span class="p">,</span><span class="w"> </span><span class="n">kPsiF</span><span class="p">,</span><span class="w"> </span><span class="n">kIMaxA</span><span class="p">};</span>
+<span class="linenos">113</span><span class="w">  </span><span class="c1">// A large allowance is safe only for a machine whose angle is measured (a</span>
+<span class="linenos">114</span><span class="w">  </span><span class="c1">// position sensor): the rate exists to bound how much a *wrong* angle can</span>
+<span class="linenos">115</span><span class="w">  </span><span class="c1">// cost, so with a sensor the bound is not needed.</span>
+<span class="linenos">116</span><span class="w">  </span><span class="c1">// 大的许可值只对&quot;角度是被测出来的&quot;机器才是安全的（带位置传感器）：这个比率</span>
+<span class="linenos">117</span><span class="w">  </span><span class="c1">// 存在是为了限制**错的**角度能造成多大代价，有传感器时那道界不需要。</span>
+<span class="linenos">118</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpaReference</span><span class="o">::</span><span class="n">Config</span><span class="w"> </span><span class="n">with_allowance</span><span class="p">{</span><span class="n">kLd</span><span class="p">,</span><span class="w"> </span><span class="n">kLq</span><span class="p">,</span><span class="w"> </span><span class="n">kPsiF</span><span class="p">,</span><span class="w"> </span><span class="n">kIMaxA</span><span class="p">,</span>
+<span class="linenos">119</span><span class="w">                                                        </span><span class="mf">1.0F</span><span class="p">};</span>
+<span class="linenos">120</span><span class="w">  </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpaReference</span><span class="w"> </span><span class="nf">mtpa_shipped</span><span class="p">(</span><span class="n">shipped</span><span class="p">);</span>
+<span class="linenos">121</span><span class="w">  </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">MtpaReference</span><span class="w"> </span><span class="nf">mtpa</span><span class="p">(</span><span class="n">with_allowance</span><span class="p">);</span>
+<span class="linenos">122</span><span class="w">  </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">NullReferenceGenerator</span><span class="w"> </span><span class="n">d_zero</span><span class="p">{};</span>
+<span class="linenos">123</span>
+<span class="linenos">124</span><span class="w">  </span><span class="c1">// One law, one place. `current_pi_config()` returns the gains *and* the</span>
+<span class="linenos">125</span><span class="w">  </span><span class="c1">// per-axis output clamp, which is why nothing here recomputes either.</span>
+<span class="linenos">126</span><span class="w">  </span><span class="c1">// 一条定律，一个位置。`current_pi_config()` 同时返回增益与**每轴**输出钳位，</span>
+<span class="linenos">127</span><span class="w">  </span><span class="c1">// 所以这里两边都不重算。</span>
+<span class="linenos">128</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="o">::</span><span class="n">Config</span><span class="w"> </span><span class="n">gains</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">129</span><span class="w">      </span><span class="n">foc</span><span class="o">::</span><span class="n">current_pi_config</span><span class="p">(</span><span class="n">kMachine</span><span class="p">,</span><span class="w"> </span><span class="n">kLoopOmega</span><span class="p">,</span><span class="w"> </span><span class="n">kVBusV</span><span class="p">);</span>
+<span class="linenos">130</span><span class="w">  </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="w"> </span><span class="nf">pi_d</span><span class="p">(</span><span class="n">gains</span><span class="p">);</span>
+<span class="linenos">131</span><span class="w">  </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Pi</span><span class="w"> </span><span class="nf">pi_q</span><span class="p">(</span><span class="n">gains</span><span class="p">);</span>
+<span class="linenos">132</span><span class="w">  </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">DecouplingFeedforward</span><span class="w"> </span><span class="nf">feedforward</span><span class="p">(</span>
+<span class="linenos">133</span><span class="w">      </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">DecouplingFeedforward</span><span class="o">::</span><span class="n">Config</span><span class="p">{</span>
+<span class="linenos">134</span><span class="w">          </span><span class="n">kLd</span><span class="p">,</span><span class="w"> </span><span class="n">kLq</span><span class="p">,</span><span class="w"> </span><span class="n">kPsiF</span><span class="p">,</span>
+<span class="linenos">135</span><span class="w">          </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">DecouplingFeedforward</span><span class="o">::</span><span class="n">Terms</span><span class="o">::</span><span class="n">CrossAndBemf</span><span class="p">});</span>
+<span class="linenos">136</span>
+<span class="linenos">137</span><span class="w">  </span><span class="c1">// A standstill measurement: the loop is asked to move the current away from</span>
+<span class="linenos">138</span><span class="w">  </span><span class="c1">// zero, which is the case where the integral term does all the work.</span>
+<span class="linenos">139</span><span class="w">  </span><span class="c1">// 静止时的实测值：让环路把电流从零推出去，这正是积分项承担全部工作的情况。</span>
+<span class="linenos">140</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">measured</span><span class="p">{</span><span class="mf">0.0F</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">};</span>
+<span class="linenos">141</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">omega_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0F</span><span class="p">;</span>
+<span class="linenos">142</span>
+<span class="linenos">143</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%7s | %12s %8s | %12s %8s | %8s %8s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iq cmd&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mtpa(0) id&quot;</span><span class="p">,</span>
+<span class="linenos">144</span><span class="w">              </span><span class="s">&quot;iq&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mtpa(allow) id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iq&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;d=0 id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iq&quot;</span><span class="p">);</span>
+<span class="linenos">145</span><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">iq_command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">;</span><span class="w"> </span><span class="n">iq_command</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">kIMaxA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.01F</span><span class="p">;</span>
+<span class="linenos">146</span><span class="w">       </span><span class="n">iq_command</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">147</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ReferenceInput</span><span class="w"> </span><span class="n">in</span><span class="p">{</span><span class="n">iq_command</span><span class="p">,</span><span class="w"> </span><span class="n">omega_e</span><span class="p">,</span><span class="w"> </span><span class="n">kVBusV</span><span class="p">,</span><span class="w"> </span><span class="n">measured</span><span class="p">};</span>
+<span class="linenos">148</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">as_shipped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mtpa_shipped</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">in</span><span class="p">);</span>
+<span class="linenos">149</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mtpa</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">in</span><span class="p">);</span>
+<span class="linenos">150</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">with_d_zero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d_zero</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">in</span><span class="p">);</span>
+<span class="linenos">151</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span>
+<span class="linenos">152</span><span class="w">        </span><span class="s">&quot;%7.2f | %12.4f %8.4f | %12.4f %8.4f | %8.4f %8.4f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">153</span><span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">iq_command</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">as_shipped</span><span class="p">.</span><span class="n">d</span><span class="p">),</span>
+<span class="linenos">154</span><span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">as_shipped</span><span class="p">.</span><span class="n">q</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">allowed</span><span class="p">.</span><span class="n">d</span><span class="p">),</span>
+<span class="linenos">155</span><span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">allowed</span><span class="p">.</span><span class="n">q</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">with_d_zero</span><span class="p">.</span><span class="n">d</span><span class="p">),</span>
+<span class="linenos">156</span><span class="w">        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">with_d_zero</span><span class="p">.</span><span class="n">q</span><span class="p">));</span>
+<span class="linenos">157</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">158</span>
+<span class="linenos">159</span><span class="w">  </span><span class="c1">// One tick at the top of the sweep, to show the voltage the two axes ask for</span>
+<span class="linenos">160</span><span class="w">  </span><span class="c1">// and that the ceiling is applied after the feedforward, not inside the PI.</span>
+<span class="linenos">161</span><span class="w">  </span><span class="c1">// 走到扫描顶端的那一拍，用来展示两轴要的电压，以及天花板夹在前馈**之后**、</span>
+<span class="linenos">162</span><span class="w">  </span><span class="c1">// 不是夹在 PI 内部。</span>
+<span class="linenos">163</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">ReferenceInput</span><span class="w"> </span><span class="n">top</span><span class="p">{</span><span class="n">kIMaxA</span><span class="p">,</span><span class="w"> </span><span class="n">omega_e</span><span class="p">,</span><span class="w"> </span><span class="n">kVBusV</span><span class="p">,</span><span class="w"> </span><span class="n">measured</span><span class="p">};</span>
+<span class="linenos">164</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">i_ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mtpa</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">top</span><span class="p">);</span>
+<span class="linenos">165</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v_ff</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">166</span><span class="w">      </span><span class="n">feedforward</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">FeedforwardInput</span><span class="p">{</span><span class="n">omega_e</span><span class="p">,</span><span class="w"> </span><span class="n">measured</span><span class="p">});</span>
+<span class="linenos">167</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">v_d_raw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tick</span><span class="p">(</span><span class="n">pi_d</span><span class="p">,</span><span class="w"> </span><span class="n">i_ref</span><span class="p">.</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">measured</span><span class="p">.</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">v_ff</span><span class="p">.</span><span class="n">d</span><span class="p">);</span>
+<span class="linenos">168</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">v_q_raw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tick</span><span class="p">(</span><span class="n">pi_q</span><span class="p">,</span><span class="w"> </span><span class="n">i_ref</span><span class="p">.</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">measured</span><span class="p">.</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">v_ff</span><span class="p">.</span><span class="n">q</span><span class="p">);</span>
+<span class="linenos">169</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">170</span><span class="w">      </span><span class="n">limit_vector</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">{</span><span class="n">v_d_raw</span><span class="p">,</span><span class="w"> </span><span class="n">v_q_raw</span><span class="p">},</span><span class="w"> </span><span class="n">kVCeilingV</span><span class="p">);</span>
+<span class="linenos">171</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span>
+<span class="linenos">172</span><span class="w">      </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">one tick at iq = %.2f A, omega_e = %.1f rad/s, v_bus = %.1f V</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">173</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">top</span><span class="p">.</span><span class="n">iq_command_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">omega_e</span><span class="p">),</span>
+<span class="linenos">174</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kVBusV</span><span class="p">));</span>
+<span class="linenos">175</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  reference   id = %+8.4f A  iq = %+8.4f A</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">176</span><span class="w">              </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i_ref</span><span class="p">.</span><span class="n">d</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i_ref</span><span class="p">.</span><span class="n">q</span><span class="p">));</span>
+<span class="linenos">177</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  feedforward vd = %+8.4f V  vq = %+8.4f V</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">178</span><span class="w">              </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_ff</span><span class="p">.</span><span class="n">d</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_ff</span><span class="p">.</span><span class="n">q</span><span class="p">));</span>
+<span class="linenos">179</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span>
+<span class="linenos">180</span><span class="w">      </span><span class="s">&quot;  asked       vd = %+8.4f V  vq = %+8.4f V  (|v| = %.4f V)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">181</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_d_raw</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_q_raw</span><span class="p">),</span>
+<span class="linenos">182</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">((</span><span class="n">v_d_raw</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v_d_raw</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">v_q_raw</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v_q_raw</span><span class="p">))));</span>
+<span class="linenos">183</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span>
+<span class="linenos">184</span><span class="w">      </span><span class="s">&quot;  commanded   vd = %+8.4f V  vq = %+8.4f V  (|v| = %.4f V, ceiling &quot;</span>
+<span class="linenos">185</span><span class="w">      </span><span class="s">&quot;%.4f V)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">186</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">d</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">q</span><span class="p">),</span>
+<span class="linenos">187</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">((</span><span class="n">v</span><span class="p">.</span><span class="n">d</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">q</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">q</span><span class="p">))),</span>
+<span class="linenos">188</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kVCeilingV</span><span class="p">));</span>
+<span class="linenos">189</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;  status      d = %d  q = %d  (0 = Ok)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">190</span><span class="w">              </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">pi_d</span><span class="p">.</span><span class="n">status</span><span class="p">()),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">pi_q</span><span class="p">.</span><span class="n">status</span><span class="p">()));</span>
+<span class="linenos">191</span>
+<span class="linenos">192</span><span class="w">  </span><span class="c1">// The limiter, shown on the pair that needs it. Two axes each sitting on the</span>
+<span class="linenos">193</span><span class="w">  </span><span class="c1">// per-axis clamp `current_pi_config()` puts in `Pi::Config` ask for</span>
+<span class="linenos">194</span><span class="w">  </span><span class="c1">// `v_bus/2*sqrt(2)`, which is past the inscribed circle -- and the scaled pair</span>
+<span class="linenos">195</span><span class="w">  </span><span class="c1">// keeps the angle, which is the whole reason for scaling rather than clamping.</span>
+<span class="linenos">196</span><span class="w">  </span><span class="c1">// 限幅器，用真正需要它的那对数展示。两轴各贴着 `current_pi_config()` 写进</span>
+<span class="linenos">197</span><span class="w">  </span><span class="c1">// `Pi::Config` 的每轴钳位，合成矢量就是 `v_bus/2*sqrt(2)`，已经出了内切圆——</span>
+<span class="linenos">198</span><span class="w">  </span><span class="c1">// 而按比例缩放后的那对数保住了角度，这就是&quot;缩放而不是钳位&quot;的全部理由。</span>
+<span class="linenos">199</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">per_axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kVBusV</span><span class="p">;</span>
+<span class="linenos">200</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">over</span><span class="p">{</span><span class="n">per_axis</span><span class="p">,</span><span class="w"> </span><span class="n">per_axis</span><span class="p">};</span>
+<span class="linenos">201</span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Dq</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">held</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit_vector</span><span class="p">(</span><span class="n">over</span><span class="p">,</span><span class="w"> </span><span class="n">kVCeilingV</span><span class="p">);</span>
+<span class="linenos">202</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span>
+<span class="linenos">203</span><span class="w">      </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">the vector ceiling, on a pair that reaches it:</span><span class="se">\n</span><span class="s">  asked       |v| = &quot;</span>
+<span class="linenos">204</span><span class="w">      </span><span class="s">&quot;%.4f V  angle = %+.1f deg</span><span class="se">\n</span><span class="s">  commanded   |v| = %.4f V  angle = %+.1f &quot;</span>
+<span class="linenos">205</span><span class="w">      </span><span class="s">&quot;deg</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">206</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">((</span><span class="n">over</span><span class="p">.</span><span class="n">d</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">over</span><span class="p">.</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">over</span><span class="p">.</span><span class="n">q</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">over</span><span class="p">.</span><span class="n">q</span><span class="p">))),</span>
+<span class="linenos">207</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">atan2</span><span class="p">(</span><span class="n">over</span><span class="p">.</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">over</span><span class="p">.</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">57.29577951308232</span><span class="p">),</span>
+<span class="linenos">208</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">((</span><span class="n">held</span><span class="p">.</span><span class="n">d</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">held</span><span class="p">.</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">held</span><span class="p">.</span><span class="n">q</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">held</span><span class="p">.</span><span class="n">q</span><span class="p">))),</span>
+<span class="linenos">209</span><span class="w">      </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">atan2</span><span class="p">(</span><span class="n">held</span><span class="p">.</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">held</span><span class="p">.</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">57.29577951308232</span><span class="p">));</span>
+<span class="linenos">210</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">211</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Two rows of that output are worth reading before the rest:</p>
+<ul class="simple">
+<li><p>on the machine as shipped (<code class="docutils literal notranslate"><span class="pre">i_d_per_speed_a_s_per_rad</span></code> left at zero) the
+MTPA policy answers <strong>exactly</strong> what the <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">0</span></code> policy answers. That is not
+a bug and not a coincidence: the field's default refuses d current, because a
+d current is only safe once somebody has stated how the angle is measured.</p></li>
+<li><p>at the top of the sweep the q answer is slightly below the request, because
+the request does not fit <code class="docutils literal notranslate"><span class="pre">|i|</span> <span class="pre">&lt;=</span> <span class="pre">i_max</span></code> and the policy walks <strong>down the
+MTPA curve</strong> instead of scaling both components. Scaling both would leave the
+curve and lose more torque than necessary.</p></li>
+</ul>
+</section>
+<section id="where-the-numbers-come-from">
+<h2><span class="section-number">1.1.4.3. </span>Where the numbers come from<a class="headerlink" href="#where-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<p>Every gain in the example comes from the nameplate, through the library's own
+rule: <code class="docutils literal notranslate"><span class="pre">foc::current_pi_config(motor_config,</span> <span class="pre">bandwidth,</span> <span class="pre">v_bus)</span></code> returns a
+proportional term that is twice the bandwidth times the inductance less the
+resistance (floored at zero) and an integral term that is the bandwidth squared
+times the inductance. The example <strong>calls it rather than retyping it</strong> -- a second
+copy of a tuning law is a second law, and it drifts -- which is what the C path,
+the SIL bench and a board should all do. The feedforward terms are built from the
+same nameplate through <code class="docutils literal notranslate"><span class="pre">foc::feedforward_config(motor_config)</span></code>.</p>
+<p>One property of the returned configuration is worth stating rather than leaving to
+be found: it is a <strong>single</strong> gain pair derived from <code class="docutils literal notranslate"><span class="pre">ld</span></code>, given to both axes. On
+an interior machine <code class="docutils literal notranslate"><span class="pre">lq</span></code> is the larger of the two, so the q axis is tuned as if
+its inductance were the smaller one and lands slightly slower than the d axis at
+the same requested bandwidth. Two axes that want different gains are two
+configurations built from the same nameplate; the helper returns one because one
+is what a symmetric pair of loops needs.</p>
+<p>The one field that has no nameplate source is <code class="docutils literal notranslate"><span class="pre">i_d_per_speed_a_s_per_rad</span></code>. It
+is a statement about <strong>how the angle is measured</strong>, so it cannot be derived; the
+field's own documentation carries the measured numbers for the nominal machine
+and says which values are safe with and without a position sensor.</p>
+</section>
+<section id="how-it-goes-wrong">
+<h2><span class="section-number">1.1.4.4. </span>How it goes wrong<a class="headerlink" href="#how-it-goes-wrong" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>MTPA that silently equals d = 0.</strong> Leave the d-current allowance at its
+default and everything compiles, runs, and produces the surface-machine
+answer on an interior machine. The library cannot warn: it has no way to know
+whether the zero is a decision or an omission. This is why the allowance is
+an explicit field rather than a derived one.</p></li>
+<li><p><strong>The ceiling inside the PI.</strong> Clamping the PI output to the linear range and
+then adding feedforward can exceed what the modulator can deliver, and the
+clamp that was supposed to stop the integral from winding up no longer
+describes the voltage being applied. Clamp the sum -- and clamp the <strong>pair</strong>,
+not each axis: two axes each inside their own bound are still a vector outside
+the circle, and it has rotated away from the reference.</p></li>
+<li><p><strong>Feedforward on the reference instead of the measurement.</strong> The terms are
+<code class="docutils literal notranslate"><span class="pre">omega</span> <span class="pre">*</span> <span class="pre">L</span> <span class="pre">*</span> <span class="pre">i</span></code> and <code class="docutils literal notranslate"><span class="pre">omega</span> <span class="pre">*</span> <span class="pre">psi_f</span></code>; with the reference in place of the
+measured current the term stops responding when the loop is saturated, which
+is exactly when it matters.</p></li>
+<li><p><strong>A d-axis reference the current limit cannot honour.</strong> The policy walks down
+the curve for this reason; a hand-written <code class="docutils literal notranslate"><span class="pre">i_d</span></code> that ignores the limit
+produces a pair whose magnitude exceeds <code class="docutils literal notranslate"><span class="pre">i_max</span></code> and the loop then chases a
+reference the hardware will never reach.</p></li>
+</ol>
+</section>
+<section id="evidence">
+<h2><span class="section-number">1.1.4.5. </span>Evidence<a class="headerlink" href="#evidence" title="链接到此标题。"></a></h2>
+<p>Four claim rows cover this page, one per piece: <code class="docutils literal notranslate"><span class="pre">foc/core/reference.hpp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc/core/limits.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">foc/core/pi.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">foc/core/feedforward.hpp</span></code>.
+The level this page may state is the <strong>minimum</strong> of those four, and the level
+itself is read from the claim table in the project <code class="docutils literal notranslate"><span class="pre">README.md</span></code> rather than
+written here -- a number copied into a page is a second source of truth with a
+shelf life.</p>
+<p>Not claimed by this page: the torque the loop produces. A torque figure needs a
+machine model, which is the SIL bench's job and carries its own claim rows. This
+page stops at the current reference and the voltage command, which is where the
+library stops too.</p>
+</section>
+<section id="figure">
+<h2><span class="section-number">1.1.4.6. </span>Figure<a class="headerlink" href="#figure" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-torque-reference">
+<a class="reference internal image-reference" href="../_images/ALL_demo_current_step.png"><img alt="../_images/ALL_demo_current_step.png" src="../_images/ALL_demo_current_step.png" width="720" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.4 </span><span class="caption-text">the current loop this page builds, driven by the SIL bench: iq follows a
+1 A step in both directions, id is held near zero by the d-axis controller</span><a class="headerlink" href="#figure-torque-reference" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>The figure is produced by <code class="docutils literal notranslate"><span class="pre">docs/demos/make_figures.py</span></code> from the SIL bench, not
+drawn by hand. It shows the loop closing; it does not show MTPA, because the
+bench machine is surface-mounted and on that machine the MTPA answer is the
+<code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">0</span></code> answer. The MTPA difference is what the program on this page prints.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="low-speed-injection.html" class="btn btn-neutral float-left" title="1.1.3. Zero and low speed" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="high-speed-field-weakening.html" class="btn btn-neutral float-right" title="1.1.5. Above base speed" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

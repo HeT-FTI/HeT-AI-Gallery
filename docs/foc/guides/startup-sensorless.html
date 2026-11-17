@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1.1. Bringing a sensorless machine up &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="../_static/ALL_logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=540d3cec"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.1.2. Choosing an angle observer" href="observers.html" />
+    <link rel="prev" title="1. Guides by task" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            foc
+              <img src="../_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Guides by task</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-ten-pages">1.1. The ten pages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1.1.1. Bringing a sensorless machine up</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-need">1.1.1.1. What you need</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-minimal-program">1.1.1.2. A minimal program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-the-numbers-come-from">1.1.1.3. Where the numbers come from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-goes-wrong">1.1.1.4. How it goes wrong</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evidence">1.1.1.5. Evidence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#figure">1.1.1.6. Figure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="observers.html">1.1.2. Choosing an angle observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="low-speed-injection.html">1.1.3. Torque at zero speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torque-reference.html">1.1.4. Torque below base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="high-speed-field-weakening.html">1.1.5. Above base speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modulation-limits.html">1.1.6. High speed and modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-and-cpp-callers.html">1.1.7. Consuming the library from outside C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="positioning.html">1.1.8. Positioning an axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="current-sampling.html">1.1.9. Sampling and the power stage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protection-and-derating.html">1.1.10. Health and protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="porting.html">1.1.11. Porting to a board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="on-machine-acceptance.html">1.1.12. Acceptance on your machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-figures-already-on-the-site">1.2. The figures already on the site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#reading-the-pages-in-order">1.3. Reading the pages in order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capabilities.html">2. What each capability offers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">1. </span>Guides by task</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1.1.1. </span>Bringing a sensorless machine up</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/startup-sensorless.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1.1.1. </span><span class="target" id="bringing-a-sensorless-machine-up">Bringing a sensorless machine up</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The task: the axis has no position sensor and no idea where the rotor is. Get it
+spinning anyway, to a speed at which the observer can take over, and hand over
+cleanly.</p>
+<section id="what-you-need">
+<h2><span class="section-number">1.1.1.1. </span>What you need<a class="headerlink" href="#what-you-need" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/startup.hpp</span></code> -- the sequence: hold the rotor at a known angle, drag
+the forced vector up with a known acceleration, stop at a hand-over speed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/alignment.hpp</span></code> -- the same idea without the pull: hold and stop.
+Right when the angle is measured after the fact rather than inferred.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/observer/blended_observer.hpp</span></code> -- what takes over at the end, and
+why the hand-over happens at a <em>speed</em> rather than at a time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foc/core/stall_start.hpp</span></code> -- what to do when the rotor never came with the
+vector: a torque recipe for breaking the axis loose before trying again.</p></li>
+</ul>
+</section>
+<section id="a-minimal-program">
+<h2><span class="section-number">1.1.1.2. </span>A minimal program<a class="headerlink" href="#a-minimal-program" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">docs/doxygen/dox/demos/startup-sensorless.cxx</span></code> steps the sequence at the control
+rate and prints every state change. The same file produces this page's figure. It is
+included below from the repository rather than copied into the page, so the listing here
+<strong>is</strong> the file that ran.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Startup -- bringing a sensorless machine up: hold the rotor, drag the vector</span>
+<span class="linenos">  2</span><span class="c1">// up to a speed, hand over. No plant and no hardware: the sequence itself is a</span>
+<span class="linenos">  3</span><span class="c1">// policy, and what it decides (angle, current, when it is finished) is what this</span>
+<span class="linenos">  4</span><span class="c1">// program prints.</span>
+<span class="linenos">  5</span><span class="c1">//</span>
+<span class="linenos">  6</span><span class="c1">// Build it the way the `demo` gate does -- the example calls into the library, so the</span>
+<span class="linenos">  7</span><span class="c1">// sources are part of the command, and `-Iinclude` alone fails at the link. A renamed</span>
+<span class="linenos">  8</span><span class="c1">// source turns that gate red instead of leaving a stale instruction here:</span>
+<span class="linenos">  9</span><span class="c1">//   g++ -std=c++17 -fno-exceptions -fno-rtti -Wall -Wextra -Werror -Iinclude</span>
+<span class="linenos"> 10</span><span class="c1">//   docs/doxygen/dox/demos/startup-sensorless.cxx src/core/*.cpp</span>
+<span class="linenos"> 11</span><span class="c1">//   src/core/observer/*.cpp src/motor/*.cpp src/driver/*.cpp src/api/foc_api.c</span>
+<span class="linenos"> 12</span><span class="c1">//   src/api/bridge.cpp src/version.c</span>
+<span class="linenos"> 13</span><span class="c1">//   -o /tmp/startup-sensorless</span>
+<span class="linenos"> 14</span><span class="c1">//</span>
+<span class="linenos"> 15</span><span class="c1">// With `--csv &lt;path&gt;` it writes the same run as rows instead of a table; that is</span>
+<span class="linenos"> 16</span><span class="c1">// how `docs/demos/make_figures.py` draws this example&#39;s figure, so the figure and</span>
+<span class="linenos"> 17</span><span class="c1">// the snippet are one program.</span>
+<span class="linenos"> 18</span><span class="c1">//</span>
+<span class="linenos"> 19</span><span class="c1">// 起动 —— 无感起转：按住转子、把矢量拖到某个转速、交出控制权。没有硬件也没有被控对象：</span>
+<span class="linenos"> 20</span><span class="c1">// 这个序列本身就是一条策略，它决定了什么（角度、电流、什么时候结束）就是这个程序打印的东西。</span>
+<span class="linenos"> 21</span><span class="c1">// 带 `--csv &lt;path&gt;` 时把同一次运行写成行而不是表；`docs/demos/make_figures.py` 正是这样画本片</span>
+<span class="linenos"> 22</span><span class="c1">// 的图，于是图与片段是同一个程序。</span>
+<span class="linenos"> 23</span>
+<span class="linenos"> 24</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="linenos"> 25</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="linenos"> 26</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstring&gt;</span>
+<span class="linenos"> 27</span>
+<span class="linenos"> 28</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/startup.hpp&gt;</span>
+<span class="linenos"> 29</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;foc/core/types.hpp&gt;</span>
+<span class="linenos"> 30</span>
+<span class="linenos"> 31</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 32</span>
+<span class="linenos"> 33</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kTwoPi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">6.28318530718F</span><span class="p">;</span>
+<span class="linenos"> 34</span><span class="k">constexpr</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">kDtS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0e-5F</span><span class="p">;</span><span class="w"> </span><span class="c1">// 20 kHz control loop</span>
+<span class="linenos"> 35</span><span class="k">constexpr</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">kPolePairs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7U</span><span class="p">;</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="c1">/// The state as a short word. A name table, not a second state machine: every</span>
+<span class="linenos"> 38</span><span class="c1">/// entry is one enumerator of `StartupState`.</span>
+<span class="linenos"> 39</span><span class="c1">/// 状态的名字表，不是第二台状态机：每一项都是 `StartupState` 的一个枚举值。</span>
+<span class="linenos"> 40</span><span class="k">auto</span><span class="w"> </span><span class="n">state_name</span><span class="p">(</span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupState</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 41</span><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 42</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">foc</span><span class="o">::</span><span class="no">core</span><span class="o">::</span><span class="no">StartupState</span><span class="o">::</span><span class="no">Idle</span><span class="p">:</span>
+<span class="linenos"> 43</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;idle&quot;</span><span class="p">;</span>
+<span class="linenos"> 44</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">foc</span><span class="o">::</span><span class="no">core</span><span class="o">::</span><span class="no">StartupState</span><span class="o">::</span><span class="no">Align</span><span class="p">:</span>
+<span class="linenos"> 45</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;align&quot;</span><span class="p">;</span>
+<span class="linenos"> 46</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">foc</span><span class="o">::</span><span class="no">core</span><span class="o">::</span><span class="no">StartupState</span><span class="o">::</span><span class="no">Pull</span><span class="p">:</span>
+<span class="linenos"> 47</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;pull&quot;</span><span class="p">;</span>
+<span class="linenos"> 48</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">foc</span><span class="o">::</span><span class="no">core</span><span class="o">::</span><span class="no">StartupState</span><span class="o">::</span><span class="no">Done</span><span class="p">:</span>
+<span class="linenos"> 49</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;done&quot;</span><span class="p">;</span>
+<span class="linenos"> 50</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">foc</span><span class="o">::</span><span class="no">core</span><span class="o">::</span><span class="no">StartupState</span><span class="o">::</span><span class="no">Failed</span><span class="p">:</span>
+<span class="linenos"> 51</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;failed&quot;</span><span class="p">;</span>
+<span class="linenos"> 52</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 53</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;?&quot;</span><span class="p">;</span>
+<span class="linenos"> 54</span><span class="p">}</span>
+<span class="linenos"> 55</span>
+<span class="linenos"> 56</span><span class="c1">/// The recipe, named once. Everything here is a statement about the machine and</span>
+<span class="linenos"> 57</span><span class="c1">/// the load: the current that holds the rotor still, how long that is held, the</span>
+<span class="linenos"> 58</span><span class="c1">/// current while dragging, how fast the vector accelerates, and the speed at</span>
+<span class="linenos"> 59</span><span class="c1">/// which the observer is expected to take over. The routine validates the</span>
+<span class="linenos"> 60</span><span class="c1">/// combination -- see the two refusals below.</span>
+<span class="linenos"> 61</span><span class="c1">/// 配方只写一次。这里每一项都是关于机器与负载的陈述：按住转子所需的电流、按多久、拖动时的</span>
+<span class="linenos"> 62</span><span class="c1">/// 电流、矢量加速多快、以及在哪个转速上应当交给观测器。这个组合由例行自己校验——见下面</span>
+<span class="linenos"> 63</span><span class="c1">/// 两处拒绝。</span>
+<span class="linenos"> 64</span><span class="k">auto</span><span class="w"> </span><span class="n">recipe</span><span class="p">()</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupConfig</span><span class="w"> </span><span class="n">config</span><span class="p">{};</span>
+<span class="linenos"> 66</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">align_current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.5F</span><span class="p">;</span>
+<span class="linenos"> 67</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">align_hold_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02F</span><span class="p">;</span>
+<span class="linenos"> 68</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">pull_current_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0F</span><span class="p">;</span>
+<span class="linenos"> 69</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">pull_accel_rad_s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">40.0F</span><span class="p">;</span>
+<span class="linenos"> 70</span><span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">handover_speed_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">60.0F</span><span class="p">;</span>
+<span class="linenos"> 71</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">config</span><span class="p">;</span>
+<span class="linenos"> 72</span><span class="p">}</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos"> 75</span>
+<span class="linenos"> 76</span><span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;--csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 79</span><span class="w">        </span><span class="n">csv_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="linenos"> 80</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 81</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usage: %s [--csv &lt;path&gt;]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="linenos"> 82</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 83</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 84</span>
+<span class="linenos"> 85</span><span class="w">    </span><span class="c1">// A recipe the routine will not run. The refusal is the point: a hand-over</span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="c1">// speed of zero means &quot;no observer will ever take over&quot;, and the routine</span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="c1">// says so at validate() rather than starting and stalling.</span>
+<span class="linenos"> 88</span><span class="w">    </span><span class="c1">// 一个例行不会执行的配方。这次拒绝才是要点：交接转速为零意味着&quot;永远不会有人接管&quot;，</span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="c1">// 例行在 validate() 处就说清楚，而不是启动了再卡住。</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupConfig</span><span class="w"> </span><span class="n">broken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recipe</span><span class="p">();</span>
+<span class="linenos"> 91</span><span class="w">    </span><span class="n">broken</span><span class="p">.</span><span class="n">handover_speed_rad_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos"> 92</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupRoutine</span><span class="w"> </span><span class="nf">refused</span><span class="p">(</span><span class="n">broken</span><span class="p">);</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">StartupRoutine</span><span class="w"> </span><span class="nf">startup</span><span class="p">(</span><span class="n">recipe</span><span class="p">());</span>
+<span class="linenos"> 95</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">begun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">startup</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">kPolePairs</span><span class="p">);</span>
+<span class="linenos"> 96</span>
+<span class="linenos"> 97</span><span class="w">    </span><span class="c1">// Step until the routine says it is finished, or until the clock runs out.</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="c1">// The timeout is not a parameter of the library; it is this program refusing</span>
+<span class="linenos"> 99</span><span class="w">    </span><span class="c1">// to loop forever if the recipe and the machine disagree.</span>
+<span class="linenos">100</span><span class="w">    </span><span class="c1">// 一直步进到例行说结束，或者时间用完。超时不是库的参数；是这个程序在配方与机器不合时</span>
+<span class="linenos">101</span><span class="w">    </span><span class="c1">// 拒绝永远循环下去。</span>
+<span class="linenos">102</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">limit_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.0F</span><span class="p">;</span>
+<span class="linenos">103</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">t_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">;</span>
+<span class="linenos">104</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">previous_handover_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-1.0F</span><span class="p">;</span>
+<span class="linenos">105</span><span class="w">    </span><span class="n">foc</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">AlignOutput</span><span class="w"> </span><span class="n">out</span><span class="p">{};</span>
+<span class="linenos">106</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">107</span>
+<span class="linenos">108</span><span class="w">    </span><span class="kt">FILE</span><span class="o">*</span><span class="w"> </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="linenos">109</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv_path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">110</span><span class="w">        </span><span class="n">csv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fopen</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+<span class="linenos">111</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">112</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fopen&quot;</span><span class="p">);</span>
+<span class="linenos">113</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">114</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">115</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;t_s,state,id_a,theta_e_rad,handover_e_rad_s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">116</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">117</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;recipe refused: validate() = %d  (0 = Ok, -1 = Param)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">refused</span><span class="p">.</span><span class="n">validate</span><span class="p">()));</span>
+<span class="linenos">118</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;begin(%u pole pairs) = %s</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kPolePairs</span><span class="p">),</span><span class="w"> </span><span class="n">begun</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;false&quot;</span><span class="p">);</span>
+<span class="linenos">119</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%8s  %-7s %8s %10s %12s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;t (ms)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;state&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id (A)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;theta_e (rad)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hand-over (rad/s)&quot;</span><span class="p">);</span>
+<span class="linenos">120</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">121</span>
+<span class="linenos">122</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">t_s</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">limit_s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">123</span><span class="w">        </span><span class="c1">// The measured mechanical angle is an input, and during the open-loop</span>
+<span class="linenos">124</span><span class="w">        </span><span class="c1">// part there is nothing to measure it with -- that is what &quot;open loop&quot;</span>
+<span class="linenos">125</span><span class="w">        </span><span class="c1">// means. The routine does not use it to decide anything before the</span>
+<span class="linenos">126</span><span class="w">        </span><span class="c1">// hand-over; it is there for the policy that owns the axis afterwards.</span>
+<span class="linenos">127</span><span class="w">        </span><span class="c1">// 实测机械角是一个输入，而开环那一段没有东西能测它——&quot;开环&quot;就是这个意思。例行在交接</span>
+<span class="linenos">128</span><span class="w">        </span><span class="c1">// 之前不用它做任何决定；它是给之后拥有这条轴的策略用的。</span>
+<span class="linenos">129</span><span class="w">        </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">startup</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">kDtS</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0F</span><span class="p">);</span>
+<span class="linenos">130</span><span class="w">        </span><span class="n">t_s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kDtS</span><span class="p">;</span>
+<span class="linenos">131</span><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">changed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">handover_speed_e_rad_s</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">previous_handover_e</span><span class="p">);</span>
+<span class="linenos">132</span><span class="w">        </span><span class="n">previous_handover_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">handover_speed_e_rad_s</span><span class="p">;</span>
+<span class="linenos">133</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">134</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">fprintf</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%.6f,%s,%.6f,%.6f,%.6f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t_s</span><span class="p">),</span><span class="w"> </span><span class="n">state_name</span><span class="p">(</span><span class="n">startup</span><span class="p">.</span><span class="n">state</span><span class="p">()),</span>
+<span class="linenos">135</span><span class="w">                         </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">id_a</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">theta_e_rad</span><span class="p">),</span>
+<span class="linenos">136</span><span class="w">                         </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">handover_speed_e_rad_s</span><span class="p">));</span>
+<span class="linenos">137</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">changed</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">rows</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">40</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">138</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%8.2f  %-7s %8.3f %10.4f %12.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1000.0F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t_s</span><span class="p">),</span>
+<span class="linenos">139</span><span class="w">                        </span><span class="n">state_name</span><span class="p">(</span><span class="n">startup</span><span class="p">.</span><span class="n">state</span><span class="p">()),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">id_a</span><span class="p">),</span>
+<span class="linenos">140</span><span class="w">                        </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">theta_e_rad</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">handover_speed_e_rad_s</span><span class="p">));</span>
+<span class="linenos">141</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">142</span><span class="w">        </span><span class="o">++</span><span class="n">rows</span><span class="p">;</span>
+<span class="linenos">143</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">finished</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">144</span><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="linenos">145</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">146</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">147</span>
+<span class="linenos">148</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">csv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">149</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">fclose</span><span class="p">(</span><span class="n">csv</span><span class="p">);</span>
+<span class="linenos">150</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;wrote %s (%d rows, %.3f s)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">csv_path</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t_s</span><span class="p">));</span>
+<span class="linenos">151</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">finished</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">152</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">153</span>
+<span class="linenos">154</span><span class="w">    </span><span class="c1">// What the caller does with `theta_e_rad` when the routine finishes: the</span>
+<span class="linenos">155</span><span class="w">    </span><span class="c1">// observer is seeded with it, and `handover_speed_e_rad_s` is what the</span>
+<span class="linenos">156</span><span class="w">    </span><span class="c1">// hand-over check compares against afterwards. Printing both makes the</span>
+<span class="linenos">157</span><span class="w">    </span><span class="c1">// contract visible instead of implied.</span>
+<span class="linenos">158</span><span class="w">    </span><span class="c1">// 例行结束时调用方拿 `theta_e_rad` 做什么：观测器用它播种，而 `handover_speed_e_rad_s`</span>
+<span class="linenos">159</span><span class="w">    </span><span class="c1">// 是之后交接检查用来比较的量。两个都打印出来，契约就是看得见的而不是隐含的。</span>
+<span class="linenos">160</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">finished=%s  state=%s  theta_e=%.4f rad (%.2f deg)  hand-over=%.2f rad/s (%.2f mech)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="linenos">161</span><span class="w">                </span><span class="n">out</span><span class="p">.</span><span class="n">finished</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;false&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">state_name</span><span class="p">(</span><span class="n">startup</span><span class="p">.</span><span class="n">state</span><span class="p">()),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">theta_e_rad</span><span class="p">),</span>
+<span class="linenos">162</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">theta_e_rad</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">180.0F</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">kTwoPi</span><span class="p">),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">handover_speed_e_rad_s</span><span class="p">),</span>
+<span class="linenos">163</span><span class="w">                </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">handover_speed_e_rad_s</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kPolePairs</span><span class="p">)));</span>
+<span class="linenos">164</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">finished</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">165</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Three things in its output are worth reading slowly:</p>
+<ul class="simple">
+<li><p>the recipe with a hand-over speed of zero is <strong>refused by</strong> <code class="docutils literal notranslate"><span class="pre">validate()</span></code>, not
+started and abandoned;</p></li>
+<li><p>during the hold the current is constant and the forced angle does not move --
+that is the point of the hold, and a shorter hold than the rotor's settling
+time is the most common way to make this sequence look like it does not work;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finished</span></code> means the hand-over speed was reached. It does <strong>not</strong> mean the
+rotor came with the vector. That judgement needs a speed measurement, and it
+lives one window later in the motor's hand-over check.</p></li>
+</ul>
+</section>
+<section id="where-the-numbers-come-from">
+<h2><span class="section-number">1.1.1.3. </span>Where the numbers come from<a class="headerlink" href="#where-the-numbers-come-from" title="链接到此标题。"></a></h2>
+<p>Every field of the recipe is a statement about the <strong>load</strong>, not about the
+machine, and none of them is derivable from the nameplate:</p>
+<ul class="simple">
+<li><p>the hold current has to produce enough torque to move the rotor to the forced
+angle against friction and gravity, and no more;</p></li>
+<li><p>the hold time has to outlast the rotor's settling at that torque;</p></li>
+<li><p>the pull acceleration has to stay under what the rotor can follow at that
+current, or the vector simply slides past it -- the rotor stays where it was
+and everything looks normal;</p></li>
+<li><p>the hand-over speed has to be above where the observer works and below where
+the pull can actually reach.</p></li>
+</ul>
+<p>The law that ties the acceleration, the current and the inertia is the slip law
+on <code class="docutils literal notranslate"><span class="pre">foc/core/startup.hpp</span></code>'s claim row; the numbers it produces for a specific
+machine are in that row's evidence, not on this page.</p>
+</section>
+<section id="how-it-goes-wrong">
+<h2><span class="section-number">1.1.1.4. </span>How it goes wrong<a class="headerlink" href="#how-it-goes-wrong" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>The rotor never followed, and nothing says so.</strong> The vector ramps, the angle
+advances, <code class="docutils literal notranslate"><span class="pre">finished</span></code> is true, and the axis is stationary. Nothing on this
+page catches that; <code class="docutils literal notranslate"><span class="pre">stall_start</span></code> and the hand-over check exist because of
+it. Treat <code class="docutils literal notranslate"><span class="pre">finished</span></code> as &quot;the sequence ran&quot;, never as &quot;the motor is turning&quot;.</p></li>
+<li><p><strong>Hand-over before the observer converged.</strong> The observer needs a window of
+speed to converge, so the hand-over speed is a floor, not a target to
+minimise. Handing over early lands the axis on a wrong angle with full
+current, which is the most damaging failure in this list.</p></li>
+<li><p><strong>Acceleration the rotor cannot follow.</strong> Every increment of the pull
+acceleration is a smaller margin between &quot;dragged&quot; and &quot;slipped&quot;. The failure
+is silent: slip does not throw, it just stops transferring torque.</p></li>
+<li><p><strong>Handing over without seeding the observer.</strong> The observer's own state is not
+the angle the sequence just produced. Seed both angle and speed, or the first
+moments after hand-over are spent as error.</p></li>
+</ol>
+</section>
+<section id="evidence">
+<h2><span class="section-number">1.1.1.5. </span>Evidence<a class="headerlink" href="#evidence" title="链接到此标题。"></a></h2>
+<p>Four claim rows cover this page -- <code class="docutils literal notranslate"><span class="pre">foc/core/startup.hpp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">foc/core/alignment.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">foc/core/observer/blended_observer.hpp</span></code> and
+<code class="docutils literal notranslate"><span class="pre">foc/core/stall_start.hpp</span></code> -- and the level this page may state is the minimum
+of those four. The levels themselves are read from the claim table in the
+project <code class="docutils literal notranslate"><span class="pre">README.md</span></code>.</p>
+<p>What this page does not claim: the slip amplitude a given machine will see. That
+is set by the initial rotor-to-vector mismatch rather than by the ramp, so a
+start that begins badly misaligned begins badly whatever the ramp does -- the
+ramp's own claim is that it does not add to it.</p>
+</section>
+<section id="figure">
+<h2><span class="section-number">1.1.1.6. </span>Figure<a class="headerlink" href="#figure" title="链接到此标题。"></a></h2>
+<figure class="align-center" id="figure-startup-sensorless">
+<a class="reference internal image-reference" href="../_images/ALL_startup_sensorless.png"><img alt="../_images/ALL_startup_sensorless.png" src="../_images/ALL_startup_sensorless.png" width="720" />
+</a>
+<figcaption>
+<p><span class="caption-number">Figure 1.1 </span><span class="caption-text">the forced angle (unwrapped) and the current the recipe asks for: a flat hold,
+a dashed line where the pull starts, then the acceleration parabola</span><a class="headerlink" href="#figure-startup-sensorless" title="链接到此图片"></a></p>
+</figcaption>
+</figure>
+<p>The figure is produced by <code class="docutils literal notranslate"><span class="pre">docs/demos/make_figures.py</span></code> from this page's own
+example, so the snippet and the curve are one translation unit. What it does
+<strong>not</strong> show is a rotor: there is no plant in this program, so the angle is the
+one the routine commanded. Whether the rotor followed is exactly the question
+this figure cannot answer -- see the first failure mode above.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="1. Guides by task" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="observers.html" class="btn btn-neutral float-right" title="1.1.2. Choosing an angle observer" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

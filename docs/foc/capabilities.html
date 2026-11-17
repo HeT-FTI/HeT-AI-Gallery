@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. What each capability offers, and what it costs &mdash; foc 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ad188a09" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_logo.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d786bb5c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="3. What may be claimed, and to whom" href="compliance/index.html" />
+    <link rel="prev" title="1. What this library does not do" href="boundaries.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            foc
+              <img src="_static/OUT_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">2. Installing and toolchains</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">1. Guides by task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/walkthrough.html">2. One machine, one shift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">3. Measured responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sop.html">4. Outer-loop self-tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">1. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbols.html">2. Symbols and units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">3. Convention alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cost-model.html">4. What &quot;predictable&quot; costs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evidence and limits</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="boundaries.html">1. What this library does not do</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. What each capability offers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-three-questions-a-criterion-has-to-survive-before-it-is-written-down">2.1. The three questions a criterion has to survive before it is written down</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#capabilities-that-are-a-procedure-rather-than-a-formula">2.2. Capabilities that are a procedure rather than a formula</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evidence-levels">2.3. The four evidence levels</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="compliance/index.html">3. What may be claimed, and to whom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">4. Usage and verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing.html">5. Reproducing these numbers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Using the API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development and provenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="foundation-log.html">1. Foundation corrections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="third-party.html">2. Third-party code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">foc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2. </span>What each capability offers, and what it costs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/capabilities.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">2. </span><span class="target" id="what-each-capability-offers-and-what-it-costs">What each capability offers, and what it costs</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>The <a class="reference internal" href="boundaries.html#what-this-library-does-not-do"><span class="std std-ref">boundaries page</span></a> says what this library cannot do. The README's claim table says
+what is measured and how it is checked. Neither answers the question the person adding an algorithm actually has: <em>what
+does a capability have to come with?</em></p>
+<p>This page is that answer, one row per capability. Five columns: the four things a new capability owes, plus the
+case name that lets the row be audited.</p>
+<ol class="arabic simple">
+<li><p><strong>Diagnostic channel</strong> -- how the capability says &quot;I am not measuring&quot;, &quot;I have not converged&quot;, &quot;I am holding&quot;. A
+capability whose only output is a number cannot be debugged in the field, because zero and &quot;no idea&quot; look the same.</p></li>
+<li><p><strong>Admission</strong> -- where a contradictory configuration is refused: at construction or at the first step, never by
+silently falling back to a default.</p></li>
+<li><p><strong>Boundary</strong> -- the limit, pinned by a case. The cell grammar is fixed and the gate enforces it:
+a case name in double backticks; or <code class="docutils literal notranslate"><span class="pre">none</span> <span class="pre">--</span> <span class="pre">&lt;reason&gt;</span></code> for &quot;no limit is known&quot;, which therefore requires an <strong>L3</strong>
+claim behind it; or <code class="docutils literal notranslate"><span class="pre">na</span> <span class="pre">--</span> <span class="pre">&lt;reason&gt;</span></code> for &quot;this dimension does not apply&quot;; or <code class="docutils literal notranslate"><span class="pre">todo</span> <span class="pre">--</span> <span class="pre">&lt;reason&gt;</span></code> for a hole that is
+written down instead of papered over. The gate counts the <cite>todo</cite> rows on every run.</p></li>
+<li><p><strong>Invariant participation</strong> -- which case in <cite>test_invariants.cpp</cite> this capability must obey. <code class="docutils literal notranslate"><span class="pre">na</span> <span class="pre">--</span> <span class="pre">&lt;reason&gt;</span></code> is
+allowed and the reason is required.</p></li>
+</ol>
+<p>The <cite>capabilities</cite> gate checks every cell: a header under <cite>core/</cite> or <cite>motor/</cite> must be listed here or named in
+<cite>capability-scope.json</cite> as deliberately unlisted; every case name must exist as a <cite>TEST()</cite>; every <code class="docutils literal notranslate"><span class="pre">none</span></code> must have an
+L3 claim; every reason must actually be a reason. A row that cannot be filled honestly fails the build, which is the
+point -- the alternative is a library that grows algorithms and forgets how they fail.</p>
+<section id="the-three-questions-a-criterion-has-to-survive-before-it-is-written-down">
+<h2><span class="section-number">2.1. </span>The three questions a criterion has to survive before it is written down<a class="headerlink" href="#the-three-questions-a-criterion-has-to-survive-before-it-is-written-down" title="链接到此标题。"></a></h2>
+<p>Not every one of them can be checked by a machine, which is why they live here as prose rather than
+as a gate. Each is a defect this repository has actually shipped, and each was invisible to the
+coverage numbers at the time:</p>
+<ol class="arabic simple">
+<li><p><strong>Is it vacuously true on the rig I am actually using?</strong> The sharpest example: &quot;after hand-over,
+the angle error is within 0.05 rad in 20 ms&quot; was asserted on a <em>sensored</em> bench, where the loop
+uses the sensor's angle -- so the error against that sensor is identically zero. The criterion was
+green, the number was a statement about the bench rather than the capability, and the fix was to
+delete it and state one that can fail.</p></li>
+<li><p><strong>Does it only have an upper bound?</strong> &quot;must be better than X&quot; alone pushes the next reader to tune
+until it passes; the honest form also records where a design is <em>expected</em> to be worse. The
+dead-band ramp is the example: it is worse than a plain <code class="docutils literal notranslate"><span class="pre">sign()</span></code> step on an ideal step, and that
+has to be written into the table rather than quietly avoided when tuning.</p></li>
+<li><p><strong>Does the probe point distinguish the competing formula?</strong> Before claiming that a case can reject
+a wrong formula, evaluate both at that point. <code class="docutils literal notranslate"><span class="pre">sqrt(2ae)</span></code> against <code class="docutils literal notranslate"><span class="pre">sqrt(ae)</span></code> was probed at the
+one place where the two coincide, so the case had no teeth and nothing said so.</p></li>
+</ol>
+</section>
+<section id="capabilities-that-are-a-procedure-rather-than-a-formula">
+<h2><span class="section-number">2.2. </span>Capabilities that are a procedure rather than a formula<a class="headerlink" href="#capabilities-that-are-a-procedure-rather-than-a-formula" title="链接到此标题。"></a></h2>
+<p>Some of what this library offers is not a law but a <em>procedure</em>: identification of the machine
+(<code class="docutils literal notranslate"><span class="pre">commissioning.hpp</span></code>), speed-loop tuning (<code class="docutils literal notranslate"><span class="pre">auto_tune.hpp</span></code>), learning the cogging table
+(<code class="docutils literal notranslate"><span class="pre">cogging_learn.hpp</span></code>). Their criterion is not a constant that could be written into an assertion, so the row records
+what the procedure owes instead:</p>
+<ol class="arabic simple">
+<li><p><strong>It says when it cannot answer.</strong> <code class="docutils literal notranslate"><span class="pre">valid</span> <span class="pre">==</span> <span class="pre">false</span></code> plus a reason, never a number produced from data that does not
+describe this machine. A procedure that only answers on good data cannot be claimed for any data.</p></li>
+<li><p><strong>It states the band it is valid in</strong>, in the units the caller measures -- a speed band, a window length, a number of
+revolutions -- and the band is pinned by a case rather than described in prose.</p></li>
+<li><p><strong>Its objective is a held-out margin, never accuracy.</strong> A procedure optimised for &quot;smaller error&quot; produces a
+criterion fitted to the model it was scored on; the number worth publishing is the distance to failure, measured on
+machines that took no part in the fit.</p></li>
+</ol>
+<p>Such a capability reaches <strong>L2</strong> when the procedure is reproducible and its refusals are reachable, and that is the
+whole of what &quot;a procedure&quot; buys. <strong>L3</strong> still needs the same two things every other row needs -- item-by-item
+sensitivity and an independent cross-check, e.g. the same procedure replayed on a second plant -- so a procedure is not
+a shortcut past the evidence levels, and it never reaches L4 without hardware.</p>
+<p><strong>The three obligations are executable rather than aspirational.</strong> <code class="docutils literal notranslate"><span class="pre">test_sop_outer_loop.cpp</span></code> drives the outer-loop
+procedure end to end -- identify, propose, measure, held-out acceptance -- on two machines of different inertia, and
+records the objective as a <strong>distance to failure</strong> (<code class="docutils literal notranslate"><span class="pre">tolerance</span> <span class="pre">-</span> <span class="pre">|j_identified/j_nameplate</span> <span class="pre">-</span> <span class="pre">1|</span></code>), a number that
+changes sign exactly where the library refuses. A gain fitted on the wrong machine is caught in both directions by a
+band whose two edges are themselves measured (the gain law's own residual, and the smallest nameplate error the repo
+calls actionable). The three red proofs were run and are recorded with the numbers: replacing the held-out machine with
+a copy of the fitted one, deleting the refusal path, and collapsing the parameter search to a single setting each turn
+exactly the expected case red. With that, the replay-on-a-second-machine half of <strong>L3</strong> is in place for this procedure;
+the sensitivity half is not, so the row stays <strong>L2</strong>.</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-number">表 2.1 </span><span class="caption-text">capability matrix</span><a class="headerlink" href="#id3" title="链接到此表格。"></a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 24.0%" />
+<col style="width: 20.0%" />
+<col style="width: 28.0%" />
+<col style="width: 8.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Capability</p></th>
+<th class="head"><p>Diagnostic channel</p></th>
+<th class="head"><p>Admission</p></th>
+<th class="head"><p>Boundary</p></th>
+<th class="head"><p>Invariant</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/transforms.hpp</span></code></p></td>
+<td><p>na -- stateless: there is no state that could hold a stale angle, and the caller owns the angle.</p></td>
+<td><p>na -- no configuration; a wrong argument is a wrong answer, which the invariance case catches.</p></td>
+<td><p>none -- Clarke is blind to the zero sequence, which is stated and asserted rather than corrected; nothing
+else is known to break.</p></td>
+<td><p>TheAmplitudeConventionHoldsAndTheZeroSequenceIsLost, ARotationAndItsFrameComposeExactly</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/limits.hpp</span></code></p></td>
+<td><p>na -- stateless: a clamp with no memory has nothing to report about itself.</p></td>
+<td><p>na -- no configuration; a limit wider than the signal is a caller decision, not a contradiction.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Invariants.TheClampIsContinuousAndAJumpWouldShow</span></code></p></td>
+<td><p>TheClampIsContinuousAndAJumpWouldShow</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/pi.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">status()</span></code>, <code class="docutils literal notranslate"><span class="pre">integral()</span></code>, <code class="docutils literal notranslate"><span class="pre">output()</span></code> -- the integrator state is readable because a wound-up integrator is
+the failure mode that looks like a tuning problem.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">status()</span> <span class="pre">==</span> <span class="pre">ErrorCode::Param</span></code> on a negative gain, an inverted clamp or a non-positive <code class="docutils literal notranslate"><span class="pre">dt_s</span></code>; the output
+holds instead of moving.</p></td>
+<td><p>na -- the loop is linear and every limit on it is a clamp or a gain; the limits that matter are the plant's.</p></td>
+<td><p>ElapsedTimeDecidesTheIntegralNotTheCallCount, TheClampIsContinuousAndAJumpWouldShow</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/filters.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">configured()</span></code>, <code class="docutils literal notranslate"><span class="pre">size()</span></code> -- an unconfigured filter says so instead of passing its input through untouched.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">configure()</span></code> refuses a non-positive cutoff or step.</p></td>
+<td><p>na -- a first-order filter is exact for its stated cutoff; the limit that matters belongs to the loop
+around it, not to the filter.</p></td>
+<td><p>na -- linear and time-invariant; the invariants that bite are on the loop around it, not on it.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/protection.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">thermal_budget()</span></code>, <code class="docutils literal notranslate"><span class="pre">derated_limit()</span></code>, <code class="docutils literal notranslate"><span class="pre">fault_is_latched()</span></code> -- &quot;fine&quot;, &quot;derating&quot; and &quot;stopped&quot; are three
+readable numbers rather than one code. The split is by definition and not by accident: <cite>output_allowed</cite> is
+<cite>active_mask == 0</cite>, so a fault in this library <em>means</em> &quot;authority removed&quot;, and derating -- the axis still
+running at reduced authority -- is announced by <cite>i_limit_a</cite> falling below the configured <cite>i_max_a</cite>. <cite>FaultCode</cite>
+names the mechanism, and the newest one (<cite>DriveFault</cite>) is the only cause that does not come from the protector at
+all: it is the power stage telling on itself, read at the top of the tick and appended to the enum so every
+existing number keeps its meaning.</p></td>
+<td><p>na -- the configuration is a set of numbers; a nonsensical one is refused by the constructor that consumes it.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FaultInjection.TheProtectorCodesReachTheFaultCodeThroughTheDocumentedHop</span></code></p></td>
+<td><p>na -- a supervisor over other capabilities, not an equation of its own.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/speed_from_angle.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ready()</span></code>, <code class="docutils literal notranslate"><span class="pre">lost_count()</span></code> -- differentiates an angle and says when the angle stopped arriving.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reset()</span></code> is mandatory after a gap: the module will not publish a speed across one.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilSpeedFromAngleClosedLoop.AWindowShortEnoughToBeOnTimeIsTheOnlyWayThisRouteWins</span></code></p></td>
+<td><p>ElapsedTimeDecidesTheIntegralNotTheCallCount</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/trace.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">size()</span></code>, <code class="docutils literal notranslate"><span class="pre">dropped()</span></code>, <code class="docutils literal notranslate"><span class="pre">latest()</span></code> -- a full ring keeps recording and counts what it overwrote, so &quot;I lost
+the window&quot; is a number rather than an absence. <code class="docutils literal notranslate"><span class="pre">t_us</span> <span class="pre">==</span> <span class="pre">0</span></code> on every sample means the platform has no clock,
+which is a fact about the HAL and not a claim that everything happened at once.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n/a</span></code> -- nothing to configure: the capacity is the type, and reading past the retained window returns a zeroed
+sample instead of reaching out of bounds.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Trace.TheRecordAgreesWithTheScalarReadBitForBit</span></code></p></td>
+<td><p>na -- a recorder of other capabilities' arithmetic, with none of its own.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/soft_limit.hpp</span></code></p></td>
+<td><p><cite>at_wall</cite>, and the <cite>Param</cite> that a refused target returns. A clamp would make an impossible command look plausible
+and the caller would never learn; the status is the only channel a programming fault has.</p></td>
+<td><p><cite>Param</cite> for a target outside the window (the previous one comes back), and for an inverted or non-finite window.
+A wall is <em>inclusive</em>: &quot;move to the limit&quot; is the one command a soft limit exists to make safe.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SoftLimit.TheDelayTermIsTheDifferenceBetweenNineteenMillimetresPastAndOneShort</span></code></p></td>
+<td><p>na -- no integration; the remembered target is the whole state.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/gear_ratio.hpp</span></code></p></td>
+<td><p><cite>master_unwrapped_rad</cite> and <cite>slave_velocity_rad_s</cite>. The unwrapped master is the synchronisation error's reference --
+comparing against the wrapped one is how a perfect pair reports 6.28 rad once a revolution -- and the velocity is
+what makes the <cite>v*kd/kp</cite> lag removable at all.</p></td>
+<td><p><cite>Param</cite> for a zero, negative-infinite or NaN ratio, and for a non-finite master sample (the unwrap state is then
+untouched). A zero ratio is refused because a decoupled slave and a stuck slave look identical.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ElectronicGear.TheSyncErrorIsTheRampLagInBothOfItsTerms</span></code></p></td>
+<td><p>na -- one state variable (the accumulated master angle); the cases check that a ratio change does not move it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/friction_comp.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">at_rest</span></code> and <cite>stalled</cite> -- and the fact that the output is a <em>constant</em> at rest rather than a square wave. A
+Coulomb term on <cite>sign(measured speed)</cite> ripples by twice the term where the stage is needed most; the latch is what
+turns that into a number an axis can hold. <cite>stalled</cite> separates &quot;holding a load&quot; from &quot;going nowhere&quot;, which the
+position signal cannot.</p></td>
+<td><p><cite>Param</cite> when the estimate describes a machine that cannot exist -- kinetic friction above breakaway, a negative
+coefficient, a non-finite value -- and in that case nothing is added at all, rather than a smaller guess.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FrictionComp.AnEstimateAboveTheBreakawayWalksTheAxisWithNoCommandAtAll</span></code></p></td>
+<td><p>na -- no time constant and no integration; the only state is the latched direction, and the cases check that it
+survives a re-tune.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/hall.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">status()</span></code> -- three answers rather than one number: <cite>Fault</cite> when the code is 0 or 7 (the two a three-bit field
+leaves over), <cite>State</cite> when the interval between edges stopped looking like a sector, <cite>Ok</cite> otherwise -- plus
+<cite>illegal_reads()</cite>/<cite>stale_reads()</cite>, which say which channel fired. A code-only decoder cannot know how wrong it
+is; these say whether it is measuring at all.</p></td>
+<td><p><cite>Param</cite> on a non-finite timestamp; an illegal code answers a zero vector and <cite>Fault</cite> rather than a guessed
+vector, and an interval that leaves <cite>[period/1.5, period*1.5]</cite> is refused rather than adopted as the new
+reference -- adopting it is what a dead sensor needs to stay hidden (measured: 36 % of a revolution reporting
+<cite>Ok</cite> with a 120-degree error, against 8.4 % once refused).</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HallTracker.AStuckSensorIsCoveredByTwoChannelsAndNeitherAloneIsEnough</span></code></p></td>
+<td><p>na -- a per-sample decoder; the only cross-frame state is the sector period, and a doubtful one is kept rather
+than taken.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/brake_chopper.hpp</span></code></p></td>
+<td><p><cite>BrakeChopperOutput</cite>: <cite>duty</cite>, the <strong>period-average</strong> <cite>current_a</cite>, <cite>i2t_a2s</cite> (the integral of the <strong>mean square</strong>
+current, which is not the square of that average -- they differ by <cite>1/duty_max</cite>), <cite>on</cite>, and the latched
+<cite>budget_exceeded</cite>. In SIL the same quantities are readable a second way, from the bus: <cite>r*i2t</cite> and the energy the
+meter books against the resistor agree to 0.045 %.</p></td>
+<td><p><cite>Param</cite> for a chopper that cannot act (a zero resistor, an inverted band, a zero duty) and for a period
+of zero, in both cases <strong>without</strong> changing any state; a spent budget latches rather than resuming.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilBrakeChopper.TheChopperHoldsTheBusAndTheBooksClose</span></code></p></td>
+<td><p>na -- the bounds and the current law are asserted in the capability's own case, swept across the bus range with the wrong law computed alongside; the invariants suite is for statements that must hold whatever composition is selected, and a chopper is not on a composition axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/min_pulse.hpp</span></code></p></td>
+<td><p><cite>MinPulseOutput</cite> carries <cite>duty</cite> (what to command), <cite>lost_vs</cite> (the volt-seconds the bridge will not deliver,
+signed and per phase) and <cite>narrowed</cite>; the residue is readable through <cite>carry()</cite>, which is what lets a trace
+tell &quot;the loop is asking for something the driver refuses&quot; from &quot;the loop is fine&quot;.</p></td>
+<td><p><cite>Param</cite> for a limit that cannot <em>be</em> a limit (<cite>2*t_min &gt; T</cite>, a negative limit, a zero period), for a bus
+voltage that is not a voltage, and never by moving the residue: a refused call changes no state, so a bad
+configuration cannot quietly bias the average it is supposed to correct.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilMinPulse.ThePlantTransmitsWhatTheDriverAllowsAndThePolicyKnowsThePrice</span></code></p></td>
+<td><p>na -- a per-period policy whose only state is one residue, bounded by one minimum pulse and asserted as
+such; it produces no continuous output for the invariants suite to hold.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/single_shunt.hpp</span></code></p></td>
+<td><p><cite>ShuntVerdict</cite> has three answers, not a boolean: <cite>Measurable</cite>, <cite>WindowTooNarrow</cite> (this period cannot be read, the
+reference is near a sector boundary) and <cite>NoActiveVector</cite> (nothing flows through the shunt at all, so nothing is
+missed), plus <cite>ShuntWindow.window_s</cite> / <cite>needed_s</cite>, which say how far from the edge the period was. A refused
+reconstruction returns <cite>valid == false</cite> <strong>and</strong> zeros, so a caller that checks only the numbers sees a motor drawing
+no current -- which is why the flag exists.</p></td>
+<td><p><cite>Param</cite> for a configuration that can never read anything (<cite>2*(t_settle+t_sample) &gt;= T</cite>), for a non-finite timing
+and for a duty outside <cite>[0, 1]</cite>; a period outside the window is <strong>not</strong> a <cite>Param</cite> -- it is <cite>Ok</cite> with
+<cite>valid == false</cite>, because a narrow window is the normal operating condition and not a configuration error.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SingleShunt.TheBlindSpotIsLowModulationNotTheVoltageLimit</span></code></p></td>
+<td><p>na -- stateless, one period at a time, and the thing it holds is a verdict rather than an accumulated value.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/mtpv.hpp</span></code></p></td>
+<td><p><cite>MtpvPoint</cite> names which ceiling decided the point: <cite>voltage_limited</cite> is true only when the voltage ellipse moved the
+answer, and <cite>current_a</cite> is the margin to the current ceiling, so a host can tell &quot;the voltage is what limits me&quot;
+from &quot;the current is&quot;. <cite>base_speed_rad_s()</cite> is derived (<cite>v_max</cite> over the flux magnitude at the current-limited
+point), not <cite>v_max/psi_f</cite> -- on the in-domain profile the two differ by 4x, 725 against 2520 rad/s. The
+boundary case is the band where <em>both</em> ceilings are active at once (725 to 1191 rad/s there): a
+single-constraint law reports that band as 30 % over the voltage ceiling, which is what the case asserts.</p></td>
+<td><p><cite>Param</cite> for a ceiling that is not positive, a non-positive inductance, a negative flux linkage, zero pole pairs and
+anything non-finite, and <cite>Param</cite> from <cite>at_speed()</cite> for a speed that is not finite. There is no &quot;no answer&quot; case
+above zero speed: the <cite>i_q = 0</cite> point on the ellipse is always inside the current circle, so the candidate set is
+never empty and a zero-torque point is returned rather than a failure.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Mtpv.StayingOnTheCurrentLimitThereWouldOvervoltTheDrive</span></code></p></td>
+<td><p>na -- stateless, one speed at a time, and what it produces is an operating point rather than an accumulated value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/cogging_comp.hpp</span></code></p></td>
+<td><p><cite>CoggingCompOutput</cite> separates the two ways a compensator can stop working: <cite>gain</cite> is the frequency fade (&quot;we
+chose not to ask for this ripple&quot;) and <cite>clipped</cite> is the current ceiling (&quot;we asked and it was refused&quot;), with
+<cite>torque_nm</cite> carrying the cancelled torque before either limit. A compensator that reports only its output current
+cannot be told apart from one that is silently doing nothing.</p></td>
+<td><p><cite>Param</cite> for a machine that cannot produce torque at the <cite>id</cite> it is given (<cite>dT/diq = 0</cite> at the flux-nulling
+current, where no current can cancel a torque), for any non-finite input, and for a fade band that is inverted or
+non-finite. A table of nothing is <cite>Ok</cite> with a zero offset -- there is no table, so there is no decision to report.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CoggingComp.ATableWithTheWrongPhaseCancelsNothingAtAll</span></code></p></td>
+<td><p>na -- stateless, one period at a time, and what it produces is an offset rather than an accumulated value.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/cogging_learn.hpp</span></code></p></td>
+<td><p><cite>CoggingLearnReport</cite> reports <cite>revolutions</cite> and the speed band on <strong>every</strong> exit, including the refused ones: a
+refusal that says nothing leaves the caller guessing whether to spin longer, slower, or steadier, and those are
+three different actions. A table it never saw is absent from the output rather than extrapolated, because a
+compensator acting on an invented harmonic injects a ripple of its own.
+<strong>Reachable from C</strong> (six <cite>experimental</cite> entries:
+<cite>foc_cogging_learn_create/accumulate/ready/finish/reset/destroy</cite>), so a script can learn a machine's table. What
+this answer is, is a <strong>table</strong>, so the C contract carries a capacity clause the C++ one does not need: <cite>finish()</cite>
+echoes <cite>required</cite> (how many entries the answer needs) and <cite>capacity</cite> (how many the caller offered) on <strong>every</strong>
+return, and given too few slots it refuses with <cite>FOC_ERR_PARAM</cite> instead of writing a shorter table -- a truncated
+table tells the caller it asked for fewer orders, and the harmonics it is missing are exactly the ones nobody kept
+a record of. Passing <cite>out_table == NULL</cite> asks for the report alone: <cite>FOC_OK</cite> with <cite>count == 0</cite> then means <em>the
+window is a measurement and there was nowhere to put it</em>, which the C++ signature cannot say, because there
+<cite>nullptr</cite> with <cite>capacity == 0</cite> is just another refusal. A short buffer is the caller's defect and answers
+<cite>FOC_ERR_PARAM</cite>; the window's own refusals stay <cite>FOC_ERR_STATE</cite>, and both are reported: the buffer verdict wins
+the return code because it is the one the caller can fix without changing the physics, and <cite>result.status</cite> still
+names the window's verdict underneath.</p></td>
+<td><p><cite>State</cite> for fewer revolutions than configured, <cite>|omega|</cite> outside <cite>[min, max]</cite> either side, a window whose speed
+spread exceeds <cite>speed_tolerance</cite>, a saturated sample anywhere in it, and a destination with no room for the table;
+<cite>Param</cite> for order 0 (a constant torque is a load, not cogging), an inverted or non-finite band, a non-finite
+tolerance, and unusable machine parameters. Nothing was written in any of those cases.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CoggingLearn.TheLearnedTableCancelsTheInjectionItWasLearnedFrom</span></code></p></td>
+<td><p>na -- the accumulators are sums over a finite window that is thrown away on <cite>reset()</cite>, and what leaves the class is
+a table rather than a per-tick output.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/thermal_limit.hpp</span></code></p></td>
+<td><p><cite>ThermalBudget</cite> separates &quot;this current can be held forever&quot; from &quot;this current can be held for five more seconds&quot;
+instead of reporting one number for both: <cite>crosses == false</cite> with <cite>seconds</cite> infinite is the sustainable answer, and
+collapsing the two is how a scheduler throttles a machine that was never in trouble. <cite>ThermalLimitReport</cite> reports
+<cite>settle_at_cont_c</cite> so the assumption behind the continuous current is visible rather than implied.</p></td>
+<td><p><cite>Param</cite> for <cite>rt &lt;= 0</cite> (no cooling path), <cite>rs &lt;= 0</cite> (no copper to heat), a negative <cite>alpha</cite> (a winding that cools as
+it heats is not a model), and a reserve that is not above ambient (no current can heat the winding down to it). A
+missing <cite>Ct</cite> is <em>not</em> an error: the continuous current does not need it, and only the budget then reports that it
+cannot name a time.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ThermalLimit.TheNaiveLawReadsFifteenPercentHighAndThePlantSaysSo</span></code></p></td>
+<td><p>na -- stateless: every answer is a closed form of the configuration and its arguments, and nothing is accumulated.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/watchdog.hpp</span></code></p></td>
+<td><p><cite>WatchdogState</cite> separates the four answers a feeder can leave behind: <cite>Feeding</cite> (inside the window), <cite>Expired</cite> (the
+window passed), <cite>ClockLost</cite> (the stamp went backwards) and <cite>Unarmed</cite> (nothing measured yet). The last two are the
+point: <cite>Unarmed</cite> is reported as a <cite>State</cite> error and never as <cite>Ok</cite>, because a watchdog nobody feeds protects nothing,
+and <cite>ClockLost</cite> is a separate state from <cite>Expired</cite> because the verdict is the same (stop) and the diagnosis is not. A
+latched report repeats the numbers that caused the latch instead of growing with the clock.</p></td>
+<td><p><cite>Param</cite> for a zero window (it would trip on every feeder and stop a drive for a reason nobody can act on) and for a
+kick before any window was accepted -- and a refused window changes nothing, including a latch. <cite>State</cite> for a poll
+or kick before the first kick, and for a kick after a latch (it does not re-arm and is not counted as a feed).
+<cite>Fault</cite> once expired or clock-lost.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Watchdog.TheDeadlineIsExactForEveryWholeNumberOfControlPeriods</span></code></p></td>
+<td><p>na -- it holds one timestamp and one latch, neither of which is a continuous-output invariant; the latch is pinned
+by <cite>Watchdog.AFeederThatComesBackDoesNotClearTheTrip</cite>, which is a sequence rather than a per-tick property.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/auto_tune.hpp</span></code></p></td>
+<td><p><cite>SpeedTuneResult</cite> separates &quot;here are gains measured from this machine&quot; from &quot;I could not measure this machine&quot;:
+<cite>valid</cite> is the bit, and on a refusal the gains it carries are the <strong>nameplate</strong> ones, so a caller that applies
+whatever it gets applies nothing new. <cite>reason</cite> names which of seven refusals fired, because &quot;spin with a varying
+current&quot; and &quot;something is pulling on the axis&quot; are different actions. The fit keeps an <strong>intercept</strong> so a constant
+unknown load cannot be attributed to the current.
+<strong>Reachable from C</strong> (five <cite>experimental</cite> entries: <cite>foc_autotune_create/accumulate/finish/reset/destroy</cite>),
+so a C or Python consumer can run the procedure. A session is its own opaque handle rather than a motor register --
+nothing is readable tick by tick, only a window to feed and an answer to ask for -- and <cite>finish()</cite> answering
+<cite>FOC_OK</cite> with <cite>valid == 0</cite> is a refusal, not a failure.</p></td>
+<td><p><cite>Param</cite> for a non-positive <cite>kt</cite>, <cite>j_expected</cite>, <cite>bandwidth</cite> or <cite>i_max</cite>, a negative <cite>b_expected</cite>, a non-positive
+tolerance or residual bound, and a window shorter than three samples. <cite>State</cite>-shaped refusals arrive as
+<cite>valid == false</cite> with a reason: too short a window, a saturated period, a current that never varied, a residual above
+the bound, a negative mechanical pole, and a measured inertia outside the tolerance.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AutoTune.ADoubledInertiaIsRefusedAndTheGainsComeBackUntouched</span></code></p></td>
+<td><p>na -- the window is a finite sum that is thrown away on <cite>reset()</cite>, and what leaves the class is a <cite>Pi</cite> config rather
+than a per-tick output.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">motor/drive_supervisor.hpp</span></code></p></td>
+<td><p><cite>SupervisorStatus</cite> carries the cause, both masks, the derated limit, the temperature that was used (<cite>NaN</cite> when
+no channel answered), the bus voltage, the chopper's duty and the tick number, so &quot;which cause, on which tick,
+was the output allowed&quot; takes one read.</p></td>
+<td><p><cite>configure()</cite> refuses a band that cannot be a band -- a trip point under its own derating start, a derating end
+under its start, a bus window the wrong way round, no hard limit, no thermal budget, a chopper that would switch
+on below where it switches off, no pole pairs -- and leaves nothing stored; <cite>step()</cite> before <cite>configure()</cite> answers
+<cite>State</cite> and writes no duty, because an unprotected drive is the failure this type exists to prevent.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DriveSupervisor.AnOverCurrentStopsTheOutputOnTheFirstTickItIsVisible</span></code></p></td>
+<td><p>na -- every output is a per-tick decision; the stateful parts (<cite>Protector</cite>'s budget and timers, the chopper's
+dwell times) are their own types with their own cases.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">comm/frame.hpp</span></code></p></td>
+<td><p><cite>FrameStatus</cite> names which check failed (start / length / checksum) instead of one generic failure, and
+<cite>SequenceChecker</cite> reports <cite>missing</cite> / <cite>duplicate</cite> / <cite>out_of_order</cite> separately. <cite>missing</cite> counts the frames
+between the one expected and the one that arrived, so a single skipped frame reports 1.</p></td>
+<td><p><cite>encode_frame</cite> returns 0 and writes nothing when the frame does not fit; <cite>decode_frame</cite> refuses a short
+buffer, a late start byte and an over-long length before touching the receiver.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Frame.NoSingleByteCorruptionIsAccepted</span></code></p></td>
+<td><p>na -- the codec holds no state; <cite>SequenceChecker</cite> holds one byte and one flag, and neither is a
+continuous-output invariant.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/bus_current_limit.hpp</span></code></p></td>
+<td><p><cite>BusCurrentLimitOutput</cite> carries the authority to apply, whether a bus current arrived at all, and whether the
+limiter is doing anything -- so &quot;was this command clipped&quot; is answerable without reconstructing the loop.</p></td>
+<td><p><cite>configure()</cite> refuses a ceiling that is not positive, a headroom that does not sit below it, and rates or a gain
+that are not positive; an unconfigured limiter passes everything through at authority 1 rather than clamping.
+A step whose period is not positive changes nothing.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BusCurrentLimit.TheCeilingHoldsOnTheBenchAndTheSameBenchExceedsItWithout</span></code></p></td>
+<td><p>na -- the output is a per-tick authority rather than a continuous signal, and the property that matters
+(<cite>scale</cite> never exceeds 1, so a limiter cannot become a booster) is asserted in
+<code class="docutils literal notranslate"><span class="pre">BusCurrentLimit.BelowTheAimNothingHappens</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/move_trajectory.hpp</span></code></p></td>
+<td><p><cite>TrajectoryPoint</cite> carries the position to hand the loop, the speed it is travelling at, and whether
+anything is still pending -- so &quot;where should the axis be <em>now</em>, and is the move over&quot; takes one read
+instead of an integrator on the caller's side. That is the whole difference from <cite>MotionProfile</cite>, which
+only ever answers &quot;how fast&quot;.</p></td>
+<td><p>Limits that cannot describe motion, and targets that are not numbers, are refused by <cite>move_to()</cite> and
+change nothing -- not the target, not the position, not the pending flag. A step whose period is zero,
+negative or <cite>NaN</cite> changes nothing either. A trajectory constructed with unusable limits never leaves its
+start rather than moving with an invented default.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MoveTrajectory.ANewTargetMidCruiseIsANumberTheReferenceCannotJumpTo</span></code></p></td>
+<td><p>na -- its per-tick properties (the velocity changes by no more than <cite>a*dt</cite>, never exceeds what the remaining
+distance can still stop from, never passes the target, and is unchanged by a re-aim) are asserted inside
+<code class="docutils literal notranslate"><span class="pre">MoveTrajectory.ANewTargetMidCruiseIsANumberTheReferenceCannotJumpTo</span></code> rather than in the algebraic
+<code class="docutils literal notranslate"><span class="pre">Invariants</span></code> suite, because they are limits of a sampled law and not identities between transforms.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/angle_source.hpp</span></code></p></td>
+<td><p><cite>AngleReading</cite> carries the quality word, the source that produced the angle, the disagreement the decision was
+made on (<cite>NaN</cite> when nothing could be compared) and how long the preferred source has been missing, so &quot;which
+angle, how far to trust it, and since when&quot; takes one read.</p></td>
+<td><p><cite>configure()</cite> refuses three numbers that cannot describe a band -- a window that is not positive, a degraded bar
+that is not positive, a blind bar that is not above the degraded one -- and a step before <cite>configure()</cite> answers
+<cite>Blind</cite> rather than using a zeroed-out band. A step whose period is not positive changes nothing.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AngleSource.ALostSourceIsHeldForTheDeclaredWindowAndThenReplaced</span></code></p></td>
+<td><p>na -- the output is a per-tick decision rather than a continuous signal, and the property that matters about it
+(<cite>Blind</cite> holds the angle and reports zero speed, so a caller ignoring the quality word still cannot steer with a
+held constant) is asserted in the case named above.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/sensor_monitor.hpp</span></code></p></td>
+<td><p><cite>SensorMonitorOutput</cite> carries the verdict, which check decided it, the step that was measured, the bound it was
+measured against, and how many readings have been implausible since the last <cite>reset()</cite> -- so a log line can say
+&quot;0.31 rad in one sample against 0.0125 allowed&quot; instead of &quot;bad encoder&quot;.</p></td>
+<td><p><cite>configure()</cite> refuses a ceiling that is not positive and a tolerance that is negative or not a number, while a
+tolerance of <strong>zero</strong> is accepted: &quot;the ceiling is exact&quot; is a position a caller may take. A period that is not
+positive leaves every field as it was and answers <cite>Unobserved</cite>, and so does a first sample -- <cite>Unobserved</cite> is
+never <cite>Ok</cite>, because a monitor nobody has compared anything with must not read as healthy.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SensorMonitor.TheBoundItselfDecidesAndBothDirectionsCount</span></code></p></td>
+<td><p>na -- a decision about one reading rather than a continuous signal; the property that matters about it (a
+verdict is about a reading and not a latch, so the next good sample is <cite>Ok</cite> again while the count keeps the
+history) is asserted in the two cases named above.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/thermistor.hpp</span></code></p></td>
+<td><p><cite>NtcDivider::temperature_c</cite> answers <cite>false</cite> at both rails and leaves the receiver untouched, because 0 and full
+scale are what an open and a shorted thermistor produce and both are ordinary numbers on the curve;
+<cite>valid_config()</cite> reports a divider that cannot exist before the first reading is attempted.</p></td>
+<td><p><cite>valid_config()</cite> is asked at construction by whoever builds the converter, and every conversion re-checks it, so
+a typo in <cite>series_ohm</cite> cannot silently produce a temperature.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Temperature.TheInverseUndoesTheForwardModelAcrossTheWorkingBand</span></code></p></td>
+<td><p>na -- a conversion is a pure function of one code and its configuration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/commissioning_flow.hpp</span></code></p></td>
+<td><p><cite>completed_mask()</cite> and <cite>failed_stage()</cite> are the two words a support call needs: how far the session got, and
+which stage gave up. <cite>state()</cite> separates <cite>Running</cite> from <cite>Idle</cite> on purpose -- a session interrupted by a reset
+has one stage that started and never reported, and &quot;not started&quot; is a different answer.</p></td>
+<td><p>A plan that is empty, longer than the enumeration, names a stage twice, or names one that does not exist is
+refused with <cite>Param</cite> at <cite>begin()</cite> rather than repaired; <cite>complete()</cite> and <cite>fail()</cite> refuse a stage that is not
+the one in progress, so a late report from an abandoned stage cannot move the session.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CommissioningFlow.AFailureKeepsWhatWasAlreadyObtainedAndNamesTheStageThatGaveUp</span></code></p></td>
+<td><p>na -- it holds a session record, not a signal; the properties that matter (the mask survives a failure, and
+nothing starts after one until <cite>reset()</cite>) are asserted in the case named above.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">comm/board_record.hpp</span></code></p></td>
+<td><p><cite>decode_board_record()</cite> answers with the offset it stopped at, and the four structural refusals are separate
+words rather than one &quot;invalid&quot;: a wrong marker sends a reader to the writer, a failed check value to the
+transport, and a <cite>BadField</cite> offset to the check that produced an impossible row.</p></td>
+<td><p><cite>encode_board_record()</cite> refuses a short buffer or an unusable record <strong>before the first byte</strong>, so a
+truncated record never reaches flash; the padding past <cite>count</cite> must be zero on the way in and is verified on
+the way out; a negative zero is not a padding zero, because it compares equal to <cite>0.0F</cite> and encodes
+differently.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BoardRecord.APaddingRowThatSpeaksOrACountThatCannotBeIsRefused</span></code></p></td>
+<td><p>na -- a codec holds no state and produces no signal; the property that matters (no single-byte corruption of
+the blob reads back as a record) is asserted in <code class="docutils literal notranslate"><span class="pre">BoardRecord.NoSingleByteCorruptionIsAccepted</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">comm/commissioned_set.hpp</span></code></p></td>
+<td><p><cite>SetStatus</cite> names the check that failed (short / marker / schema / reserved / check value / field) and
+<cite>SetError.offset</cite> names the byte, so a reader learns which number to re-measure rather than which byte to stare
+at.</p></td>
+<td><p><cite>encode_commissioned_set</cite> returns 0 and writes nothing for a short buffer or an unusable set;
+<cite>decode_commissioned_set</cite> refuses a short buffer, a foreign marker, an unread schema, a non-zero reserved byte
+and a failed check value before touching the receiver, and leaves it untouched on every refusal.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CommissionedSet.EverySingleByteChangeIsRefused</span></code></p></td>
+<td><p>na -- a codec is a pure function of its buffer; the only state is the receiver, which is written once on
+success.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">comm/encoder_stream.hpp</span></code></p></td>
+<td><p><cite>EncoderFrame</cite> separates &quot;this frame arrived and is not trustworthy&quot; (<cite>State</cite> plus <cite>crc_ok == false</cite>, with the counts
+still filled in so a log has something to show) from &quot;this buffer cannot be read at all&quot; (<cite>Param</cite>, with no value
+handed back). <cite>TurnAssembler::Step</cite> separates a wrap from a gap: <cite>jumped == true</cite> means the travel was unknowable, and
+then <cite>unwrapped</cite> does <strong>not</strong> move.</p></td>
+<td><p><cite>Param</cite> for a null buffer, a stream whose length is not <cite>frame_bits()</cite>, a layout with 0 single-turn bits, more than 31
+single-turn bits, more than 32 data bits, or negative multi-turn bits; and for an assembler whose single-turn bits are
+outside <cite>1..31</cite> or whose declared maximum step is 0 or above half a turn (above which the wrap question is
+undecidable). <cite>State</cite> for a CRC mismatch, a failed-CRC frame fed to the assembler, or a gap.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EncoderStream.TheLengthIsRefusedAndAShiftIsTheFramingLayersProblemNotTheCrc</span></code></p></td>
+<td><p>na -- the decoder is a pure function of one frame, and the assembler holds one previous count and one origin, neither of
+which is a continuous-output invariant.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">comm/register_map.hpp</span></code></p></td>
+<td><p><cite>read_register()</cite> answers one 32-bit word per register; <cite>RegisterKind</cite> says whether to read it as an
+unsigned count, a signed code, or IEEE-754 bits.</p></td>
+<td><p>a NULL receiver, an id with no row, and any register whose C function refuses all return <cite>false</cite>
+<strong>with the word untouched</strong> -- except the two count registers, whose C functions document NULL as 0.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RegisterMap.ARefusedReadLeavesTheWordAloneAndTheTwoKindsOfAnswerStayDifferent</span></code></p></td>
+<td><p>na -- read-only and idempotent; nothing here accumulates.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/trace_parse.hpp</span></code></p></td>
+<td><p><cite>missing</cite> (inferred inside the window), <cite>lost</cite> (declared before it), <cite>gaps</cite>, <cite>reversals</cite>, <cite>segments</cite>, and
+<cite>complete</cite> only when nothing is missing either way. <cite>consistent</cite> is the parser's own check: <cite>missing</cite> is
+counted twice, by summing the per-pair skips and from the two endpoint timestamps.</p></td>
+<td><p><cite>Param</cite> for a zero period or a span whose samples pointer does not match its size; a window with no clock
+reports <cite>timed == false</cite> rather than a fabricated consistency.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TraceParse.AWrapIsOnePeriodAndNotAHole</span></code></p></td>
+<td><p>na -- a host-side tool, not a control-path component; it holds no state between calls.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/six_step.hpp</span></code></p></td>
+<td><p><cite>sector</cite>, <cite>changed</cite>, <cite>holding</cite> and <cite>skipped</cite>, plus <cite>rejected()</cite>/<cite>illegal()</cite> counters. <cite>holding</cite> and
+<cite>skipped</cite> are different things and the duty alone cannot tell them apart: one means the pins named no
+position, the other means they named one the rotor cannot have reached.</p></td>
+<td><p><cite>Param</cite> for an amplitude outside <cite>(0, 1]</cite> or a step allowance outside <cite>1..5</cite> -- a table driven at zero
+amplitude produces no torque while looking like it is running.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SixStep.WalkingTheSectorsTurnsTheVectorSixtyDegreesEach</span></code></p></td>
+<td><p>na -- each call maps a code to a vector; the state it keeps is the last accepted sector, which is the
+boundary case above rather than a continuous-output invariant.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/command_source.hpp</span></code></p></td>
+<td><p><cite>analog</cite>: <cite>in_deadband</cite>; <cite>ppm</cite>: <cite>valid</cite>; <cite>step</cite>: <cite>pulses</cite>, <cite>delta_rad</cite> and <cite>jump</cite>. A command source whose only
+output is a number cannot be told apart from a dead link, and <cite>jump</cite> is the difference between &quot;the axis moved&quot;
+and &quot;the axis moved further than one period of motion allows, so a count was lost&quot;.</p></td>
+<td><p><cite>Param</cite> when the interface cannot be mapped exactly (<cite>pulses_per_rev == 0</cite>), when the analogue band is not below
+full scale, or when the pulse-width window is empty or inverted. An interface that cannot be mapped exactly is
+refused rather than approximated, because the approximation is a position error that never goes away.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CommandSource.AWholeTurnIsExactlyAWholeTurn</span></code></p></td>
+<td><p>na -- each call is a pure map from its input to a command; there is no state to hold invariant across time.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/step_metrics.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">status</span></code>, and it carries weight: <code class="docutils literal notranslate"><span class="pre">Ok</span></code> means a first-order decay was fitted, <code class="docutils literal notranslate"><span class="pre">State</span></code> means the window carried
+none -- and the settling numbers stay valid in that case, because a response can settle without being fittable.
+A bandwidth of 0 is impossible under <code class="docutils literal notranslate"><span class="pre">Ok</span></code>, so zero cannot be mistaken for &quot;not measured&quot;.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Param</span></code> for a window that cannot describe a step: fewer than three samples, a non-positive <code class="docutils literal notranslate"><span class="pre">dt_s</span></code>, a negative
+band, or a window that does not move at all (<code class="docutils literal notranslate"><span class="pre">y[0]</span> <span class="pre">==</span> <span class="pre">target</span></code>).</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">StepMetrics.AWindowWithoutADecayReportsStateRatherThanAConfidentNumber</span></code></p></td>
+<td><p>na -- it measures other capabilities' arithmetic and owns none of its own.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/sinusoid_fit.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">status</span></code>: <code class="docutils literal notranslate"><span class="pre">Ok</span></code> for a conditioned fit, <code class="docutils literal notranslate"><span class="pre">State</span></code> when the window is shorter than one period of the frequency
+asked about -- where a number would be produced but would not be the tone's amplitude.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Param</span></code> for fewer than six samples, a non-positive <code class="docutils literal notranslate"><span class="pre">dt_s</span></code> or frequency, or a frequency at or above Nyquist,
+where the projection aliases and reports the tone at a frequency the signal does not have.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BodeSweep.TheThreeDecibelPointIsTheBandwidthTheGainLawWasAskedFor</span></code></p></td>
+<td><p>na -- it measures other capabilities' arithmetic and owns none of its own.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">motor/torque_map.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">status</span></code> for the map and <code class="docutils literal notranslate"><span class="pre">limited</span></code> for every command. The second one is the point: a clipped command and an
+obeyed one are otherwise identical, and a caller who cannot tell them apart reports a saturating tensioner as
+holding.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Param</span></code> when the nameplate produces no torque per amp (<cite>kt &lt;= 0</cite>), has no pole pairs, or when the limits do not
+describe an interval; and <code class="docutils literal notranslate"><span class="pre">Param</span></code> from <cite>torque_command</cite> when the d-axis current cancels the torque constant and
+no current can deliver the request -- a refusal, because clamping would report a torque that cannot be produced.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TorqueMap.TheLimitsAreNarrowedToWhatTheInverterCanDeliver</span></code></p></td>
+<td><p>na -- algebraic, no state to keep invariant across frames or time scales.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/stall_start.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">phase()</span></code> and <cite>limited</cite>. &quot;starting&quot;, &quot;released&quot; and &quot;cannot start&quot; are three states rather than one number, and
+<cite>Failed</cite> is a first-class answer: a load the drive cannot move is a fact about the machine, and a sequence that
+ramps forever instead of saying so leaves the operator watching a silent axis. Through <cite>Motor</cite> the same two
+facts are <cite>stall_start_phase()</cite> and <cite>stall_start_torque_nm()</cite>, and they have to be read together: the phase says
+whether the torque beside it is still the sequence's or the caller's again.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Param</span></code> from <cite>validate()</cite>/<cite>begin()</cite> when the limit is not above the breakaway point -- a sequence whose ceiling
+is under the breakaway can only ever produce <cite>Failed</cite>, so accepting it would accept a recipe known in advance
+not to work -- and when the ramp, release speed or grace period is not positive. <cite>Motor::begin_stall_start()</cite>
+adds the admission the sequence cannot make for itself: <cite>State</cite> when the axis is not running or is still
+aligning, because a torque source has no business running during a forced angle. Both refusals leave the phase
+<cite>Idle</cite> rather than half-way into a ramp.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">StallStart.AStuckAxisSaysFailedInsteadOfRampingForever</span></code></p></td>
+<td><p>na -- a sequencer over other capabilities, not an equation of its own.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/observer/observer_policy.hpp</span></code></p></td>
+<td><p>na -- concepts: it names what an observer must provide and provides nothing itself.</p></td>
+<td><p>na -- a type either satisfies the concept or fails to compile, which is the strongest admission there is.</p></td>
+<td><p>na -- there is no runtime behaviour to bound.</p></td>
+<td><p>na -- there is no arithmetic here to be invariant about.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/observer/ideal_observer.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reset()</span></code>, <code class="docutils literal notranslate"><span class="pre">set_truth()</span></code> -- a test double told the answer; it has no failure mode to report.</p></td>
+<td><p>na -- it accepts whatever truth it is given, which is the whole point of it.</p></td>
+<td><p>na -- only the SIL harness uses it; the harness is not part of the shipped library.</p></td>
+<td><p>na -- no arithmetic beyond assigning the truth it was handed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/observer/back_emf_observer.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">state()</span></code>, <code class="docutils literal notranslate"><span class="pre">flux()</span></code> -- and deliberately no <code class="docutils literal notranslate"><span class="pre">locked()</span></code>: there is no channel that could withhold a verdict,
+so reporting one would be a fiction.</p></td>
+<td><p>na -- parameters arrive through <code class="docutils literal notranslate"><span class="pre">apply_params()</span></code>; there is no configuration to contradict.</p></td>
+<td><p>todo -- standstill is the obvious limit: there is no signal there. No case pins it yet, and writing the row
+without the case is the folklore the boundaries gate exists to prevent.</p></td>
+<td><p>na -- a flux integration, not an algebraic identity.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/observer/dual_inductance_observer.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">state()</span></code>, <code class="docutils literal notranslate"><span class="pre">flux()</span></code>, <code class="docutils literal notranslate"><span class="pre">root_gap_rad()</span></code> -- the last is a diagnostic and not an estimate: it says how far
+apart the two rotor positions consistent with the measured flux and current are.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FluxSource::Corrected</span></code> is admitted only with <code class="docutils literal notranslate"><span class="pre">correction_gain</span></code> in (0, 1]; <code class="docutils literal notranslate"><span class="pre">Integrator</span></code> never reads the
+gain, so leaving it at zero is not refused for a value it does not use.</p></td>
+<td><p>none -- measured, and the hole closes the other way round: the second root of the quadratic is never a rotor
+position (modulus 20 to 68 against 1 across <cite>i_d</cite> = -0.5 to -2.5 A, its angle pi away), so there is no physical
+branch for continuity to pick wrongly; and a seed no angle explains is <em>not</em> corrected -- 0.1128 rad after one
+step and 0.1128 after 200 -- which is why <cite>seed_at()</cite> takes an angle rather than a guess. See
+<code class="docutils literal notranslate"><span class="pre">DualInductanceObserver.TheSecondRootIsNotARotorPositionAndAWrongSeedIsPermanent</span></code>.</p></td>
+<td><p>na -- one complex square root and one quadratic, evaluated pointwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/observer/nonlinear_flux_observer.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">locked()</span></code>, <code class="docutils literal notranslate"><span class="pre">state()</span></code>, <code class="docutils literal notranslate"><span class="pre">flux()</span></code></p></td>
+<td><p>na -- parameters arrive through <code class="docutils literal notranslate"><span class="pre">apply_params()</span></code>; saliency enters the flux law, not a switch.</p></td>
+<td><p>none -- the mode is admitted on facts about the machine, and its estimate's sensitivity to those facts is
+measured rather than assumed.</p></td>
+<td><p>na -- a flux law with a saturation term, evaluated pointwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/observer/hfi_observer.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">locked()</span></code>, <code class="docutils literal notranslate"><span class="pre">error()</span></code>, <code class="docutils literal notranslate"><span class="pre">hf_current_a()</span></code>, <code class="docutils literal notranslate"><span class="pre">status()</span></code> -- the error signal is the demodulated quantity, so
+&quot;no measurement&quot; and &quot;zero error&quot; are distinguishable numbers.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">status()</span> <span class="pre">==</span> <span class="pre">ErrorCode::Param</span></code> for a surface machine, an absent carrier, or a carrier the control rate cannot
+resolve; <code class="docutils literal notranslate"><span class="pre">update()</span></code> refuses the last one too, on the path that bypasses the bridge.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HfiObserver.ACarrierThisControlRateCannotResolveIsRefusedNotFrozen</span></code></p></td>
+<td><p>na -- a demodulation with a carrier; its algebra is the PLL's, which is stateful and nonlinear.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/observer/blended_observer.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">locked()</span></code>, <code class="docutils literal notranslate"><span class="pre">blend()</span></code> -- the mix is readable, so &quot;which observer is carrying the estimate right now&quot; is a
+number rather than an inference.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ErrorCode::Param</span></code> when the hand-over band is inverted or empty.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SilHfiEnvelope.AcquiringARotorAlreadyRunningNeedsASeed</span></code></p></td>
+<td><p>na -- a schedule over two stateful observers.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/observer/switchable_observer.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kind()</span></code>, <code class="docutils literal notranslate"><span class="pre">locked()</span></code>, <code class="docutils literal notranslate"><span class="pre">error()</span></code>, <code class="docutils literal notranslate"><span class="pre">injection_ab()</span></code> -- the slot reports which mode is really running and
+what that mode is measuring, so a refused request cannot masquerade as a switch.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hand_over_to()</span></code> answers <code class="docutils literal notranslate"><span class="pre">ErrorCode::State</span></code> outside <code class="docutils literal notranslate"><span class="pre">Run</span></code>, and <code class="docutils literal notranslate"><span class="pre">ErrorCode::Param</span></code> when the setup in force
+cannot support the requested mode; <code class="docutils literal notranslate"><span class="pre">set_kind()</span></code> is the compile-time-only path.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SwitchableObserver.TheSelectedObserversLockVerdictIsReachableThroughTheSlot</span></code></p></td>
+<td><p>na -- a dispatcher; the invariants belong to the modes it dispatches to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">motor/motor.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">status()</span></code> (mode, fault, observer, locked), <code class="docutils literal notranslate"><span class="pre">error()</span></code>, <code class="docutils literal notranslate"><span class="pre">trace()</span></code> -- the composed loop answers &quot;is it
+running, what is it commutating on, what has it recorded&quot;, so a wrong angle is a named mode rather than a
+symptom. <code class="docutils literal notranslate"><span class="pre">trace()</span></code> is what makes the loop's own decisions auditable after the fact.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">init()</span></code> answers <code class="docutils literal notranslate"><span class="pre">ErrorCode::Param</span></code> on a contradictory configuration and <code class="docutils literal notranslate"><span class="pre">set_observer()</span></code> refuses a mode
+the setup in force cannot support -- on facts (no carrier, no saliency), not on a switch.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MotorInjection.ASensoredAxisInjectsWithoutSurrenderingTheAngle</span></code></p></td>
+<td><p>ScalingImpedanceAndVoltageTogetherChangesNothing, TheClampIsContinuousAndAJumpWouldShow</p></td>
+</tr>
+</tbody>
+</table>
+<p>Twenty-three headers under <code class="docutils literal notranslate"><span class="pre">core/</span></code> and <code class="docutils literal notranslate"><span class="pre">motor/</span></code> are not listed yet: alignment, board_check, commissioning, deadtime,
+feedforward, field_weakening, homing, machine_map, machine_map_text, machine_params, motion_profile, polarity, position,
+position_reference, reference, sm, startup, svpwm, traits, types, version, and the two remaining <code class="docutils literal notranslate"><span class="pre">motor/</span></code> headers. They
+are named in <code class="docutils literal notranslate"><span class="pre">capability-scope.json</span></code> so the count is visible, and so that a <em>new</em> header cannot join them silently.</p>
+</section>
+<section id="evidence-levels">
+<span id="id2"></span><h2><span class="section-number">2.3. </span><span class="target" id="the-four-evidence-levels">The four evidence levels</span><a class="headerlink" href="#evidence-levels" title="链接到此标题。"></a></h2>
+<p>Every quantitative statement on this site carries one of four levels, and the level is part of the statement
+rather than a footnote: an L2 number is not a weaker L4 number, it is a <strong>different kind of claim</strong>. The
+table below is the vocabulary. The worked example for each level is a claim row in the project
+<code class="docutils literal notranslate"><span class="pre">README.md</span></code>, and it stays there -- copying one here would give that number a second home with a shelf
+life, which is the failure this page's matrix exists to prevent.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 7.0%" />
+<col style="width: 30.0%" />
+<col style="width: 27.0%" />
+<col style="width: 36.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Level</p></th>
+<th class="head"><p>What it means</p></th>
+<th class="head"><p>How it is checked</p></th>
+<th class="head"><p>What it does not say</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>L1</strong></p></td>
+<td><p>Asserted by construction</p></td>
+<td><p>A compiler flag, a type, or a gate that fails the build</p></td>
+<td><p>That the behaviour was ever observed at run time</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>L2</strong></p></td>
+<td><p>Measured against the model in this repository, with the criterion written before the
+measurement and the number recorded</p></td>
+<td><p>A unit test that prints the number and asserts the criterion</p></td>
+<td><p>Anything about your machine: it is true of the plant in this repository</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>L3</strong></p></td>
+<td><p>L2 plus a <strong>measured sensitivity</strong> -- how far the number moves when the model is wrong in the
+ways it is known to be wrong</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">test_sil_sensitivity.cpp</span></code>, plus a phase-variable cross-check of the model itself</p></td>
+<td><p>That the model omits nothing that matters to you; it bounds only what is known to be omitted</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>L4</strong></p></td>
+<td><p>Measured on physical hardware, with the condition recorded</p></td>
+<td><p>not available in this repository</p></td>
+<td><p>--</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>No page here makes an L4 claim</strong>: at the time of writing there is no motor, no inverter and no current
+probe on this project. A row may state the minimum of the levels its inputs depend on and no more, and
+where a page quotes a number it names the level it is quoting.</p>
+<p>An evidence level answers &quot;how well is this supported&quot;. What may be said <em>to a customer</em> about a
+capability — the sentence, the tier behind it, and the industry it is said in — is
+<a class="reference internal" href="compliance/index.html"><span class="doc">What may be claimed, and to whom</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="boundaries.html" class="btn btn-neutral float-left" title="1. What this library does not do" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="compliance/index.html" class="btn btn-neutral float-right" title="3. What may be claimed, and to whom" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
