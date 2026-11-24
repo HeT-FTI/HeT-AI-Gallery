@@ -137,7 +137,7 @@ visible: true
 ### 封面和 logo
 
 - 封面来自 `assets/covers/*.webp`；
-- 项目 logo 优先从 `docs/<name>/_static/OUT_logo.*` 或 `_images/OUT_logo.*` 生成，统一为 **128×128 PNG**；`ALL_logo` 只是 favicon 级兜底；
+- 项目 logo 优先从 `docs/<name>/_static/OUT_logo.*` 或 `_images/OUT_logo.*` 生成，推荐使用至少 512×512 的透明 PNG；IE 使用 `ALL_title_card.svg` 渲染的 **2048×2048 RGBA PNG**，`ALL_logo` 仅作 favicon 级兜底；
 - 站点 logo/favicon 使用 `.github/workflows/static/pngs/logo.png`；
 - 替换图片后更新 `config/gallery.json` 的 `site.assetVersion`，让 preview 本地图片绕过缓存。
 
