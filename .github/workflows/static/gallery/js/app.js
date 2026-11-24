@@ -1403,7 +1403,7 @@
     if (logo && els.brandMark) {
       els.brandMark.innerHTML = `<img class="brand-logo" src="${escapeHtml(
         assetUrl(logo)
-      )}" alt="" width="50" height="40" decoding="async">`;
+      )}" alt="" width="44" height="44" decoding="async">`;
       els.brandMark.classList.add("has-logo");
     } else if (els.brandMark) {
       els.brandMark.textContent = data.site?.brandMark || "轻";
