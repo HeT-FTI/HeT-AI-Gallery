@@ -142,6 +142,17 @@ def validate_badge_urls(cards: list[dict[str, Any]]) -> None:
                     )
 
 
+def validate_descriptions(cards: list[dict[str, Any]]) -> None:
+    for card in cards:
+        summary = card.get("summary") or ""
+        description = card.get("description") or ""
+        if summary and description and summary not in description:
+            fail(
+                f"{card.get('name', '<unnamed>')}: description must contain the full "
+                "summary (featured cards render description instead of summary)"
+            )
+
+
 def load_repo_names(path: Path) -> set[str]:
     if not path.exists():
         fail(f"missing build matrix: {path}")
@@ -242,6 +253,7 @@ def build(args: argparse.Namespace) -> None:
         fail(f"first-party cards missing from repos.yml: {', '.join(missing_repos)}")
 
     validate_badge_urls(cards)
+    validate_descriptions(cards)
 
     cases = [parse_case(path) for path in sorted(cases_dir.glob("*/*.md"))]
     if not cases:

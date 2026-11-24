@@ -4,7 +4,7 @@
     "subtitle": "算法、模型与工程组件的统一入口",
     "eyebrow": "GALLERY INDEX",
     "assetVersion": "20261123-3",
-    "logo": "_static/pngs/logo.png",
+    "logo": "assets/site/logo.png",
     "brandMark": "轻",
     "repoUrl": "https://github.com/HeT-FTI/HeT-AI-Gallery",
     "sections": {
@@ -224,7 +224,7 @@
       "version": "0.1.0",
       "license": "Apache-2.0",
       "summary": "硬件无关的 FOC 控制内核：同一套控制回路，从固件跑到系统仿真。",
-      "description": "C++17 策略内核 + 冻结的 C11 ABI + Python 绑定 + FMI 2.0 CoSim FMU。适合需要可预测控制回路的板级用户、C 项目和系统仿真。",
+      "description": "硬件无关的 FOC 控制内核：同一套控制回路，从固件跑到系统仿真。采用 C++17 策略内核，提供冻结的 C11 ABI、Python 绑定和 FMI 2.0 CoSim FMU；适合需要可预测控制回路的板级用户与 C 项目。",
       "highlights": [
         "C++17",
         "C11 ABI",
@@ -277,7 +277,7 @@
       "version": "1.0.0",
       "license": "Apache-2.0",
       "summary": "面向嵌入式的 C99 推理引擎：模型转码后直接部署到 MCU。",
-      "description": "支持多输入、多分支网络结构，纯 C99 实现，预留 CPU/GPU/NPU 后端接口。",
+      "description": "面向嵌入式的 C99 推理引擎：模型转码后直接部署到 MCU。支持多输入、多分支网络结构，纯 C99 实现，预留 CPU/GPU/NPU 后端接口。",
       "highlights": [
         "C99",
         "推理",
@@ -323,7 +323,7 @@
       "version": "1.0.0",
       "license": "Apache-2.0",
       "summary": "轻量图像预处理库：缩放、布局转换、归一化与 NMS。",
-      "description": "覆盖 resize / HWC↔CHW / 归一化 / NMS 等推理前处理核心操作。",
+      "description": "轻量图像预处理库：缩放、布局转换、归一化与 NMS。覆盖 resize / HWC↔CHW / 归一化 / NMS 等推理前处理核心操作。",
       "highlights": [
         "Resize",
         "NCHW",
@@ -364,7 +364,7 @@
       "version": "1.0.0",
       "license": "Apache-2.0",
       "summary": "可在线自整定的 PID 控制库：不依赖外部神经网络框架。",
-      "description": "用轻量 BP 逻辑在线调整 Kp / Ki / Kd，适合对象特性漂移的控制场景。",
+      "description": "可在线自整定的 PID 控制库：不依赖外部神经网络框架。用轻量 BP 逻辑在线调整 Kp / Ki / Kd，适合对象特性漂移的控制场景。",
       "highlights": [
         "自适应",
         "PID",
@@ -405,7 +405,7 @@
       "version": "1.0.0",
       "license": "Apache-2.0",
       "summary": "面向食品场景的 C/C++ 分割推理库：C++ API + 稳定 C ABI。",
-      "description": "提供现代 C++ API 和 C ABI，配套 Conan 打包与 test_package。",
+      "description": "面向食品场景的 C/C++ 分割推理库：C++ API + 稳定 C ABI。提供现代 C++ API 和 C ABI，配套 Conan 打包与 test_package。",
       "highlights": [
         "分割",
         "C ABI",
@@ -450,7 +450,7 @@
       "version": "1.0.0",
       "license": "Apache-2.0",
       "summary": "可插拔的图像分割应用：GrabCut、ROI 批处理与透明背景输出。",
-      "description": "插件式算法注册表 + ROI 处理 + alpha 合成；目前内置 GrabCut 实现。",
+      "description": "可插拔的图像分割应用：GrabCut、ROI 批处理与透明背景输出。插件式算法注册表 + ROI 处理 + alpha 合成；目前内置 GrabCut 实现。",
       "highlights": [
         "GrabCut",
         "ROI",
@@ -487,7 +487,7 @@
       "version": "1.0.0",
       "license": "Apache-2.0",
       "summary": "智能烤箱的非接触测量模块：尺寸测量与重量估计。",
-      "description": "通过内置相机完成透视校正、轮廓识别、尺寸测量与重量估计，重量误差 < 5%。",
+      "description": "智能烤箱的非接触测量模块：尺寸测量与重量估计。通过内置相机完成透视校正、轮廓识别、尺寸测量与重量估计，重量误差 < 5%。",
       "highlights": [
         "非接触",
         "尺寸",
@@ -533,7 +533,7 @@
       "version": "1.0.0",
       "license": "Apache-2.0",
       "summary": "食材褐变跟踪 SDK：分割与褐变分析的端到端流程。",
-      "description": "覆盖食材分割、颜色空间转换、时序褐变跟踪与结果导出。",
+      "description": "食材褐变跟踪 SDK：分割与褐变分析的端到端流程。覆盖食材分割、颜色空间转换、时序褐变跟踪与结果导出。",
       "highlights": [
         "褐变",
         "时序",
@@ -574,7 +574,7 @@
       "version": "1.0.0",
       "license": "Apache-2.0",
       "summary": "基于 OpenCV 级联分类器的人脸检测示例。",
-      "description": "支持 Haar / LBP 级联分类器、摄像头实时检测与结果可视化。",
+      "description": "基于 OpenCV 级联分类器的人脸检测示例。支持 Haar / LBP 级联分类器、摄像头实时检测与结果可视化。",
       "highlights": [
         "OpenCV",
         "Haar/LBP"
@@ -606,7 +606,7 @@
       "version": "1.0.0",
       "license": "Apache-2.0",
       "summary": "音频/信号处理组件（文档待修复，暂无法判断体裁）。",
-      "description": "当前文档误写为 fcpp 框架，需要先补齐 adsp 本身的设计、API 与边界说明。",
+      "description": "音频/信号处理组件（文档待修复，暂无法判断体裁）。当前文档误写为 fcpp 框架，需要先补齐 adsp 本身的设计、API 与边界说明。",
       "highlights": [
         "音频",
         "DSP"
