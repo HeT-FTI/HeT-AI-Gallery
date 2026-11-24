@@ -1,8 +1,6 @@
 # Gallery project logos
 
-All gallery logos use one fixed canvas: **128×128 PNG, transparent, `object-fit: contain`**.
-The card renders them at 28px; case callbacks render them at 22px. 128px keeps them sharp on
-2× displays and avoids the old favicon-sized 64px assets.
+Gallery logos use transparent PNG sources with `object-fit: contain`. New sources should be at least **512×512** so featured cards remain sharp on high-DPI displays. IE uses the original **2048×2048 RGBA** render of `ALL_title_card.svg`; historical 128px assets remain valid for other projects.
 
 Source priority:
 

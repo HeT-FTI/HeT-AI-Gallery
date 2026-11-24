@@ -3,7 +3,7 @@
     "title": "轻舟 · AI Gallery",
     "subtitle": "算法、模型与工程组件的统一入口",
     "eyebrow": "GALLERY INDEX",
-    "assetVersion": "af416066b97d0b5ff11104d9d623516350828e12",
+    "assetVersion": "4d98f9d7bb47316a0aaffa124b516dfc0d50e1f5",
     "logo": "_static/pngs/logo.png",
     "brandMark": "轻",
     "repoUrl": "https://github.com/HeT-FTI/HeT-AI-Gallery",
@@ -972,6 +972,162 @@
       "featured": false,
       "order": 1,
       "reviewedAt": "2026-11-23",
+      "visible": true
+    },
+    {
+      "slug": "local-decoder-generation",
+      "projects": [
+        "IE"
+      ],
+      "title": "本地 Decoder-only：在端侧完成连续文本生成",
+      "outcome": "无需服务器即可完成 prompt 处理、KV 缓存与逐 token 生成",
+      "summary": "展示 IE v2 的 IEM、Qwen3 兼容执行、chunked prefill、采样和 tokenizer 能力。",
+      "audience": [
+        "嵌入式 AI",
+        "本地智能产品",
+        "系统集成"
+      ],
+      "tags": [
+        "本地LLM",
+        "Decoder",
+        "IEM"
+      ],
+      "cover": "",
+      "coverAlt": "IE 本地 decoder-only 生成流程",
+      "figureCaption": "",
+      "sourceLabel": "Local decoder-only models",
+      "sourceUrl": "IE/components/local_llm.html",
+      "sections": {
+        "context": "设备需要理解并生成领域文本，但网络连接、云端成本或数据出域要求不允许依赖远程大模型服务。",
+        "problem": "本地生成不仅是一次矩阵乘法，还涉及模型容器、prompt 分块、KV 生命周期、采样、EOS、tokenizer 和有限的运行时内存。",
+        "approach": [
+          "使用 IEM 统一交付模型、执行计划、tokenizer 和可选 delegate 数据。",
+          "通过 IeLlm 完成 prefill、chunked prefill、decode 和 generate。",
+          "使用调用方 pool 管理 ACT、KV、IO 与权重窗口，按需选择量化配置。"
+        ],
+        "result": "形成完整的本地 decoder-only 推理链，并可用独立参考输出、质量门禁和会话 reset 验证其行为。",
+        "boundary": "当前可执行家族为 Qwen3 兼容路径；W4A8 和权重流送是独立构建选项。功能验证不等于目标板 token/s 或功耗承诺。"
+      },
+      "featured": true,
+      "order": 1,
+      "reviewedAt": "2026-11-24",
+      "visible": true
+    },
+    {
+      "slug": "mobilenetv3-strata-neon",
+      "projects": [
+        "IE"
+      ],
+      "title": "MobileNetV3 整图：Strata v3 与 NEON 协同部署",
+      "outcome": "标准 MobileNetV3 从 TFLite 转换到 IE，并完成整图输出对拍",
+      "summary": "展示 255+ 通道、1000 类分类头、紧凑执行计划和 NEON CNN 内核的组合能力。",
+      "audience": [
+        "视觉算法",
+        "MCU 部署",
+        "性能优化"
+      ],
+      "tags": [
+        "MobileNetV3",
+        "Strata",
+        "NEON"
+      ],
+      "cover": "",
+      "coverAlt": "MobileNetV3 与 Strata v3 部署流程",
+      "figureCaption": "",
+      "sourceLabel": "Model deployment and Strata",
+      "sourceUrl": "IE/model_deployment.html",
+      "sections": {
+        "context": "视觉产品需要部署标准 MobileNetV3，而不是只能运行裁剪通道数和分类头的小模型。",
+        "problem": "旧格式的一字节计数会限制 255+ 通道和 1000 类输出，同时通用解释器容易在热路径重复解析图描述。",
+        "approach": [
+          "使用 Strata v3 逃逸式变长计数保存大维度信息。",
+          "在 survey 冷路径生成固定宽度执行计划，热路径直接逐层调用。",
+          "通过 registry 选择 NEON Conv2D、DWConv2D、Dense 和 GAP，并保留 scalar 回退。"
+        ],
+        "result": "标准 alpha=1.0、1000 类、1024 维分类头的 MobileNetV3 可完成转换和整图 TFLite 对拍，覆盖常规与扩展计数场景。",
+        "boundary": "QEMU Cortex-A7 结果证明目标 ISA 的功能与数值一致性，不代表真实开发板的帧率、功耗或加速比。"
+      },
+      "featured": false,
+      "order": 3,
+      "reviewedAt": "2026-11-24",
+      "visible": true
+    },
+    {
+      "slug": "offline-delegate-fallback",
+      "projects": [
+        "IE"
+      ],
+      "title": "离线 Delegate：加速器计划与 CPU 回退共用一张图",
+      "outcome": "离线命令流、registry 和 CPU fallback 在同一执行计划中协同工作",
+      "summary": "展示面向 NPU/异构加速器的命令流绑定、会话隔离和数值回退机制。",
+      "audience": [
+        "加速器驱动",
+        "BSP",
+        "架构评审"
+      ],
+      "tags": [
+        "Delegate",
+        "NPU",
+        "Registry"
+      ],
+      "cover": "",
+      "coverAlt": "离线 delegate 与 CPU 回退架构",
+      "figureCaption": "",
+      "sourceLabel": "IE v2 architecture",
+      "sourceUrl": "IE/architecture.html",
+      "sections": {
+        "context": "产品希望利用 NPU 或其他异构加速器，但不能因部分算子不支持、布局不匹配或驱动失败而丢失整张图的执行能力。",
+        "problem": "加速器接入若散落在算子和执行循环中，会形成硬件特例分支、重复状态和难以验证的回退路径。",
+        "approach": [
+          "离线生成 delegate 命令流并在 IEM 中携带。",
+          "resolve 时统一绑定后端、范围和每层 opCode，热路径只执行槽位函数。",
+          "每层保留 CPU fallback，并使用独立会话状态支持多图和复用只读计划。"
+        ],
+        "result": "同一模型可以在 CPU、模拟 delegate 和离线命令流路径之间保持一致的数值与错误语义，为真实加速器适配提供稳定基线。",
+        "boundary": "mock delegate 只验证调度、隔离和回退，不代表任何厂商 NPU 已支持。真实驱动提交、DMA 同步和性能仍需目标平台验收。"
+      },
+      "featured": false,
+      "order": 4,
+      "reviewedAt": "2026-11-24",
+      "visible": true
+    },
+    {
+      "slug": "vertical-text-intent",
+      "projects": [
+        "IE"
+      ],
+      "title": "垂直文本意图：把自然语言映射为设备动作",
+      "outcome": "在本地将控制语句转换为结构化意图和参数",
+      "summary": "展示 student_text 兼容路径与通用序列内核在垂直控制场景中的应用方式。",
+      "audience": [
+        "智能家居",
+        "设备控制",
+        "嵌入式应用"
+      ],
+      "tags": [
+        "意图识别",
+        "垂直模型",
+        "设备控制"
+      ],
+      "cover": "",
+      "coverAlt": "垂直文本意图到设备动作的映射",
+      "figureCaption": "",
+      "sourceLabel": "IE API 与兼容模型接口",
+      "sourceUrl": "IE/api_reference.html",
+      "sections": {
+        "context": "家居、仪器和工业面板需要把有限领域的自然语言命令转换为设备可执行的结构化调用。",
+        "problem": "通用大模型成本过高，而每个垂直模型都复制一套专用运行时会导致算子、内存和验证逻辑重复。",
+        "approach": [
+          "复用 Generic Linear、Conv1D、GRU 和序列处理组件。",
+          "使用 student_text 兼容接口承载已有垂直意图模型。",
+          "通过静态 pool 和参考向量验证 FP32/INT8 输出与模型语义。"
+        ],
+        "result": "可以在本地完成文本到意图 token 的映射，再由应用执行安全校验和设备动作，无需为每种模型新建一套计算后端。",
+        "boundary": "student_text 是早期独立模型的兼容接口，不等同于通用聊天模型。意图覆盖范围、槽位合法性和动作安全策略由具体模型与应用共同保证。"
+      },
+      "featured": false,
+      "order": 2,
+      "reviewedAt": "2026-11-24",
       "visible": true
     }
   ]
