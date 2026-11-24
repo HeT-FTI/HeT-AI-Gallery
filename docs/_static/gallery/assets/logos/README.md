@@ -1,6 +1,6 @@
 # Gallery project logos
 
-Gallery logos use transparent PNG sources with `object-fit: contain`. New sources should be at least **512×512** so featured cards remain sharp on high-DPI displays. IE uses the original **2048×2048 RGBA** render of `ALL_title_card.svg`; historical 128px assets remain valid for other projects.
+Gallery logos use transparent sources with `object-fit: contain`. Vector SVG is preferred when available; IE uses `ALL_title_card.svg` directly so the logo remains sharp at any card size. Raster fallbacks should be at least **512×512**; IE also retains a 2048×2048 RGBA PNG for contexts without SVG support.
 
 Source priority:
 

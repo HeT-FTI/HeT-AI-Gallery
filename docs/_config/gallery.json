@@ -3,7 +3,7 @@
     "title": "轻舟 · AI Gallery",
     "subtitle": "算法、模型与工程组件的统一入口",
     "eyebrow": "GALLERY INDEX",
-    "assetVersion": "4d98f9d7bb47316a0aaffa124b516dfc0d50e1f5",
+    "assetVersion": "673ada0ca398780578580ce6021d6e59a8c1d4b6",
     "logo": "_static/pngs/logo.png",
     "brandMark": "轻",
     "repoUrl": "https://github.com/HeT-FTI/HeT-AI-Gallery",
@@ -294,7 +294,7 @@
       "note": "",
       "author": "ie-team",
       "cover": "_static/gallery/assets/covers/IE.webp",
-      "logo": "_static/gallery/assets/logos/IE.png",
+      "logo": "_static/gallery/assets/logos/IE.svg",
       "badges": [
         {
           "preset": "author",
