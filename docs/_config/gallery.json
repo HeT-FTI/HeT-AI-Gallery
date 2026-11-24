@@ -1,0 +1,977 @@
+{
+  "site": {
+    "title": "轻舟 · AI Gallery",
+    "subtitle": "算法、模型与工程组件的统一入口",
+    "eyebrow": "GALLERY INDEX",
+    "assetVersion": "164aa853b8a3b62f99221fe6e3661e88562d4fcf",
+    "logo": "_static/pngs/logo.png",
+    "brandMark": "轻",
+    "repoUrl": "https://github.com/HeT-FTI/HeT-AI-Gallery",
+    "sections": {
+      "projects": {
+        "title": "项目库",
+        "subtitle": "算法、模型与工程组件的统一入口",
+        "note": "分域与状态只是 seed，随时可改。"
+      },
+      "cases": {
+        "title": "应用案例",
+        "subtitle": "从任务到结果：项目在真实机器上解决了什么",
+        "noteTemplate": "{caseCount} 个案例 · 关联 {projectCount} 个对象"
+      }
+    }
+  },
+  "theme": {
+    "accent": "#2563EB",
+    "cardMinWidth": 460,
+    "featuredSpan": 2
+  },
+  "footer": {
+    "show": true,
+    "copyright": "© 版权所有 2026, HeT-FTI。",
+    "credits": [
+      "Gallery 由 HeT-FTI 维护",
+      "各子项目文档由 Sphinx 构建"
+    ],
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/HeT-FTI/HeT-AI-Gallery"
+      },
+      {
+        "label": "许可证",
+        "href": "https://github.com/HeT-FTI/HeT-AI-Gallery/blob/main/LICENSE"
+      }
+    ]
+  },
+  "taxonomy": {
+    "origins": [
+      {
+        "id": "first-party",
+        "label": "自研项目",
+        "description": "团队维护的库、SDK 与应用",
+        "card": "project",
+        "weight": 90,
+        "order": 10
+      },
+      {
+        "id": "third-party",
+        "label": "第三方 Conan 配方",
+        "description": "上游不是我们写的，配方由我们维护",
+        "card": "recipe",
+        "weight": 10,
+        "order": 20,
+        "collapsed": true,
+        "expandLabel": "展开配方",
+        "collapseLabel": "收起"
+      }
+    ],
+    "domains": [
+      {
+        "id": "vision",
+        "label": "视觉技术",
+        "color": "#2563EB",
+        "order": 10
+      },
+      {
+        "id": "control",
+        "label": "控制与决策",
+        "color": "#7C3AED",
+        "order": 20
+      },
+      {
+        "id": "infra",
+        "label": "基础设施",
+        "color": "#059669",
+        "order": 30
+      },
+      {
+        "id": "audio",
+        "label": "语音技术",
+        "color": "#D97706",
+        "order": 40
+      }
+    ],
+    "kinds": [
+      {
+        "id": "library",
+        "label": "组件库",
+        "short": "library",
+        "order": 10
+      },
+      {
+        "id": "sdk",
+        "label": "SDK",
+        "short": "sdk",
+        "order": 20
+      },
+      {
+        "id": "application",
+        "label": "应用",
+        "short": "application",
+        "order": 30
+      },
+      {
+        "id": "demo",
+        "label": "示例",
+        "short": "demo",
+        "order": 40
+      },
+      {
+        "id": "recipe",
+        "label": "Conan 配方",
+        "short": "recipe",
+        "order": 50
+      }
+    ],
+    "statuses": [
+      {
+        "id": "ready",
+        "label": "可用",
+        "color": "#16A34A",
+        "order": 10
+      },
+      {
+        "id": "incubating",
+        "label": "孵化中",
+        "color": "#D97706",
+        "order": 20
+      },
+      {
+        "id": "tbd",
+        "label": "待定",
+        "color": "#94A3B8",
+        "order": 30
+      },
+      {
+        "id": "deprecated",
+        "label": "已归档",
+        "color": "#64748B",
+        "order": 90
+      }
+    ]
+  },
+  "views": [
+    {
+      "id": "all",
+      "label": "全部",
+      "excludeStatus": [
+        "deprecated"
+      ],
+      "order": 10
+    },
+    {
+      "id": "projects",
+      "label": "自研项目",
+      "includeOrigin": [
+        "first-party"
+      ],
+      "excludeStatus": [
+        "deprecated"
+      ],
+      "order": 20
+    },
+    {
+      "id": "recipes",
+      "label": "第三方配方",
+      "includeOrigin": [
+        "third-party"
+      ],
+      "excludeStatus": [
+        "deprecated"
+      ],
+      "order": 30
+    },
+    {
+      "id": "archive",
+      "label": "已归档",
+      "includeStatus": [
+        "deprecated"
+      ],
+      "order": 40
+    }
+  ],
+  "card": {
+    "maxBadges": 4,
+    "maxTags": 3,
+    "directoryPageSize": 5,
+    "summaryLines": 4,
+    "featuredSummaryLines": 6,
+    "mobileSummaryLines": 3,
+    "mobileFeaturedSummaryLines": 4,
+    "recipe": {
+      "maxPlatforms": 3
+    }
+  },
+  "fallbacks": {
+    "missingSummary": "简介待补充"
+  },
+  "caseSettings": {
+    "maxTags": 3,
+    "directoryPageSize": 3
+  },
+  "cards": [
+    {
+      "name": "foc",
+      "displayName": "foc",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "ready",
+      "domains": [
+        "control"
+      ],
+      "featured": true,
+      "order": 1,
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "summary": "硬件无关的 FOC 控制内核：同一套控制回路，从固件跑到系统仿真。",
+      "description": "C++17 策略内核 + 冻结的 C11 ABI + Python 绑定 + FMI 2.0 CoSim FMU。适合需要可预测控制回路的板级用户、C 项目和系统仿真。",
+      "highlights": [
+        "C++17",
+        "C11 ABI",
+        "Python",
+        "FMI 2.0"
+      ],
+      "tags": [
+        "控制",
+        "仿真"
+      ],
+      "url": "foc/",
+      "guides": [
+        {
+          "label": "foc 十页任务地图",
+          "href": "foc/guides/index.html#the-ten-pages"
+        }
+      ],
+      "monogram": "F",
+      "color": "#2563EB",
+      "note": "",
+      "author": "zc0718",
+      "cover": "_static/gallery/assets/covers/foc.webp",
+      "logo": "_static/gallery/assets/logos/foc.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "zc0718"
+        },
+        {
+          "preset": "version",
+          "value": "0.1.0"
+        },
+        {
+          "preset": "license",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "name": "IE",
+      "displayName": "IE",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "incubating",
+      "domains": [
+        "infra",
+        "vision"
+      ],
+      "order": 2,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "面向嵌入式的 C99 推理引擎：模型转码后直接部署到 MCU。",
+      "description": "支持多输入、多分支网络结构，纯 C99 实现，预留 CPU/GPU/NPU 后端接口。",
+      "highlights": [
+        "C99",
+        "推理",
+        "MCU"
+      ],
+      "tags": [
+        "推理",
+        "嵌入式"
+      ],
+      "url": "IE/",
+      "monogram": "IE",
+      "color": "#7C3AED",
+      "note": "",
+      "author": "ie-team",
+      "cover": "_static/gallery/assets/covers/IE.webp",
+      "logo": "_static/gallery/assets/logos/IE.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "ie-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        },
+        {
+          "preset": "license",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "name": "idsp",
+      "displayName": "idsp",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "incubating",
+      "domains": [
+        "vision",
+        "infra"
+      ],
+      "order": 3,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "轻量图像预处理库：缩放、布局转换、归一化与 NMS。",
+      "description": "覆盖 resize / HWC↔CHW / 归一化 / NMS 等推理前处理核心操作。",
+      "highlights": [
+        "Resize",
+        "NCHW",
+        "NMS"
+      ],
+      "tags": [
+        "图像",
+        "预处理"
+      ],
+      "url": "idsp/",
+      "monogram": "ID",
+      "color": "#0891B2",
+      "note": "",
+      "author": "idsp-team",
+      "cover": null,
+      "logo": "_static/gallery/assets/logos/idsp.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "idsp-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        }
+      ]
+    },
+    {
+      "name": "nnpid",
+      "displayName": "nnpid",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "incubating",
+      "domains": [
+        "control"
+      ],
+      "order": 4,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "可在线自整定的 PID 控制库：不依赖外部神经网络框架。",
+      "description": "用轻量 BP 逻辑在线调整 Kp / Ki / Kd，适合对象特性漂移的控制场景。",
+      "highlights": [
+        "自适应",
+        "PID",
+        "无依赖"
+      ],
+      "tags": [
+        "控制",
+        "自适应"
+      ],
+      "url": "nnpid/",
+      "monogram": "NP",
+      "color": "#D97706",
+      "note": "",
+      "author": "nnpid-team",
+      "cover": "_static/gallery/assets/covers/nnpid.webp",
+      "logo": "_static/gallery/assets/logos/nnpid.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "nnpid-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        }
+      ]
+    },
+    {
+      "name": "nnseg",
+      "displayName": "nnseg",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "incubating",
+      "domains": [
+        "vision"
+      ],
+      "order": 5,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "面向食品场景的 C/C++ 分割推理库：C++ API + 稳定 C ABI。",
+      "description": "提供现代 C++ API 和 C ABI，配套 Conan 打包与 test_package。",
+      "highlights": [
+        "分割",
+        "C ABI",
+        "Conan"
+      ],
+      "tags": [
+        "分割",
+        "推理"
+      ],
+      "url": "nnseg/",
+      "monogram": "NS",
+      "color": "#059669",
+      "note": "",
+      "author": "nnseg-team",
+      "cover": null,
+      "logo": "_static/gallery/assets/logos/nnseg.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "nnseg-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        },
+        {
+          "preset": "license",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "name": "iseg",
+      "displayName": "iseg",
+      "origin": "first-party",
+      "kind": "application",
+      "status": "incubating",
+      "domains": [
+        "vision"
+      ],
+      "order": 6,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "可插拔的图像分割应用：GrabCut、ROI 批处理与透明背景输出。",
+      "description": "插件式算法注册表 + ROI 处理 + alpha 合成；目前内置 GrabCut 实现。",
+      "highlights": [
+        "GrabCut",
+        "ROI",
+        "Alpha"
+      ],
+      "tags": [
+        "分割",
+        "应用"
+      ],
+      "url": "iseg/",
+      "monogram": "IS",
+      "color": "#DB2777",
+      "note": "待评估：抽取插件框架",
+      "author": "iseg-team",
+      "cover": "_static/gallery/assets/covers/iseg.webp",
+      "logo": "_static/gallery/assets/logos/iseg.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "iseg-team"
+        }
+      ]
+    },
+    {
+      "name": "objvoxel",
+      "displayName": "objvoxel",
+      "origin": "first-party",
+      "kind": "application",
+      "status": "ready",
+      "domains": [
+        "vision"
+      ],
+      "order": 7,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "智能烤箱的非接触测量模块：尺寸测量与重量估计。",
+      "description": "通过内置相机完成透视校正、轮廓识别、尺寸测量与重量估计，重量误差 < 5%。",
+      "highlights": [
+        "非接触",
+        "尺寸",
+        "重量"
+      ],
+      "tags": [
+        "测量",
+        "产品"
+      ],
+      "url": "objvoxel/",
+      "monogram": "OV",
+      "color": "#4F46E5",
+      "note": "",
+      "author": "objvoxel-team",
+      "cover": "_static/gallery/assets/covers/objvoxel.webp",
+      "logo": "_static/gallery/assets/logos/objvoxel.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "objvoxel-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        },
+        {
+          "preset": "repo",
+          "value": "HeT-FTI",
+          "url": "https://github.com/HeT-FTI"
+        }
+      ]
+    },
+    {
+      "name": "food_brown",
+      "displayName": "food_brown",
+      "origin": "first-party",
+      "kind": "sdk",
+      "status": "incubating",
+      "domains": [
+        "vision"
+      ],
+      "order": 8,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "食材褐变跟踪 SDK：分割与褐变分析的端到端流程。",
+      "description": "覆盖食材分割、颜色空间转换、时序褐变跟踪与结果导出。",
+      "highlights": [
+        "褐变",
+        "时序",
+        "SDK"
+      ],
+      "tags": [
+        "食品",
+        "视觉"
+      ],
+      "url": "food_brown/",
+      "monogram": "FB",
+      "color": "#B45309",
+      "note": "待评估：抽取颜色跟踪核心",
+      "author": "food_brown-team",
+      "cover": null,
+      "logo": "_static/gallery/assets/logos/food_brown.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "food_brown-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        }
+      ]
+    },
+    {
+      "name": "facesen",
+      "displayName": "facesen",
+      "origin": "first-party",
+      "kind": "demo",
+      "status": "deprecated",
+      "domains": [
+        "vision"
+      ],
+      "order": 90,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "基于 OpenCV 级联分类器的人脸检测示例。",
+      "description": "支持 Haar / LBP 级联分类器、摄像头实时检测与结果可视化。",
+      "highlights": [
+        "OpenCV",
+        "Haar/LBP"
+      ],
+      "tags": [
+        "人脸",
+        "示例"
+      ],
+      "url": "facesen/",
+      "monogram": "FS",
+      "color": "#64748B",
+      "note": "保留作示例，不再推荐",
+      "author": "facesen-team",
+      "cover": "_static/gallery/assets/covers/facesen.webp",
+      "logo": "_static/gallery/assets/logos/facesen.png",
+      "badges": []
+    },
+    {
+      "name": "adsp",
+      "displayName": "adsp",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "deprecated",
+      "domains": [
+        "audio",
+        "infra"
+      ],
+      "order": 91,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "音频/信号处理组件（文档待修复，暂无法判断体裁）。",
+      "description": "当前文档误写为 fcpp 框架，需要先补齐 adsp 本身的设计、API 与边界说明。",
+      "highlights": [
+        "音频",
+        "DSP"
+      ],
+      "tags": [
+        "音频",
+        "信号"
+      ],
+      "url": "adsp/",
+      "monogram": "AD",
+      "color": "#64748B",
+      "note": "文档待修：当前文档误写为 fcpp",
+      "author": "adsp-team",
+      "cover": null,
+      "logo": "_static/gallery/assets/logos/adsp.png",
+      "badges": []
+    },
+    {
+      "name": "mnn",
+      "displayName": "MNN",
+      "origin": "third-party",
+      "kind": "recipe",
+      "status": "ready",
+      "domains": [
+        "infra",
+        "vision"
+      ],
+      "order": 1,
+      "visible": true,
+      "upstream": "阿里 MNN",
+      "upstreamUrl": "https://github.com/alibaba/MNN",
+      "upstreamVersion": "3.4.1",
+      "recipeRef": "mnn/3.4.1",
+      "remote": "hetai",
+      "install": "conan install --requires=mnn/3.4.1",
+      "platforms": [
+        "linux/armv8 (gcc 11)",
+        "linux/x86_64"
+      ],
+      "summary": "阿里 MNN 推理引擎的 Conan 配方，团队维护，可直接 conan install。",
+      "url": "https://github.com/alibaba/MNN",
+      "monogram": "MN",
+      "color": "#0EA5E9",
+      "note": "",
+      "cover": null,
+      "logo": null,
+      "badges": [
+        {
+          "preset": "recipe",
+          "value": "by HeT-FTI"
+        },
+        {
+          "preset": "upstream",
+          "value": "阿里 MNN 3.4.1"
+        }
+      ]
+    },
+    {
+      "name": "arm-toolchain",
+      "displayName": "arm-toolchain",
+      "origin": "third-party",
+      "kind": "recipe",
+      "status": "ready",
+      "domains": [
+        "infra"
+      ],
+      "order": 2,
+      "visible": true,
+      "upstream": "ARM GNU Toolchain",
+      "upstreamUrl": "https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain",
+      "upstreamVersion": "14.3.rel1",
+      "recipeRef": "arm-toolchain/14.3.rel1",
+      "remote": "hetai",
+      "install": "conan install --requires=arm-toolchain/14.3.rel1",
+      "platforms": [
+        "linux/x86_64 → armv7",
+        "linux/x86_64 → armv8"
+      ],
+      "summary": "ARM GNU Toolchain 14.3 的 Conan 配方，pin 住宿主与目标架构。",
+      "url": "https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain",
+      "monogram": "ARM",
+      "color": "#16A34A",
+      "note": "",
+      "cover": null,
+      "logo": null,
+      "badges": [
+        {
+          "preset": "recipe",
+          "value": "by HeT-FTI"
+        },
+        {
+          "preset": "upstream",
+          "value": "ARM GNU Toolchain 14.3.rel1"
+        }
+      ]
+    },
+    {
+      "name": "opencv",
+      "displayName": "opencv/5.0.0",
+      "origin": "third-party",
+      "kind": "recipe",
+      "status": "tbd",
+      "domains": [
+        "vision",
+        "infra"
+      ],
+      "order": 3,
+      "visible": false,
+      "upstream": "OpenCV",
+      "upstreamUrl": "https://github.com/opencv/opencv",
+      "upstreamVersion": "5.0.0",
+      "recipeRef": "opencv/5.0.0",
+      "remote": "hetai",
+      "install": "conan install --requires=opencv/5.0.0",
+      "platforms": [],
+      "summary": "OpenCV 5.0.0 的 Conan 配方（待归档）。",
+      "url": "https://github.com/opencv/opencv",
+      "monogram": "CV",
+      "color": "#0891B2",
+      "note": "尚未归档到 hetai",
+      "cover": null,
+      "logo": null,
+      "badges": [
+        {
+          "preset": "recipe",
+          "value": "by HeT-FTI"
+        },
+        {
+          "preset": "upstream",
+          "value": "OpenCV 5.0.0"
+        }
+      ]
+    },
+    {
+      "name": "rv-toolchain",
+      "displayName": "rv-toolchain",
+      "origin": "third-party",
+      "kind": "recipe",
+      "status": "tbd",
+      "domains": [
+        "infra"
+      ],
+      "order": 4,
+      "visible": false,
+      "upstream": "RISC-V Toolchain",
+      "upstreamUrl": "",
+      "upstreamVersion": "",
+      "recipeRef": "rv-toolchain/…",
+      "remote": "hetai",
+      "install": "",
+      "platforms": [],
+      "summary": "RISC-V 工具链的 Conan 配方（待归档）。",
+      "url": "",
+      "monogram": "RV",
+      "color": "#7C3AED",
+      "note": "尚未归档到 hetai",
+      "cover": null,
+      "logo": null,
+      "badges": [
+        {
+          "preset": "recipe",
+          "value": "by HeT-FTI"
+        },
+        {
+          "preset": "upstream",
+          "value": "RISC-V Toolchain"
+        }
+      ]
+    }
+  ],
+  "badgeRegistry": {
+    "author": {
+      "label": "author",
+      "labelColor": "#555555",
+      "valueColor": "#007EC6",
+      "style": "flat"
+    },
+    "version": {
+      "label": "version",
+      "labelColor": "#555555",
+      "valueColor": "#4C1",
+      "style": "flat"
+    },
+    "license": {
+      "label": "license",
+      "labelColor": "#555555",
+      "valueColor": "#97CA00",
+      "style": "flat"
+    },
+    "recipe": {
+      "label": "recipe",
+      "labelColor": "#555555",
+      "valueColor": "#6C757D",
+      "style": "flat"
+    },
+    "upstream": {
+      "label": "upstream",
+      "labelColor": "#555555",
+      "valueColor": "#007EC6",
+      "style": "flat"
+    },
+    "repo": {
+      "label": "repo",
+      "labelColor": "#555555",
+      "valueColor": "#24292F",
+      "style": "flat"
+    }
+  },
+  "cases": [
+    {
+      "slug": "callers",
+      "projects": [
+        "foc"
+      ],
+      "title": "接进现有系统：一套控制回路，三种交付形态",
+      "outcome": "同一套控制回路，可以用冻结的 C11 ABI、Python 绑定或 FMI FMU 交付；集成方不必为了换语言重写算法。",
+      "summary": "C ABI、Python、FMU 三种接法共用一套控制；ABI 兼容性和错误码让集成阶段的问题更容易定位。",
+      "audience": [
+        "系统集成",
+        "平台负责人",
+        "售前"
+      ],
+      "tags": [
+        "集成",
+        "C ABI",
+        "Python/FMU"
+      ],
+      "cover": "_static/gallery/assets/cases/callers.webp",
+      "coverAlt": "转矩指令通过 C ABI 的电流与占空比曲线",
+      "figureCaption": "转矩指令通过 C ABI：电流跟随指令，回调写回的占空比随每一步变化。图只证明值穿过 ABI，不是控制性能。",
+      "sourceLabel": "Consuming the library from outside C++",
+      "sourceUrl": "foc/guides/c-and-cpp-callers.html",
+      "sections": {
+        "context": "控制律已经选定，板子也做好了，但上层应用不是 C++。团队需要从 C、Python 或仿真主站把回路跑起来。",
+        "problem": "每接一种语言就重写一遍控制，等于维护多套行为；更麻烦的是 ABI 升级、错误码和句柄生命周期，问题往往到集成后期才暴露。",
+        "approach": [
+          "C11 接口保持冻结：opaque handle、不把 C++ 头文件带进调用方、每个返回码都能检查",
+          "callbacks 把电流采样、死区和母线电压留给集成方",
+          "Python 绑定与 FMU 只是同一回路的薄封装；struct_size 让旧调用方兼容新增字段"
+        ],
+        "result": "一个转矩指令通过 C ABI 后，电流跟随、占空比写回。这张图说明的是值能完整穿过 ABI；它不构成控制性能结论。",
+        "boundary": "这张图只覆盖 ABI 调用链：误码率、突发长度、移位帧检测都没有对应的证据。Figure 1.7 的 host 是 Ohm's law + L/R 的替身，用来验证 ABI，不代表真实功率级。"
+      },
+      "featured": false,
+      "order": 4,
+      "reviewedAt": "2026-11-23",
+      "visible": true
+    },
+    {
+      "slug": "modulation-limits",
+      "projects": [
+        "foc"
+      ],
+      "title": "高速与调制边界：把母线电压用干净",
+      "outcome": "在母线电压见底之前，知道还能输出多少；当输出不了时，电流环也不会继续按“已经给到”去积分。",
+      "summary": "饱和、最小脉宽和六步退化，通常被当成控制器故障；这个案例把它们变成可读的信号。",
+      "audience": [
+        "电控负责人",
+        "系统集成",
+        "售前"
+      ],
+      "tags": [
+        "高速",
+        "调制",
+        "可解释"
+      ],
+      "cover": "_static/gallery/assets/cases/modulation-limits.webp",
+      "coverAlt": "不同电角度下的调制幅值扫描曲线",
+      "figureCaption": "同一请求在 0° 与 30° 电角度下的幅值扫描：两条曲线随请求线性增长，但在不同幅值饱和。",
+      "sourceLabel": "High speed and modulation",
+      "sourceUrl": "foc/guides/modulation-limits.html",
+      "sections": {
+        "context": "一台无感电机已经上了台架，母线电压有限，转速还要继续往上走。",
+        "problem": "电压请求超过桥能交付的范围后，控制器如果继续按“已交付”积分，现场看到的就是电流环或转矩异常，而不是饱和本身。",
+        "approach": [
+          "先由 svpwm 把电压请求换成三相占空比，饱和时给出标志",
+          "min_pulse 把请求了却没发出去的伏秒差按相报出来",
+          "six_step 的限速表负责拒绝假 hall 跳变，并把拒绝次数记下来"
+        ],
+        "result": "同一张图里，0° 与 30° 的饱和点并不一样；页面也说明图没有展示过调制后的基波。",
+        "boundary": "这一页覆盖的是调制器的饱和、最小脉宽和六步退化；mode II / 顶点保持，以及“六步替代磁场定向”都不在结论范围内。"
+      },
+      "featured": true,
+      "order": 2,
+      "reviewedAt": "2026-11-23",
+      "visible": true
+    },
+    {
+      "slug": "positioning",
+      "projects": [
+        "foc",
+        "mnn"
+      ],
+      "title": "轴定位：停得准，也停得稳",
+      "outcome": "目标、窗口、速度和加速度上限在同一条命令链里处理；不合适的目标准确拒绝，而不是悄悄夹到边界。",
+      "summary": "定位不是把一个误差乘上 P。软限位、轨迹整形、原点和齿轮比要一起工作，轴才会停得准、也停得稳。",
+      "audience": [
+        "运动控制负责人",
+        "系统集成",
+        "售前"
+      ],
+      "tags": [
+        "定位",
+        "运动控制",
+        "安全边界"
+      ],
+      "cover": "_static/gallery/assets/cases/positioning.webp",
+      "coverAlt": "受加速度限制的定位轨迹曲线",
+      "figureCaption": "一次受加速度限制的移动：速度指令先上升到上限，再随误差缩小而衰减，位置收敛到目标且不超调。",
+      "sourceLabel": "Positioning an axis",
+      "sourceUrl": "foc/guides/positioning.html",
+      "sections": {
+        "context": "一根带机械行程限制的轴，需要在窗口内停准，同时尽量不激发机械。",
+        "problem": "把超界目标夹到边界，看起来像“到了”，但控制器从未收到那个目标。机械允许的范围和控制器允许的范围，不能混为一谈。",
+        "approach": [
+          "soft_limit 先把窗口外的目标拒绝掉，并保留上一个目标",
+          "motion_profile 在速度/加速度上限内整形",
+          "position、position_reference、homing 分别处理误差、原点和多圈展开"
+        ],
+        "result": "超界目标返回 Param，轴保持在旧目标；图里是一次受加速度限制的移动，速度指令先升到上限，再随误差缩小而衰减，位置收敛且不超调。",
+        "boundary": "第一次 index 之前没有绝对位置；轴已经越过机械墙时，软限位不负责把它拉回来。图展示的是积分器轴上的整形与收敛，不是整台电机的动力学。"
+      },
+      "featured": false,
+      "order": 3,
+      "reviewedAt": "2026-11-23",
+      "visible": true
+    },
+    {
+      "slug": "sensorless-startup",
+      "projects": [
+        "foc"
+      ],
+      "title": "无感启动：从静止到可观速度",
+      "outcome": "没有位置传感器，也能让电机从静止走到观测器能接管的速度；即使启动失败，也知道卡在哪一步。",
+      "summary": "无感控制真正难的是起步。这个案例把对齐、强拖、交接拆成三个可观察状态，而不是一个黑盒。",
+      "audience": [
+        "电控负责人",
+        "系统集成",
+        "售前"
+      ],
+      "tags": [
+        "无感",
+        "启动",
+        "调试"
+      ],
+      "cover": "_static/gallery/assets/cases/sensorless-startup.webp",
+      "coverAlt": "强制角度与启动电流配方曲线",
+      "figureCaption": "强制角度（展开）和配方电流：平台保持、开始强拖、加速度抛物线。图里没有 plant，不能回答“转子是否跟上”。",
+      "sourceLabel": "Bringing a sensorless machine up",
+      "sourceUrl": "foc/guides/startup-sensorless.html",
+      "sections": {
+        "context": "电机上电时没有编码器，转子停在哪里是未知的。控制器得先把它带到观测器能工作的速度，再交给闭环。",
+        "problem": "如果只看到“转不起来”，很难判断是对齐电流不够、强拖斜坡不对，还是交接太早。现场往往只能反复试。",
+        "approach": [
+          "先做对齐，把转子拉到已知角度",
+          "再按受控加速度强拖到交接速度",
+          "交接后交给观测器；交接速度为零的配方会被 validate() 拒绝，而不是先跑起来再放弃"
+        ],
+        "result": "启动被拆成对齐、强拖、交接三个状态；图里能看到强制角度和电流配方。要注意，这张图只反映指令，没有 plant，不能据此判断转子是否跟上。",
+        "boundary": "这台机器实际会看到多大的滑差，取决于转子与强制矢量的初始错位，换一台机器要重新量；斜坡本身不负责给出这个数。"
+      },
+      "featured": false,
+      "order": 1,
+      "reviewedAt": "2026-11-23",
+      "visible": true
+    }
+  ]
+}

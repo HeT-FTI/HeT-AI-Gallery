@@ -1,389 +1,166 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <title>AI Application Gallery</title>
-  <link rel="stylesheet" href="_static/element-ui%402.15.14/lib/theme-chalk/index.css">
-  <link rel="stylesheet" href="_static/css/index.css">
-  <script src="_static/JavaScript/yaml.js"></script>
-  <script src="_static/jquery/jquery-3.7.1.min.js"></script>
-  <script src="_static/vue-2.7.16/vue.js"></script>
-  <script src="_static/element-ui@2.15.14/lib/index.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>轻舟 · AI Gallery</title>
+  <meta name="description" content="轻舟 AI Gallery：算法、模型与工程组件的统一入口。">
+  <link id="siteFavicon" rel="icon" type="image/png" href="_static/pngs/logo.png?v=164aa853b8a3b62f99221fe6e3661e88562d4fcf">
+  <link rel="stylesheet" href="_static/gallery/css/style.css?v=164aa853b8a3b62f99221fe6e3661e88562d4fcf">
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem("gallery-theme");
+        if (!theme) {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.dataset.theme = theme;
+      } catch (error) {
+        /* ignore */
+      }
+    })();
+  </script>
 </head>
 <body>
-  <div class="bg-gradient"></div>
-  <canvas id="bg-canvas"></canvas>
-  <div class="bg-grid"></div>
-  <div class="overlay-scanlines"></div>
-  <div id="app" >
-    <div id="top_div">
-      <div class="top-content">
-        <div class="top-left">
-          <img src="_static/pngs/logo.png" alt="HeT Logo" class="top-logo">
-          <h1>AI Application Gallery</h1>
-        </div>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./" aria-label="轻舟 AI Gallery 首页">
+        <span class="brand-mark" id="brandMark" aria-hidden="true">轻</span>
+        <span class="brand-text">
+          <span class="brand-name">轻舟</span>
+          <span class="brand-sep">·</span>
+          <span class="brand-sub">AI Gallery</span>
+        </span>
+      </a>
+
+      <div class="header-actions">
+        <label class="search" for="searchInput">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+          </svg>
+          <input id="searchInput" type="search" placeholder="搜索项目、分域或作者…"
+            autocomplete="off" spellcheck="false" aria-label="搜索项目">
+          <kbd class="search-kbd">⌘K</kbd>
+        </label>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="切换深浅色" title="切换深浅色">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"></path>
+          </svg>
+        </button>
       </div>
     </div>
-    <div class="navigation-collapse-btn" id="dragBtn">
-        <div class="line-box">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow" id="pageEyebrow">GALLERY INDEX</p>
+        <h1 class="sr-only" id="pageTitle">轻舟 AI Gallery 索引</h1>
+        <nav class="mode-switch" id="modeSwitch" aria-label="内容视图">
+          <button class="mode-tab is-active" type="button" data-mode="projects" aria-pressed="true" data-focus-key="mode:projects">项目库</button>
+          <button class="mode-tab" type="button" data-mode="cases" aria-pressed="false" data-focus-key="mode:cases">应用案例</button>
+        </nav>
+        <p class="hero-sub" id="sectionSubtitle">算法、模型与工程组件的统一入口。<span class="hero-note" id="sectionNote">分域与状态只是 seed，随时可改。</span></p>
+      </div>
+      <div class="hero-stats" id="heroStats" aria-label="项目统计"></div>
+    </section>
+
+    <section class="filter-bar" aria-label="筛选">
+      <div class="tabs" id="viewTabs" role="group" aria-label="内容来源"></div>
+      <div class="tabs" id="caseTabs" role="group" aria-label="案例关联对象" hidden></div>
+      <div class="filter-row">
+        <div class="chips" id="domainChips" role="group" aria-label="分域"></div>
+        <div class="result-count" id="resultCount" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="content" id="content">
+      <div class="section-head" id="projectsHead">
+        <div>
+          <h2>自研项目</h2>
+          <p>团队维护的库、SDK 与应用</p>
         </div>
-    </div>
-    <div id="bottom_div">
-      <div id="navigation_bar" :class="{ collapsed: isCollapse }">
-        <div id="navigation_item" :class="{ collapsed: isCollapse }">
-          <el-button type="text" v-for="(item,index) in reposTypeList" :key="index"
-          :class="{ 'is-active-nav': current_reposType === item }"
-          @click="change_reposType(item)">
-            [[item]]
-          </el-button>
-        </div>
-        <div id="navigation_collapse_trigger" :class="{ collapsed: isCollapse }"
-          @click="isCollapse = !isCollapse">
+        <div class="section-actions">
+          <div class="layout-toggle" id="projectLayoutToggle" role="group" aria-label="项目布局">
+            <button class="layout-btn is-active" type="button" data-project-layout="cards" aria-pressed="true" data-focus-key="project-layout:cards">卡片</button>
+            <button class="layout-btn" type="button" data-project-layout="directory" aria-pressed="false" data-focus-key="project-layout:directory">目录</button>
+          </div>
+          <span class="section-count" id="projectsCount"></span>
         </div>
       </div>
-      <div id="card_area">
-        <div 
-          class="hover-card"
-          v-for="(item, index) in show_card_list" 
-          :key="index" @click="handleCardClick(item)">
-          <img :src="item.image_url" class="card-image">
-          <div class="card-content">
-            <el-tooltip placement="top" effect="dark" popper-class="custom-tooltip"
-              :disabled="!item.description || item.description.length < 108">
-              <template #default>
-                <span class="description-text">
-                  [[ item.description ]]
-                </span>
-              </template>
-              <template #content>
-                <div class="tooltip-inner">
-                  [[ item.description ]]
-                </div>
-              </template>
-            </el-tooltip>
-            <div class="bottom">
-              <div class="tag-list" v-if="Array.isArray(item.tags) && item.tags.length > 0">
-                <img
-                  v-for="(tag, tagIndex) in item.tags"
-                  :key="`${item.name}-tag-${tagIndex}`"
-                  :src="tag"
-                  :alt="`${item.name} tag ${tagIndex + 1}`"
-                  class="tag-image"
-                >
-              </div>
+      <div class="project-grid" id="projectGrid"></div>
+      <div class="pagination" id="projectPagination" hidden></div>
+
+      <section class="case-index" id="caseIndex" hidden aria-labelledby="caseHeadTitle">
+        <div class="section-head" id="caseHead">
+          <div>
+            <h2 id="caseHeadTitle">应用案例</h2>
+            <p id="caseHeadNote">从任务到结果：这些库在真实机器上解决了什么</p>
+          </div>
+          <div class="section-actions">
+            <div class="layout-toggle" id="caseLayoutToggle" role="group" aria-label="案例布局">
+              <button class="layout-btn is-active" type="button" data-case-layout="cards" aria-pressed="true" data-focus-key="case-layout:cards">精选</button>
+              <button class="layout-btn" type="button" data-case-layout="directory" aria-pressed="false" data-focus-key="case-layout:directory">目录</button>
             </div>
+            <span class="section-count" id="casesCount"></span>
           </div>
         </div>
+        <div class="case-grid" id="caseGrid"></div>
+        <div class="pagination" id="casePagination" hidden></div>
+        <div class="empty-state" id="caseEmpty" hidden>
+          <div class="empty-icon" aria-hidden="true">◌</div>
+          <h3>没有匹配的案例</h3>
+          <p>试试清空搜索，或回到全部案例。</p>
+          <button class="btn btn-ghost" id="clearCaseFilters" type="button">清空案例筛选</button>
+        </div>
+      </section>
+
+      <article class="case-detail" id="caseDetail" hidden aria-live="polite"></article>
+
+      <section class="recipe-shelf" id="recipeShelf" hidden>
+        <button class="shelf-toggle" id="shelfToggle" type="button" aria-expanded="false" aria-controls="recipeGrid">
+          <span class="shelf-left">
+            <span class="shelf-chevron" aria-hidden="true">▶</span>
+            <span class="shelf-title" id="shelfTitle">第三方 Conan 配方</span>
+            <span class="shelf-count" id="shelfCount">0</span>
+            <span class="shelf-sub" id="shelfSub">上游不是我们写的，配方由我们维护</span>
+          </span>
+          <span class="shelf-right">
+            <span class="shelf-pending" id="shelfPending"></span>
+            <span class="shelf-cta" id="shelfCta">展开配方</span>
+          </span>
+        </button>
+        <div class="recipe-grid" id="recipeGrid" hidden></div>
+      </section>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <div class="empty-icon" aria-hidden="true">◌</div>
+        <h3>没有匹配的项目</h3>
+        <p>试试换一个分域，或清空搜索。</p>
+        <button class="btn btn-ghost" id="clearFilters" type="button">清空筛选</button>
       </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="siteFooter" hidden>
+    <div class="container footer-inner">
+      <div class="footer-left" id="footerLeft"></div>
+      <div class="footer-right" id="footerLinks"></div>
     </div>
-  </div>
-  <script>
-    new Vue({
-      el: '#app',
-      delimiters: ['[[', ']]'],  // 将占位符改为 [[ ]],vue默认占位符和Django冲突
-      data() {
-        return {
-          isCollapse: false,
-          config_yaml:{},
-          show_card_list:[],
-          current_reposType:"",
-          STATIC:"",
-          DOCS:"",
-          CONFIG:"",
-        }
-      },
-      computed: {
-        reposTypeList() {
-            const repos_type = new Set();
-            let typeArray = new Array()
-            if (this.config_yaml?.repos && Array.isArray(this.config_yaml.repos)) {
-                this.config_yaml.repos.forEach(element => {
-                    if (Array.isArray(element?.type)) {
-                      element.type.forEach(type => {
-                        if (type) {
-                          repos_type.add(type);
-                        }
-                      });
-                    } else if (element?.type) {
-                      repos_type.add(element.type);
-                    }
-                });
-                typeArray = Array.from(repos_type);
-            }
-            return typeArray;
-        }
-      },
-      async created(){
-        try {
-          // 加载repos.yml配置文件
-          const response = await fetch('_config/repos.yml');
-          const yamlText = await response.text();
-          this.config_yaml = jsyaml.load(yamlText);
-          this.STATIC = this.config_yaml.static.replace(/^\/+|\/+$/g, '');
-          this.DOCS = this.config_yaml.docs.replace(/^\/+|\/+$/g, '');
-        } catch (error) {
-            console.error('Error loading YAML:', error);
-        }
-        // 初始化渲染卡片区域
-        if (this.reposTypeList.length > 0) {
-            await this.change_reposType(this.reposTypeList[0]);
-        }
-      },
-      mounted (){
-        const that = this
-        const buttons = document.getElementsByClassName("navigation-collapse-btn")
-        Array.from(buttons).forEach(btn => {
-          // 折叠按钮添加点击事件监听器
-          btn.addEventListener('click', function(e) {
-            e.stopPropagation();              // 阻止事件冒泡
-            this.classList.toggle('active');   // 切换 active 类
-            that.isCollapse = ! that.isCollapse
-          });
-        })
-        document.addEventListener('DOMContentLoaded', function() {
-          const dragBtn = document.getElementById('dragBtn');
-          let isDragging = false;
-          let startX, startY, initialLeft, initialTop;
+  </footer>
 
-          // 开始拖动 (兼容鼠标和触摸)
-          function startDrag(e) {
-              isDragging = true;
-              // 获取鼠标或触摸点的初始坐标
-              const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-              const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-              startX = clientX;
-              startY = clientY;
-              // 获取元素当前的位置 (相对于视口)
-              const rect = dragBtn.getBoundingClientRect();
-              initialLeft = rect.left;
-              initialTop = rect.top;
-              // 移除过渡效果，让拖动更跟手
-              dragBtn.style.transition = 'none';
-          }
-          // 拖动中
-          function onDrag(e) {
-              if (!isDragging) return;
-              e.preventDefault(); // 防止在手机上滚动页面
-              const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-              const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-              // 计算移动距离
-              const deltaX = clientX - startX;
-              const deltaY = clientY - startY;
-              // 更新位置
-              dragBtn.style.left = `${initialLeft + deltaX}px`;
-              dragBtn.style.top = `${initialTop + deltaY}px`;
-              // 重置 right 属性，防止冲突
-              dragBtn.style.right = 'auto';
-          }
-          // 结束拖动
-          function stopDrag() {
-              isDragging = false;
-              // 恢复过渡效果（用于点击时的缩放动画等）
-              dragBtn.style.transition = 'transform 0.1s';
-          }
-          // 绑定鼠标事件
-          dragBtn.addEventListener('mousedown', startDrag);
-          document.addEventListener('mousemove', onDrag);
-          document.addEventListener('mouseup', stopDrag);
-          // 绑定触摸事件 (手机端)
-          dragBtn.addEventListener('touchstart', startDrag, { passive: false });
-          document.addEventListener('touchmove', onDrag, { passive: false });
-          document.addEventListener('touchend', stopDrag);
-      });
-
-        this.initBackgroundEffects();
-      },
-      methods: { 
-        initBackgroundEffects() {
-          const canvas = document.getElementById('bg-canvas');
-          if (!canvas) {
-            return;
-          }
-
-          const ctx = canvas.getContext('2d');
-          if (!ctx) {
-            return;
-          }
-
-          let width = 0;
-          let height = 0;
-          let particles = [];
-          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          const particleCount = prefersReducedMotion ? 24 : 60;
-          const maxLinkDistance = prefersReducedMotion ? 80 : 120;
-
-          function resizeCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-          }
-
-          function createParticle() {
-            return {
-              x: Math.random() * width,
-              y: Math.random() * height,
-              vx: (Math.random() - 0.5) * 0.28,
-              vy: (Math.random() - 0.5) * 0.28,
-              size: Math.random() * 2 + 0.4,
-              hue: Math.random() > 0.5 ? '1, 60, 187' : '79, 134, 221',
-              alpha: Math.random() * 0.15 + 0.03,
-            };
-          }
-
-          function initParticles() {
-            particles = Array.from({ length: particleCount }, createParticle);
-          }
-
-          function updateAndDrawParticle(p) {
-            p.x += p.vx;
-            p.y += p.vy;
-
-            if (p.x < 0 || p.x > width) {
-              p.vx *= -1;
-            }
-            if (p.y < 0 || p.y > height) {
-              p.vy *= -1;
-            }
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${p.hue}, ${p.alpha})`;
-            ctx.fill();
-          }
-
-          function drawParticleLinks() {
-            for (let i = 0; i < particles.length; i++) {
-              for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance < maxLinkDistance) {
-                  const linkAlpha = (1 - distance / maxLinkDistance) * 0.055;
-                  ctx.beginPath();
-                  ctx.strokeStyle = `rgba(1, 60, 187, ${linkAlpha})`;
-                  ctx.lineWidth = 0.6;
-                  ctx.moveTo(particles[i].x, particles[i].y);
-                  ctx.lineTo(particles[j].x, particles[j].y);
-                  ctx.stroke();
-                }
-              }
-            }
-          }
-
-          function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(updateAndDrawParticle);
-            drawParticleLinks();
-            requestAnimationFrame(animate);
-          }
-
-          window.addEventListener('resize', () => {
-            resizeCanvas();
-            initParticles();
-          });
-
-          resizeCanvas();
-          initParticles();
-          animate();
-        },
-        handleCardClick(item) {
-          window.location.href = item.name + '/';
-        },
-        async checkFileExists(url) {
-          try {
-              const response = await fetch(url, { method: 'HEAD' });
-              if (response.ok) {
-                  return response;
-              } else {
-                  return false;
-              }
-          } catch (error) {
-              return false;
-          }
-        },
-        normalizeTagPath(tagPath) {
-          if (typeof tagPath !== 'string') {
-            return '';
-          }
-
-          const trimmed = tagPath.trim();
-          if (!trimmed) {
-            return '';
-          }
-
-          if (/^https?:\/\//i.test(trimmed)) {
-            return trimmed;
-          }
-
-          const cleanedPath = trimmed.replace(/^\.?\/+/, '');
-          return this.DOCS ? `${this.DOCS}/${cleanedPath}` : cleanedPath;
-        },
-        async change_reposType(item) {
-          if (this.current_reposType === item) {
-              return;
-          }
-          this.show_card_list = [];
-          // 筛选符合条件的元素
-          const filteredRepos = this.config_yaml.repos.filter(element => {
-            if (Array.isArray(element?.type)) {
-              return element.type.includes(item);
-            }
-            return element?.type === item;
-          });
-          // 支持的图片后缀列表（按优先级排序，常用格式靠前）
-          const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'];
-          // 并发处理所有异步操作
-          const results = await Promise.all(
-            filteredRepos.map(async (element) => {
-              let default_cover_image = `${this.STATIC}/pngs/ALL_title_card.png`;
-              let app_description_url = `${this.DOCS}/${element.name}/_sources/description.txt`;
-              let image_url = default_cover_image;
-              let description = element?.description || "该APP暂无介绍说明";
-              
-              // 1. 构建所有可能的封面图片路径（动态后缀）
-              const possibleCoverPaths = imageExtensions.map(ext => 
-                `${this.DOCS}/${element.name}/_images/ALL_title_card${ext}`
-              );
-              
-              // 2. 并发检查所有可能的封面路径
-              const coverCheckResults = await Promise.all(
-                possibleCoverPaths.map(path => this.checkFileExists(path))
-              );
-              
-              // 3. 找到第一个存在的封面图片路径
-              const foundCoverIndex = coverCheckResults.findIndex(result => result !== false);
-              if (foundCoverIndex !== -1) {
-                image_url = possibleCoverPaths[foundCoverIndex];
-              }
-              
-              // 4. 检查并读取描述文件
-              const descriptionResponse = await this.checkFileExists(app_description_url);
-              if (descriptionResponse) {
-                try {
-                  description = await descriptionResponse.text();
-                } catch (error) {
-                  console.error("读取描述失败:", element.name, error);
-                }
-              }
-              return {
-                name: element.name,
-                type: element.type,
-                image_url: image_url,
-                description: description,
-                tags: Array.isArray(element?.tags)
-                  ? element.tags.map(tag => this.normalizeTagPath(tag)).filter(Boolean)
-                  : [],
-              };
-            })
-          );
-          this.show_card_list = results;
-          this.current_reposType = item;
-        }
-      } 
-    })
-  </script>
+  <noscript><div class="container noscript">这个预览需要 JavaScript。</div></noscript>
+  <script src="_static/gallery/js/data.js?v=164aa853b8a3b62f99221fe6e3661e88562d4fcf" defer></script>
+  <script src="_static/gallery/js/app.js?v=164aa853b8a3b62f99221fe6e3661e88562d4fcf" defer></script>
 </body>
 </html>
