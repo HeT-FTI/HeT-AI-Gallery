@@ -1,0 +1,818 @@
+{
+  "site": {
+    "title": "轻舟 · AI Gallery",
+    "subtitle": "算法、模型与工程组件的统一入口",
+    "eyebrow": "GALLERY INDEX",
+    "assetVersion": "20261123-3",
+    "logo": "_static/pngs/logo.png",
+    "brandMark": "轻",
+    "repoUrl": "https://github.com/HeT-FTI/HeT-AI-Gallery",
+    "sections": {
+      "projects": {
+        "title": "项目库",
+        "subtitle": "算法、模型与工程组件的统一入口",
+        "note": "分域与状态只是 seed，随时可改。"
+      },
+      "cases": {
+        "title": "应用案例",
+        "subtitle": "从任务到结果：项目在真实机器上解决了什么",
+        "noteTemplate": "{caseCount} 个案例 · 关联 {projectCount} 个对象"
+      }
+    }
+  },
+  "theme": {
+    "accent": "#2563EB",
+    "cardMinWidth": 460,
+    "featuredSpan": 2
+  },
+  "footer": {
+    "show": true,
+    "copyright": "© 版权所有 2026, HeT-FTI。",
+    "credits": [
+      "Gallery 由 HeT-FTI 维护",
+      "各子项目文档由 Sphinx 构建"
+    ],
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/HeT-FTI/HeT-AI-Gallery"
+      },
+      {
+        "label": "许可证",
+        "href": "https://github.com/HeT-FTI/HeT-AI-Gallery/blob/main/LICENSE"
+      }
+    ]
+  },
+  "taxonomy": {
+    "origins": [
+      {
+        "id": "first-party",
+        "label": "自研项目",
+        "description": "团队维护的库、SDK 与应用",
+        "card": "project",
+        "weight": 90,
+        "order": 10
+      },
+      {
+        "id": "third-party",
+        "label": "第三方 Conan 配方",
+        "description": "上游不是我们写的，配方由我们维护",
+        "card": "recipe",
+        "weight": 10,
+        "order": 20,
+        "collapsed": true,
+        "expandLabel": "展开配方",
+        "collapseLabel": "收起"
+      }
+    ],
+    "domains": [
+      {
+        "id": "vision",
+        "label": "视觉技术",
+        "color": "#2563EB",
+        "order": 10
+      },
+      {
+        "id": "control",
+        "label": "控制与决策",
+        "color": "#7C3AED",
+        "order": 20
+      },
+      {
+        "id": "infra",
+        "label": "基础设施",
+        "color": "#059669",
+        "order": 30
+      },
+      {
+        "id": "audio",
+        "label": "语音技术",
+        "color": "#D97706",
+        "order": 40
+      }
+    ],
+    "kinds": [
+      {
+        "id": "library",
+        "label": "组件库",
+        "short": "library",
+        "order": 10
+      },
+      {
+        "id": "sdk",
+        "label": "SDK",
+        "short": "sdk",
+        "order": 20
+      },
+      {
+        "id": "application",
+        "label": "应用",
+        "short": "application",
+        "order": 30
+      },
+      {
+        "id": "demo",
+        "label": "示例",
+        "short": "demo",
+        "order": 40
+      },
+      {
+        "id": "recipe",
+        "label": "Conan 配方",
+        "short": "recipe",
+        "order": 50
+      }
+    ],
+    "statuses": [
+      {
+        "id": "ready",
+        "label": "可用",
+        "color": "#16A34A",
+        "order": 10
+      },
+      {
+        "id": "incubating",
+        "label": "孵化中",
+        "color": "#D97706",
+        "order": 20
+      },
+      {
+        "id": "tbd",
+        "label": "待定",
+        "color": "#94A3B8",
+        "order": 30
+      },
+      {
+        "id": "deprecated",
+        "label": "已归档",
+        "color": "#64748B",
+        "order": 90
+      }
+    ]
+  },
+  "views": [
+    {
+      "id": "all",
+      "label": "全部",
+      "excludeStatus": [
+        "deprecated"
+      ],
+      "order": 10
+    },
+    {
+      "id": "projects",
+      "label": "自研项目",
+      "includeOrigin": [
+        "first-party"
+      ],
+      "excludeStatus": [
+        "deprecated"
+      ],
+      "order": 20
+    },
+    {
+      "id": "recipes",
+      "label": "第三方配方",
+      "includeOrigin": [
+        "third-party"
+      ],
+      "excludeStatus": [
+        "deprecated"
+      ],
+      "order": 30
+    },
+    {
+      "id": "archive",
+      "label": "已归档",
+      "includeStatus": [
+        "deprecated"
+      ],
+      "order": 40
+    }
+  ],
+  "card": {
+    "maxBadges": 4,
+    "maxTags": 3,
+    "directoryPageSize": 5,
+    "summaryLines": 4,
+    "featuredSummaryLines": 6,
+    "mobileSummaryLines": 3,
+    "mobileFeaturedSummaryLines": 4,
+    "recipe": {
+      "maxPlatforms": 3
+    }
+  },
+  "fallbacks": {
+    "missingSummary": "简介待补充"
+  },
+  "caseSettings": {
+    "maxTags": 3,
+    "directoryPageSize": 3
+  },
+  "cards": [
+    {
+      "name": "foc",
+      "displayName": "foc",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "ready",
+      "domains": [
+        "control"
+      ],
+      "featured": true,
+      "order": 1,
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "summary": "硬件无关的 FOC 控制内核：同一套控制回路，从固件跑到系统仿真。",
+      "description": "C++17 策略内核 + 冻结的 C11 ABI + Python 绑定 + FMI 2.0 CoSim FMU。适合需要可预测控制回路的板级用户、C 项目和系统仿真。",
+      "highlights": [
+        "C++17",
+        "C11 ABI",
+        "Python",
+        "FMI 2.0"
+      ],
+      "tags": [
+        "控制",
+        "仿真"
+      ],
+      "url": "docs/foc/",
+      "guides": [
+        {
+          "label": "foc 十页任务地图",
+          "href": "docs/foc/guides/index.html#the-ten-pages"
+        }
+      ],
+      "monogram": "F",
+      "color": "#2563EB",
+      "note": "",
+      "author": "zc0718",
+      "cover": "assets/covers/foc.webp",
+      "logo": "assets/logos/foc.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "zc0718"
+        },
+        {
+          "preset": "version",
+          "value": "0.1.0"
+        },
+        {
+          "preset": "license",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "name": "IE",
+      "displayName": "IE",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "incubating",
+      "domains": [
+        "infra",
+        "vision"
+      ],
+      "order": 2,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "面向嵌入式的 C99 推理引擎：模型转码后直接部署到 MCU。",
+      "description": "支持多输入、多分支网络结构，纯 C99 实现，预留 CPU/GPU/NPU 后端接口。",
+      "highlights": [
+        "C99",
+        "推理",
+        "MCU"
+      ],
+      "tags": [
+        "推理",
+        "嵌入式"
+      ],
+      "url": "docs/IE/",
+      "monogram": "IE",
+      "color": "#7C3AED",
+      "note": "",
+      "author": "ie-team",
+      "cover": "assets/covers/IE.webp",
+      "logo": "assets/logos/IE.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "ie-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        },
+        {
+          "preset": "license",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "name": "idsp",
+      "displayName": "idsp",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "incubating",
+      "domains": [
+        "vision",
+        "infra"
+      ],
+      "order": 3,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "轻量图像预处理库：缩放、布局转换、归一化与 NMS。",
+      "description": "覆盖 resize / HWC↔CHW / 归一化 / NMS 等推理前处理核心操作。",
+      "highlights": [
+        "Resize",
+        "NCHW",
+        "NMS"
+      ],
+      "tags": [
+        "图像",
+        "预处理"
+      ],
+      "url": "docs/idsp/",
+      "monogram": "ID",
+      "color": "#0891B2",
+      "note": "",
+      "author": "idsp-team",
+      "cover": null,
+      "logo": "assets/logos/idsp.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "idsp-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        }
+      ]
+    },
+    {
+      "name": "nnpid",
+      "displayName": "nnpid",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "incubating",
+      "domains": [
+        "control"
+      ],
+      "order": 4,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "可在线自整定的 PID 控制库：不依赖外部神经网络框架。",
+      "description": "用轻量 BP 逻辑在线调整 Kp / Ki / Kd，适合对象特性漂移的控制场景。",
+      "highlights": [
+        "自适应",
+        "PID",
+        "无依赖"
+      ],
+      "tags": [
+        "控制",
+        "自适应"
+      ],
+      "url": "docs/nnpid/",
+      "monogram": "NP",
+      "color": "#D97706",
+      "note": "",
+      "author": "nnpid-team",
+      "cover": "assets/covers/nnpid.webp",
+      "logo": "assets/logos/nnpid.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "nnpid-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        }
+      ]
+    },
+    {
+      "name": "nnseg",
+      "displayName": "nnseg",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "incubating",
+      "domains": [
+        "vision"
+      ],
+      "order": 5,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "面向食品场景的 C/C++ 分割推理库：C++ API + 稳定 C ABI。",
+      "description": "提供现代 C++ API 和 C ABI，配套 Conan 打包与 test_package。",
+      "highlights": [
+        "分割",
+        "C ABI",
+        "Conan"
+      ],
+      "tags": [
+        "分割",
+        "推理"
+      ],
+      "url": "docs/nnseg/",
+      "monogram": "NS",
+      "color": "#059669",
+      "note": "",
+      "author": "nnseg-team",
+      "cover": null,
+      "logo": "assets/logos/nnseg.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "nnseg-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        },
+        {
+          "preset": "license",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "name": "iseg",
+      "displayName": "iseg",
+      "origin": "first-party",
+      "kind": "application",
+      "status": "incubating",
+      "domains": [
+        "vision"
+      ],
+      "order": 6,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "可插拔的图像分割应用：GrabCut、ROI 批处理与透明背景输出。",
+      "description": "插件式算法注册表 + ROI 处理 + alpha 合成；目前内置 GrabCut 实现。",
+      "highlights": [
+        "GrabCut",
+        "ROI",
+        "Alpha"
+      ],
+      "tags": [
+        "分割",
+        "应用"
+      ],
+      "url": "docs/iseg/",
+      "monogram": "IS",
+      "color": "#DB2777",
+      "note": "待评估：抽取插件框架",
+      "author": "iseg-team",
+      "cover": "assets/covers/iseg.webp",
+      "logo": "assets/logos/iseg.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "iseg-team"
+        }
+      ]
+    },
+    {
+      "name": "objvoxel",
+      "displayName": "objvoxel",
+      "origin": "first-party",
+      "kind": "application",
+      "status": "ready",
+      "domains": [
+        "vision"
+      ],
+      "order": 7,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "智能烤箱的非接触测量模块：尺寸测量与重量估计。",
+      "description": "通过内置相机完成透视校正、轮廓识别、尺寸测量与重量估计，重量误差 < 5%。",
+      "highlights": [
+        "非接触",
+        "尺寸",
+        "重量"
+      ],
+      "tags": [
+        "测量",
+        "产品"
+      ],
+      "url": "docs/objvoxel/",
+      "monogram": "OV",
+      "color": "#4F46E5",
+      "note": "",
+      "author": "objvoxel-team",
+      "cover": "assets/covers/objvoxel.webp",
+      "logo": "assets/logos/objvoxel.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "objvoxel-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        },
+        {
+          "preset": "repo",
+          "value": "HeT-FTI",
+          "url": "https://github.com/HeT-FTI"
+        }
+      ]
+    },
+    {
+      "name": "food_brown",
+      "displayName": "food_brown",
+      "origin": "first-party",
+      "kind": "sdk",
+      "status": "incubating",
+      "domains": [
+        "vision"
+      ],
+      "order": 8,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "食材褐变跟踪 SDK：分割与褐变分析的端到端流程。",
+      "description": "覆盖食材分割、颜色空间转换、时序褐变跟踪与结果导出。",
+      "highlights": [
+        "褐变",
+        "时序",
+        "SDK"
+      ],
+      "tags": [
+        "食品",
+        "视觉"
+      ],
+      "url": "docs/food_brown/",
+      "monogram": "FB",
+      "color": "#B45309",
+      "note": "待评估：抽取颜色跟踪核心",
+      "author": "food_brown-team",
+      "cover": null,
+      "logo": "assets/logos/food_brown.png",
+      "badges": [
+        {
+          "preset": "author",
+          "value": "food_brown-team"
+        },
+        {
+          "preset": "version",
+          "value": "1.0.0"
+        }
+      ]
+    },
+    {
+      "name": "facesen",
+      "displayName": "facesen",
+      "origin": "first-party",
+      "kind": "demo",
+      "status": "deprecated",
+      "domains": [
+        "vision"
+      ],
+      "order": 90,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "基于 OpenCV 级联分类器的人脸检测示例。",
+      "description": "支持 Haar / LBP 级联分类器、摄像头实时检测与结果可视化。",
+      "highlights": [
+        "OpenCV",
+        "Haar/LBP"
+      ],
+      "tags": [
+        "人脸",
+        "示例"
+      ],
+      "url": "docs/facesen/",
+      "monogram": "FS",
+      "color": "#64748B",
+      "note": "保留作示例，不再推荐",
+      "author": "facesen-team",
+      "cover": "assets/covers/facesen.webp",
+      "logo": "assets/logos/facesen.png",
+      "badges": []
+    },
+    {
+      "name": "adsp",
+      "displayName": "adsp",
+      "origin": "first-party",
+      "kind": "library",
+      "status": "deprecated",
+      "domains": [
+        "audio",
+        "infra"
+      ],
+      "order": 91,
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "summary": "音频/信号处理组件（文档待修复，暂无法判断体裁）。",
+      "description": "当前文档误写为 fcpp 框架，需要先补齐 adsp 本身的设计、API 与边界说明。",
+      "highlights": [
+        "音频",
+        "DSP"
+      ],
+      "tags": [
+        "音频",
+        "信号"
+      ],
+      "url": "docs/adsp/",
+      "monogram": "AD",
+      "color": "#64748B",
+      "note": "文档待修：当前文档误写为 fcpp",
+      "author": "adsp-team",
+      "cover": null,
+      "logo": "assets/logos/adsp.png",
+      "badges": []
+    },
+    {
+      "name": "mnn",
+      "displayName": "MNN",
+      "origin": "third-party",
+      "kind": "recipe",
+      "status": "ready",
+      "domains": [
+        "infra",
+        "vision"
+      ],
+      "order": 1,
+      "visible": true,
+      "upstream": "阿里 MNN",
+      "upstreamUrl": "https://github.com/alibaba/MNN",
+      "upstreamVersion": "3.4.1",
+      "recipeRef": "mnn/3.4.1",
+      "remote": "hetai",
+      "install": "conan install --requires=mnn/3.4.1",
+      "platforms": [
+        "linux/armv8 (gcc 11)",
+        "linux/x86_64"
+      ],
+      "summary": "阿里 MNN 推理引擎的 Conan 配方，团队维护，可直接 conan install。",
+      "url": "https://github.com/alibaba/MNN",
+      "monogram": "MN",
+      "color": "#0EA5E9",
+      "note": "",
+      "cover": null,
+      "logo": null,
+      "badges": [
+        {
+          "preset": "recipe",
+          "value": "by HeT-FTI"
+        },
+        {
+          "preset": "upstream",
+          "value": "阿里 MNN 3.4.1"
+        }
+      ]
+    },
+    {
+      "name": "arm-toolchain",
+      "displayName": "arm-toolchain",
+      "origin": "third-party",
+      "kind": "recipe",
+      "status": "ready",
+      "domains": [
+        "infra"
+      ],
+      "order": 2,
+      "visible": true,
+      "upstream": "ARM GNU Toolchain",
+      "upstreamUrl": "https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain",
+      "upstreamVersion": "14.3.rel1",
+      "recipeRef": "arm-toolchain/14.3.rel1",
+      "remote": "hetai",
+      "install": "conan install --requires=arm-toolchain/14.3.rel1",
+      "platforms": [
+        "linux/x86_64 → armv7",
+        "linux/x86_64 → armv8"
+      ],
+      "summary": "ARM GNU Toolchain 14.3 的 Conan 配方，pin 住宿主与目标架构。",
+      "url": "https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain",
+      "monogram": "ARM",
+      "color": "#16A34A",
+      "note": "",
+      "cover": null,
+      "logo": null,
+      "badges": [
+        {
+          "preset": "recipe",
+          "value": "by HeT-FTI"
+        },
+        {
+          "preset": "upstream",
+          "value": "ARM GNU Toolchain 14.3.rel1"
+        }
+      ]
+    },
+    {
+      "name": "opencv",
+      "displayName": "opencv/5.0.0",
+      "origin": "third-party",
+      "kind": "recipe",
+      "status": "tbd",
+      "domains": [
+        "vision",
+        "infra"
+      ],
+      "order": 3,
+      "visible": false,
+      "upstream": "OpenCV",
+      "upstreamUrl": "https://github.com/opencv/opencv",
+      "upstreamVersion": "5.0.0",
+      "recipeRef": "opencv/5.0.0",
+      "remote": "hetai",
+      "install": "conan install --requires=opencv/5.0.0",
+      "platforms": [],
+      "summary": "OpenCV 5.0.0 的 Conan 配方（待归档）。",
+      "url": "https://github.com/opencv/opencv",
+      "monogram": "CV",
+      "color": "#0891B2",
+      "note": "尚未归档到 hetai",
+      "cover": null,
+      "logo": null,
+      "badges": [
+        {
+          "preset": "recipe",
+          "value": "by HeT-FTI"
+        },
+        {
+          "preset": "upstream",
+          "value": "OpenCV 5.0.0"
+        }
+      ]
+    },
+    {
+      "name": "rv-toolchain",
+      "displayName": "rv-toolchain",
+      "origin": "third-party",
+      "kind": "recipe",
+      "status": "tbd",
+      "domains": [
+        "infra"
+      ],
+      "order": 4,
+      "visible": false,
+      "upstream": "RISC-V Toolchain",
+      "upstreamUrl": "",
+      "upstreamVersion": "",
+      "recipeRef": "rv-toolchain/…",
+      "remote": "hetai",
+      "install": "",
+      "platforms": [],
+      "summary": "RISC-V 工具链的 Conan 配方（待归档）。",
+      "url": "",
+      "monogram": "RV",
+      "color": "#7C3AED",
+      "note": "尚未归档到 hetai",
+      "cover": null,
+      "logo": null,
+      "badges": [
+        {
+          "preset": "recipe",
+          "value": "by HeT-FTI"
+        },
+        {
+          "preset": "upstream",
+          "value": "RISC-V Toolchain"
+        }
+      ]
+    }
+  ],
+  "badgeRegistry": {
+    "author": {
+      "label": "author",
+      "labelColor": "#555555",
+      "valueColor": "#007EC6",
+      "style": "flat"
+    },
+    "version": {
+      "label": "version",
+      "labelColor": "#555555",
+      "valueColor": "#4C1",
+      "style": "flat"
+    },
+    "license": {
+      "label": "license",
+      "labelColor": "#555555",
+      "valueColor": "#97CA00",
+      "style": "flat"
+    },
+    "recipe": {
+      "label": "recipe",
+      "labelColor": "#555555",
+      "valueColor": "#6C757D",
+      "style": "flat"
+    },
+    "upstream": {
+      "label": "upstream",
+      "labelColor": "#555555",
+      "valueColor": "#007EC6",
+      "style": "flat"
+    },
+    "repo": {
+      "label": "repo",
+      "labelColor": "#555555",
+      "valueColor": "#24292F",
+      "style": "flat"
+    }
+  }
+}
