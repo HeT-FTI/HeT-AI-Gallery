@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benchmarking &mdash; IE 2.0.0-rc1 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=1f3f84dc" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_title_card.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bc8fcc66"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Release and compatibility" href="release_notes.html" />
+    <link rel="prev" title="Porting and hardware extension" href="porting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            IE
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Using IE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_deployment.html">Model deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture and maintenance</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Version 2 architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting and hardware extension</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release and compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">End-to-end integration example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallery</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="components/classification.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/detection.html">Object detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/mnist.html">MNIST digit recognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/vegetable_fruit.html">Vegetable and fruit classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/coffee_bean.html">Coffee bean grading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/food.html">Food detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/local_llm.html">Local decoder-only models</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Benchmarking</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/benchmarking.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="benchmarking">
+<h1>Benchmarking<a class="headerlink" href="#benchmarking" title="链接到此标题。"></a></h1>
+<p>A useful benchmark reports correctness, storage, memory, and timing together.
+An isolated latency number is not a reproducible performance claim.</p>
+<section id="metrics">
+<h2>Metrics<a class="headerlink" href="#metrics" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dimension</p></th>
+<th class="head"><p>Recommended measurements</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Correctness</p></td>
+<td><p>Element differences, tolerance, quality agreement, bad-output rate</p></td>
+</tr>
+<tr class="row-odd"><td><p>Model storage</p></td>
+<td><p>Strata/Magma/IEM, weights, metadata, quantization, alignment</p></td>
+</tr>
+<tr class="row-even"><td><p>Firmware</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.text</span></code>, <code class="docutils literal notranslate"><span class="pre">.rodata</span></code>, <code class="docutils literal notranslate"><span class="pre">.data</span></code>, and feature-specific size differences</p></td>
+</tr>
+<tr class="row-odd"><td><p>Runtime memory</p></td>
+<td><p>Pool query/peak, activation, KV, IO, weight windows, BSS, stack</p></td>
+</tr>
+<tr class="row-even"><td><p>CNN timing</p></td>
+<td><p>Cold start, steady-state median, minimum, standard deviation, layer hotspots</p></td>
+</tr>
+<tr class="row-odd"><td><p>LLM timing</p></td>
+<td><p>TTFT, prefill tokens/s, decode tokens/s, per-token distribution</p></td>
+</tr>
+<tr class="row-even"><td><p>Product behavior</p></td>
+<td><p>Power, temperature, watchdogs, and long-duration stability where required</p></td>
+</tr>
+</tbody>
+</table>
+<p>Fair comparisons use the same model, weights, quantization, inputs, compiler,
+ISA, memory configuration, warm-up, sample count, and correctness threshold.
+They also state whether preprocessing and output copies are included.</p>
+</section>
+<section id="available-entry-points">
+<h2>Available entry points<a class="headerlink" href="#available-entry-points" title="链接到此标题。"></a></h2>
+<p>The repository includes test sources and scripts under <code class="docutils literal notranslate"><span class="pre">tests/</span></code>. Asset
+creation and model conversion are performed by the associated tooling
+environment. Typical validation commands from the runtime repository root are:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-C<span class="w"> </span>tests<span class="w"> </span>run
+python<span class="w"> </span>tests/run_qemu.py<span class="w"> </span>--platform<span class="w"> </span>all
+python<span class="w"> </span>tests/run_renode.py<span class="w"> </span>--test<span class="w"> </span>all<span class="w"> </span>--scalar
+python<span class="w"> </span>tests/run_renode.py<span class="w"> </span>--test<span class="w"> </span>all
+</pre></div>
+</div>
+<p>These commands may require generated artifacts, cross-compilers, simulators,
+and benchmark assets. Missing prerequisites must produce an explicit failure
+or skip, never a false pass.</p>
+</section>
+<section id="interpreting-results">
+<h2>Interpreting results<a class="headerlink" href="#interpreting-results" title="链接到此标题。"></a></h2>
+<p>Host timing compares host implementations only. QEMU and Renode validate
+functionality and instruction use, not physical throughput. Static stack-frame
+reports do not replace runtime stack high-water measurements.</p>
+<p>A release performance table should include:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Chip / core / clock
+Compiler and flags
+Flash / cache / RAM configuration
+IE commit and model SHA-256
+Precision and backend
+Model bytes and firmware bytes
+Pool and actual peak RAM
+Latency distribution and sample count
+Numerical result and known fallbacks
+</pre></div>
+</div>
+<p>Optimize from measured hotspots: loop structure, blocking, register reuse,
+canonical INT8 kernels, then SIMD or DMA. Recheck numerical and memory gates
+after every significant change.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="porting.html" class="btn btn-neutral float-left" title="Porting and hardware extension" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="release_notes.html" class="btn btn-neutral float-right" title="Release and compatibility" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+Getting started
+===============
+
+This page follows a minimal CNN integration. The runtime repository contains
+IE itself; model conversion tools and large benchmark assets are supplied by
+the associated IE tooling environment.
+
+Requirements
+------------
+
+Target firmware needs:
+
+- a C99 compiler;
+- IE and SMT sources with their include directories;
+- generated Strata/Magma or IEM model data;
+- an application-owned memory pool.
+
+Host-side conversion and reference validation may additionally require Python,
+NumPy, TensorFlow, PyTorch, and Transformers. None of these host dependencies is
+required by the default target runtime.
+
+Model conversion
+----------------
+
+In the associated tooling workspace, the CNN pipeline is:
+
+.. code-block:: text
+
+   TFLite
+      -> interpreter: ie_<name>.ie
+      -> analyzer:    ie_<name>_opt.ie
+      -> translator:  Strata + Magma + model header
+
+Copy the generated artifacts into the firmware project. Do not treat temporary
+benchmark outputs or personal research directories as release assets.
+
+Runtime integration
+-------------------
+
+Include the public API:
+
+.. code-block:: c
+
+   #include "ie_api.h"
+
+A single-input CNN session follows this sequence:
+
+.. code-block:: c
+
+   IeSessionConfig cfg = {0};
+   cfg.pBackend = ie_backend_init(NULL, NULL, NULL, 0u);
+   cfg.pGeology = model_strata;
+   cfg.pMagma = model_magma;
+   cfg.geologyBytes = 0u; /* trusted built-in model */
+
+   size_t need = 0u;
+   ieStaCode status = ie_session_query_memory(&cfg, &need);
+   if (status != IE_SC_OK || need > pool_capacity) {
+       /* Handle an invalid model or insufficient pool. */
+   }
+
+   cfg.pPool = pool;
+   cfg.poolSize = pool_capacity;
+
+   IeSession *session = NULL;
+   status = ie_session_create(&cfg, &session);
+   if (status == IE_SC_OK) {
+       IeVolcano *graph = ie_session_get_graph(session);
+       const void *inputs[] = { input };
+       status = ie_evoke(graph, inputs);
+       if (status == IE_SC_OK) {
+           status = ie_erupt(graph);
+       }
+   }
+
+Consume the output before resetting or destroying the session, then call
+``ie_session_destroy(session)``. Destroying a session does not free the
+application-owned pool.
+
+Input and output rules
+----------------------
+
+- ``ie_evoke`` copies values using the model input dtype. It does not perform
+  floating-point normalization or quantization.
+- Strata and non-NULL Magma addresses require at least four-byte alignment;
+  64-byte alignment is recommended.
+- Use ``ie_survey_ex`` or ``IeSessionConfig.geologyBytes`` for file, OTA,
+  external-flash, or otherwise untrusted model data.
+- ``IE_SC_OK`` is ``1``; ``IE_SC_ERROR`` is ``0``.
+- Output pointers borrow session memory and must not outlive the session.
+- A graph or LLM session must not be mutated concurrently.
+
+Local decoder-only models
+-------------------------
+
+The generic LLM flow is:
+
+.. code-block:: text
+
+   ie_llm_config_from_model
+   -> ie_llm_query_memory
+   -> ie_llm_create
+   -> ie_llm_prefill or ie_llm_prefill_chunk
+   -> ie_llm_decode or ie_llm_generate
+   -> ie_llm_reset or ie_llm_destroy
+
+See ``examples/qwen3_llm_demo/qwen3_llm_demo.c`` for a complete example and
+:doc:`api_reference` for generation, tokenizer, and ownership details.
+
+Recommended first validation
+----------------------------
+
+#. Compare scalar output with TFLite or an independent golden reference.
+#. Check memory reports and buffer canaries.
+#. Compare execution with and without fast scratch.
+#. Compare stock CPU, registry CPU, and optional SIMD output.
+#. Measure final latency and memory only on the intended target board.
+
+For common failures, see the repository ``docs/troubleshooting.md`` guide.

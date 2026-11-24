@@ -6,22 +6,24 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; fcpp 1.0.0 文档</title>
+  <title>Coffee bean grading &mdash; IE 2.0.0-rc1 文档</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1f3f84dc" />
 
   
-    <link rel="shortcut icon" href="../_static/ALL_logo.jpg"/>
+    <link rel="shortcut icon" href="../_static/ALL_title_card.png"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/documentation_options.js?v=bc8fcc66"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/translations.js?v=540d3cec"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" /> 
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Food detection" href="food.html" />
+    <link rel="prev" title="Vegetable and fruit classification" href="vegetable_fruit.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -33,7 +35,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            fcpp
+            IE
               <img src="../_static/OUT_logo.svg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -44,17 +46,41 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul class="simple">
+              <p class="caption" role="heading"><span class="caption-text">Using IE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_deployment.html">Model deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API reference</a></li>
 </ul>
-</div>
+<p class="caption" role="heading"><span class="caption-text">Architecture and maintenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Version 2 architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../porting.html">Porting and hardware extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release and compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../export.html">End-to-end integration example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallery</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="classification.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detection.html">Object detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mnist.html">MNIST digit recognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vegetable_fruit.html">Vegetable and fruit classification</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Coffee bean grading</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#integration-highlights">Integration highlights</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="food.html">Food detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local_llm.html">Local decoder-only models</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">fcpp</a>
+          <a href="../index.html">IE</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -62,7 +88,7 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="breadcrumb-item active">Coffee bean grading</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/components/coffee_bean.rst.txt" rel="nofollow"> 查看页面源码</a>
       </li>
@@ -72,11 +98,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
+  <section id="coffee-bean-grading">
+<h1>Coffee bean grading<a class="headerlink" href="#coffee-bean-grading" title="链接到此标题。"></a></h1>
+<p>Coffee bean grading is an embedded inspection example: a camera captures the
+sample, IE evaluates the image locally, and the application maps the output to
+the required quality category.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/coffee_bean.png"><img alt="Coffee bean grading example" src="../_images/coffee_bean.png" style="width: 75%;" />
+</a>
+</figure>
+<section id="integration-highlights">
+<h2>Integration highlights<a class="headerlink" href="#integration-highlights" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>fully local inference without a PC or hosted inference service;</p></li>
+<li><p>deterministic model and memory packaging;</p></li>
+<li><p>camera-specific preprocessing followed by <code class="docutils literal notranslate"><span class="pre">ie_evoke</span></code> and <code class="docutils literal notranslate"><span class="pre">ie_erupt</span></code>;</p></li>
+<li><p>application-owned grading policy and actuator/interface integration;</p></li>
+<li><p>the same validation path as other CNN classification models.</p></li>
+</ul>
+<p>Production acceptance requires representative samples and measurements on the
+actual illumination, camera, model, and target board. The gallery entry does
+not prescribe unverified grades, accuracy, or throughput.</p>
+</section>
+</section>
+
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="vegetable_fruit.html" class="btn btn-neutral float-left" title="Vegetable and fruit classification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="food.html" class="btn btn-neutral float-right" title="Food detection" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

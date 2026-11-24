@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Version 2 architecture &mdash; IE 2.0.0-rc1 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=1f3f84dc" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_title_card.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bc8fcc66"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Porting and hardware extension" href="porting.html" />
+    <link rel="prev" title="API reference" href="api_reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            IE
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Using IE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_deployment.html">Model deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture and maintenance</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Version 2 architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting and hardware extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release and compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">End-to-end integration example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallery</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="components/classification.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/detection.html">Object detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/mnist.html">MNIST digit recognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/vegetable_fruit.html">Vegetable and fruit classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/coffee_bean.html">Coffee bean grading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/food.html">Food detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/local_llm.html">Local decoder-only models</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Version 2 architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/architecture.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="version-2-architecture">
+<h1>Version 2 architecture<a class="headerlink" href="#version-2-architecture" title="链接到此标题。"></a></h1>
+<p>IE v2 is organized around one principle: perform irreversible analysis and
+planning offline or during initialization, then keep inference deterministic
+and small. The architecture supports CNN and decoder-only models without
+forcing them into the same execution abstraction.</p>
+<section id="end-to-end-data-flow">
+<h2>End-to-end data flow<a class="headerlink" href="#end-to-end-data-flow" title="链接到此标题。"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Offline tooling
+  TFLite / model assets
+    -&gt; graph and quantization analysis
+    -&gt; memory and layout planning
+    -&gt; Strata + Magma or IEM
+    -&gt; optional delegate command stream
+
+Target runtime
+  public API
+    -&gt; bounded model reader
+    -&gt; session and persistent execution plan
+    -&gt; CPU dispatch or registry slots
+    -&gt; scalar / NEON / MVE / RVV / delegate
+    -&gt; output or generated token
+</pre></div>
+</div>
+<p>The editable eight-page architecture diagram is available here:
+<a class="reference download internal" download="" href="_downloads/a0f87f0a90441a2fdb97a9621a074d24/IE_architecture_v2.drawio"><code class="xref download docutils literal notranslate"><span class="pre">IE_architecture_v2.drawio</span></code></a>.</p>
+</section>
+<section id="execution-planes">
+<h2>Execution planes<a class="headerlink" href="#execution-planes" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 44.0%" />
+<col style="width: 34.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Plane</p></th>
+<th class="head"><p>Responsibility</p></th>
+<th class="head"><p>Timing</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Offline tooling</p></td>
+<td><p>Conversion, graph optimization, quantization layout, manifests</p></td>
+<td><p>Build time</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cold runtime</p></td>
+<td><p>Validation, memory query, model binding, kernel and delegate resolution</p></td>
+<td><p>survey/create/resolve</p></td>
+</tr>
+<tr class="row-even"><td><p>Hot runtime</p></td>
+<td><p>Tensor binding and one indirect kernel call per layer</p></td>
+<td><p>evoke/erupt/prefill/decode</p></td>
+</tr>
+</tbody>
+</table>
+<p>Strata v3 moves variable-length counts into a persistent fixed-width execution
+plan during survey. The hot path does not decode those counts again.</p>
+</section>
+<section id="memory-architecture">
+<h2>Memory architecture<a class="headerlink" href="#memory-architecture" title="链接到此标题。"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Read-only storage
+  Strata / IEM metadata
+  Magma or IEM weights
+  tokenizer and optional delegate commands
+
+Application-owned writable pool
+  META: session, tensors, execution plan
+  ACT: activations and temporary workspace
+  KV: decoder key/value cache
+  IO: logits, tokens, and application buffers
+  WEIGHT/STREAM: only for configured weight-window policies
+</pre></div>
+</div>
+<p>Query and creation share the same layout implementation. Model updates require
+a new query; reusing another model's pool estimate is not supported.</p>
+</section>
+<section id="backend-architecture">
+<h2>Backend architecture<a class="headerlink" href="#backend-architecture" title="链接到此标题。"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">backend/core</span></code> owns registry and delegate mechanisms, not a hardware family.
+CPU implementations are grouped by ISA and model role:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>backend/cpu/scalar/{cnn,generic,llm}
+backend/cpu/neon/{cnn,generic,llm}
+backend/cpu/mve/{cnn,generic,llm}
+backend/cpu/rvv/{cnn,generic,llm}
+backend/cpu/x86/generic
+backend/cpu/common
+</pre></div>
+</div>
+<p>Registry resolution evaluates opcode, dtype, hardware capabilities, weight
+layout, probe conditions, and priority once. Delegate ranges use the same
+per-layer slots and retain a CPU fallback. Offline delegate commands take
+precedence over runtime preparation.</p>
+</section>
+<section id="compatibility-contracts">
+<h2>Compatibility contracts<a class="headerlink" href="#compatibility-contracts" title="链接到此标题。"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Contract</p></th>
+<th class="head"><p>Current version or behavior</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Kernel ABI</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p>LLM Kernel ABI</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-even"><td><p>Generic Kernel ABI</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Decoder and Model PLAN ABI</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>Delegate stream</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>IEM</p></td>
+<td><p>Version 4 with implemented backward-compatible readers</p></td>
+</tr>
+<tr class="row-even"><td><p>Strata</p></td>
+<td><p>Translator emits v3; runtime accepts v1/v2</p></td>
+</tr>
+</tbody>
+</table>
+<p>Strata v3 expands count fields, not index fields. Tensor, shape, and output
+indices remain unsigned bytes and values above 255 are rejected explicitly.</p>
+</section>
+<section id="error-and-fallback-semantics">
+<h2>Error and fallback semantics<a class="headerlink" href="#error-and-fallback-semantics" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>Invalid signatures, truncation, unsupported features, and impossible layouts
+fail during validation whenever possible.</p></li>
+<li><p>The first failing operator or delegate stops graph execution and returns its
+original status.</p></li>
+<li><p>SIMD or delegate implementations must preserve scalar numerical semantics.</p></li>
+<li><p>Missing fast scratch, unsuitable reuse thresholds, and unsupported optimized
+kernels fall back without changing results.</p></li>
+<li><p>Experimental weight streaming and W4A8 are independent build-time choices.</p></li>
+</ul>
+</section>
+<section id="source-organization">
+<h2>Source organization<a class="headerlink" href="#source-organization" title="链接到此标题。"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>include/api              public application interfaces
+include/private          internal and hardware-extension contracts
+src/runtime              model readers, plans, memory, sessions
+src/backend/core         registry and delegate mechanisms
+src/backend/cpu          scalar and ISA-specific kernels
+src/decoder              generation and decoder adapters
+src/families             model-family implementations
+src/tokenizer            tokenizer and bounded chat templates
+src/layers               CNN layer wrappers
+src/legacy               isolated compatibility implementations
+</pre></div>
+</div>
+<p>This separation keeps model-specific policy out of hardware kernels and keeps
+new accelerator code out of the central execution loop.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="api_reference.html" class="btn btn-neutral float-left" title="API reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="porting.html" class="btn btn-neutral float-right" title="Porting and hardware extension" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

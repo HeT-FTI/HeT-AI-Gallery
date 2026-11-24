@@ -1,0 +1,213 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Porting and hardware extension &mdash; IE 2.0.0-rc1 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=1f3f84dc" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_title_card.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bc8fcc66"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Benchmarking" href="benchmarking.html" />
+    <link rel="prev" title="Version 2 architecture" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            IE
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Using IE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_deployment.html">Model deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture and maintenance</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Version 2 architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Porting and hardware extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release and compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">End-to-end integration example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallery</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="components/classification.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/detection.html">Object detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/mnist.html">MNIST digit recognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/vegetable_fruit.html">Vegetable and fruit classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/coffee_bean.html">Coffee bean grading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/food.html">Food detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/local_llm.html">Local decoder-only models</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Porting and hardware extension</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/porting.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="porting-and-hardware-extension">
+<h1>Porting and hardware extension<a class="headerlink" href="#porting-and-hardware-extension" title="链接到此标题。"></a></h1>
+<p>Port IE in stages: scalar correctness, memory stability, registry validation,
+optimized kernels, and finally target-board acceptance.</p>
+<section id="platform-checklist">
+<h2>Platform checklist<a class="headerlink" href="#platform-checklist" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p>Use a C99 compiler and the intended floating-point and ISA ABI.</p></li>
+<li><p>Keep <code class="docutils literal notranslate"><span class="pre">IE_ENABLE_USE_C_STD_MEM_OP=0</span></code> for the default product build.</p></li>
+<li><p>Provide <code class="docutils literal notranslate"><span class="pre">IE_LOG</span></code>, optional <code class="docutils literal notranslate"><span class="pre">IE_TICK_MS()</span></code>, and watchdog hooks as required.</p></li>
+<li><p>Align Strata/Magma by at least four bytes; 64 bytes is recommended.</p></li>
+<li><p>Make linker placement, MPU/cache policy, and DMA accessibility consistent.</p></li>
+<li><p>Validate memory with pool reports, canaries, and actual stack measurements.</p></li>
+</ul>
+</section>
+<section id="registry-kernels">
+<h2>Registry kernels<a class="headerlink" href="#registry-kernels" title="链接到此标题。"></a></h2>
+<p>A component exports a kernel table terminated by <code class="docutils literal notranslate"><span class="pre">.kernel</span> <span class="pre">==</span> <span class="pre">NULL</span></code> and a
+delegate table terminated by <code class="docutils literal notranslate"><span class="pre">NULL</span></code>. It is added to <code class="docutils literal notranslate"><span class="pre">IE_COMPONENTS</span></code> behind
+matching feature and compiler-ISA guards.</p>
+<p>Each <code class="docutils literal notranslate"><span class="pre">IeKernelReg</span></code> declares:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Selection rule</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">opCode</span></code> / <code class="docutils literal notranslate"><span class="pre">dType</span></code></p></td>
+<td><p>Operator and input data type</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">hwReq</span></code></p></td>
+<td><p>Required hardware capability bits</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">layoutId</span></code></p></td>
+<td><p>Required weight layout, with canonical fallback</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">priority</span></code></p></td>
+<td><p>Priority among compatible kernels</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">probe</span></code></p></td>
+<td><p>Exact shape, stride, padding, and quantization admission test</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kernel</span></code></p></td>
+<td><p>Implementation using the common operator signature</p></td>
+</tr>
+</tbody>
+</table>
+<p>Probes and binding belong to initialization. The hot path must not search for
+hardware or reinterpret variable-length layer headers.</p>
+</section>
+<section id="delegate-integration">
+<h2>Delegate integration<a class="headerlink" href="#delegate-integration" title="链接到此标题。"></a></h2>
+<p>An accelerator delegate implements <code class="docutils literal notranslate"><span class="pre">probeOp</span></code>, <code class="docutils literal notranslate"><span class="pre">claim</span></code>, <code class="docutils literal notranslate"><span class="pre">prepare</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">invoke</span></code>, with optional <code class="docutils literal notranslate"><span class="pre">reset</span></code> and an offline <code class="docutils literal notranslate"><span class="pre">backendId</span></code>. Real NPU
+deployments should prefer offline commands through
+<code class="docutils literal notranslate"><span class="pre">ie_registry_resolve_with_delegate_stream</span></code>. Supplying a stream disables
+runtime preparation.</p>
+<p>The mock delegate validates routing, session isolation, and CPU fallback only;
+it is not evidence of a vendor NPU driver.</p>
+</section>
+<section id="numerical-acceptance">
+<h2>Numerical acceptance<a class="headerlink" href="#numerical-acceptance" title="链接到此标题。"></a></h2>
+<p>Every optimized kernel needs independent scalar comparisons covering:</p>
+<ul class="simple">
+<li><p>minimum, typical, and boundary shapes;</p></li>
+<li><p>channel tails and odd lengths;</p></li>
+<li><p>positive, negative, saturation, and zero-point cases;</p></li>
+<li><p>per-channel quantization, bias, and activation;</p></li>
+<li><p>output canaries and rejected probe inputs;</p></li>
+<li><p>single-kernel and full-model differential tests.</p></li>
+</ul>
+</section>
+<section id="simulation-and-hardware">
+<h2>Simulation and hardware<a class="headerlink" href="#simulation-and-hardware" title="链接到此标题。"></a></h2>
+<p>QEMU, Renode, and disassembly checks establish ISA functionality and numerical
+correctness. Their virtual time and instruction counts are not target-board
+latency or power.</p>
+<p>Final acceptance records the exact chip, clock, compiler, linker, flash/cache,
+DMA, memory configuration, numerical result, latency distribution, pool peak,
+stack high-water, and required long-duration behavior.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Version 2 architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="benchmarking.html" class="btn btn-neutral float-right" title="Benchmarking" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

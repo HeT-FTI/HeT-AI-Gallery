@@ -6,22 +6,24 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Object Detection &mdash; fcpp 1.0.0 文档</title>
+  <title>Object detection &mdash; IE 2.0.0-rc1 文档</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1f3f84dc" />
 
   
-    <link rel="shortcut icon" href="../_static/ALL_logo.jpg"/>
+    <link rel="shortcut icon" href="../_static/ALL_title_card.png"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/documentation_options.js?v=bc8fcc66"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/translations.js?v=540d3cec"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" /> 
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="MNIST digit recognition" href="mnist.html" />
+    <link rel="prev" title="Image Classification" href="classification.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -33,7 +35,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            fcpp
+            IE
               <img src="../_static/OUT_logo.svg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -44,21 +46,43 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Object Detection</a><ul>
-<li><a class="reference internal" href="#id2">Food Detection</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Using IE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_deployment.html">Model deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture and maintenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Version 2 architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../porting.html">Porting and hardware extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release and compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../export.html">End-to-end integration example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallery</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="classification.html">Image Classification</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Object detection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#food-detection-example">Food detection example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#integration-flow">Integration flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-notes">Deployment notes</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="mnist.html">MNIST digit recognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vegetable_fruit.html">Vegetable and fruit classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coffee_bean.html">Coffee bean grading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="food.html">Food detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local_llm.html">Local decoder-only models</a></li>
 </ul>
-</div>
+
         </div>
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">fcpp</a>
+          <a href="../index.html">IE</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -66,7 +90,7 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Object Detection</li>
+      <li class="breadcrumb-item active">Object detection</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/components/detection.rst.txt" rel="nofollow"> 查看页面源码</a>
       </li>
@@ -76,46 +100,51 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="id1">
-<h1><span class="target" id="object-detection">Object Detection</span><a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
-<p>Object detection locates and classifies multiple objects within a single image,
-outputting bounding boxes and confidence scores for each detection.
-IE enables real-time detection pipelines on embedded targets with limited SRAM.</p>
-<nav class="contents local" id="on-this-page">
-<p class="topic-title">On this page</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="#id2" id="id4">Food Detection</a></p></li>
-</ul>
-</nav>
-<hr class="docutils" />
-<section id="id2">
-<h2><a class="toc-backref" href="#id4" role="doc-backlink"><span class="target" id="food-detection">Food Detection</span></a><a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
-<p>Detects and localizes food items on a tray or conveyor belt using a single RGB camera.
-Suitable for smart kitchen, canteen billing, and quality inspection scenarios.</p>
-<figure class="align-center" id="id3">
-<a class="reference internal image-reference" href="../images/detection/food.png"><img alt="../images/detection/food.png" src="../images/detection/food.png" style="width: 80%;" />
+  <section id="object-detection">
+<h1>Object detection<a class="headerlink" href="#object-detection" title="链接到此标题。"></a></h1>
+<p>Object detection locates and classifies objects within an image. IE supports
+lightweight detector execution on embedded targets through the same static
+CNN graph, caller-owned memory, and optional optimized kernels used by other
+CNN applications.</p>
+<section id="food-detection-example">
+<h2>Food detection example<a class="headerlink" href="#food-detection-example" title="链接到此标题。"></a></h2>
+<p>The food gallery example illustrates an RGB detection pipeline for smart
+kitchen and inspection scenarios.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/food.png"><img alt="Food detection example" src="../_images/food.png" style="width: 80%;" />
 </a>
-<figcaption>
-<p><span class="caption-text"><em>Figure: Food object detection — bounding boxes with category labels and scores</em></span><a class="headerlink" href="#id3" title="链接到此图片"></a></p>
-</figcaption>
 </figure>
-<p><strong>Key specs</strong></p>
-<ul class="simple">
-<li><p>Input: 320 × 320 RGB</p></li>
-<li><p>Categories: 20+ food types</p></li>
-<li><p>Architecture: YOLO-family lightweight detector</p></li>
-<li><p>Backend: CPU (multi-core optimized)</p></li>
-</ul>
-<p><strong>Deployment notes</strong></p>
-<p>The detection model is exported to <code class="docutils literal notranslate"><span class="pre">.flite</span></code> via the conversion tool and loaded at runtime
-with a single <code class="docutils literal notranslate"><span class="pre">ie_load()</span></code> call. No external libraries or OS required beyond the SMT base layer.</p>
+</section>
+<section id="integration-flow">
+<h2>Integration flow<a class="headerlink" href="#integration-flow" title="链接到此标题。"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Camera frame
+-&gt; model-specific resize and quantization
+-&gt; ie_evoke
+-&gt; ie_erupt
+-&gt; detector output decoding and confidence filtering
+-&gt; bounding boxes for downstream processing
+</pre></div>
+</div>
+</section>
+<section id="deployment-notes">
+<h2>Deployment notes<a class="headerlink" href="#deployment-notes" title="链接到此标题。"></a></h2>
+<p>The detector is converted from TFLite to Strata/Magma by the associated IE
+tooling flow. Input dimensions, class names, anchors, decode rules, confidence
+thresholds, and non-maximum suppression are model-specific and must be taken
+from the actual model package.</p>
+<p>The example demonstrates the integration path only. Detection accuracy, class
+count, and target-board frame rate require a model-specific benchmark report;
+they are not inferred from this gallery image.</p>
 </section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="classification.html" class="btn btn-neutral float-left" title="Image Classification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="mnist.html" class="btn btn-neutral float-right" title="MNIST digit recognition" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

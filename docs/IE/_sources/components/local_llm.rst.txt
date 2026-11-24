@@ -1,0 +1,42 @@
+Local decoder-only models
+=========================
+
+IE v2 extends beyond vision CNNs with fully local, domain-specific text
+generation. The design targets small deployable models rather than server-scale
+hosted LLM services.
+
+Capabilities
+------------
+
+- Qwen3-compatible decoder execution through the generic ``IeLlm`` API;
+- IEM model packaging with model, tokenizer, and optional delegate sections;
+- full or chunked prefill and single-token decode;
+- FP32/FP16/INT8 KV options and model-dependent W8/W4 weights;
+- greedy and configurable sampling with EOS, cancellation, and timeout;
+- caller-owned memory with explicit pool queries and reset semantics.
+
+Integration flow
+----------------
+
+.. code-block:: text
+
+   IEM asset
+   -> ie_llm_config_from_model
+   -> ie_llm_query_memory
+   -> ie_llm_create
+   -> prefill / decode / generate
+   -> reset or destroy
+
+The example in ``examples/qwen3_llm_demo`` demonstrates prefill, logits,
+decode, generation callbacks, timeout handling, reset, and pool peak reporting.
+
+Product boundaries
+------------------
+
+Weight streaming and W4A8 are independent build-time choices. Unsupported
+families and configurations return ``IE_SC_NO_SUPPORT``. Simulator validation
+proves numerical behavior, not target-board token throughput.
+
+Local model quality must be evaluated with the intended vocabulary and domain
+data. Generic perplexity or a host-only benchmark does not guarantee task-level
+accuracy on an embedded product.

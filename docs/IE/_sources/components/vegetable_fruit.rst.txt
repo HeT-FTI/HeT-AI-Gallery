@@ -1,0 +1,23 @@
+Vegetable and fruit classification
+==================================
+
+This gallery example demonstrates multi-class camera inference on an embedded
+device using IE's static CNN execution path.
+
+.. figure:: ../../images/vegetable_fruit.png
+   :align: center
+   :width: 75%
+   :alt: Vegetable and fruit classification example
+
+Integration highlights
+----------------------
+
+- RGB image preparation using the model's geometry and quantization parameters;
+- Strata/Magma model data in read-only storage;
+- caller-owned activation memory with no runtime heap requirement;
+- scalar fallback and optional optimized CPU kernels;
+- model-specific class mapping and output post-processing.
+
+The gallery image illustrates the application scenario. Class count, accuracy,
+and latency must be reported from the actual model and target configuration.
+See :doc:`../getting_started` for the integration flow.

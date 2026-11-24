@@ -1,0 +1,87 @@
+Model deployment
+================
+
+IE separates model artifacts from target code. Conversion and validation happen
+in the associated tooling environment; the runtime repository consumes the
+resulting read-only data.
+
+CNN artifacts
+-------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Artifact
+     - Contents
+     - Typical location
+   * - Strata / Geology
+     - Model header, tensor metadata, shapes, quantization, layer descriptors
+     - Read-only flash
+   * - Magma
+     - Weights, biases, and optional prepacked layouts
+     - Read-only flash
+   * - Model header
+     - Generated application dimensions and resource constants
+     - Firmware source
+
+The translator currently emits Strata v3. Versions 1 and 2 remain readable by
+the current runtime.
+
+Strata v3 counts
+----------------
+
+.. code-block:: text
+
+   0..254          one byte
+   255..65535      FF 00 + little-endian u16
+   larger values   FF 01 + little-endian u32
+
+The reader rejects non-canonical encodings, unknown tags, truncated input, and
+invalid capacities. Count expansion does not make the remaining unsigned-byte
+indices wider.
+
+For external model data, provide the real readable length through
+``ie_survey_ex`` or ``IeSessionConfig.geologyBytes``. Zero is reserved for a
+trusted built-in static model.
+
+Quantization
+------------
+
+CNN production paths use FP32 and INT8. A TFLite FP16 file does not imply an
+IE CNN FP16 kernel. Applications must preserve input scale, zero-point, layout,
+accumulation, rounding, saturation, and output quantization semantics.
+
+Decoder-only models use IEM and support model-dependent FP32, W8, and W4
+variants plus FP32/FP16/INT8 KV choices. W4A8 dynamic activation quantization
+is experimental and disabled by default.
+
+IEM contents
+------------
+
+An IEM container can carry:
+
+- model and execution-plan sections;
+- common and per-layer weight information;
+- tokenizer vocabulary and merges;
+- a bounded chat template;
+- an optional offline delegate stream.
+
+The generic ``IeLlm`` adapter selects an implementation through the plan and
+role table. Qwen3 is the currently executable family; other family identifiers
+return ``IE_SC_NO_SUPPORT``.
+
+Delivery checklist
+------------------
+
+Record the following with each model release:
+
+- source path, license, and SHA-256;
+- conversion tool version and options;
+- Strata/IEM and quantization versions;
+- target backend and required capabilities;
+- memory report and generated-artifact hashes;
+- reference input, expected output, and numerical tolerance.
+
+Do not commit large benchmark weights, private model assets, temporary
+conversion directories, or personal research outputs to the stable runtime
+repository. See ``benchmark/ASSETS.md`` for asset provenance and licensing.

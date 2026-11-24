@@ -1,0 +1,150 @@
+Version 2 architecture
+======================
+
+IE v2 is organized around one principle: perform irreversible analysis and
+planning offline or during initialization, then keep inference deterministic
+and small. The architecture supports CNN and decoder-only models without
+forcing them into the same execution abstraction.
+
+End-to-end data flow
+--------------------
+
+.. code-block:: text
+
+   Offline tooling
+     TFLite / model assets
+       -> graph and quantization analysis
+       -> memory and layout planning
+       -> Strata + Magma or IEM
+       -> optional delegate command stream
+
+   Target runtime
+     public API
+       -> bounded model reader
+       -> session and persistent execution plan
+       -> CPU dispatch or registry slots
+       -> scalar / NEON / MVE / RVV / delegate
+       -> output or generated token
+
+The editable eight-page architecture diagram is available here:
+:download:`IE_architecture_v2.drawio <_static/downloads/IE_architecture_v2.drawio>`.
+
+Execution planes
+----------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 44 34
+
+   * - Plane
+     - Responsibility
+     - Timing
+   * - Offline tooling
+     - Conversion, graph optimization, quantization layout, manifests
+     - Build time
+   * - Cold runtime
+     - Validation, memory query, model binding, kernel and delegate resolution
+     - survey/create/resolve
+   * - Hot runtime
+     - Tensor binding and one indirect kernel call per layer
+     - evoke/erupt/prefill/decode
+
+Strata v3 moves variable-length counts into a persistent fixed-width execution
+plan during survey. The hot path does not decode those counts again.
+
+Memory architecture
+-------------------
+
+.. code-block:: text
+
+   Read-only storage
+     Strata / IEM metadata
+     Magma or IEM weights
+     tokenizer and optional delegate commands
+
+   Application-owned writable pool
+     META: session, tensors, execution plan
+     ACT: activations and temporary workspace
+     KV: decoder key/value cache
+     IO: logits, tokens, and application buffers
+     WEIGHT/STREAM: only for configured weight-window policies
+
+Query and creation share the same layout implementation. Model updates require
+a new query; reusing another model's pool estimate is not supported.
+
+Backend architecture
+--------------------
+
+``backend/core`` owns registry and delegate mechanisms, not a hardware family.
+CPU implementations are grouped by ISA and model role:
+
+.. code-block:: text
+
+   backend/cpu/scalar/{cnn,generic,llm}
+   backend/cpu/neon/{cnn,generic,llm}
+   backend/cpu/mve/{cnn,generic,llm}
+   backend/cpu/rvv/{cnn,generic,llm}
+   backend/cpu/x86/generic
+   backend/cpu/common
+
+Registry resolution evaluates opcode, dtype, hardware capabilities, weight
+layout, probe conditions, and priority once. Delegate ranges use the same
+per-layer slots and retain a CPU fallback. Offline delegate commands take
+precedence over runtime preparation.
+
+Compatibility contracts
+-----------------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Contract
+     - Current version or behavior
+   * - Kernel ABI
+     - 3
+   * - LLM Kernel ABI
+     - 7
+   * - Generic Kernel ABI
+     - 1
+   * - Decoder and Model PLAN ABI
+     - 1
+   * - Delegate stream
+     - 1
+   * - IEM
+     - Version 4 with implemented backward-compatible readers
+   * - Strata
+     - Translator emits v3; runtime accepts v1/v2
+
+Strata v3 expands count fields, not index fields. Tensor, shape, and output
+indices remain unsigned bytes and values above 255 are rejected explicitly.
+
+Error and fallback semantics
+----------------------------
+
+- Invalid signatures, truncation, unsupported features, and impossible layouts
+  fail during validation whenever possible.
+- The first failing operator or delegate stops graph execution and returns its
+  original status.
+- SIMD or delegate implementations must preserve scalar numerical semantics.
+- Missing fast scratch, unsuitable reuse thresholds, and unsupported optimized
+  kernels fall back without changing results.
+- Experimental weight streaming and W4A8 are independent build-time choices.
+
+Source organization
+-------------------
+
+.. code-block:: text
+
+   include/api              public application interfaces
+   include/private          internal and hardware-extension contracts
+   src/runtime              model readers, plans, memory, sessions
+   src/backend/core         registry and delegate mechanisms
+   src/backend/cpu          scalar and ISA-specific kernels
+   src/decoder              generation and decoder adapters
+   src/families             model-family implementations
+   src/tokenizer            tokenizer and bounded chat templates
+   src/layers               CNN layer wrappers
+   src/legacy               isolated compatibility implementations
+
+This separation keeps model-specific policy out of hardware kernels and keeps
+new accelerator code out of the central execution loop.

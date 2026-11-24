@@ -1,0 +1,80 @@
+Porting and hardware extension
+==============================
+
+Port IE in stages: scalar correctness, memory stability, registry validation,
+optimized kernels, and finally target-board acceptance.
+
+Platform checklist
+------------------
+
+- Use a C99 compiler and the intended floating-point and ISA ABI.
+- Keep ``IE_ENABLE_USE_C_STD_MEM_OP=0`` for the default product build.
+- Provide ``IE_LOG``, optional ``IE_TICK_MS()``, and watchdog hooks as required.
+- Align Strata/Magma by at least four bytes; 64 bytes is recommended.
+- Make linker placement, MPU/cache policy, and DMA accessibility consistent.
+- Validate memory with pool reports, canaries, and actual stack measurements.
+
+Registry kernels
+----------------
+
+A component exports a kernel table terminated by ``.kernel == NULL`` and a
+delegate table terminated by ``NULL``. It is added to ``IE_COMPONENTS`` behind
+matching feature and compiler-ISA guards.
+
+Each ``IeKernelReg`` declares:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Selection rule
+   * - ``opCode`` / ``dType``
+     - Operator and input data type
+   * - ``hwReq``
+     - Required hardware capability bits
+   * - ``layoutId``
+     - Required weight layout, with canonical fallback
+   * - ``priority``
+     - Priority among compatible kernels
+   * - ``probe``
+     - Exact shape, stride, padding, and quantization admission test
+   * - ``kernel``
+     - Implementation using the common operator signature
+
+Probes and binding belong to initialization. The hot path must not search for
+hardware or reinterpret variable-length layer headers.
+
+Delegate integration
+--------------------
+
+An accelerator delegate implements ``probeOp``, ``claim``, ``prepare``, and
+``invoke``, with optional ``reset`` and an offline ``backendId``. Real NPU
+deployments should prefer offline commands through
+``ie_registry_resolve_with_delegate_stream``. Supplying a stream disables
+runtime preparation.
+
+The mock delegate validates routing, session isolation, and CPU fallback only;
+it is not evidence of a vendor NPU driver.
+
+Numerical acceptance
+--------------------
+
+Every optimized kernel needs independent scalar comparisons covering:
+
+- minimum, typical, and boundary shapes;
+- channel tails and odd lengths;
+- positive, negative, saturation, and zero-point cases;
+- per-channel quantization, bias, and activation;
+- output canaries and rejected probe inputs;
+- single-kernel and full-model differential tests.
+
+Simulation and hardware
+-----------------------
+
+QEMU, Renode, and disassembly checks establish ISA functionality and numerical
+correctness. Their virtual time and instruction counts are not target-board
+latency or power.
+
+Final acceptance records the exact chip, clock, compiler, linker, flash/cache,
+DMA, memory configuration, numerical result, latency distribution, pool peak,
+stack high-water, and required long-duration behavior.

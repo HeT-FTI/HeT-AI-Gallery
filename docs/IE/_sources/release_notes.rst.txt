@@ -1,0 +1,63 @@
+Release and compatibility
+=========================
+
+Current status
+--------------
+
+The repository metadata identifies the version 2 line as ``2.0.0-rc1``.
+Post-RC1 changes are listed under ``Unreleased`` in ``CHANGELOG.md``. Historical
+release notes remain immutable; a new release requires an explicit version,
+frozen commit, and release record.
+
+Compatibility summary
+---------------------
+
+- Public C99 application APIs for CNN sessions and decoder-only generation.
+- Strata v3 output with v1/v2 read compatibility.
+- IEM v4 with implemented version checks and fallback behavior.
+- Kernel ABI 3, LLM Kernel ABI 7, Generic Kernel ABI 1.
+- Decoder/Model PLAN ABI 1 and Delegate Stream 1.
+
+Breaking a public signature, structure contract, or wire format requires a
+version review, migration documentation, and explicit rejection or a compatible
+reader for older artifacts.
+
+Validation gates
+----------------
+
+A release candidate should bind the following evidence to a frozen commit:
+
+- host regression, frontend, manifest, and delegate checks;
+- ASan/UBSan and build-profile symbol checks;
+- CNN operator and TFLite differential tests;
+- standard MobileNetV3 full-graph comparisons;
+- LLM quality gates;
+- QEMU RV32, Cortex-A7, RVV, and Renode scalar/MVE;
+- offline delegate, independent sessions, reset, and soak tests;
+- ordinary CI and the complete nightly report gate.
+
+Target-board latency, power, stack high-water, long-duration stability, and
+vendor NPU behavior remain separate acceptance items. Simulator success must
+not be presented as completion of those items.
+
+Known boundaries
+----------------
+
+- IE does not support every TFLite operator or arbitrary dynamic control flow.
+- Strata tensor, shape, and output index values remain limited to 255.
+- CNN FP16 computation is not implied by FP16 model input support.
+- Weight streaming and W4A8 are optional build-time capabilities.
+- Real vendor NPU drivers are outside the mock delegate validation scope.
+- Model and dataset licenses are independent of the IE code license.
+
+Release package
+---------------
+
+A complete package includes matching sources, public headers, SMT at the tested
+revision, examples, user and architecture documentation, license, changelog,
+metadata, and asset instructions. Large or private models, temporary build
+outputs, and personal research files are excluded.
+
+The changelog and detailed release guides are maintained in the repository:
+`CHANGELOG <https://github.com/HeT-FTI/IE/blob/main/CHANGELOG.md>`_ and
+`release guide <https://github.com/HeT-FTI/IE/blob/main/docs/release_guide.md>`_.

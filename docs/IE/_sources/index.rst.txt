@@ -1,88 +1,142 @@
-_`IE Project Documentation`
-=============================
+IE Inference Engine
+===================
 
-_`Introduction`
----------------
+IE is a lightweight C99 inference engine for microcontrollers, embedded CPUs,
+and domain-specific models running fully on-device. Version 2 combines compact
+CNN graphs with local decoder-only generation while preserving deterministic
+memory ownership and a small runtime footprint.
 
-IE (Inference Engine) is a deep learning inference framework designed specifically for the embedded field based on the ANSC C99 standard.
+.. figure:: ../../images/ALL_title_card.png
+   :align: center
+   :width: 96
+   :alt: IE logo
 
-_`Main Features`
-----------------
+Design principles
+-----------------
 
-- **Rapid development**: The trained model (currently only supports ``.flite``) can be directly converted into a code file or ``.bin`` file through tools, and quickly deployed in the project
-- **Supports complex structures**: Supports multiple input and multi branch network structures
-- **Lightweight**: Adopting time-division multiplexing for data structure design to ensure minimal resource consumption and facilitate integration into MCU
-- **Single dependency**: pure C development, minimum support for C99 standard, relying only on a single **SMT** library, no other third-party library dependencies, easy cross platform porting
-- **High performance**: can effectively utilize the acceleration capabilities of hardware platforms such as multi-core computing and SIMD parallelism
-- **Trimmable**: Supports operators to freely crop according to actual applications
-- **Multi backend architecture**: Reserved CPU/GPU/NPU backend interfaces, currently implemented CPU backend, supports custom memory allocation and operator registration
+- **No runtime heap requirement.** The application owns the model and memory pool.
+- **Offline-first execution.** Graph analysis, layout selection, quantization
+  metadata, and memory planning are completed before the hot path.
+- **Compact model representation.** Strata stores CNN execution data; IEM stores
+  decoder-only models, tokenizer data, and optional delegate streams.
+- **Portable numerical fallback.** Scalar kernels remain the reference for SIMD
+  and accelerator implementations.
+- **Explicit resource boundaries.** Unsupported formats, capacities, and hardware
+  features return an error instead of silently changing semantics.
 
-_`Application`
---------------
+Capability overview
+-------------------
 
-**Classification Applications**
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Area
+     - Version 2 capability
+   * - CNN inference
+     - FP32/INT8 static graphs, Strata v3, static memory planning, TFLite differential tests
+   * - Local generation
+     - Qwen3-compatible decoder path, chunked prefill, KV cache, sampling, tokenizer
+   * - CPU optimization
+     - Scalar fallback plus optional NEON, MVE, RVV, and x86 kernels
+   * - Accelerator integration
+     - Registry, offline delegate commands, layout matching, CPU fallback
+   * - Product profiles
+     - CNN_ONLY, LLM_ONLY, LLM_STREAM, LLM_W4A8, FULL, and feature-level trimming
+
+Documentation
+-------------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Using IE
+   :titlesonly:
+
+   getting_started
+   model_deployment
+   api_reference
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Architecture and maintenance
+   :titlesonly:
+
+   architecture
+   porting
+   benchmarking
+   release_notes
+   export
+
+Application gallery
+-------------------
+
+Image classification
+^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :align: center
-   :widths: 1 1 1 1
+   :widths: 1 1 1
 
    * - .. figure:: ../../images/mnist.png
           :width: 200
-          :target: components/mnist.rst
+          :target: components/mnist.html
           :alt: MNIST
 
-       MNIST Digit Recognition
+       MNIST digit recognition
 
      - .. figure:: ../../images/vegetable_fruit.png
           :width: 200
-          :target: components/vegetable_fruit.rst
-          :alt: Vegetable & Fruit
+          :target: components/vegetable_fruit.html
+          :alt: Vegetable and fruit classification
 
-       Vegetable&Fruit Classification
+       Vegetable and fruit classification
 
      - .. figure:: ../../images/coffee_bean.png
           :width: 200
-          :target: components/coffee_bean.rst
-          :alt: Coffee Bean
+          :target: components/coffee_bean.html
+          :alt: Coffee bean classification
 
-       Coffee Bean Classification
+       Coffee bean grading
 
-     - .. figure:: ../../images/none.png
-          :width: 200
-          :alt: Stay tuned for updates
-
-----
-
-**Object Detection Applications**
+Object detection
+^^^^^^^^^^^^^^^^
 
 .. list-table::
    :align: center
    :widths: 1 1
 
    * - .. figure:: ../../images/food.png
-          :width: 200
-          :target: components/food.rst
-          :alt: Food
+          :width: 240
+          :target: components/food.html
+          :alt: Food detection
 
-       Food Detection
+       Food detection
 
-     - .. figure:: ../../images/none.png
-          :width: 200
-          :alt: Stay tuned for updates
+     - :doc:`components/local_llm` demonstrates the other version 2 direction:
+       compact, local, domain-specific text generation without a server.
 
-----
+.. toctree::
+   :maxdepth: 2
+   :caption: Gallery
+   :hidden:
 
-**Control Applications**
+   components/classification
+   components/detection
+   components/mnist
+   components/vegetable_fruit
+   components/coffee_bean
+   components/food
+   components/local_llm
 
-*Coming Soon*
+Validation scope
+----------------
 
-----
+Host regression, ASan/UBSan, differential tests, QEMU, and Renode provide
+functional and numerical evidence. They do not replace target-board latency,
+power, stack high-water, or long-duration validation.
 
-**Measurement Applications**
+License
+-------
 
-*Coming Soon*
-
-_`License`
-----------
-
-This project is licensed under the Apache-2.0 License. See the LICENSE file for details.
+IE is distributed under the Apache License 2.0. Model and dataset assets may
+have independent licenses; review ``benchmark/ASSETS.md`` before redistribution.

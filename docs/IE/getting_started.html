@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting started &mdash; IE 2.0.0-rc1 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=1f3f84dc" />
+
+  
+    <link rel="shortcut icon" href="_static/ALL_title_card.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bc8fcc66"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="Model deployment" href="model_deployment.html" />
+    <link rel="prev" title="IE Inference Engine" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            IE
+              <img src="_static/OUT_logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Using IE</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_deployment.html">Model deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture and maintenance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Version 2 architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting and hardware extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release and compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">End-to-end integration example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallery</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="components/classification.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/detection.html">Object detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/mnist.html">MNIST digit recognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/vegetable_fruit.html">Vegetable and fruit classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/coffee_bean.html">Coffee bean grading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/food.html">Food detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/local_llm.html">Local decoder-only models</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="链接到此标题。"></a></h1>
+<p>This page follows a minimal CNN integration. The runtime repository contains
+IE itself; model conversion tools and large benchmark assets are supplied by
+the associated IE tooling environment.</p>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="链接到此标题。"></a></h2>
+<p>Target firmware needs:</p>
+<ul class="simple">
+<li><p>a C99 compiler;</p></li>
+<li><p>IE and SMT sources with their include directories;</p></li>
+<li><p>generated Strata/Magma or IEM model data;</p></li>
+<li><p>an application-owned memory pool.</p></li>
+</ul>
+<p>Host-side conversion and reference validation may additionally require Python,
+NumPy, TensorFlow, PyTorch, and Transformers. None of these host dependencies is
+required by the default target runtime.</p>
+</section>
+<section id="model-conversion">
+<h2>Model conversion<a class="headerlink" href="#model-conversion" title="链接到此标题。"></a></h2>
+<p>In the associated tooling workspace, the CNN pipeline is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>TFLite
+   -&gt; interpreter: ie_&lt;name&gt;.ie
+   -&gt; analyzer:    ie_&lt;name&gt;_opt.ie
+   -&gt; translator:  Strata + Magma + model header
+</pre></div>
+</div>
+<p>Copy the generated artifacts into the firmware project. Do not treat temporary
+benchmark outputs or personal research directories as release assets.</p>
+</section>
+<section id="runtime-integration">
+<h2>Runtime integration<a class="headerlink" href="#runtime-integration" title="链接到此标题。"></a></h2>
+<p>Include the public API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ie_api.h&quot;</span>
+</pre></div>
+</div>
+<p>A single-input CNN session follows this sequence:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">IeSessionConfig</span><span class="w"> </span><span class="n">cfg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">pBackend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ie_backend_init</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0u</span><span class="p">);</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">pGeology</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model_strata</span><span class="p">;</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">pMagma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model_magma</span><span class="p">;</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">geologyBytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0u</span><span class="p">;</span><span class="w"> </span><span class="cm">/* trusted built-in model */</span>
+
+<span class="kt">size_t</span><span class="w"> </span><span class="n">need</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0u</span><span class="p">;</span>
+<span class="n">ieStaCode</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ie_session_query_memory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">need</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IE_SC_OK</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">need</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">pool_capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* Handle an invalid model or insufficient pool. */</span>
+<span class="p">}</span>
+
+<span class="n">cfg</span><span class="p">.</span><span class="n">pPool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pool</span><span class="p">;</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">poolSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pool_capacity</span><span class="p">;</span>
+
+<span class="n">IeSession</span><span class="w"> </span><span class="o">*</span><span class="n">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ie_session_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">session</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IE_SC_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">IeVolcano</span><span class="w"> </span><span class="o">*</span><span class="n">graph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ie_session_get_graph</span><span class="p">(</span><span class="n">session</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">inputs</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ie_evoke</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="n">inputs</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">IE_SC_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ie_erupt</span><span class="p">(</span><span class="n">graph</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Consume the output before resetting or destroying the session, then call
+<code class="docutils literal notranslate"><span class="pre">ie_session_destroy(session)</span></code>. Destroying a session does not free the
+application-owned pool.</p>
+</section>
+<section id="input-and-output-rules">
+<h2>Input and output rules<a class="headerlink" href="#input-and-output-rules" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ie_evoke</span></code> copies values using the model input dtype. It does not perform
+floating-point normalization or quantization.</p></li>
+<li><p>Strata and non-NULL Magma addresses require at least four-byte alignment;
+64-byte alignment is recommended.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">ie_survey_ex</span></code> or <code class="docutils literal notranslate"><span class="pre">IeSessionConfig.geologyBytes</span></code> for file, OTA,
+external-flash, or otherwise untrusted model data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">IE_SC_OK</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span></code>; <code class="docutils literal notranslate"><span class="pre">IE_SC_ERROR</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p>Output pointers borrow session memory and must not outlive the session.</p></li>
+<li><p>A graph or LLM session must not be mutated concurrently.</p></li>
+</ul>
+</section>
+<section id="local-decoder-only-models">
+<h2>Local decoder-only models<a class="headerlink" href="#local-decoder-only-models" title="链接到此标题。"></a></h2>
+<p>The generic LLM flow is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ie_llm_config_from_model
+-&gt; ie_llm_query_memory
+-&gt; ie_llm_create
+-&gt; ie_llm_prefill or ie_llm_prefill_chunk
+-&gt; ie_llm_decode or ie_llm_generate
+-&gt; ie_llm_reset or ie_llm_destroy
+</pre></div>
+</div>
+<p>See <code class="docutils literal notranslate"><span class="pre">examples/qwen3_llm_demo/qwen3_llm_demo.c</span></code> for a complete example and
+<a class="reference internal" href="api_reference.html"><span class="doc">API reference</span></a> for generation, tokenizer, and ownership details.</p>
+</section>
+<section id="recommended-first-validation">
+<h2>Recommended first validation<a class="headerlink" href="#recommended-first-validation" title="链接到此标题。"></a></h2>
+<ol class="arabic simple">
+<li><p>Compare scalar output with TFLite or an independent golden reference.</p></li>
+<li><p>Check memory reports and buffer canaries.</p></li>
+<li><p>Compare execution with and without fast scratch.</p></li>
+<li><p>Compare stock CPU, registry CPU, and optional SIMD output.</p></li>
+<li><p>Measure final latency and memory only on the intended target board.</p></li>
+</ol>
+<p>For common failures, see the repository <code class="docutils literal notranslate"><span class="pre">docs/troubleshooting.md</span></code> guide.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="IE Inference Engine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="model_deployment.html" class="btn btn-neutral float-right" title="Model deployment" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, HeT-FTI。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

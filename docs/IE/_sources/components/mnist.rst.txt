@@ -1,0 +1,42 @@
+MNIST digit recognition
+=======================
+
+MNIST is a compact classification example for validating the complete embedded
+inference path: model conversion, quantized input preparation, static memory
+planning, CNN execution, and class post-processing.
+
+.. figure:: ../../images/mnist.png
+   :align: center
+   :width: 70%
+   :alt: MNIST digit recognition example
+
+Typical configuration
+---------------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Item
+     - Description
+   * - Input
+     - 28 × 28 grayscale image
+   * - Output
+     - Ten digit classes
+   * - Runtime
+     - IE CNN static graph with caller-owned memory
+   * - Backend
+     - Scalar CPU fallback with optional target-specific optimization
+   * - Model package
+     - Strata/Magma generated from the TFLite tooling flow
+
+Validation focus
+----------------
+
+- Preserve grayscale layout and input quantization.
+- Compare each output against the independent reference.
+- Verify the declared pool fits without using runtime allocation.
+- Confirm identical results across supported optimized backends.
+
+This gallery entry demonstrates integration mechanics; it does not claim a
+particular accuracy or target-board latency without a model-specific report.
+See :doc:`../getting_started` for the corresponding runtime sequence.

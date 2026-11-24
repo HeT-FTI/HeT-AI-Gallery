@@ -1,0 +1,136 @@
+API reference
+=============
+
+The public headers under ``include/api`` are the final signature reference.
+Applications should not depend on private structure sizes or layouts.
+
+Status codes
+------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Constant
+     - Value
+     - Meaning
+   * - ``IE_SC_OK``
+     - 1
+     - Success
+   * - ``IE_SC_ERROR``
+     - 0
+     - Invalid input, validation failure, or general error
+   * - ``IE_SC_FLOW_EXCEPTION``
+     - -1
+     - Execution-flow exception
+   * - ``IE_SC_NO_SUPPORT``
+     - -2
+     - Unsupported model, feature, or backend
+   * - ``IE_SC_NO_MEMORY``
+     - -3
+     - Insufficient memory pool
+   * - ``IE_SC_TIMEOUT``
+     - -4
+     - Generation or wait timeout
+
+Always compare against ``IE_SC_OK`` explicitly.
+
+Backend and CNN graph
+---------------------
+
+``ie_backend_init`` selects the configured backend. The usual pool-based
+product call is ``ie_backend_init(NULL, NULL, NULL, 0)``.
+
+.. list-table::
+   :header-rows: 1
+
+   * - API
+     - Purpose
+   * - ``ie_survey``
+     - Build a graph from a trusted built-in model
+   * - ``ie_survey_ex``
+     - Build a graph with explicit Strata length validation
+   * - ``ie_evoke``
+     - Copy model inputs without automatic quantization
+   * - ``ie_erupt``
+     - Execute the graph and stop at the first error
+   * - ``ie_graph_get_output``
+     - Borrow output tensor data
+   * - ``ie_dormant``
+     - Destroy the graph and release only backend-owned allocations
+   * - ``ie_set_fast_scratch``
+     - Attach optional fast memory without changing results
+   * - ``ie_calibrate`` / ``ie_set_target_cost``
+     - Measure and apply platform memory-cost thresholds
+
+Session API
+-----------
+
+``IeSession`` partitions an application pool and owns the mutable CNN session
+state.
+
+.. code-block:: text
+
+   ie_session_query_memory or ie_session_query_memory_report
+   -> ie_session_create
+   -> ie_session_get_graph
+   -> ie_evoke / ie_erupt
+   -> ie_session_reset or ie_session_destroy
+
+The query and create operations must use the same model and configuration.
+Vision models normally leave KV, workspace, IO, and ``maxSeq`` at zero.
+
+Generic LLM API
+---------------
+
+``IeLlmDesc`` references the IEM blob, pool, role table, and runtime options.
+The generic adapter currently executes the Qwen3-compatible family.
+
+.. list-table::
+   :header-rows: 1
+
+   * - API
+     - Purpose
+   * - ``ie_llm_config_from_model``
+     - Fill model fields from the configured IEM blob
+   * - ``ie_llm_query_memory``
+     - Calculate pool requirements
+   * - ``ie_llm_create``
+     - Create a session, returning NULL on failure
+   * - ``ie_llm_prefill`` / ``ie_llm_prefill_chunk``
+     - Process all or part of a prompt
+   * - ``ie_llm_decode``
+     - Decode one greedy token
+   * - ``ie_llm_last_logits``
+     - Copy the latest logits
+   * - ``ie_llm_generate``
+     - Run generation, sampling, EOS, callbacks, cancellation, and timeout
+   * - ``ie_llm_pool_peak``
+     - Read the pool high-water mark
+   * - ``ie_llm_reset`` / ``ie_llm_destroy``
+     - Reset or invalidate a session without freeing the application pool
+
+The Qwen3-specific ``ie_qwen3_*`` API additionally exposes synchronous and
+asynchronous weight readers, weight windows, group scale formats, and KV
+configuration.
+
+Sampling and tokenizer
+----------------------
+
+``IeSamplerConfig`` supports temperature, top-k, top-p, and repetition penalty.
+Random sampling requires caller-provided random state and vocabulary-sized
+work buffers.
+
+Tokenizer functions bind IEM vocabulary, encode/decode text, and emit complete
+UTF-8 sequences incrementally. Chat rendering supports only the bounded
+operations serialized into IEM; it is not a general Jinja engine.
+
+Ownership and concurrency
+-------------------------
+
+- Model, weight, vocabulary, input, and output pointers are borrowed unless an
+  API explicitly states otherwise.
+- The pool must outlive its session. Destroy does not free the pool.
+- Prefill, decode, reset, and destruction of one session are not concurrent
+  operations.
+- Independent sessions need independent writable pools and scratch buffers.
+- Fast scratch is temporary workspace, not a persistent or thread-safe cache.

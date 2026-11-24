@@ -1,0 +1,648 @@
+<mxfile host="65bd71144e">
+    <diagram id="v2-assessment" name="1-现状评估与架构决策">
+        <mxGraphModel dx="1686" dy="1202" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="a_title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;strokeColor=none;fillColor=none;" value="IE v2 下一代架构评估 —— 基于 feature/ie-v2 当前代码（2026-10-26）" vertex="1">
+                    <mxGeometry height="36" width="1540" x="40" y="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_keep" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="必须保留并复用" vertex="1">
+                    <mxGeometry height="530" width="480" x="40" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_keep1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=8;" value="CNN 静态编译链&lt;br&gt;TFLite → .ie IR → Analyzer → Translator&lt;br&gt;图语义、生命周期、物理 tensor 复用全部离线完成" vertex="1">
+                    <mxGeometry height="90" width="432" x="64" y="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_keep2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=8;" value="轻量 C 运行时&lt;br&gt;ie_survey / ie_evoke / ie_erupt&lt;br&gt;CPU 顺序执行 + 可裁剪算子 + SMT 内核" vertex="1">
+                    <mxGeometry height="82" width="432" x="64" y="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_keep3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=8;" value="无堆分配底座&lt;br&gt;IePool + IeSession + query_memory&lt;br&gt;调用方持有内存；destroy 不 free" vertex="1">
+                    <mxGeometry height="82" width="432" x="64" y="328" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_keep4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=8;" value="已验证的本地 LLM 能力&lt;br&gt;Qwen3 / MiniMind-3、通用 Decoder、W8/W4、KV FP32/FP16/int8、IEM、tokenizer、采样与 chat template" vertex="1">
+                    <mxGeometry height="88" width="432" x="64" y="426" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_keep5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=8;" value="硬件扩展基础&lt;br&gt;Kernel Registry A / Delegate B / Layout C&lt;br&gt;冷路径 resolve，CPU 永远兜底" vertex="1">
+                    <mxGeometry height="56" width="432" x="64" y="530" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_gap" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="当前差距（不是重写理由，而是重构边界）" vertex="1">
+                    <mxGeometry height="530" width="500" x="552" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_gap1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=12;align=left;spacingLeft=8;" value="① 双运行时割裂&lt;br&gt;CNN 走 IeGraph；Qwen3 在 ie_qwen3.c 内手写完整网络，未复用 registry / delegate / 统一 session" vertex="1">
+                    <mxGeometry height="76" width="452" x="576" y="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_gap2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=12;align=left;spacingLeft=8;" value="② 模型契约重复&lt;br&gt;Strata/Magma 与 IEM4 并存；形状、dtype、权重布局、内存需求部分由调用方手工重复填写" vertex="1">
+                    <mxGeometry height="76" width="452" x="576" y="216" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_gap3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=12;align=left;spacingLeft=8;" value="③ 工作区随 maxSeq 预分配&lt;br&gt;decode 与 prefill 未分档；x/q/gate 等 11 块都按 maxSeq 分配，长上下文造成非 KV 内存浪费" vertex="1">
+                    <mxGeometry height="76" width="452" x="576" y="308" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_gap4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=12;align=left;spacingLeft=8;" value="④ 产品化缺口&lt;br&gt;tokenizer 仍是测试参考实现；Qwen generate 仍 greedy；clock() 超时非平台抽象；head_dim/rope 有固定数组假设" vertex="1">
+                    <mxGeometry height="76" width="452" x="576" y="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_gap5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=12;align=left;spacingLeft=8;" value="⑤ 性能与构建门禁不足&lt;br&gt;标量 W4 每元素反量化；无统一 LLM 组件；IE_ENABLE_LLM 尚未形成 CNN-only 零增长门禁；CI 依赖本地模型资产" vertex="1">
+                    <mxGeometry height="76" width="452" x="576" y="492" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_decision" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="核心架构决策：统一底座，不强行统一执行形态" vertex="1">
+                    <mxGeometry height="530" width="500" x="1084" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_dec1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=8;" value="共享底座&lt;br&gt;IEM 模型视图｜IePool / MemoryPlan｜Tensor / Weight View&lt;br&gt;Kernel Registry｜Session 生命周期｜日志 / 计时 / IO 端口" vertex="1">
+                    <mxGeometry height="100" width="452" x="1108" y="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_dec2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=8;" value="执行前端 A：Static Graph Plan&lt;br&gt;服务 CNN / 传统网络；保持离线物理 tensor 与顺序层执行，不引入动态图 VM" vertex="1">
+                    <mxGeometry height="76" width="452" x="1108" y="244" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_dec3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=8;" value="执行前端 B：Decoder Block Plan&lt;br&gt;服务 LLM；block 模板 + 每层权重描述 + KV 游标；prefill chunk 与 decode 两条专用热路径" vertex="1">
+                    <mxGeometry height="82" width="452" x="1108" y="340" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_dec4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=8;" value="编译期产品档位&lt;br&gt;CNN_ONLY：无 LLM 代码 / 数据 / 内存开销&lt;br&gt;LLM_ONLY：不链入 CNN 算子&lt;br&gt;FULL：共享同一份核心与内核 ABI" vertex="1">
+                    <mxGeometry height="100" width="452" x="1108" y="442" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_rule" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;" value="永不妥协的边界：运行时无 malloc / 无图分析 / 无 JIT / 无 Python 依赖；复杂融合、量化、布局选择、内存规划全部离线完成。采样属于生成驱动，不塞进底层计算图。" vertex="1">
+                    <mxGeometry height="70" width="1544" x="40" y="646" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_verify" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=left;spacingLeft=8;" value="远程 CI：完整主机回归、ASan/UBSan、TFLite 76,800 元素对拍及六档质量门禁通过；RV32 / Cortex-A7 / RVV QEMU 共 43 项、Renode M55/MVE 4 项功能模拟纳入 CI。Generic、LLM、CNN 单核、两档 MobileNetV3 NEON 整图及 Strata v3 变长计数已做独立参考差分或端到端验证；26 例性能基线、37 项指令证据和 Generic/LLM/CNN Renode 指令基线纳入 CI。NPU、真实 DMA 和目标板性能/功耗仍需实机验收。" vertex="1">
+                    <mxGeometry height="68" width="1544" x="40" y="740" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_e1" edge="1" parent="1" source="a_keep" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;fontSize=12;" target="a_decision" value="复用">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a_e2" edge="1" parent="1" source="a_gap" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;fontSize=12;" target="a_decision" value="收口">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="v2-target" name="2-目标总体架构">
+        <mxGraphModel dx="1600" dy="1141" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="t_title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;strokeColor=none;fillColor=none;" value="目标总体架构 —— 离线重、运行时轻；一个底座、两种执行计划、三档产品裁剪" vertex="1">
+                    <mxGeometry height="36" width="1560" x="40" y="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_off" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="离线模型编译域（PC / Python，可重依赖，不进固件）" vertex="1">
+                    <mxGeometry height="250" width="1560" x="40" y="68" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_in1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="TFLite&lt;br&gt;CNN / 小模型" vertex="1">
+                    <mxGeometry height="70" width="180" x="64" y="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_in2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="ONNX&lt;br&gt;PyTorch 导出 / Transformer" vertex="1">
+                    <mxGeometry height="70" width="180" x="64" y="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_in3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="safetensors + config&lt;br&gt;MiniMind / Qwen3 权重直读" vertex="1">
+                    <mxGeometry height="70" width="200" x="268" y="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_ir" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="统一模型语义层&lt;br&gt;Tensor / Dtype / Quant / Layout&lt;br&gt;Graph IR 与 Decoder Model IR&lt;br&gt;不直接解析不安全 pickle" vertex="1">
+                    <mxGeometry height="130" width="230" x="516" y="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_pass" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" value="Analyzer / Quantizer / Planner&lt;br&gt;校验、常量折叠、融合、shape 推导&lt;br&gt;W8/W4、KV 量化、权重布局选择&lt;br&gt;静态生命周期 / prefill / decode 内存规划&lt;br&gt;生成内核与 delegate 解析计划" vertex="1">
+                    <mxGeometry height="166" width="300" x="782" y="112" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_pack" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" value="IEM Packager&lt;br&gt;模型头 + section table + CRC&lt;br&gt;执行计划 / 权重 / 量化 / tokenizer&lt;br&gt;生成配置与 memory report" vertex="1">
+                    <mxGeometry height="130" width="220" x="1118" y="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_iem" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" value="IEM 模型包&lt;br&gt;只读、可 XIP / 映射 / 回调读取" vertex="1">
+                    <mxGeometry height="130" width="206" x="1370" y="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_api" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="公共 C API（ABI 稳定）" vertex="1">
+                    <mxGeometry height="100" width="1560" x="40" y="350" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_api1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="Legacy Graph API&lt;br&gt;ie_survey / evoke / erupt（兼容适配）" vertex="1">
+                    <mxGeometry height="44" width="340" x="64" y="392" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_api2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="Model / Session API&lt;br&gt;view → query_memory → create → reset / destroy" vertex="1">
+                    <mxGeometry height="44" width="400" x="432" y="392" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_api3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="LLM API&lt;br&gt;prefill_chunk / decode / logits / generate；Tokenizer 可选" vertex="1">
+                    <mxGeometry height="44" width="420" x="860" y="392" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_api4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="平台 Port&lt;br&gt;tick / DMA / log / weight reader" vertex="1">
+                    <mxGeometry height="44" width="268" x="1308" y="392" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_core" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="共享运行域（C99，无堆分配；模型只读且可跨 session 共享）" vertex="1">
+                    <mxGeometry height="310" width="1560" x="40" y="482" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_sess" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="Session Core&lt;br&gt;状态机 / 错误恢复&lt;br&gt;独立 pool 与游标&lt;br&gt;无可变全局会话" vertex="1">
+                    <mxGeometry height="110" width="200" x="64" y="538" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_mem" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="Memory Plan&lt;br&gt;META / ACT / KV / IO&lt;br&gt;scratch / stream window&lt;br&gt;精确 query + 分项报告" vertex="1">
+                    <mxGeometry height="100" width="200" x="64" y="668" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_graph" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="Static Graph Executor&lt;br&gt;CNN 顺序 plan&lt;br&gt;物理 tensor / 静态 offset&lt;br&gt;既有 erupt 热路径" vertex="1">
+                    <mxGeometry height="160" width="260" x="300" y="552" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_llm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="Decoder Executor&lt;br&gt;block 模板 × layer desc&lt;br&gt;chunked prefill：GEMM&lt;br&gt;decode：GEMV + KV append&lt;br&gt;generation 驱动独立" vertex="1">
+                    <mxGeometry height="160" width="260" x="596" y="552" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_reg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="Kernel Plan / Registry&lt;br&gt;session init 一次 resolve&lt;br&gt;热路径只调已绑定 fn&lt;br&gt;同一内核服务两种执行器" vertex="1">
+                    <mxGeometry height="160" width="250" x="892" y="552" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_kernels" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="内核与委托组件（按需链接）&lt;br&gt;CPU CNN ｜ CPU LLM ｜ SIMD / DSP ｜ NPU / GPU delegate&lt;br&gt;canonical + 离线预打包 layout；任何加速路径均可回退 CPU" vertex="1">
+                    <mxGeometry height="160" width="398" x="1178" y="552" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e1" edge="1" parent="1" source="t_in1" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_ir">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e2" edge="1" parent="1" source="t_in2" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_ir">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e3" edge="1" parent="1" source="t_in3" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_ir">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e4" edge="1" parent="1" source="t_ir" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_pass">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e5" edge="1" parent="1" source="t_pass" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_pack">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e6" edge="1" parent="1" source="t_pack" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_iem">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e7" edge="1" parent="1" source="t_iem" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#d79b00;fontSize=11;" target="t_api" value="只读加载">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e8" edge="1" parent="1" source="t_api" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_core">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e9" edge="1" parent="1" source="t_graph" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_reg">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e10" edge="1" parent="1" source="t_llm" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_reg">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_e11" edge="1" parent="1" source="t_reg" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="t_kernels">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="t_profiles" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" value="构建档位：CNN_ONLY = legacy graph + CNN kernels（LLM 符号为零） ｜ LLM_ONLY = decoder + LLM kernels（CNN 算子为零） ｜ FULL = 两者共享 model/pool/registry/port；另设 TOKENIZER / STREAMING / PROFILING 独立开关" vertex="1">
+                    <mxGeometry height="64" width="1560" x="40" y="826" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="v2-execution" name="3-LLM会话与双阶段执行">
+        <mxGraphModel dx="1600" dy="1141" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="x_title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;strokeColor=none;fillColor=none;" value="LLM 会话与执行模型 —— 有状态部分显式收敛到 KV / position / RNG，不做运行期图解释" vertex="1">
+                    <mxGeometry height="36" width="1560" x="40" y="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_s0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="MODEL_VIEW&lt;br&gt;校验版本 / 边界 / CRC&lt;br&gt;只读共享" vertex="1">
+                    <mxGeometry height="84" width="210" x="40" y="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_s1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="QUERY / CREATE&lt;br&gt;绑定 pool 与 weight IO&lt;br&gt;resolve kernel plan&lt;br&gt;pos=0" vertex="1">
+                    <mxGeometry height="84" width="230" x="286" y="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_s2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="PREFILL_READY&lt;br&gt;可重复 prefill_chunk&lt;br&gt;0 &lt; pos ≤ maxSeq" vertex="1">
+                    <mxGeometry height="84" width="230" x="552" y="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_s3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="DECODE&lt;br&gt;输入上一 token&lt;br&gt;输出 logits&lt;br&gt;KV append，pos++" vertex="1">
+                    <mxGeometry height="84" width="230" x="818" y="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_s4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="GENERATE&lt;br&gt;sampler / EOS / max_new&lt;br&gt;cancel / platform tick&lt;br&gt;逐 token 回调" vertex="1">
+                    <mxGeometry height="84" width="230" x="1084" y="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_s5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="RESET / DESTROY&lt;br&gt;清逻辑状态，不清模型&lt;br&gt;不释放调用方 pool" vertex="1">
+                    <mxGeometry height="84" width="230" x="1350" y="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_se0" edge="1" parent="1" source="x_s0" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_s1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_se1" edge="1" parent="1" source="x_s1" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_s2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_se2" edge="1" parent="1" source="x_s2" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_s3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_se3" edge="1" parent="1" source="x_s3" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_s4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_se4" edge="1" parent="1" source="x_s4" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_s5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_se5" edge="1" parent="1" source="x_s4" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;fontSize=10;" target="x_s3" value="EOS / 上限 / 取消；否则继续 decode">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_block" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="离线 Decoder Block Plan（每层只替换 weight descriptor，不在运行时识别模型结构）" vertex="1">
+                    <mxGeometry height="360" width="1120" x="40" y="216" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_b0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="token ids + position" vertex="1">
+                    <mxGeometry height="64" width="130" x="64" y="326" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_b1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="GATHER&lt;br&gt;embedding" vertex="1">
+                    <mxGeometry height="64" width="120" x="220" y="326" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_b2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="RMSNorm&lt;br&gt;+ fused QKV&lt;br&gt;W4/W8 GEMM/GEMV" vertex="1">
+                    <mxGeometry height="92" width="140" x="366" y="312" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_b3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="Q/K norm&lt;br&gt;+ RoPE&lt;br&gt;pos 代入" vertex="1">
+                    <mxGeometry height="92" width="130" x="532" y="312" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_b4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="KV append + GQA&lt;br&gt;online softmax&lt;br&gt;causal len=pos" vertex="1">
+                    <mxGeometry height="92" width="150" x="688" y="312" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_b5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="O projection&lt;br&gt;+ residual" vertex="1">
+                    <mxGeometry height="64" width="120" x="864" y="326" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_b6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="RMSNorm + SwiGLU&lt;br&gt;gate/up/down&lt;br&gt;+ residual" vertex="1">
+                    <mxGeometry height="92" width="126" x="1010" y="312" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_be0" edge="1" parent="1" source="x_b0" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_b1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_be1" edge="1" parent="1" source="x_b1" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_b2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_be2" edge="1" parent="1" source="x_b2" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_b3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_be3" edge="1" parent="1" source="x_b3" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_b4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_be4" edge="1" parent="1" source="x_b4" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_b5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_be5" edge="1" parent="1" source="x_b5" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="x_b6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_repeat" parent="1" style="text;html=1;fontSize=11;fontStyle=2;align=center;strokeColor=none;fillColor=none;" value="for layer = 0..L-1：读 layer_desc[l] → 调同一组已绑定 kernels；支持权重全驻或按层流送" vertex="1">
+                    <mxGeometry height="34" width="916" x="220" y="452" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_final" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" value="final RMSNorm → LM Head（tied embedding 可共享）→ logits[vocab] → sampler（生成层，不是图算子）" vertex="1">
+                    <mxGeometry height="48" width="916" x="220" y="506" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_pre" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="PREFILL 热路径&lt;br&gt;· 输入 n = min(prefillChunk, remaining)&lt;br&gt;· 多 token GEMM，提高计算强度&lt;br&gt;· 工作区按 chunk 而非 maxSeq&lt;br&gt;· causal 边界 base=pos，写 KV 后 attend&lt;br&gt;· 最后一次输出只保留 last-token logits" vertex="1">
+                    <mxGeometry height="190" width="490" x="40" y="620" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_dec" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="DECODE 热路径&lt;br&gt;· n=1，矩阵乘转 GEMV&lt;br&gt;· 权重通常每 token 只读一次，带宽优先&lt;br&gt;· Q4 解包 / 反量化内联，不生成完整 FP 权重&lt;br&gt;· KV 布局面向连续访问，量化 scale 同预算&lt;br&gt;· 预绑定函数指针，无逐层 probe / 字符串查找" vertex="1">
+                    <mxGeometry height="190" width="500" x="566" y="620" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_state" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="会话状态边界&lt;br&gt;跨步：KV、position、RNG、可选 history&lt;br&gt;跨层：当前 x / 临时激活（可复用）&lt;br&gt;模型：常量只读，可多 session 共享&lt;br&gt;失败：上下文耗尽 / IO / cancel 返回明确状态；禁止半推进 pos" vertex="1">
+                    <mxGeometry height="190" width="498" x="1102" y="620" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="v2-memory" name="4-内存与权重IO架构">
+        <mxGraphModel dx="1600" dy="1141" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="m_title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;strokeColor=none;fillColor=none;" value="内存与权重 IO —— 容量可查询、所有权清晰、decode 与 prefill 分开规划" vertex="1">
+                    <mxGeometry height="36" width="1560" x="40" y="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_pool" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="调用方连续内存 / 静态内存（IePool 只借不拥有）" vertex="1">
+                    <mxGeometry height="470" width="960" x="40" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_meta" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" value="META&lt;br&gt;session / tensor view&lt;br&gt;kernel plan / layer desc&lt;br&gt;create 期固定" vertex="1">
+                    <mxGeometry height="130" width="200" x="64" y="126" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_act" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" value="ACT / SCRATCH&lt;br&gt;decode 与 prefill 两份预算取最大值&lt;br&gt;按 prefillChunk 缩放，不按 maxSeq&lt;br&gt;生命周期复用 + mark/rewind&lt;br&gt;fast scratch 可选" vertex="1">
+                    <mxGeometry height="130" width="320" x="288" y="126" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_kv" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" value="KV + QUANT META&lt;br&gt;[L][2][Hkv][S][D] 连续缓存&lt;br&gt;append-only；pos 是逻辑长度&lt;br&gt;int8 scale / zero point 同域计账&lt;br&gt;reset 只复位游标" vertex="1">
+                    <mxGeometry height="130" width="344" x="632" y="126" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_io" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" value="IO / TOKEN / SAMPLER&lt;br&gt;ids / logits / top-k 工作区 / history&lt;br&gt;logits 可零拷贝暴露&lt;br&gt;tokenizer 单独可裁剪" vertex="1">
+                    <mxGeometry height="110" width="350" x="64" y="286" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_stream" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" value="可选 STREAM WINDOW&lt;br&gt;maxLayerBytes × 2（ping-pong）&lt;br&gt;DMA / reader 回调填充&lt;br&gt;未启用时预算为 0" vertex="1">
+                    <mxGeometry height="110" width="300" x="438" y="286" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_guard" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="统一 MemoryReport&lt;br&gt;total = align(META)+align(ACT)+align(KV)+align(KV_META)+align(IO)+align(STREAM)&lt;br&gt;query_memory 与 create 使用同一个 layout 函数；含对齐损耗、溢出检查、区域峰值和 canary 测试" vertex="1">
+                    <mxGeometry height="88" width="912" x="64" y="426" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_weight" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="权重域（不计入可写 pool，除非选择复制）" vertex="1">
+                    <mxGeometry height="470" width="568" x="1032" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_resident" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="模式 A：全驻 / XIP（默认）&lt;br&gt;IEM blob 位于 Flash / ROM / 映射内存&lt;br&gt;权重只读、零拷贝、跨 session 共享&lt;br&gt;适合 RAM 紧张但可直接寻址存储足够的设备" vertex="1">
+                    <mxGeometry height="116" width="520" x="1056" y="126" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_streamw" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="模式 B：按层流送（存储受限 / 慢内存）&lt;br&gt;common 常驻 + layer 双窗口；计算 L 时预取 L+1&lt;br&gt;reader / DMA 由 Port 提供；失败不推进 layer / pos&lt;br&gt;不得默认承诺提速，需用带宽与 DMA 重叠实测决定" vertex="1">
+                    <mxGeometry height="128" width="520" x="1056" y="266" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_layout" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" value="共同约束：权重 descriptor 记录 offset / bytes / dtype / group / layout；packer 保证对齐与 CRC；运行时禁止按名称查权重、禁止把整层反量化到临时 FP 缓冲。" vertex="1">
+                    <mxGeometry height="96" width="520" x="1056" y="418" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_formula" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="MiniMind-3（当前 manifest：L=8，H=768，Hkv=4，D=96，P=63,912,192，V=6400）&lt;br&gt;KV bytes = 2 × L × Hkv × maxSeq × D × kvElemSize；int8@1024 = 6.00 MiB；当前 FP32/token scale 另需 0.25 MiB，总计约 6.25 MiB。&lt;br&gt;W4_g64 + FP16 scale 估算 = ceil(P/2) + ceil(P/64)×2 = 32.38 MiB（未含容器、tokenizer、对齐）；W8 权重约 60.96 MiB。&lt;br&gt;ACTIVATION = f(prefillChunk, H, heads, intermediate, dtype)，不再含 maxSeq；decode 固定 n=1。" vertex="1">
+                    <mxGeometry height="190" width="960" x="40" y="584" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_budget" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="预算示例（目标估算，非实测承诺）&lt;br&gt;W4 全驻 + int8 KV@1024：只读权重约 32.38 MiB；可写内存约 6.25 MiB KV + prefill scratch + IO/META。&lt;br&gt;若 chunk=16，目标把 scratch 控制在约 1 MiB 量级；chunk=64 时须按实际 MemoryReport 重新预算，不能沿用 decode 的 &lt;1 MiB 结论。&lt;br&gt;流送模式的 pool 以 2×maxLayerBytes 替代整层权重驻留，但 common / tied embedding 是否常驻必须单列。&lt;br&gt;验收以 query_memory == 实际布局 == 峰值报告为准，并保留 64B 对齐与平台差异。" vertex="1">
+                    <mxGeometry height="190" width="568" x="1032" y="584" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_non" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" value="明确不做：运行期 malloc / realloc；按最大上下文分配所有激活；每层复制完整权重；隐式全局 KV；以“约 32MB 权重”代替包含 KV scale、tokenizer、对齐和 scratch 的总拥有成本。" vertex="1">
+                    <mxGeometry height="62" width="1560" x="40" y="814" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="v2-format" name="5-模型容器与离线编译契约">
+        <mxGraphModel dx="1600" dy="1141" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="f_title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;strokeColor=none;fillColor=none;" value="模型容器与离线编译契约 —— 以当前 IEM4 为事实起点，下一版只增 section，不回退设计 v3" vertex="1">
+                    <mxGeometry height="36" width="1560" x="40" y="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_old" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="兼容输入" vertex="1">
+                    <mxGeometry height="280" width="400" x="40" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_old1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="Legacy Strata / Magma v1&lt;br&gt;stock CPU loader 保持可读&lt;br&gt;registry 无预留槽位时明确拒绝或走 stock" vertex="1">
+                    <mxGeometry height="82" width="352" x="64" y="126" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_old2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="Strata / Magma v2&lt;br&gt;现有 CNN + registry 路径&lt;br&gt;字节布局不在 LLM 重构中改写" vertex="1">
+                    <mxGeometry height="88" width="352" x="64" y="228" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_cur" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" value="当前 IEM4（已存在）&lt;br&gt;INFO / TENSORS / WEIGHTS / QUANT / LAYERS&lt;br&gt;TOKENIZER / GENERATION / SIGNATURE / STATE&lt;br&gt;64B align、section CRC、只读 view" vertex="1">
+                    <mxGeometry height="180" width="380" x="480" y="102" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_next" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="下一版 IEM（建议 v5，仅在有契约测试后引入）&lt;br&gt;新增 PLAN：kind=STATIC_GRAPH / DECODER_BLOCK，kernel/layout 绑定信息&lt;br&gt;新增 MEMORY：decode/prefill/stream 各区域需求与对齐&lt;br&gt;新增 CAPABILITY：dtype、GQA、RoPE、quant、所需算子/feature bits&lt;br&gt;扩展 LAYERS：统一 weight descriptor，消除调用方手工 commonBytes/layerBytes 重复&lt;br&gt;CNN Strata v3：计数字段逃逸式变长编码，冷路径展开，255+ 通道/分类头&lt;br&gt;旧 section type 保持；未知必需 section 明确 NO_SUPPORT" vertex="1">
+                    <mxGeometry height="230" width="700" x="900" y="82" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_e1" edge="1" parent="1" source="f_old" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=11;" target="f_cur" value="统一只读视图">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_e2" edge="1" parent="1" source="f_cur" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=11;" target="f_next" value="增量演进">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_pipeline" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="离线编译流水线（每个 pass 可验证、可dump、可复现）" vertex="1">
+                    <mxGeometry height="208" width="1560" x="40" y="392" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_p1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="Import&lt;br&gt;TFLite / ONNX / safetensors" vertex="1">
+                    <mxGeometry height="82" width="190" x="64" y="460" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_p2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="Verify + Normalize&lt;br&gt;shape / dtype / role / config&lt;br&gt;不支持的语义尽早失败" vertex="1">
+                    <mxGeometry height="82" width="210" x="290" y="460" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_p3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="Optimize&lt;br&gt;RMSNorm/QKV/RoPE/SwiGLU 融合&lt;br&gt;constant fold / tied weight" vertex="1">
+                    <mxGeometry height="82" width="230" x="536" y="460" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_p4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="Quantize + Layout&lt;br&gt;FP32→W8A16→W4A16→可选W4A8&lt;br&gt;canonical / target packed" vertex="1">
+                    <mxGeometry height="82" width="240" x="802" y="460" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_p5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="Plan&lt;br&gt;static graph 或 decoder block&lt;br&gt;内存 / kernel / delegate" vertex="1">
+                    <mxGeometry height="82" width="210" x="1078" y="460" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_p6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="Pack + Report&lt;br&gt;IEM / C array / bin&lt;br&gt;manifest + memory + hashes" vertex="1">
+                    <mxGeometry height="82" width="252" x="1324" y="460" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_pe1" edge="1" parent="1" source="f_p1" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="f_p2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_pe2" edge="1" parent="1" source="f_p2" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="f_p3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_pe3" edge="1" parent="1" source="f_p3" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="f_p4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_pe4" edge="1" parent="1" source="f_p4" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="f_p5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_pe5" edge="1" parent="1" source="f_p5" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="f_p6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="f_rules" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="格式不变量&lt;br&gt;1. 所有 offset/bytes 用 64-bit 离线计算并安全收窄，运行时检查 section 边界与对齐；32 位 MCU 可加载大权重但不能发生地址溢出。&lt;br&gt;2. model config 是唯一事实来源：layers/heads/dtype/quant/memory 不再由应用头文件与 IeLlmDesc 双重维护。&lt;br&gt;3. tokenizer/chat template 是可选资产；生成默认值与采样运行配置分离；STATE 只描述可恢复状态，不把可变 KV 写回只读模型。&lt;br&gt;4. 保持 deterministic build：相同输入 + 配置 + 工具版本产生相同模型哈希。" vertex="1">
+                    <mxGeometry height="174" width="1560" x="40" y="644" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="v2-kernels" name="6-内核注册量化与硬件路径">
+        <mxGraphModel dx="1600" dy="1141" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="k_title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;strokeColor=none;fillColor=none;" value="内核、量化与硬件路径 —— 让 LLM 复用扩展体系，而不是在 ie_qwen3.c 内另造后端" vertex="1">
+                    <mxGeometry height="36" width="1560" x="40" y="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_plan" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="冷路径：模型能力 + 硬件能力 + 内存属性 → Kernel Plan" vertex="1">
+                    <mxGeometry height="124" width="1560" x="40" y="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_c1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;" value="模型声明&lt;br&gt;op / dtype / quant / layout / shape range" vertex="1">
+                    <mxGeometry height="54" width="350" x="64" y="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_c2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;" value="组件声明&lt;br&gt;hwReq / priority / probe / memory requirement" vertex="1">
+                    <mxGeometry height="54" width="360" x="448" y="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_c3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;" value="session init 一次 resolve&lt;br&gt;生成 direct fn + const descriptor；热路径无 probe / 无字符串查找" vertex="1">
+                    <mxGeometry height="54" width="360" x="842" y="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_c4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;" value="CPU fallback&lt;br&gt;能力不满足 / delegate prepare 失败均可回退" vertex="1">
+                    <mxGeometry height="54" width="340" x="1236" y="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_llm" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="comp_llm_cpu（新增并接入）" vertex="1">
+                    <mxGeometry height="350" width="500" x="40" y="232" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_l1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" value="基础：GATHER / RMS_NORM / RESIDUAL / SWIGLU" vertex="1">
+                    <mxGeometry height="42" width="452" x="64" y="286" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_l2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" value="投影：LINEAR / GEMM / GEMV；F32 / W8A16 / W4A16；可选 W4A8" vertex="1">
+                    <mxGeometry height="42" width="452" x="64" y="344" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_l3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" value="位置与状态：QK_NORM / ROPE / KV_APPEND / GQA_SDPA" vertex="1">
+                    <mxGeometry height="42" width="452" x="64" y="402" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_l4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" value="融合块：QKV_PROJ / ATTN_BLOCK / MLP_BLOCK（按实测选择粒度）" vertex="1">
+                    <mxGeometry height="42" width="452" x="64" y="460" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_l5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" value="独立生成组件：Sampler / Detokenizer（不伪装成计算图 kernel）" vertex="1">
+                    <mxGeometry height="42" width="452" x="64" y="518" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_quant" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="量化递进与精度兜底" vertex="1">
+                    <mxGeometry height="350" width="500" x="572" y="232" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_q1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" value="FP32 reference&lt;br&gt;数学语义与逐层 golden 基准" vertex="1">
+                    <mxGeometry height="48" width="452" x="596" y="286" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_q2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" value="W8A16（首个压缩生产档）&lt;br&gt;权重 int8，激活/累加 FP16/FP32 按平台；先稳定内存收益" vertex="1">
+                    <mxGeometry height="58" width="452" x="596" y="350" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_q3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" value="W4A16（主力端侧档）&lt;br&gt;group 32/64 可配置；scale 内联；不为速度牺牲质量门禁" vertex="1">
+                    <mxGeometry height="58" width="452" x="596" y="424" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_q4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" value="W4A8 / KV int8（独立可回退实验档）&lt;br&gt;激活动态量化与 KV 量化分别评估；FP32/W8 路径常驻" vertex="1">
+                    <mxGeometry height="58" width="452" x="596" y="498" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_hw" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" value="硬件加速与数值契约" vertex="1">
+                    <mxGeometry height="350" width="496" x="1104" y="232" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_h1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="机制 A：同构 kernel 替换&lt;br&gt;NEON/RVV/MVE：LLM FP32/W8/W4A16 Linear + 全类型 KV Attention；SIMD 共用 online-softmax&lt;br&gt;NEON/MVE CNN：int8 Conv2D/DWConv2D/静态与动态 Dense；两者另含 int8/FP32 MaxPool2D、int8/FP32 GAP 与 FP32 ReLU/ReLU6/LeakyReLU/HardSwish&lt;br&gt;canonical 布局，registry 冷路径绑定；独立 scalar golden / fallback；CNN RVV 与 xbs1 搁置" vertex="1">
+                    <mxGeometry height="76" width="448" x="1128" y="286" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_h2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="机制 B：子图 delegate&lt;br&gt;离线 blob / IEM DELEGATE 优先，冷路径校验并绑定&lt;br&gt;热路径仅 invoke；无计划才 prepare；CPU 可回退" vertex="1">
+                    <mxGeometry height="76" width="448" x="1128" y="364" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_h3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" value="机制 C：多布局权重&lt;br&gt;packer 按目标生成；不可移植布局带 capability&lt;br&gt;缺失时回 canonical，而非加载失败" vertex="1">
+                    <mxGeometry height="76" width="448" x="1128" y="456" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_perf" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" value="性能纪律：decode 近似每 token 扫一遍权重，先用 effective_bandwidth / weight_bytes 推上限，再以 TTFT、prefill tok/s、decode tok/s、每 token 权重字节、cache 命中率、pool peak 验证。旧图“95%”“60%”只能作为目标假设，不能作为未测事实；目标平台达到有效带宽利用率 ≥60% 后再冻结优化。" vertex="1">
+                    <mxGeometry height="78" width="1560" x="40" y="626" as="geometry"/>
+                </mxCell>
+                <mxCell id="k_abi" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" value="ABI 演进：保留旧 opFunc 适配 CNN；新增支持 WeightView / TensorView / Scratch / KV 的 LLM kernel ABI，并递增 IE_KERNEL_ABI_VERSION。不要让 4D/8-bit tensor index 的旧描述硬塞所有 Transformer 语义；也不要复制一套只服务 Qwen 的 registry。" vertex="1">
+                    <mxGeometry height="66" width="1560" x="40" y="736" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="v2-codemap" name="7-代码重构映射">
+        <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="c_title" value="代码级重构映射 —— 先抽契约，再迁移实现；每一步可回退、可跑回归" style="text;html=1;fontSize=20;fontStyle=1;align=left;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="16" width="1560" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_h1" value="重构前（历史）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="76" width="470" height="42" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_h2" value="现行位置 / 动作（已落地）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="542" y="76" width="500" height="42" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_h3" value="兼容与验收重点" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="1074" y="76" width="526" height="42" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r1a" value="IE/src/llm/ie_qwen3.c&lt;br&gt;模型尺寸、权重偏移、数学内核、会话、generate 全在一个文件" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="138" width="470" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r1b" value="拆为 decoder/ie_decoder.c + families/ie_qwen3.c&lt;br&gt;backend/cpu/{scalar,common,neon,rvv}/llm/* + decoder/ie_generation.c；权重 offset 由 plan/descriptor 提供" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="542" y="138" width="500" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r1c" value="先保持现有 ie_qwen3_* 为 adapter；同输入 token / KV / logits 对拍，再让 ie_llm_* 调通用 decoder" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="1074" y="138" width="526" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r2a" value="IE/src/runtime/ie_session.c + IE/src/llm/ie_qwen3.c&lt;br&gt;两套 pool 切分和 memory query" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="232" width="470" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r2b" value="runtime/ie_memory_plan.c 单一布局函数&lt;br&gt;session 只持有区域；decoder 提供 prefill/decode scratch profile" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="542" y="232" width="500" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r2c" value="query/create 一致；pool 不足、未对齐、溢出、双 session、reset 后重复运行全部通过" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="1074" y="232" width="526" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r3a" value="IE/include/private/ie_model.h + qwen3_*_export.py&lt;br&gt;IEM4 与手工 QW_* 头文件共同描述模型" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="318" width="470" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r3b" value="tools/src/frontend → importers/&lt;br&gt;新增 compiler/passes、planner、packer；IEM 下版承载 plan/memory/capability" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="542" y="318" width="500" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r3c" value="IEM4 旧资产仍可读；模型配置只从包读取；损坏/未知/越界 section fuzz 与 32-bit 编译门禁" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="1074" y="318" width="526" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r4a" value="IE/src/backend/registry/* + ie_qwen3.c 静态数学函数&lt;br&gt;LLM 未注册，CNN ABI 表达能力有限" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="404" width="470" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r4b" value="新增 comp_llm_cpu 与 LLM Kernel ABI 适配层&lt;br&gt;保留 comp_cpu_default；后续新增 comp_gemv_simd / comp_npu_delegate" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="542" y="404" width="500" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r4c" value="CNN registry 输出不变；LLM 每 kernel golden；resolve 只在 create；fallback 与 SIMD 结果在容差内" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="1074" y="404" width="526" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r5a" value="IE/tests/qwen3_tokenizer_ref.c + IE/src/llm/ie_sampler.c + clock() 超时&lt;br&gt;测试实现和产品能力混杂" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="490" width="470" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r5b" value="可选 src/tokenizer/* 产品组件；generate 接 IeSamplerConfig；Port 提供 tick/cancel；默认模板随 IEM 资产" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="542" y="490" width="500" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r5c" value="中英文、special token、流式 UTF-8、固定 seed、EOS、maxSeq、取消；CNN_ONLY 不包含这些符号" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="1074" y="490" width="526" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r6a" value="IE/examples/Makefile + IE/tests/makefile + 多个 qwen3 demo makefile&lt;br&gt;源文件清单和验证入口分散" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="576" width="470" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r6b" value="module → backend/cpu/scalar/cnn；registry → backend/core；llm → decoder/families + cpu/*/llm&lt;br&gt;student_text 流程 → legacy；通用算子 → scalar/{x86,neon,rvv}/generic，create 期绑定 Generic ABI v1&lt;br&gt;统一 profile 与显式组件清单；size/map、无 malloc、ABI、26 例性能基线与指令证据门禁" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="542" y="576" width="500" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_r6c" value="CNN_ONLY / LLM_ONLY / FULL × F32/W8/W4 × resident/stream；测试资产可下载或显式跳过，不静默伪通过" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="1074" y="576" width="526" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e1" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#82b366;" edge="1" parent="1" source="c_r1a" target="c_r1b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e2" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#82b366;" edge="1" parent="1" source="c_r2a" target="c_r2b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e3" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#82b366;" edge="1" parent="1" source="c_r3a" target="c_r3b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e4" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#82b366;" edge="1" parent="1" source="c_r4a" target="c_r4b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e5" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#82b366;" edge="1" parent="1" source="c_r5a" target="c_r5b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_e6" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#82b366;" edge="1" parent="1" source="c_r6a" target="c_r6b">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="c_note" value="重构顺序不可反：先建立兼容测试和统一 Memory/Model/Kernel 契约 → 再把现有 Qwen3 数学实现搬入组件 → 最后替换 public API 默认实现。不要先删 ie_qwen3.c，也不要先设计一个覆盖所有模型的大而全 IR。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="690" width="1560" height="66" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="v2-roadmap" name="8-阶段路线与质量门禁">
+        <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="r_title" value="实施路线 —— 每个阶段都交付可运行版本，CNN 回归与二进制体积是全流程硬门禁" style="text;html=1;fontSize=20;fontStyle=1;align=left;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="16" width="1560" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_p0" value="P0　基线与契约冻结&lt;br&gt;· 固化 CNN/LLM golden、map/size、性能基线&lt;br&gt;· 关闭 registry 在途收口与生产/demo 分离&lt;br&gt;· 明确 Model/Memory/Kernel ABI 和错误语义&lt;br&gt;&lt;b&gt;退出：现有测试全绿；缺失资产有显式获取或跳过策略&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="76" width="360" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_p1" value="P1　统一内存与模型底座&lt;br&gt;· MemoryReport + prefill/decode scratch 分档&lt;br&gt;· IEM 配置成为唯一事实来源&lt;br&gt;· Session 统一，旧 Qwen API 作为 adapter&lt;br&gt;· CNN_ONLY/LLM_ONLY/FULL 构建档位&lt;br&gt;&lt;b&gt;退出：query=布局=峰值；老模型兼容；CNN-only 零 LLM 符号&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="76" width="360" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_p2" value="P2　Decoder Plan 与内核收口&lt;br&gt;· 拆 ie_qwen3.c；引入 comp_llm_cpu&lt;br&gt;· LLM kernel ABI + CPU fallback + registry resolve&lt;br&gt;· 保留 chunked prefill 和现有 W8/W4 数值能力&lt;br&gt;· 通用 ie_llm 不再只是 Qwen typedef 转发&lt;br&gt;&lt;b&gt;退出：同 token/logits/KV 对拍；每层内核 golden；无热路径 probe&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+                    <mxGeometry x="800" y="76" width="360" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_p3" value="P3　产品化与性能发布&lt;br&gt;· 可选 C tokenizer / generate sampler / Port tick/cancel&lt;br&gt;· W4A16 优化，之后独立评估 W4A8&lt;br&gt;· SIMD/DSP、权重流送、NPU delegate 按收益逐项落地&lt;br&gt;· 完成质量、内存、体积、性能、长上下文与异常测试&lt;br&gt;&lt;b&gt;退出：MiniMind 文本端到端 + 目标板指标达标 + 全量回归&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+                    <mxGeometry x="1180" y="76" width="360" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_e1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;" edge="1" parent="1" source="r_p0" target="r_p1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_e2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;" edge="1" parent="1" source="r_p1" target="r_p2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_e3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;" edge="1" parent="1" source="r_p2" target="r_p3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_gates" value="四类硬门禁" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="324" width="760" height="414" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_g1" value="正确性&lt;br&gt;CNN 老模型逐字节/输出一致；LLM 逐层 golden、greedy token 序列、KV 分段等价；固定 seed 采样可复现" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="64" y="376" width="336" height="142" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_g2" value="质量&lt;br&gt;FP32 为参考分别评估 W8/W4/KV int8；困惑度与垂直任务准确率阈值由基线实测后冻结，不凭空指定" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="424" y="376" width="352" height="142" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_g3" value="资源与鲁棒性&lt;br&gt;默认无 malloc；query/create 一致；区域 canary、32-bit、溢出、坏模型、OOM、IO 失败、cancel、reset、多 session" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="64" y="544" width="336" height="158" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_g4" value="性能与轻量化&lt;br&gt;CNN_ONLY 无 LLM 符号且体积不回退；TTFT/prefill/decode/带宽利用率入报告；热路径汇编和 map diff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="424" y="544" width="352" height="158" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_risks" value="关键风险与止损策略" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;verticalAlign=top;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+                    <mxGeometry x="832" y="324" width="768" height="414" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_r1" value="统一过度 → 运行时臃肿&lt;br&gt;止损：只统一底座，保留双执行器；禁止图 VM 和运行期模型结构识别" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="856" y="376" width="720" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_r2" value="W4 + 激活/KV 同时量化 → 精度难定位&lt;br&gt;止损：权重、激活、KV 三个开关独立；先 W8A16，再 W4A16，最后 W4A8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="856" y="454" width="720" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_r3" value="格式与 ABI 同步改动 → 老模型破坏&lt;br&gt;止损：旧 loader 不动；新增 section；版本/feature 门；兼容矩阵先于实现" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="856" y="532" width="720" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_r4" value="流送或 NPU 看似高级但实测更慢&lt;br&gt;止损：CPU 全驻永远是基线；以端到端 tok/s、TTFT、能耗和内存净收益决定是否默认启用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+                    <mxGeometry x="856" y="610" width="720" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="r_scope" value="首版明确不做：训练 / 微调、云端服务、多用户连续批处理、投机解码、任意动态控制流、通用多模态、运行期 JIT。它们与 minimind 级本地垂直模型目标无关，避免侵蚀轻量化。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="780" width="1560" height="66" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -1,36 +1,42 @@
-_`Object Detection`
-===================
+Object detection
+================
 
-Object detection locates and classifies multiple objects within a single image,
-outputting bounding boxes and confidence scores for each detection.
-IE enables real-time detection pipelines on embedded targets with limited SRAM.
+Object detection locates and classifies objects within an image. IE supports
+lightweight detector execution on embedded targets through the same static
+CNN graph, caller-owned memory, and optional optimized kernels used by other
+CNN applications.
 
-.. contents:: On this page
-   :local:
-   :depth: 1
+Food detection example
+----------------------
 
-----
+The food gallery example illustrates an RGB detection pipeline for smart
+kitchen and inspection scenarios.
 
-_`Food Detection`
-------------------
-
-Detects and localizes food items on a tray or conveyor belt using a single RGB camera.
-Suitable for smart kitchen, canteen billing, and quality inspection scenarios.
-
-.. figure:: ../../images/detection/food.png
+.. figure:: ../../images/food.png
    :align: center
    :width: 80%
+   :alt: Food detection example
 
-   *Figure: Food object detection — bounding boxes with category labels and scores*
+Integration flow
+----------------
 
-**Key specs**
+.. code-block:: text
 
-- Input: 320 × 320 RGB
-- Categories: 20+ food types
-- Architecture: YOLO-family lightweight detector
-- Backend: CPU (multi-core optimized)
+   Camera frame
+   -> model-specific resize and quantization
+   -> ie_evoke
+   -> ie_erupt
+   -> detector output decoding and confidence filtering
+   -> bounding boxes for downstream processing
 
-**Deployment notes**
+Deployment notes
+----------------
 
-The detection model is exported to ``.flite`` via the conversion tool and loaded at runtime
-with a single ``ie_load()`` call. No external libraries or OS required beyond the SMT base layer.
+The detector is converted from TFLite to Strata/Magma by the associated IE
+tooling flow. Input dimensions, class names, anchors, decode rules, confidence
+thresholds, and non-maximum suppression are model-specific and must be taken
+from the actual model package.
+
+The example demonstrates the integration path only. Detection accuracy, class
+count, and target-board frame rate require a model-specific benchmark report;
+they are not inferred from this gallery image.

@@ -3,7 +3,7 @@
     "title": "轻舟 · AI Gallery",
     "subtitle": "算法、模型与工程组件的统一入口",
     "eyebrow": "GALLERY INDEX",
-    "assetVersion": "226bb44aa7e73618cb6afdf3e1315a82fd0e6dcf",
+    "assetVersion": "af416066b97d0b5ff11104d9d623516350828e12",
     "logo": "_static/pngs/logo.png",
     "brandMark": "轻",
     "repoUrl": "https://github.com/HeT-FTI/HeT-AI-Gallery",
@@ -274,18 +274,19 @@
         "vision"
       ],
       "order": 2,
-      "version": "1.0.0",
+      "version": "2.0.0-rc1",
       "license": "Apache-2.0",
-      "summary": "面向嵌入式的 C99 推理引擎：模型转码后直接部署到 MCU。",
-      "description": "面向嵌入式的 C99 推理引擎：模型转码后直接部署到 MCU。支持多输入、多分支网络结构，纯 C99 实现，预留 CPU/GPU/NPU 后端接口。",
+      "summary": "面向嵌入式的 C99 推理引擎：支持 CNN 与本地 decoder-only 模型。",
+      "description": "面向嵌入式的 C99 推理引擎：支持 CNN 与本地 decoder-only 模型。提供 Strata/IEM、静态内存规划、NEON/MVE/RVV 和离线 delegate 扩展。",
       "highlights": [
         "C99",
-        "推理",
-        "MCU"
+        "CNN",
+        "本地LLM"
       ],
       "tags": [
         "推理",
-        "嵌入式"
+        "嵌入式",
+        "TinyML"
       ],
       "url": "IE/",
       "monogram": "IE",
@@ -301,7 +302,7 @@
         },
         {
           "preset": "version",
-          "value": "1.0.0"
+          "value": "2.0.0-rc1"
         },
         {
           "preset": "license",

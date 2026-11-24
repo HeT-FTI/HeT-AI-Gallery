@@ -1,0 +1,24 @@
+Coffee bean grading
+===================
+
+Coffee bean grading is an embedded inspection example: a camera captures the
+sample, IE evaluates the image locally, and the application maps the output to
+the required quality category.
+
+.. figure:: ../../images/coffee_bean.png
+   :align: center
+   :width: 75%
+   :alt: Coffee bean grading example
+
+Integration highlights
+----------------------
+
+- fully local inference without a PC or hosted inference service;
+- deterministic model and memory packaging;
+- camera-specific preprocessing followed by ``ie_evoke`` and ``ie_erupt``;
+- application-owned grading policy and actuator/interface integration;
+- the same validation path as other CNN classification models.
+
+Production acceptance requires representative samples and measurements on the
+actual illumination, camera, model, and target board. The gallery entry does
+not prescribe unverified grades, accuracy, or throughput.

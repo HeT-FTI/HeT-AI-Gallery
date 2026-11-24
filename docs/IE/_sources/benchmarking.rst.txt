@@ -1,0 +1,75 @@
+Benchmarking
+============
+
+A useful benchmark reports correctness, storage, memory, and timing together.
+An isolated latency number is not a reproducible performance claim.
+
+Metrics
+-------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Dimension
+     - Recommended measurements
+   * - Correctness
+     - Element differences, tolerance, quality agreement, bad-output rate
+   * - Model storage
+     - Strata/Magma/IEM, weights, metadata, quantization, alignment
+   * - Firmware
+     - ``.text``, ``.rodata``, ``.data``, and feature-specific size differences
+   * - Runtime memory
+     - Pool query/peak, activation, KV, IO, weight windows, BSS, stack
+   * - CNN timing
+     - Cold start, steady-state median, minimum, standard deviation, layer hotspots
+   * - LLM timing
+     - TTFT, prefill tokens/s, decode tokens/s, per-token distribution
+   * - Product behavior
+     - Power, temperature, watchdogs, and long-duration stability where required
+
+Fair comparisons use the same model, weights, quantization, inputs, compiler,
+ISA, memory configuration, warm-up, sample count, and correctness threshold.
+They also state whether preprocessing and output copies are included.
+
+Available entry points
+----------------------
+
+The repository includes test sources and scripts under ``tests/``. Asset
+creation and model conversion are performed by the associated tooling
+environment. Typical validation commands from the runtime repository root are:
+
+.. code-block:: bash
+
+   make -C tests run
+   python tests/run_qemu.py --platform all
+   python tests/run_renode.py --test all --scalar
+   python tests/run_renode.py --test all
+
+These commands may require generated artifacts, cross-compilers, simulators,
+and benchmark assets. Missing prerequisites must produce an explicit failure
+or skip, never a false pass.
+
+Interpreting results
+--------------------
+
+Host timing compares host implementations only. QEMU and Renode validate
+functionality and instruction use, not physical throughput. Static stack-frame
+reports do not replace runtime stack high-water measurements.
+
+A release performance table should include:
+
+.. code-block:: text
+
+   Chip / core / clock
+   Compiler and flags
+   Flash / cache / RAM configuration
+   IE commit and model SHA-256
+   Precision and backend
+   Model bytes and firmware bytes
+   Pool and actual peak RAM
+   Latency distribution and sample count
+   Numerical result and known fallbacks
+
+Optimize from measured hotspots: loop structure, blocking, register reuse,
+canonical INT8 kernels, then SIMD or DMA. Recheck numerical and memory gates
+after every significant change.
