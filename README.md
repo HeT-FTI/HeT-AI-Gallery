@@ -72,6 +72,8 @@ repos:
 
 `config/repos.yml` 只负责“构建哪些仓库”；`config/gallery.json` 只负责“怎么展示”。两边的 `name` 由构建脚本校验，不会静默漂移。
 
+如果一张卡是 featured，卡片正文使用 `description` 而不是 `summary`，因此 `description` 必须完整包含 `summary`，只允许在摘要之后追加信息。构建脚本会拒绝 `description` 丢失 `summary` 的配置。
+
 ### 第三方 recipe
 
 recipe 放进 `config/gallery.json`，不要放进 `config/repos.yml`（否则文档矩阵会尝试 clone 上游仓库）：
