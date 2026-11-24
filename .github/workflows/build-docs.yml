@@ -11,6 +11,9 @@ on:
     branches: [ main ]
     paths:
       - 'config/repos.yml'
+      - 'config/gallery.json'
+      - 'content/cases/**'
+      - 'scripts/build_gallery_manifest.py'
       - '.github/workflows/build-docs.yml'
       - '.github/workflows/static/**'
   schedule:
@@ -146,6 +149,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install gallery dependencies
+        run: pip install pyyaml
+
       - name: Download all built docs artifacts
         uses: actions/download-artifact@v4
         with:
@@ -163,8 +174,16 @@ jobs:
             cp -r "$repo_html_dir" "docs/$repo_name"
           done
           cp .github/workflows/static/template/index.html docs/index.html
-          cp -r .github/workflows/static docs/_static/
-          cp -r config docs/_config/
+          mkdir -p docs/_static
+          cp -r .github/workflows/static/gallery docs/_static/gallery
+          cp -r .github/workflows/static/pngs docs/_static/pngs
+
+      - name: Build gallery data
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          python3 scripts/build_gallery_manifest.py --mode production --asset-version "$GITHUB_SHA"
+          sed -i "s/__BUILD__/${GITHUB_SHA}/g" docs/index.html
 
       - name: Prevent Jekyll processing
         run: |
