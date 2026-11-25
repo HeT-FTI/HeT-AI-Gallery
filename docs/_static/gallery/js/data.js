@@ -3,7 +3,7 @@ window.__GALLERY_DATA__ = {
     "title": "轻舟 · AI Gallery",
     "subtitle": "算法、模型与工程组件的统一入口",
     "eyebrow": "GALLERY INDEX",
-    "assetVersion": "40271ffba49570440f1367c791147d4aecc1bffb",
+    "assetVersion": "1bceb4796c3bc559d1c94cdd2e0a0321ef2206ac",
     "logo": "_static/pngs/logo.png",
     "brandMark": "轻",
     "repoUrl": "https://github.com/HeT-FTI/HeT-AI-Gallery",
